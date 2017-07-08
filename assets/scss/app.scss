@@ -37,7 +37,7 @@ body {
 		header.wrapper {
 			width: 100%;
 
-			@media (min-width: $m) {
+			@media (min-width: $m-up) {
 				position: absolute;
 				transform: translateY(-50%);
 				top: 50%;
@@ -108,7 +108,7 @@ body {
 			width: 100%;
 			padding: 1rem;
 			
-			@media (min-width: 350px) {
+			@media (min-width: $xs-up) {
 				position: fixed;
 				bottom: 0;
 			}
