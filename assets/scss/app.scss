@@ -1,0 +1,142 @@
+/*! Datahjelpen AS - Botu */
+
+@import "vendor/normalize";
+
+@import "_variables";
+// @import "_helpers";
+
+// @import "components/_colors";
+@import "components/_typography";
+// @import "components/_buttons";
+// @import "components/_forms";
+// @import "components/_modals";
+
+// @import "components/_grid"; // Bootstrap 4 grid
+
+
+// @media (min-width: $xs) {}
+// @media (min-width: $m) {}
+// @media (min-width: $l) {}
+// @media (min-width: $xl) {}
+
+*,*:before,*:after{-moz-box-sizing:border-box;box-sizing:inherit}html{box-sizing:border-box}
+
+html,
+body {
+	position: relative;
+	height: 100%;
+}
+
+body {
+	margin: 0;
+
+	&#index {
+		color: #777;
+		background-color: #fff;
+
+		header.wrapper {
+			width: 100%;
+
+			@media (min-width: $m) {
+				position: absolute;
+				transform: translateY(-50%);
+				top: 50%;
+			}
+
+			.wrapper-inner {
+				display: block;
+				margin: 0 auto;
+				padding: 4rem;
+				width: 100%;
+				max-width: $l;
+				
+
+				h1 {
+					color: #000;
+					white-space: nowrap;
+				}
+
+				h3 {
+					font-family: 'Lato', sans-serif;
+					font-weight: 300;
+					color: #999;
+				}
+
+				p {
+					font-weight: 300;
+					font-size: 1.2em;
+
+					img {
+						position: relative;
+						vertical-align: middle;
+						width: 2em;
+						margin: 0 0.25em;
+					}
+
+					a {
+						position: relative;
+						z-index: 1;
+						color: #777;
+						text-decoration: none;
+
+						&:after {
+							z-index: -1;
+							content: ' ';
+							position: absolute;
+							bottom: -0.25em;
+							left: 0;
+							width: 100%;
+							height: 1px;
+							background-color: #777;
+						}
+
+						&:focus,
+						&:hover {
+							color: #0000ff;
+
+							&:after {
+								background-color: #0000ff;
+							}
+						}
+					}
+				}
+			}
+		}
+
+		footer.wrapper {
+			color: #cecece;
+			width: 100%;
+			padding: 1rem;
+			
+			@media (min-width: 350px) {
+				position: fixed;
+				bottom: 0;
+			}
+
+			.wrapper-inner {
+				display: block;
+				margin: 0 auto;
+				width: 100%;
+				text-align: center;
+			}
+		}
+
+		#nav-main {
+			display: block;
+			margin: 0 auto;
+			width: 100%;
+			padding: 4rem;
+			padding-bottom: 0rem;
+			max-width: $l;
+		}
+
+		#logo {
+			width: 7.5rem;
+			display: block;
+
+			@media (max-width: $s) {
+				margin: 0 auto;
+			}
+		}
+	}
+}
