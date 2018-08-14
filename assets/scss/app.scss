@@ -49,17 +49,18 @@ body {
 				padding: 4rem;
 				width: 100%;
 				max-width: $l;
-				
+
 
 				h1 {
 					color: #000;
 					white-space: nowrap;
 				}
 
-				h3 {
+				h2 {
 					font-family: 'Lato', sans-serif;
 					font-weight: 300;
 					color: #999;
+					font-size: 2em;
 				}
 
 				p {
@@ -107,7 +108,7 @@ body {
 			color: #cecece;
 			width: 100%;
 			padding: 1rem;
-			
+
 			@media (min-width: $xs-up) {
 				position: fixed;
 				bottom: 0;
