@@ -1,3 +1,8 @@
+<?php
+    if (isset($_SERVER['SERVER_NAME']) && $_SERVER['SERVER_NAME'] != 'bjornar.hagen.codes') {
+        header('Location: https://bjornar.hagen.codes/');
+    }
+?>
 <?php require_once('templates/head.php'); ?>
 </head>
 <body id="index">
@@ -10,7 +15,7 @@
             <p>Currently at <a href="https://datahjelpen.no" target="_blank">Datahjelpen AS</a>.</p>
             <p><a href="mailto:b@datahjelpen.no">Send me an email.</a></p>
         </div>
-    </header>
+        </header>
     <?php require_once('templates/footer.php'); ?>
 </body>
 </html>
