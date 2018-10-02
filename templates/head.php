@@ -9,11 +9,11 @@
     <!-- Open Graph data -->
     <meta property="og:title" content="Bjørnar Hagen">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://bjornarhagen.no">
-    <meta property="og:image" content="https://bjornarhagen.no/image.jpg">
+    <meta property="og:url" content="https://bjornar.hagen.codes">
+    <meta property="og:image" content="https://bjornar.hagen.codes/image.jpg">
     <meta property="og:description" content="Front-end web designer — Focused on creating minimal interfaces for web, desktop & mobile">
     <link href="https://fonts.googleapis.com/css?family=Lato:300" rel="stylesheet">
-    <link href="/fonts/butler/stylesheet.css" rel="stylesheet">
+    <link href="https://cdn.datahjelpen.no/fonts/butler/butler-700.css" rel="stylesheet">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
