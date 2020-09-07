@@ -1,1 +1,0 @@
-# bjornarhagen.no
