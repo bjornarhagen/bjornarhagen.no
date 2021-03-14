@@ -1,0 +1,148 @@
+* {
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  color: #48ee78;
+  background-color: #000;
+  font-size: 16px;
+}
+
+body {
+  font-size: 1em;
+  line-height: 1.4;
+  margin: 0;
+  padding: 0;
+  display: block;
+  font-family: 'IBM Plex Mono', 'SF Mono', monospace, sans-serif;
+  font-weight: 400;
+}
+
+main,
+nav {
+  margin: auto;
+  width: 800px;
+  max-width: 100%;
+}
+
+nav {
+  top: 0;
+  right: 0;
+  left: 0;
+  position: fixed;
+  padding: 1em 1em;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+@supports (backdrop-filter: blur(5px)) or (-webkit-backdrop-filter: blur(5px)) {
+  nav {
+    background-color: rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+  }
+}
+
+main {
+  padding: 4em 1em;
+}
+
+#logo {
+  display: block;
+  margin: 8em auto 0;
+  width: auto;
+  height: 4em;
+}
+
+#logo-text {
+  color: #fff;
+  display: block;
+  font-size: 0.66em;
+  margin: 1em auto 8rem;
+  width: 100%;
+  text-align: center;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin: 0;
+  line-height: 1;
+}
+
+h1,
+h3 {
+  font-weight: 400;
+}
+
+h1 {
+  font-size: 2em;
+}
+
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: 1em;
+}
+
+h2,
+h4,
+h5,
+h6 {
+  font-weight: 700;
+}
+
+p {
+  margin: 0;
+}
+
+a,
+a:visited {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-style: dashed;
+  text-decoration-color: #2f855a;
+}
+
+a:focus,
+a:hover {
+  outline: none;
+  color: #fff;
+  background-color: #2f855a;
+}
+
+.line {
+  display: block;
+}
+
+.space {
+  margin-top: 1.6rem;
+}
+
+section {
+  margin-top: 1.6rem;
+}
+
+.list {
+  display: flex;
+  flex-direction: column;
+}
+
+.fade {
+  color: #2f855a;
+}
+
+::selection {
+  color: #fff;
+  background-color: #2f855a;
+}
