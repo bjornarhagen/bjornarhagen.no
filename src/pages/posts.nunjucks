@@ -1,0 +1,28 @@
+{% set title = "Posts" %}
+{% set body_id = "posts" %}
+{% extends "default.nunjucks" %}
+{% block content %}
+  <main>
+    <header>
+      <div class="layout layout-xl">
+        <div class="header bg-primary">
+          <div class="header-image">
+            <img src="/images/graphics/bjornar-hagen/kenshi-kingami-e8Bm4BEMjDw-unsplash.jpg" alt=""/>
+          </div>
+          <div class="header-content bg-transparent">
+            <h1>Posts</h1>
+          </div>
+        </div>
+      </div>
+    </header>
+    <section class="info-section layout layout-xl">
+      <div class="heading">
+        <span class="number">Coming soon</span>
+        <h2 class="title">Nothing here yet</h2>
+      </div>
+      <div class="columns">
+        <p></p>
+      </div>
+    </section>
+  </main>
+{% endblock %}
