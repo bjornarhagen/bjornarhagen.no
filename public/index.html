@@ -6,7 +6,6 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <title>Bjørnar Hagen</title>
     <meta name="description" content="Full-stack web and app designer & developer" />
-    <!-- Open Graph data -->
     <meta property="og:title" content="Bjørnar Hagen" />
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://bjornar.dev" />
@@ -20,66 +19,150 @@
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#000000" />
     <meta name="theme-color" content="#ffffff" />
     <link rel="stylesheet" href="/assets/css/style.css" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300;400;700&display=swap" rel="stylesheet" />
   </head>
-  <body>
-    <nav>
-      <a href="https://datahjelpen.no/kundecaser" target="_blank" rel="noopener noreferrer">Portfolio</a>
+  <body id="index">
+    <nav class="layout layout-xl">
+      <a class="logo-wrapper" href="/">
+        <img class="logo" src="/assets/images/brand/logo/logo.svg" alt="Bjørnar Hagen logo" />
+      </a>
+      <div class="links-wrapper links-wrapper-before">
+        <a href="/posts">Posts</a>
+        <a href="https://datahjelpen.no/kundecaser" target="_blank" ref="noopener">Portfolio</a>
+        <!-- <a href="/about">About</a> -->
+      </div>
+      <div class="links-wrapper links-wrapper-after">
+        <!-- <a href="/contact">Contact</a> -->
+        <a href="https://github.com/bjornarhagen" target="_blank" ref="noopener">Github</a>
+        <a href="https://www.linkedin.com/in/bjornarhagen/" target="_blank" ref="noopener">LinkedIn</a>
+      </div>
     </nav>
     <main>
-      <p class="line list fade">
-        <span>FROM: post@bjornarhagen.no</span>
-        <span>TO: *@*.*</span>
-        <span>SUBJECT: Bjørnar Hagen</span>
-      </p>
-      <p class="line space">----------------</p>
-      <h1 class="line space">[ Bjørnar Hagen ]</h1>
-      <h2 class="line space">Web and app designer & developer.</h2>
-      <p class="line">
-        Currently working as a full-stack developer @
-        <a href="https://adstate.com/" target="_blank" rel="noopener noreferrer">Adstate</a>.
-        <span class="fade">Since July 2020</span>
-      </p>
-      <p class="line">
-        <span>Main skills:</span>
-        <span>React Native, VueJS, Laravel & Figma.</span>
-      </p>
-
-      <section>
-        <header>
-          <h2 class="line space">Previously</h2>
-        </header>
-        <section>
-          <header>
-            <h3 class="line">June 2019</h3>
-          </header>
-          <p class="line">
-            Graduated from Østfold College University with a Bachelor of Science in Computer Engineering.
+      <header>
+        <div class="layout layout-xl">
+          <div class="header">
+            <div class="header-image">
+              <img src="/assets/images/graphics/bjornar-hagen/bg.jpg" alt="" />
+              <img src="/assets/images/graphics/bjornar-hagen/fg.png" alt="" />
+            </div>
+            <div class="header-content">
+              <h1>
+                <span>Hi 👋 I'm</span>
+                <span class="fg-primary">Bjørnar</span>
+                <span class="type-out fg-primary">Hagen</span><span class="type-out">,</span>
+                <span class="type-out type-out-option">a web and app designer & developer.</span>
+                <!-- <span class="type-out type-out-option">a geek.</span> -->
+                <!-- <span class="type-out type-out-option">a design freak.</span> -->
+                <!-- <span class="type-out type-out-option">a pixel peeper.</span> -->
+              </h1>
+            </div>
+          </div>
+        </div>
+      </header>
+      <section class="info-section layout layout-xl">
+        <div class="heading">
+          <span class="number">01</span>
+          <h2 class="title">Personal</h2>
+        </div>
+        <div class="columns">
+          <p>Born and raised in Larvik, Norway. Currently living in Sandefjord with my lovely wife and our cute dog.</p>
+          <p>
+            I've always loved building and taking things apart, so when I at a young age was introduced to computers, it
+            didn't take very long before I was taking them apart and learning about how they worked. When I was 14 I
+            saved up scholarship money originally ment for school equipment to instead buy computer parts so I could
+            build my first desktop computer. Once I had built the computer I started learning about code and software. I
+            was instantly facinated with the web technologies and how reletivly easily you could build websites. Since
+            then I've learnt more and more about programming and different software techologies.
           </p>
-        </section>
-        <section>
-          <header>
-            <h3 class="line">Jan. 2016 → present</h3>
-          </header>
-          <p class="line">
-            Founded my own company:
-            <a href="https://datahjelpen.no/" target="_blank" rel="noopener noreferrer">Datahjelpen AS</a>. Doing work
-            as a consultant for small-medium businesses. Mainly web and app design & development.
-          </p>
-        </section>
-        <section>
-          <header>
-            <h3 class="line">June 2014 → 2016</h3>
-          </header>
-          <p class="line">
-            Worked as a front-end developer for
-            <a href="https://optimalesystemer.no/" target="_blank" rel="noopener noreferrer">Optimale Systemer AS</a>.
-          </p>
-        </section>
+          <p>When I'm not in front of the computer I love hiking, gaming and losing money on stocks and crypto :)</p>
+        </div>
+      </section>
+      <section class="info-section layout layout-xl">
+        <div class="heading">
+          <span class="number">02</span>
+          <h2 class="title">Career</h2>
+        </div>
+        <div>
+          <div class="columns">
+            <p>
+              I learnt HTML, CSS, JS and PHP through self study and got a few gigs through some close friends. Later on
+              I got my first real job as an apprentice at Optimale Systemer AS in Larvik. Around the same time I met my
+              now wife, we started the company Datahjelpen together so we could take on extra jobs outside of work and
+              school.
+            </p>
+            <p>
+              After 2 years at Optimale Systemer I had learned a lot and considered myself a full-stack web developer,
+              though still very much a junior. I then moved to Halden to start my Bachelor of Science in Computer
+              Engineering at Østfold College University.
+            </p>
+            <p>
+              3 years later I got my degree and moved to Sandefjord. I started working full-time in Datahjelpen. After
+              about a year Covid hit and I had to find a more stable job as no one was really willing to start new
+              projects at the time. That is how I ended up at Adstate, where I currently work. I still run Datahjelpen,
+              though it's more of a hobby as of right now.
+            </p>
+          </div>
+          <h3>Work experience</h3>
+          <ul>
+            <li>
+              <h4>Adstate</h4>
+              <p>Full-stack developer</p>
+              <p>2020 ⟶ present</p>
+            </li>
+            <li>
+              <h4>Datahjelpen</h4>
+              <p>CEO, developer & designer</p>
+              <p>2016 ⟶ present</p>
+            </li>
+            <li>
+              <h4>Optimale Systemer</h4>
+              <p>Developer</p>
+              <p>2014 ⟶ 2016</p>
+            </li>
+          </ul>
+          <h3>Devloper experience</h3>
+          <ul>
+            <li>
+              <p>HTML</p>
+            </li>
+            <li>
+              <p>CSS, SASS</p>
+            </li>
+            <li>
+              <p>JS, ES6, NodeJS</p>
+            </li>
+            <li>
+              <p>React, Vue, Angular</p>
+            </li>
+            <li>
+              <p>PHP, Wordpress, Laravel</p>
+            </li>
+            <li>
+              <p>Java, Spring Boot</p>
+            </li>
+            <li>
+              <p>MySQL</p>
+            </li>
+            <li>
+              <p>Git</p>
+            </li>
+            <li>
+              <p>LAMP/LEMP on Debian based Linux</p>
+            </li>
+          </ul>
+          <h3>Other experience</h3>
+          <ul>
+            <li>
+              <p>Figma</p>
+            </li>
+            <li>
+              <p>Photoshop</p>
+            </li>
+          </ul>
+        </div>
       </section>
     </main>
-    <footer>
-      <img id="logo" src="/assets/images/brand/logo/logo2-transparent-512.png" alt="Bjørnar Hagen logo" />
-      <p id="logo-text">— Bjørnar Hagen —</p>
-    </footer>
+    <footer></footer>
   </body>
 </html>
