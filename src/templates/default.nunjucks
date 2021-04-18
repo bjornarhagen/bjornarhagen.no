@@ -17,14 +17,15 @@
     <meta property="og:url" content="https://bjornar.dev"/>
     <meta property="og:image" content="https://bjornar.dev/image.jpg"/>
     <meta property="og:description" content="Full-stack web and app designer & developer"/>
-    <link href="https://cdn.datahjelpen.no/fonts/ibm-plex-mono/ibm-plex-mono-700-400.css" rel="stylesheet"/>
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"/>
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"/>
     <link rel="manifest" href="/manifest.json"/>
     <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#000000"/>
     <meta name="theme-color" content="#ffffff"/>
-    <link rel="stylesheet" href="/css/global.css"/>
+    <link rel="preload" as="style" href="/css/global.css?v20210418"/>
+    <link rel="preload" as="style" href="/fonts/fira-code/fira-code.css?v20210418"/>
+    <link rel="stylesheet" href="/css/global.css?v20210418"/>
     {%- block head -%}{%- endblock -%}
   </head>
   <body
