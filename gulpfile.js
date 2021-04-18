@@ -52,13 +52,13 @@ gulp.task('copy-fonts', function () {
 })
 
 gulp.task('copy', function () {
-  return gulp.parallel('copy-pages', 'copy-extra', 'copy-fonts', 'copy-scripts', 'copy-images')
+  return gulp.parallel('copy-pages', 'copy-extra', 'copy-fonts', 'copy-images')
 })
 
 gulp.task('copy:watch', function () {
   gulp.watch(
     ['./src/pages/**/*.*', '!./src/**/*.nunjucks'],
-    gulp.parallel('copy-pages', 'copy-extra', 'copy-fonts', 'copy-scripts', 'copy-images')
+    gulp.parallel('copy-pages', 'copy-extra', 'copy-fonts', 'copy-images')
   )
 })
 
@@ -105,8 +105,5 @@ gulp.task('browser-sync', function () {
 })
 
 gulp.task('watch', gulp.parallel('browser-sync', 'scss:watch', 'nunjucks:watch', 'copy:watch'))
-gulp.task(
-  'build',
-  gulp.parallel('copy-pages', 'copy-extra', 'copy-fonts', 'copy-scripts', 'copy-images', 'js', 'scss', 'nunjucks')
-)
+gulp.task('build', gulp.parallel('copy-pages', 'copy-extra', 'copy-fonts', 'copy-images', 'js', 'scss', 'nunjucks'))
 gulp.task('default', gulp.parallel('build', 'watch'))
