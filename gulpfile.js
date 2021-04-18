@@ -34,10 +34,7 @@ gulp.task('copy-pages', function () {
 })
 
 gulp.task('copy-extra', function () {
-  return gulp
-    .src(['src/extra/**/*.+(css|js|jpg|jpeg|png|svg|gif|xml|json|html)', 'src/extra/_redirects'])
-    .pipe(gulp.dest('./dist/'))
-    .pipe(browserSync.stream())
+  return gulp.src(['src/extra/**/*', 'src/extra/_redirects']).pipe(gulp.dest('./dist/')).pipe(browserSync.stream())
 })
 
 gulp.task('copy-images', function () {
