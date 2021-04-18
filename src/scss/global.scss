@@ -139,6 +139,10 @@ body > nav {
   max-width: 100%;
   overflow: hidden;
   color: var(--color-light-contrast);
+
+  @media (min-width: 60em) {
+    padding: 2em 4em;
+  }
 }
 
 body > nav .logo-wrapper {
@@ -146,6 +150,11 @@ body > nav .logo-wrapper {
   width: 100%;
   display: flex;
   margin-bottom: 1em;
+
+  @media (min-width: 60em) {
+    width: auto;
+    order: 1;
+  }
 }
 
 body > nav .logo-wrapper .logo {
@@ -159,11 +168,22 @@ body > nav .links-wrapper {
   justify-content: flex-start;
   flex-wrap: wrap;
   width: 100%;
+
+  @media (min-width: 60em) {
+    width: auto;
+    flex-direction: row;
+    justify-content: space-between;
+  }
 }
 
 body > nav .links-wrapper a {
-  margin-right: 1em;
   text-decoration: none;
+  margin-right: 1.6em;
+  margin-top: 0.8em;
+
+  @media (min-width: 60em) {
+    margin-top: 0;
+  }
 }
 
 body > nav .links-wrapper a:hover,
@@ -171,27 +191,14 @@ body > nav .links-wrapper a:focus {
   text-decoration: underline;
 }
 
-@media (min-width: 60em) {
-  body > nav {
-    padding: 2em 4em;
-  }
-
-  body > nav .logo-wrapper {
-    width: auto;
-    order: 1;
-  }
-
-  body > nav .links-wrapper {
-    width: auto;
-    flex-direction: row;
-    justify-content: space-between;
-  }
-
-  body > nav .links-wrapper-before {
+body > nav .links-wrapper-before {
+  @media (min-width: 60em) {
     order: 0;
   }
+}
 
-  body > nav .links-wrapper-after {
+body > nav .links-wrapper-after {
+  @media (min-width: 60em) {
     order: 2;
   }
 }
@@ -203,10 +210,8 @@ body > nav .links-wrapper a:focus {
   min-height: 12em;
   overflow: hidden;
   border-radius: 1em;
-}
 
-@media (min-width: 60em) {
-  .header {
+  @media (min-width: 60em) {
     min-height: 16em;
     height: 50vh;
   }
@@ -229,7 +234,7 @@ body > nav .links-wrapper a:focus {
 }
 
 .header .header-content {
-  position: relative;
+  position: absolute;
   width: 60%;
   top: 50%;
   transform: translateY(-50%);
@@ -239,6 +244,22 @@ body > nav .links-wrapper a:focus {
   padding: 2em;
   font-size: 0.4em;
   border-radius: 1em;
+
+  @media (min-width: 23em) {
+    font-size: 0.5rem;
+  }
+
+  @media (min-width: 40em) {
+    width: 55%;
+    left: 4rem;
+    font-size: 0.7rem;
+  }
+
+  @media (min-width: 60em) {
+    font-size: 1rem;
+    width: 55%;
+    left: 4rem;
+  }
 }
 
 .header .header-content h1,
@@ -246,25 +267,29 @@ body > nav .links-wrapper a:focus {
   color: inherit;
 }
 
-@media (min-width: 23em) {
-  .header .header-content {
-    font-size: 0.5rem;
-  }
-}
+.header .header-credits {
+  position: absolute;
+  width: 100%;
+  bottom: 0;
+  left: 0;
+  padding: 1em;
+  opacity: 0.5;
+  background-color: transparent;
+  text-align: right;
+  transition-property: opacity, background-color;
+  transition-duration: 500ms;
+  transition-timing-function: ease-in-out;
 
-@media (min-width: 40em) {
-  .header .header-content {
-    width: 55%;
-    left: 4rem;
-    font-size: 0.7rem;
+  &:hover,
+  &:focus-within {
+    opacity: 1;
+    background-color: var(--color-dark-contrast);
   }
-}
 
-@media (min-width: 60em) {
-  .header .header-content {
-    font-size: 1rem;
-    width: 55%;
-    left: 4rem;
+  p {
+    margin: 0;
+    line-height: 1;
+    font-size: 0.8em;
   }
 }
 
@@ -282,10 +307,8 @@ body > footer {
   padding: 2em;
   width: 100%;
   max-width: 100%;
-}
 
-@media (min-width: 60em) {
-  .layout {
+  @media (min-width: 60em) {
     padding: 4em;
   }
 }
@@ -314,6 +337,11 @@ body > footer {
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: auto;
+
+  @media (min-width: 60em) {
+    padding: 4em;
+    grid-template-columns: 10fr 15fr;
+  }
 }
 
 .info-section .heading {
@@ -322,10 +350,8 @@ body > footer {
   padding: 1rem 0;
   margin-bottom: 1rem;
   background-color: var(--color-dark);
-}
 
-@media (min-width: 40em) {
-  .info-section .heading {
+  @media (min-width: 40em) {
     height: 4rem;
   }
 }
@@ -338,13 +364,6 @@ body > footer {
   font-size: 8em;
   opacity: 0.1;
   transform: translateY(-25%);
-}
-
-@media (min-width: 60em) {
-  .info-section {
-    padding: 4em;
-    grid-template-columns: 10fr 15fr;
-  }
 }
 
 .info-section h2,
@@ -384,14 +403,11 @@ body > footer {
   margin: 0;
 }
 
-@media (min-width: 45em) and (max-width: 60em) {
-  .info-section .columns {
+.info-section .columns {
+  @media (min-width: 45em) and (max-width: 60em) {
     columns: 2;
   }
-}
-
-@media (min-width: 80em) {
-  .info-section .columns {
+  @media (min-width: 80em) {
     columns: 2;
   }
 }
