@@ -40,7 +40,7 @@
     {% block header %}{%- endblock %}
     <nav class="layout layout-xl">
       <a class="logo-wrapper" href="/">
-        <img class="logo" src="/images/brand/logo/logo.svg" alt="Bjørnar Hagen logo"/>
+        <img width="128" height="64" class="logo" src="/images/brand/logo/logo.svg" alt="Bjørnar Hagen logo"/>
       </a>
       <div class="links-wrapper links-wrapper-before">
         <a href="/entries">Posts</a>
