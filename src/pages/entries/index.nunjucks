@@ -7,10 +7,14 @@
       <div class="layout layout-xl">
         <div class="header bg-primary">
           <div class="header-image">
-            <img src="/images/graphics/bjornar-hagen/kenshi-kingami-e8Bm4BEMjDw-unsplash.jpg" alt=""/>
+            <img src="./index.jpg" alt="" srcset="./index@0,5x.jpg 720w, ./index.jpg 1440w"/>
           </div>
           <div class="header-content bg-transparent">
             <h1>Posts</h1>
+          </div>
+          <div class="header-credits">
+            <p>Photo by <a href="https://unsplash.com/@kenshi_kingami" target="_blank" rel="noopener">Kenshi Kingami</a>
+            </p>
           </div>
         </div>
       </div>

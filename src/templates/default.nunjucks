@@ -43,7 +43,7 @@
         <img class="logo" src="/images/brand/logo/logo.svg" alt="Bjørnar Hagen logo"/>
       </a>
       <div class="links-wrapper links-wrapper-before">
-        <a href="/posts">Posts</a>
+        <a href="/entries">Posts</a>
         <a href="https://datahjelpen.no/kundecaser" target="_blank" rel="noopener">Portfolio</a>
         <!-- <a href="/about">About</a> -->
       </div>
