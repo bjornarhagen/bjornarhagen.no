@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr" prefix="og: http://ogp.me/ns">
   <head>
-    <meta charset="UTF-8"/>
-    <meta name="viewport" content="initial-scale=1, maximum-scale=2.5, width=device-width, height=device-height"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1, maximum-scale=2.5, width=device-width, height=device-height">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>
       {%- if title -%}
         {{ (title + " | Bjørnar Hagen") | safe }}
@@ -11,21 +11,21 @@
         {{ ("Bjørnar Hagen") | safe }}
       {%- endif -%}
     </title>
-    <meta name="description" content="Full-stack web and app designer & developer"/>
-    <meta property="og:title" content="Bjørnar Hagen"/>
-    <meta property="og:type" content="website"/>
-    <meta property="og:url" content="https://bjornar.dev"/>
-    <meta property="og:image" content="https://bjornar.dev/image.jpg"/>
-    <meta property="og:description" content="Full-stack web and app designer & developer"/>
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"/>
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png"/>
-    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"/>
-    <link rel="manifest" href="/manifest.json"/>
-    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#000000"/>
-    <meta name="theme-color" content="#ffffff"/>
-    <link rel="preload" as="style" href="/css/global.css?v20210418"/>
-    <link rel="preload" as="style" href="/fonts/fira-code/fira-code.css?v20210418"/>
-    <link rel="stylesheet" href="/css/global.css?v20210418"/>
+    <meta name="description" content="Full-stack web and app designer & developer">
+    <meta property="og:title" content="Bjørnar Hagen">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://bjornar.dev">
+    <meta property="og:image" content="https://bjornar.dev/image.jpg">
+    <meta property="og:description" content="Full-stack web and app designer & developer">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="manifest" href="/manifest.json">
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#000000">
+    <meta name="theme-color" content="#ffffff">
+    <link rel="preload" as="style" href="/css/global.css?v20210418">
+    <link rel="preload" as="style" href="/fonts/fira-code/fira-code.css?v20210418">
+    <link rel="stylesheet" href="/css/global.css?v20210418">
     {%- block head -%}{%- endblock -%}
   </head>
   <body
@@ -40,7 +40,7 @@
     {% block header %}{%- endblock %}
     <nav class="layout layout-xl">
       <a class="logo-wrapper" href="/">
-        <img width="128" height="64" class="logo" src="/images/brand/logo/logo.svg" alt="Bjørnar Hagen logo"/>
+        <img width="128" height="64" class="logo" src="/images/brand/logo/logo.svg" alt="Bjørnar Hagen logo">
       </a>
       <div class="links-wrapper links-wrapper-before">
         <a href="/entries">Posts</a>
@@ -56,7 +56,7 @@
     {% block content %}{%- endblock %}
     <footer></footer>
     {%- block scripts_before -%}{%- endblock %}
-    <link rel="stylesheet" href="/fonts/fira-code/fira-code.css?v20210418"/>
+    <link rel="stylesheet" href="/fonts/fira-code/fira-code.css?v20210418">
     {%- block scripts_after -%}{%- endblock %}
   </body>
 </html>

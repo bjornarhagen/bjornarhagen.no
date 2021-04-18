@@ -11,12 +11,12 @@
               src="/images/graphics/bjornar-hagen/bg.jpg"
               alt="" 
               srcset="/images/graphics/bjornar-hagen/bg@0,5x.jpg 720w,
-                      /images/graphics/bjornar-hagen/bg.jpg 1440w"/>
+                      /images/graphics/bjornar-hagen/bg.jpg 1440w">
             <img
               src="/images/graphics/bjornar-hagen/fg.png"
               alt="" 
               srcset="/images/graphics/bjornar-hagen/fg@0,5x.png 720w,
-                      /images/graphics/bjornar-hagen/fg.png 1440w"/>
+                      /images/graphics/bjornar-hagen/fg.png 1440w">
           </div>
           <div class="header-content">
             <h1>
