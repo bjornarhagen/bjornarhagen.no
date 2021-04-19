@@ -27,7 +27,6 @@
     "gulp-rename": "^2.0.0",
     "gulp-sass": "^4.1.0",
     "gulp-uglify": "^3.0.2",
-    "netlify-plugin-html-validate": "^1.0.0",
-    "netlify-plugin-minify-html": "^0.3.1"
+    "netlify-plugin-html-validate": "^1.0.0"
   }
 }
