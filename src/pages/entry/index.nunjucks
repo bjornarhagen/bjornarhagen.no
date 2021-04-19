@@ -7,10 +7,10 @@
             <div class="layout layout-xl">
                 <div class="header bg-primary">
                     <div class="header-image">
-                        <img src="/entries/index.jpg" x-bind:src="entry.poster" x-bind:alt="entry.title">
+                        <img src="/entries/index.jpg" x-bind:src="entry.poster" alt="" x-bind:alt="entry.title">
                     </div>
                     <div class="header-content bg-transparent">
-                        <h1 x-text="entry.title"></h1>
+                        <h1 x-text="entry.title">Loading ...</h1>
                     </div>
                 </div>
             </div>

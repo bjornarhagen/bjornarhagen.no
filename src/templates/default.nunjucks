@@ -37,7 +37,7 @@
     {{ (" class=\"" + body_classes + "\"") | safe }}
   {%- endif -%}
   >
-    {% block header %}{%- endblock %}
+    {%- block header -%}{%- endblock -%}
     <nav class="layout layout-xl">
       <a class="logo-wrapper" href="/">
         <img width="128" height="64" class="logo" src="/images/brand/logo/logo.svg" alt="Bjørnar Hagen logo">
@@ -53,10 +53,10 @@
         <a href="https://www.linkedin.com/in/bjornarhagen/" target="_blank" rel="noopener">LinkedIn</a>
       </div>
     </nav>
-    {% block content %}{%- endblock %}
+    {%- block content -%}{%- endblock -%}
     <footer></footer>
-    {%- block scripts_before -%}{%- endblock %}
+    {%- block scripts_before -%}{%- endblock -%}
     <link rel="stylesheet" href="/fonts/fira-code/fira-code.css?v20210418">
-    {%- block scripts_after -%}{%- endblock %}
+    {%- block scripts_after -%}{%- endblock -%}
   </body>
 </html>
