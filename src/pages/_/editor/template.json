@@ -1,0 +1,64 @@
+{
+  "fields": [
+    {
+      "name": "title",
+      "type": "text",
+      "required": true,
+      "default": ""
+    },
+    {
+      "name": "author",
+      "type": "text",
+      "required": true,
+      "default": ""
+    },
+    {
+      "name": "date-created",
+      "type": "datetime-local",
+      "required": false,
+      "default": ""
+    },
+    {
+      "name": "date-publish",
+      "type": "datetime-local",
+      "required": false,
+      "default": ""
+    },
+    {
+      "name": "date-update",
+      "type": "datetime-local",
+      "required": false,
+      "default": ""
+    },
+    {
+      "name": "date-archive",
+      "type": "datetime-local",
+      "required": false,
+      "default": ""
+    },
+    {
+      "name": "link",
+      "type": "text",
+      "required": false,
+      "default": ""
+    },
+    {
+      "name": "linkText",
+      "type": "text",
+      "required": false,
+      "default": ""
+    },
+    {
+      "name": "poster",
+      "type": "text",
+      "required": false,
+      "default": ""
+    },
+    {
+      "name": "summary",
+      "type": "text",
+      "required": false,
+      "default": ""
+    }
+  ]
+}

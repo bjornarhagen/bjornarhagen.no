@@ -1,0 +1,10 @@
+{% set title = "Editor" %}
+{% set body_id = "editor-page" %}
+{% extends "default.nunjucks" %}
+{% block content %}
+  <main id="editor" data-editor-template="./template.json"></main>
+{% endblock %}
+{% block scripts_after %}
+  <link rel="stylesheet" href="./editor.css">
+  <script src="./editor.js" defer></script>
+{% endblock %}
