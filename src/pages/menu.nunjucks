@@ -18,6 +18,9 @@
           <h2>Pages</h2>
         </li>
         <li>
+          <a href="/">Index</a>
+        </li>
+        <li>
           <a href="/entries">Posts</a>
         </li>
         <li>
