@@ -20,12 +20,15 @@
       </div>
     </header>
     <section class="info-section layout layout-xl">
-      <div class="heading">
-        <span class="number">Coming soon</span>
-        <h2 class="title">Nothing here yet</h2>
+      <div class="info-section-left">
+        <div class="heading">
+          <h2 class="title">Nothing here yet</h2>
+        </div>
       </div>
-      <div class="columns">
-        <p></p>
+      <div class="info-section-right">
+        <div class="columns">
+          <p>Coming soon</p>
+        </div>
       </div>
     </section>
   </main>

@@ -1,5 +1,5 @@
 body {
-  background-color: #000;
+  background-color: var(--color-dark-contrast);
 }
 
 #editor {
@@ -28,10 +28,10 @@ body {
 #editor .editor-area {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-gap: 4vw;
   gap: 4vw;
   width: 100%;
   max-width: 100%;
+  margin-top: 2em;
 }
 
 @media (min-width: 600px) {
@@ -59,15 +59,14 @@ body {
   width: 100%;
   max-width: 100%;
   outline: none;
-  border: 1px solid #999;
-  color: #fff;
-  background-color: #000;
+  border: 1px solid var(--color-border);
+  color: var(--color-light-contrast);
+  background-color: var(--color-dark-contrast);
   font-size: inherit;
   font-family: inherit;
 }
 
 #editor .editor-area .input label {
-  color: #666;
   padding: 0 0 1vw 0;
   text-transform: capitalize;
 }
@@ -85,6 +84,7 @@ body {
   outline: none;
   font-size: inherit;
   font-family: inherit;
+  color: var(--color-light-contrast);
 }
 
 @media (min-width: 600px) {
@@ -95,14 +95,13 @@ body {
 }
 
 #editor .editor-input {
-  color: #fff;
-  border: 1px solid #999;
-  background-color: #000;
+  border: 1px solid var(--color-border);
+  background-color: var(--color-dark-contrast);
   min-height: 512px;
 }
 
 #editor .editor-output {
-  color: #333;
+  opacity: 0.5;
   border: none;
   background-color: transparent;
 }
@@ -113,14 +112,14 @@ body {
   font-size: inherit;
   text-transform: uppercase;
   border: none;
-  color: #fff;
-  background-color: #222;
+  color: var(--color-dark-contrast);
+  background-color: var(--color-light-contrast);
   border-radius: 4px;
   cursor: pointer;
 }
 
 #editor form button[type='submit']:hover,
 #editor form button[type='submit']:focus {
-  color: #fff;
-  background-color: #333;
+  color: var(--color-light-contrast);
+  background-color: var(--color-primary);
 }

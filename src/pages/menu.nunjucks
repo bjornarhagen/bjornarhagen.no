@@ -1,11 +1,10 @@
 {% set title = "Menu" %}
-{% set body_classes = "bg-black" %}
 {% extends "default.nunjucks" %}
 {% block content %}
   <main>
     <header>
       <div class="layout layout-xl">
-        <div class="header bg-primary-lighter">
+        <div class="header bg-dots-light bg-dots-md border-light">
           <div class="header-content bg-transparent">
             <h1>᎒᎒᎒ Menu</h1>
           </div>
