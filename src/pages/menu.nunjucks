@@ -1,0 +1,50 @@
+{% set title = "Menu" %}
+{% set body_classes = "bg-black" %}
+{% extends "default.nunjucks" %}
+{% block content %}
+  <main>
+    <header>
+      <div class="layout layout-xl">
+        <div class="header bg-primary-lighter">
+          <div class="header-content bg-transparent">
+            <h1>᎒᎒᎒ Menu</h1>
+          </div>
+        </div>
+      </div>
+    </header>
+    <section class="layout layout-xl">
+      <ul class="blocks">
+        <li class="section">
+          <h2>Pages</h2>
+        </li>
+        <li>
+          <a href="/entries">Posts</a>
+        </li>
+        <li>
+          <a href="https://datahjelpen.no/kundecaser" target="_blank" rel="noopener">Portfolio</a>
+        </li>
+        <li>
+          <a href="/menu">᎒᎒᎒ Menu (this page)</a>
+        </li>
+        <li class="section">
+          <h2>Social profiles</h2>
+        </li>
+        <li>
+          <a href="https://github.com/bjornarhagen" target="_blank" rel="noopener">Github</a>
+        </li>
+        <li>
+          <a href="https://www.linkedin.com/in/bjornarhagen/" target="_blank" rel="noopener">LinkedIn</a>
+        </li>
+        <li class="section">
+          <h2>Tools &amp; services</h2>
+        </li>
+        <li>
+          <a href="/_/startpage">Startpage</a>
+        </li>
+        <li>
+          <a href="/_/editor">JSON post editor</a>
+        </li>
+      </ul>
+    </section>
+  </main>
+{% endblock %}

@@ -42,15 +42,17 @@
       <a class="logo-wrapper" href="/">
         <img width="128" height="64" class="logo" src="/images/brand/logo/logo.svg" alt="Bjørnar Hagen logo">
       </a>
-      <div class="links-wrapper links-wrapper-before">
+      <div class="links-wrapper">
         <a href="/entries">Posts</a>
         <a href="https://datahjelpen.no/kundecaser" target="_blank" rel="noopener">Portfolio</a>
-        <!-- <a href="/about">About</a> -->
-      </div>
-      <div class="links-wrapper links-wrapper-after">
-        <!-- <a href="/contact">Contact</a> -->
         <a href="https://github.com/bjornarhagen" target="_blank" rel="noopener">Github</a>
         <a href="https://www.linkedin.com/in/bjornarhagen/" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+      <div class="mega-menu">
+        <a href="/menu">
+          <span class="icon">᎒᎒᎒</span>
+          <span class="text">Menu</span>
+        </a>
       </div>
     </nav>
     {%- block content -%}{%- endblock -%}
