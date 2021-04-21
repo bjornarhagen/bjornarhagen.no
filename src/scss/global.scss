@@ -176,6 +176,49 @@ a.square {
   width: 3em;
 }
 
+button,
+a.button,
+.button {
+  cursor: pointer;
+  font-size: inherit;
+  font-family: inherit;
+  padding: 0.5em 1em;
+  border: 1px solid var(--color-light-contrast);
+  color: var(--color-dark-contrast);
+  background-color: var(--color-light-contrast);
+}
+
+button:hover,
+button:focus,
+a.button:hover,
+a.button:focus,
+.button:hover,
+.button:focus {
+  outline: none;
+  border-color: var(--color-primary);
+  color: var(--color-light-contrast);
+  background-color: var(--color-primary);
+}
+
+button.secondary,
+a.button.secondary,
+.button.secondary {
+  border: 1px solid var(--color-light-contrast);
+  color: var(--color-light-contrast);
+  background-color: var(--color-dark-contrast);
+}
+
+button.secondary:hover,
+button.secondary:focus,
+a.button.secondary:hover,
+a.button.secondary:focus,
+.button.secondary:hover,
+.button.secondary:focus {
+  border: 1px solid var(--color-primary);
+  color: var(--color-primary);
+  background-color: var(--color-dark-contrast);
+}
+
 ::selection {
   color: #fff;
   background-color: var(--color-primary);
