@@ -292,8 +292,6 @@ a.button.secondary:focus,
 
 #nav .links-wrapper a {
   text-decoration: none;
-  // margin-right: 2em;
-  // margin-top: 1em;
 
   @media (min-width: 60em) {
     margin-top: 0;
@@ -306,7 +304,6 @@ a.button.secondary:focus,
 }
 
 #nav .mega-menu {
-  // margin-left: auto;
   text-decoration: none;
   grid-column: 2/4;
   grid-row: 1/2;
@@ -352,6 +349,12 @@ a.button.secondary:focus,
 #footer .footer-inner {
   display: grid;
   grid-template-columns: 1fr 1fr;
+}
+
+#footer .footer-inner div:first-child a {
+  display: inline-block;
+  padding: 0.5em 1em;
+  background-color: var(--color-dark-contrast);
 }
 
 #footer .footer-inner div:last-child {
@@ -454,7 +457,7 @@ a.button.secondary:focus,
   opacity: 0.5;
   background-color: transparent;
   text-align: right;
-  transition-property: opacity, background-color;
+  transition-property: color, opacity, background-color;
   transition-duration: 500ms;
   transition-timing-function: ease-in-out;
 
@@ -512,23 +515,6 @@ a.button.secondary:focus,
   @media (min-width: 60em) {
     grid-template-columns: repeat(8, 1fr);
   }
-
-  // &::after {
-  //   content: ' ';
-  //   position: absolute;
-  //   top: 0;
-  //   bottom: 0;
-  //   left: 50%;
-  //   width: 1px;
-  //   background-color: var(--color-border);
-  //   height: 100%;
-  //   z-index: -1;
-  //   pointer-events: none;
-
-  //   @media (min-width: 60em) {
-  //     left: 25%;
-  //   }
-  // }
 }
 
 .info-section .heading {
@@ -551,12 +537,7 @@ a.button.secondary:focus,
   transform: translateY(-75%);
 }
 
-.info-section h2,
-.info-section h3,
-.info-section h4 {
-  /* color: inherit; */
-}
-
+.info-section h1,
 .info-section h2 {
   margin-bottom: 1rem;
 }
@@ -714,15 +695,6 @@ ul.blocks {
     &:first-child {
       margin-top: 0;
     }
-
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6 {
-      // color: var(--color-l);
-    }
   }
 }
 
@@ -780,6 +752,12 @@ ul.blocks {
   background-repeat: repeat;
   background-size: 4em 4em;
   background-image: radial-gradient(circle, var(--color-light-contrast) 1px, rgba(0, 0, 0, 0) 1px);
+}
+
+.bg-dots-gray {
+  background-repeat: repeat;
+  background-size: 4em 4em;
+  background-image: radial-gradient(circle, hsla(0, 0%, 50%, 0.5) 1px, rgba(0, 0, 0, 0) 1px);
 }
 
 .bg-dots-dark {
