@@ -31,7 +31,7 @@
                 <p>Only for remembering your selection for dark/light mode, and only if you have selected it at all by clicking the button in the footer. Otherwise dark/light mode is based on the time of day.</p>
 
                 <h3>I want to delete my cookies.</h3>
-                <button id="cookies-page-clear-button">Clear cookies</button>
+                <button id="cookies-page-clear-button" type="button">Clear cookies</button>
                 <p id="cookies-page-cleared-text"></p>
             </div>
         </section>
