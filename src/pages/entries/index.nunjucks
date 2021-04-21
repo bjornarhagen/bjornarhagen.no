@@ -9,7 +9,10 @@
           <div class="header-image">
             <img src="./index.jpg" alt="" srcset="./index@0,5x.jpg 720w, ./index.jpg 1440w">
           </div>
-          <div class="header-content bg-transparent">
+          <div class="header-content bg-transparent theme-light-hide">
+            <h1>Posts</h1>
+          </div>
+          <div class="header-content bg-transparent fg-light theme-dark-hide">
             <h1>Posts</h1>
           </div>
           <div class="header-credits">
