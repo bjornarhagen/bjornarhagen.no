@@ -62,7 +62,9 @@
     {%- block content -%}{%- endblock -%}
     <footer id="footer" class="layout bg-dots-gray bg-dots-sm">
       <div class="footer-inner">
-        <div></div>
+        <div>
+          <a href="/cookies">Cookies</a>
+        </div>
         <div>
           <a href="#light" class="theme-light-hide no-underline square">
             <span>☀</span>
