@@ -16,12 +16,16 @@
             </div>
         </header>
         <section class="info-section layout layout-xl">
-            <div class="heading">
-                <span class="number" x-text="entry.title">Test</span>
-                <h2 class="title" x-text="entry.title">Test</h2>
+            <div class="info-section-left">
+                <div class="heading">
+                    <span class="number" x-text="entry.title">Test</span>
+                    <h2 class="title" x-text="entry.title">Test</h2>
+                </div>
             </div>
-            <div class="columns">
-                <p></p>
+            <div class="info-section-right">
+                <div class="columns">
+                    <p>Coming soon</p>
+                </div>
             </div>
         </section>
     </main>
