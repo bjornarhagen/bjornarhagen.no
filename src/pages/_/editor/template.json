@@ -13,25 +13,25 @@
       "default": ""
     },
     {
-      "name": "date-created",
+      "name": "dateCreated",
       "type": "datetime-local",
       "required": false,
       "default": ""
     },
     {
-      "name": "date-publish",
+      "name": "datePublish",
       "type": "datetime-local",
       "required": false,
       "default": ""
     },
     {
-      "name": "date-update",
+      "name": "dateUpdate",
       "type": "datetime-local",
       "required": false,
       "default": ""
     },
     {
-      "name": "date-archive",
+      "name": "dateArchive",
       "type": "datetime-local",
       "required": false,
       "default": ""
@@ -49,13 +49,25 @@
       "default": ""
     },
     {
-      "name": "poster",
+      "name": "posterImage",
+      "type": "text",
+      "required": false,
+      "default": ""
+    },
+    {
+      "name": "posterImageCredits",
       "type": "text",
       "required": false,
       "default": ""
     },
     {
       "name": "summary",
+      "type": "text",
+      "required": false,
+      "default": ""
+    },
+    {
+      "name": "categories",
       "type": "text",
       "required": false,
       "default": ""
