@@ -1,0 +1,90 @@
+{
+  "content": [
+    {
+      "text": "Clicking links going to an external site can be annoying if you aren't prepared for that. To improve the user experience you should show some kind of indicator for external links.\n\nOn this website I have made such an indicator. The following link is an example:\n<a href=\"//example.com\" target=\"_blank\" rel=\"noopener\">Example link</a>.\n\nIf you are on desktop, when you hover the link it will show you an indicator. On mobile it should always show, although somewhat subtle to avoid beeing distracting.\n\nThe following code is how I implemented this indicator.\n\n**HTML:**\n```html\n<a href=\"//example.com\" target=\"_blank\" rel=\"noopener\">Example link</a>\n```\n\n**CSS:**\n```css\na[target=\"_blank\"] {\n  position: relative;\n}\n\na::after {\n  content: '\\2197';\n  position: absolute;\n  top: -0.5em;\n  right: -0.5em;\n  opacity: 0.5;\n}\n\n/* Desktop */\n@media (min-width: 60em) {\n  a::after {\n    opacity: 0;\n  }\n\n  a:focus::after,\n  a:hover::after {\n    opacity: 1;\n  }\n}\n```\n\nOne drawback of my implementation is that it relies on `target=\"_blank\"`. Which you may not always want to add. So an alternative way to set this up would be to use some JavaScript that finds all external links and adds a CSS class to the elements.\n\nIf you are willing to put down the effort, an even better example can be seen on [web.mit.edu/contact](https://web.mit.edu/contact/). If you hover over the \"Alumni Association\" link, it will show you the domain of the external site in a tooltip. Unfortunately they have no indicator for mobile users.\n\nThat's it! Really short and sweet tip on how to improve the UX of your external links."
+    }
+  ],
+  "title": "UX tip for external links",
+  "author": "Bjørnar Hagen",
+  "categories": ["UX"],
+  "posterImage": "/images/entries/2021/04/links/header.jpg",
+  "posterImageCredits": "Photo by <a href=\"https://unsplash.com/@christopher__burns\">Christopher Burns</a>",
+  "datePublish": "2021-04-28T20:08:47577Z",
+  "meta": {
+    "fields": [
+      {
+        "name": "title",
+        "type": "text",
+        "required": true,
+        "default": ""
+      },
+      {
+        "name": "author",
+        "type": "text",
+        "required": true,
+        "default": ""
+      },
+      {
+        "name": "dateCreated",
+        "type": "datetime-local",
+        "required": false,
+        "default": ""
+      },
+      {
+        "name": "datePublish",
+        "type": "datetime-local",
+        "required": false,
+        "default": ""
+      },
+      {
+        "name": "dateUpdate",
+        "type": "datetime-local",
+        "required": false,
+        "default": ""
+      },
+      {
+        "name": "dateArchive",
+        "type": "datetime-local",
+        "required": false,
+        "default": ""
+      },
+      {
+        "name": "link",
+        "type": "text",
+        "required": false,
+        "default": ""
+      },
+      {
+        "name": "linkText",
+        "type": "text",
+        "required": false,
+        "default": ""
+      },
+      {
+        "name": "posterImage",
+        "type": "text",
+        "required": false,
+        "default": ""
+      },
+      {
+        "name": "posterImageCredits",
+        "type": "text",
+        "required": false,
+        "default": ""
+      },
+      {
+        "name": "summary",
+        "type": "text",
+        "required": false,
+        "default": ""
+      },
+      {
+        "name": "categories",
+        "type": "text",
+        "required": false,
+        "default": ""
+      }
+    ]
+  },
+  "summary": "Clicking links going to an external site can be annoying if you aren't prepared for that. To improve the user experience you should show some kind of indicator for external links."
+}
