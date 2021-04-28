@@ -1,4 +1,5 @@
 {% set title = "Cookies 🍪" %}
+{% set page_path = "cookies" %}
 {% extends "default.nunjucks" %}
 {% block content %}
     <main>

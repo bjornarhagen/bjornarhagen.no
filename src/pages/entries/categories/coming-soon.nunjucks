@@ -1,4 +1,5 @@
 {% set title = "Categories - coming soon" %}
+{% set page_path = "entries/categories/coming-soon" %}
 {% extends "default.nunjucks" %}
 {% block content %}
   <main>

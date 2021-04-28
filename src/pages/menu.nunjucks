@@ -1,4 +1,5 @@
 {% set title = "Menu" %}
+{% set page_path = "menu" %}
 {% extends "default.nunjucks" %}
 {% block content %}
   <main>

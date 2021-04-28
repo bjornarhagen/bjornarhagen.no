@@ -1,5 +1,6 @@
 {% set title = "Posts" %}
 {% set body_id = "posts" %}
+{% set page_path = "entries" %}
 {% extends "default.nunjucks" %}
 {% block content %}
   <main>

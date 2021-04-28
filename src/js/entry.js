@@ -140,4 +140,10 @@ function updateSEO(entry) {
   if (metaUrl.getAttribute('content').indexOf(window.location.pathname) === -1) {
     metaUrl.setAttribute('content', metaUrl.getAttribute('content') + window.location.pathname)
   }
+
+  // Open Graph URL
+  const linkCanonical = document.querySelector('head link[rel="canonical"]')
+  if (linkCanonical.getAttribute('href').indexOf(window.location.pathname) === -1) {
+    linkCanonical.setAttribute('href', linkCanonical.getAttribute('href') + window.location.pathname)
+  }
 }

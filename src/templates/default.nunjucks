@@ -12,6 +12,13 @@
       {%- endif -%}
     </title>
     <meta name="description" content="Designer &amp; engineer">
+    <link rel="canonical"
+    {%- if page_path -%}
+      {{ (" href=\"https://bjornar.dev/" + page_path + "\"") | safe }}
+    {%- else -%}
+      {{ (" href=\"https://bjornar.dev\"") | safe }}
+    {%- endif -%}
+/>
     <meta property="og:title" content="Bjørnar Hagen">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://bjornar.dev">
