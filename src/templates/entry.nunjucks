@@ -1,0 +1,85 @@
+{% set body_id = 'post-page' %}
+{%- if title -%}
+  {% set title = title + " | Post" %}
+{%- else -%}
+  {% set title = "Post" %}
+{%- endif -%}
+{%- if body_classes -%}
+  {% set body_classes = "nav-small " + body_classes %}
+{%- else -%}
+  {% set body_classes = "nav-small" %}
+{%- endif -%}
+{% extends "default.nunjucks" %}
+{% block head %}
+  <link rel="preload" as="style" href="/fonts/eb-garamond/eb-garamond.css?v20210428">
+{% endblock %}
+{% block content %}
+  <noscript>
+    <div class="layout layout-md">
+      <p>This page requires JavaScript to work correctly. Only a few kilobytes and no third-party stuff.</p>
+    </div>
+  </noscript>
+  <main x-data="entry()" x-on:entry-load.window="entry = $event.detail.entry">
+    <header>
+      <div class="layout layout-lg entry-intro">
+        <div class="text-content">
+          <h1 x-text="entry.title">Loading ...</h1>
+        </div>
+        <div>
+          <template x-if="!!entry.author">
+            <p>
+              <span>Author:</span>
+              <span x-text="entry.author"></span>
+            </p>
+          </template>
+          <template x-if="!!entry.datePublish">
+            <p>
+              <span>Date published: </span>
+              <span x-text="entry.datePublish"></span>
+            </p>
+          </template>
+          <template x-if="!!entry.dateUpdate">
+            <p>
+              <span>Date updated: </span>
+              <span x-text="!!entry.dateUpdate"></span>
+            </p>
+          </template>
+        </div>
+      </div>
+      <template x-if="entry.posterImage">
+        <div class="layout layout-lg header header-md">
+          <div class="header-image">
+            <img class="loading-spinner" src="/images/loading-light.svg" x-bind:src="entry.posterImage" alt="" x-bind:alt="entry.title">
+          </div>
+          <div class="header-credits">
+            <p x-html="entry.posterImageCredits"></p>
+          </div>
+        </div>
+      </template>
+    </header>
+    <section class="layout layout-md text-content">
+      <template x-for="(item, index) in entry.content" :key="index">
+        <div x-html="item.text"></div>
+      </template>
+    </section>
+  </main>
+{% endblock %}
+{% block scripts_before %}
+  <script>
+    function entry() {
+      return {
+        entry: {
+          title: '',
+          posterImage: null,
+          content: []
+        }
+      }
+    }
+  </script>
+{% endblock %}
+{% block scripts_after %}
+  <script src="/js/libraries/marked.min.js" defer></script>
+  <script src="/js/entry.js" defer></script>
+  <script src="/js/libraries/alpine.min.js" defer></script>
+  <link rel="stylesheet" href="/fonts/eb-garamond/eb-garamond.css?v20210428">
+{% endblock %}
