@@ -11,7 +11,7 @@ gulp.task('nunjucks', function () {
   return gulp
     .src([
       // Folder(s) to look in for content files
-      'src/pages/**/*.+(html|nunjucks)',
+      'src/pages/**/*.+(nunjucks)',
     ])
     .pipe(
       nunjucksRender({
@@ -28,7 +28,7 @@ gulp.task('nunjucks:watch', function () {
 
 gulp.task('copy-pages', function () {
   return gulp
-    .src(['src/pages/**/*.+(css|js|jpg|jpeg|png|svg|gif|xml|json|html)'])
+    .src(['src/pages/**/*.+(css|js|jpg|jpeg|png|svg|gif|xml|json|html)', '!./src/**/node_modules/**'])
     .pipe(gulp.dest('./dist/'))
     .pipe(browserSync.stream())
 })
@@ -66,6 +66,7 @@ gulp.task('copy:watch', function () {
       './src/css/**/*.*',
       ,
       '!./src/**/*.nunjucks',
+      '!./src/**/node_modules/**',
     ],
     gulp.parallel('copy-pages', 'copy-extra', 'copy-fonts', 'copy-images', 'copy-styles')
   )
