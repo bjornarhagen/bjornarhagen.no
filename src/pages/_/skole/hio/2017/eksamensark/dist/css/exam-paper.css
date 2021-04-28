@@ -1,0 +1,450 @@
+/* Fix box-sizing */
+*, *:before, *:after { box-sizing: inherit;    }
+html                 { box-sizing: border-box; }
+
+html,
+body {
+	margin: 0;
+	padding: 0;
+	font-size: 8px;
+}
+
+body {
+	background-color: #eee;
+	font-family: 'PT Serif', 'Times New Roman', Times, serif;
+	font-size: 1em;
+}
+
+hr {
+	width: 100%;
+	height: 1px;
+	margin: 0.1em auto;
+	padding: 0;
+	border: none;
+	background-color: gray;
+}
+
+/* Question */
+.q {
+	font-style: italic;
+}
+
+/* Answer */
+.a {
+	font-style: normal;
+}
+
+/* Clearfix */
+.clear:before,
+.clear:after {
+	content: " ";
+	display: table
+}
+.clear:after{
+	clear: both
+}
+
+/* Floats */
+.fl { float: left; }
+.fr { float: right; }
+
+/* Widths */
+.w1  { width: 10%  !important; }
+.w15 { width: 15%  !important; }
+.w2  { width: 20%  !important; }
+.w25 { width: 25%  !important; }
+.w25 { width: 25%  !important; }
+.w3  { width: 30%  !important; }
+.w33 { width: 33.3333% !important; }
+.w35 { width: 35%  !important; }
+.w4  { width: 40%  !important; }
+.w45 { width: 45%  !important; }
+.w5  { width: 50%  !important; }
+.w55 { width: 55%  !important; }
+.w6  { width: 60%  !important; }
+.w65 { width: 65%  !important; }
+.w66 { width: 66.6667%  !important; }
+.w7  { width: 70%  !important; }
+.w75 { width: 75%  !important; }
+.w8  { width: 80%  !important; }
+.w85 { width: 85%  !important; }
+.w9  { width: 90%  !important; }
+.w95 { width: 95%  !important; }
+.w10 { width: 100% !important; }
+
+/* Columns */
+.cols {
+	column-gap: 0.5em;
+	column-rule: 1px dotted #ddd;
+}
+
+.cols-2 {
+	column-count: 2;
+}
+
+.cols-3 {
+	column-count: 3;
+}
+
+/* Colors */
+.black  { color: black;  }
+.white  { color: white;  }
+.red    { color: red;    }
+.blue   { color: blue;   }
+.green  { color: green;  }
+.yellow { color: yellow; }
+.orange { color: orange; }
+.purple { color: purple; }
+.pink   { color: pink;   }
+.brown  { color: brown;  }
+
+/* Indentations */
+.i0 { padding-left: 0em !important; }
+.i1 { padding-left: 1em !important; }
+.i2 { padding-left: 2em !important; }
+.i3 { padding-left: 3em !important; }
+.i4 { padding-left: 4em !important; }
+.i5 { padding-left: 5em !important; }
+
+/* Center an element */
+.centered { display: block; margin-left: auto !important; margin-right: auto !important; }
+
+/* Seperators */
+.sl { padding-left:  0.5em; border-left:  0.05em solid gray; }
+.sr { padding-right: 0.5em; border-right: 0.05em solid gray; }
+
+/* Alignments */
+.tl { text-align: left    !important; }
+.tr { text-align: right   !important; }
+.tj { text-align: justify !important; }
+.tc { text-align: center  !important; }
+
+/* Font sizes */
+.fss { font-size: 0.8em !important; }
+.fsm { font-size: 1.2em !important; }
+.fsl { font-size: 1.5em !important; }
+
+/* Borders */
+.bt { border-top:    1px solid gray; padding-top:    1px; }
+.br { border-right:  1px solid gray; padding-right:  1px; }
+.bb { border-bottom: 1px solid gray; padding-bottom: 1px; }
+.bl { border-left:   1px solid gray; padding-left:   1px; }
+
+/* Display styles */
+.inline { display: inline; }
+
+/* Ensure latex is rendering on print */
+.katex { font-size: 1.1em !important; }
+.katex .frac-line {
+	min-height: 1px !important;
+	min-width: 1px !important;
+	border-bottom-width: 1px !important;
+}
+.katex .underline-line {
+	min-height: 1px !important;
+	border-bottom-width: 1px !important;
+}
+.katex-display {
+	display: inline-block !important;
+	margin: 0.3em 0 0 !important;
+	text-align: left !important;
+}
+
+.katex.bigline {
+	margin-top: 1px;
+	display: inline-block;
+}
+
+/* One A4 paper page (landscape) */
+.wrapper {
+	display: flex;
+	margin: 10em auto;
+	padding: 6.35mm;
+	flex-direction: row;
+	justify-content: space-between;
+	color: #222;
+	background-color: #fff;
+	width: 297mm;
+	height: 210mm;
+	max-width: 100%;
+	max-height: 100%;
+	box-shadow: 0 2em 5em -1em rgba(0, 0, 64, 0.1);
+	overflow-y: auto;
+	overflow-x: hidden;
+	/*padding: 0;*/
+	/*border: 5mm solid red;*/
+	position: relative;
+}
+
+.wrapper:after {
+	position: absolute;
+	bottom: 2.5mm;
+	right: 2.5mm;
+	content: attr(page);
+}
+
+/* Make sure print behaves correctly */
+@media print {
+	.wrapper {
+		position: relative;
+		top: 0;
+		left: 0;
+		right: 0;
+		padding: 6.35mm;
+		/*padding: 0;*/
+		/*border: 6.35mm solid red;*/
+		margin: 0;
+		transform: none;
+		max-width: 100vw;
+		max-height: 100vh;
+		box-shadow: none;
+	}
+}
+
+/* Split the page into 3 sections */
+.wrapper section {
+	display: flex;
+	flex-direction: column;
+	padding: 0 0.75mm 0;
+	width: 33.33333333333333%;
+	max-width: 100%;
+}
+
+.wrapper section:first-child {
+	padding-left: 0;
+}
+
+.wrapper section:last-child {
+	padding-right: 0;
+}
+
+/* Styling for all page elements */
+.row h1,
+.row h2,
+.row h3,
+.row h4,
+.row h5,
+.row h6,
+.row p,
+.row img,
+.row figure,
+.row ul,
+.row ol {
+	width: 100%;
+	max-width: 100%;
+}
+
+.row h1,
+.row h2,
+.row h3,
+.row h4,
+.row h5,
+.row h6,
+.row p,
+.row dl {
+	margin: 0;
+	line-height: 1;
+	text-align: justify;
+}
+
+.row h1,
+.row h2,
+.row h3,
+.row h4,
+.row h5,
+.row h6 {
+	color: #111;
+}
+
+.row p {
+	font-size: 1em;
+}
+
+.row ul,
+.row ol {
+	margin: 0;
+	padding: 0 0 0 1.5em;
+}
+
+.row ul.nostyle,
+.row ol.nostyle {
+	list-style-type: none;
+}
+
+.row ul.inside,
+.row ol.inside {
+	list-style-position: inside;
+	padding-left: 0;
+}
+
+.row li {
+	line-height: 1;
+}
+
+.row ul.inline,
+.row ol.inline {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	flex-wrap: wrap;
+}
+
+.row ul.inline li,
+.row ol.inline li {
+	margin: 0 1em 0 0;
+	padding: 0 1em 0 0;
+	white-space: nowrap;
+}
+.row ul.inline li p,
+.row ol.inline li p {
+	word-break: break-word;
+	white-space: normal;
+}
+
+.row ul.inline.nostyle,
+.row ol.inline.nostyle {
+	padding: 0;
+}
+
+.row ul.inline2 {
+	padding: 0;
+	list-style: none;
+}
+
+.row ul.inline2 li {
+	position: relative;
+	display: inline;
+	padding: 0 0.75em;
+}
+
+.row ul.inline2 li::before {
+	position: absolute;
+	left: 0;
+	top: 0;
+	width: 1em;
+	height: 1em;
+	line-height: 1em;
+	content: '\25CF';
+}
+
+
+.row ul.qna,
+.row ol.qna {
+	margin: 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+.row ul.qna > li > ul,
+.row ul.qna > li > ol,
+.row ol.qna > li > ul,
+.row ol.qna > li > ol {
+	margin: 0.75em 0;
+	padding: 0;
+	list-style-type: none;
+}
+
+.row ul.qna ul,
+.row ol.qna ol {
+	margin: 0;
+	padding: 0 0 0 0.5em;
+}
+
+.row ul.qna > li > ul > li:first-child,
+.row ol.qna > li > ul > li:first-child {
+	font-weight: 700;
+}
+
+.row ul.qna > li > ul > li:first-child pre,
+.row ol.qna > li > ul > li:first-child pre {
+	font-weight: normal;
+}
+
+.row ul.qna > li > ul > li:last-child,
+.row ol.qna > li > ul > li:last-child {
+	padding: 0 0 0 2em;
+	line-height: 1em;
+}
+
+
+.row code,
+.row pre {
+	margin: 0;
+	padding: 0.5em;
+	background-color: #eee;
+}
+
+.row pre {
+	display: inline-block;
+}
+
+.row code {
+	padding: 0em;
+	line-height: 1;
+	font-size: 0.9em;
+	font-family: 'PT Mono', monospace;
+}
+
+.row dl dt:before {
+	content: " ";
+	display: table
+}
+
+.row dl dt {
+	font-weight: 700;
+	display: inline;
+}
+
+.row dl dd {
+	margin: 0 0 0 1em;
+	display: inline;
+}
+
+.row table {
+	border-collapse: collapse;
+}
+
+.row table td,
+.row table th {
+	padding: 0;
+	margin: 0;
+}
+
+.row table th {
+	font-size: 0.8em;
+}
+
+.row table tbody th {
+	text-align: left;
+}
+
+.row table tbody tr:nth-child(odd) {
+	background-color: #eee;
+}
+
+.row table tbody td {
+	font-family: 'PT Mono', monospace;
+	font-size: 0.8em;
+	line-height: 1em;
+	padding: 0.1em 0.2em 0;
+}
+
+.row figure {
+	margin: 0;
+	padding: 0;
+}
+
+.row figure img {
+	margin: 0;
+	padding: 0;
+}
+
+.row figure figcaption {
+	margin: 0;
+	padding: 0;
+	line-height: 1;
+	font-size: 0.8em;
+	text-align: left;
+	color: #444;
+	font-family: 'PT Serif Caption', serif;
+}
