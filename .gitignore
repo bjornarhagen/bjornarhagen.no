@@ -10,7 +10,7 @@ $RECYCLE.BIN/
 *.lnk
 
 node_modules/
-dist/
+dist
 
 # Local Netlify folder
 .netlify
