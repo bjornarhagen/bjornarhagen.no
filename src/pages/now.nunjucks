@@ -1,0 +1,40 @@
+{% set title = "Now" %}
+{% set page_path = "now" %}
+{% extends "default.nunjucks" %}
+{% block content %}
+  <main>
+    {# <header>
+      <div class="layout layout-xl">
+        <div class="header bg-dots-light">
+          <div class="header-image">
+            <img src="/images/graphics/cookies.jpg" alt="Cookies" srcset="/images/graphics/cookies@0,5x.jpg 720w, /images/graphics/cookies.jpg 1440w">
+          </div>
+          <div class="header-credits">
+            <p>Photo by <a href="https://unsplash.com/@erol" target="_blank" rel="noopener">Erol Ahmed</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </header> #}
+    <section class="info-section layout layout-xl">
+      <div class="info-section-left">
+        <div class="heading">
+          <span class="number">/now</span>
+          <h2 class="title">/now</h2>
+          <p>This page tells you what I'm up to these days.</p>
+        </div>
+      </div>
+      <div class="info-section-right">
+        <h3>♦ Solidity</h3>
+        <p>I'm learning the Solidity programming language. Solidity is used for developing smart contracts that run on Ethereum.</p>
+
+        <h3>📄 Hugo</h3>
+        <p>I just updated this webiste, and I'm trying build it in the most future proof and robost way I can. No fancy JavaScript frameworks or whatever. My initial goal was to just use HTML, CSS, a tiny bit of JS and a build sytem based on Bash.</p>
+        <p>However, making a Bash based templating system would be a pain in the ass, so I'm looking into just using <a href="https://gohugo.io/" target="_blank" rel="noopener">Hugo</a> instead. Currently I'm using <a href="https://mozilla.github.io/nunjucks/" target="_blank" rel="noopener">Nunjucks</a> and building with <a href="https://gulpjs.com/" target="_blank" rel="noopener">Gulp</a>.</p>
+
+        <h3>🎬 The Expanse</h3>
+        <p>Currently watching this, definitly one of my top 3 sci-fi shows.</p>
+      </div>
+    </section>
+  </main>
+{% endblock %}
