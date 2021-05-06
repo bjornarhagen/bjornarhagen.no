@@ -1,3 +1,7 @@
+const dayTimeNameMorning = 'morning 🌅'
+const dayTimeNameAfternoon = 'afternoon 🏞'
+const dayTimeNameEvening = 'evening 🌃'
+
 const getDayTimeName = (currentTime = new Date()) => {
   const currentHour = currentTime.getHours()
   const splitMorning = 05
@@ -6,13 +10,13 @@ const getDayTimeName = (currentTime = new Date()) => {
 
   if (currentHour >= splitAfternoon && currentHour < splitEvening) {
     // Between 12 and 18
-    return 'afternoon'
+    return dayTimeNameAfternoon
   } else if (currentHour >= splitEvening || currentHour < splitMorning) {
     // Between 18 and 00, or between 00 and 05
-    return 'evening'
+    return dayTimeNameEvening
   }
   // Between 05 and 12
-  return 'morning'
+  return dayTimeNameMorning
 }
 
 function setupTheme() {
@@ -23,7 +27,7 @@ function setupTheme() {
     themeToggleClick()
   } else if (!themeFromCookie) {
     const dayTimeName = getDayTimeName()
-    if (window.theme === 'dark' && (dayTimeName === 'afternoon' || dayTimeName === 'morning')) {
+    if (window.theme === 'dark' && (dayTimeName === dayTimeNameAfternoon || dayTimeName === dayTimeNameMorning)) {
       toggleTheme()
     }
   }

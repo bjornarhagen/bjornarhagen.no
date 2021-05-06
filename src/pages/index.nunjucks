@@ -19,13 +19,12 @@
           </div>
           <div class="header-content">
             <h1>
-              <span id="greeting">Hi</span>
-              <span>👋</span>
+              <span id="greeting">Hi</span><span>👋</span>
               <span class="block"></span>
               <span>I'm</span>
               <span class="fg-primary">Bjørnar</span>
-              <span class="type-out fg-primary">Hagen</span><span class="type-out">,</span>
-              <span class="type-out type-out-option">designer &amp; engineer.</span>
+              <span class="fg-primary">Hagen</span><span>,</span>
+              <span>designer &amp; engineer.</span>
             </h1>
           </div>
         </div>
@@ -41,7 +40,7 @@
       <div class="info-section-right">
         <div class="columns">
           <p>Born and raised in Larvik, Norway. Currently living in Sandefjord with my lovely wife and our cute dog.</p>
-          <p>I've always loved building and taking things apart, so when I at a young age was introduced to computers, it didn't take very long before I was taking them apart and learning about how they worked. When I was 14 I saved up scholarship money originally ment for school equipment to instead buy computer parts so I could build my first desktop computer. Once I had built the computer I started learning about code and software. I was instantly facinated with the web technologies and how reletivly easily you could build websites. Since then I've learnt more and more about programming and different software techologies.</p>
+          <p>I've always loved building and taking things apart, so when I at a young age was introduced to computers, it didn't take very long before I was taking them apart and learning about how they worked. When I was 14 I saved up scholarship money originally ment for school equipment to instead buy computer parts so I could build my first desktop computer. Once I had built the computer I started learning about code and software. I was instantly facinated with the web technologies and building websites. Since then I've learnt more and more about programming and different software techologies.</p>
           <p>When I'm not in front of the computer I love hiking, gaming and losing money on stocks and crypto :)</p>
         </div>
       </div>
@@ -57,7 +56,7 @@
         <div class="columns">
           <p>I learnt HTML, CSS, JS and PHP through self study and got a few gigs through some close friends. Later on I got my first real job as an apprentice at Optimale Systemer in Larvik. Around the same time I met my now wife, we started the company Datahjelpen together so we could take on extra jobs outside of work and school.</p>
           <p>After 2 years at Optimale Systemer I had learned a lot and considered myself a full-stack web developer, though still very much a junior. I then moved to Halden to start my Bachelor of Science in Computer Engineering at Østfold College University.</p>
-          <p>3 years later I got my degree and moved to Sandefjord. I started working full-time in Datahjelpen. After about a year Covid hit and I had to find a more stable job as no one was really willing to start new projects at the time. That is how I ended up at Adstate, where I currently work. I still run Datahjelpen, though it's more of a hobby as of right now.</p>
+          <p>3 years later I got my degree and moved to Sandefjord. I started working full-time in Datahjelpen. After about a year, Covid hit and I had to find a more stable job as no one was really willing to start new projects at the time. That is how I ended up at Adstate, where I currently work. I still run Datahjelpen, though it's more of a hobby as of right now.</p>
         </div>
       </div>
       <div class="info-section-right">
@@ -95,9 +94,6 @@
           </li>
           <li>
             <p>PHP, Wordpress, Laravel</p>
-          </li>
-          <li>
-            <p>Java, Spring Boot</p>
           </li>
           <li>
             <p>MySQL</p>
