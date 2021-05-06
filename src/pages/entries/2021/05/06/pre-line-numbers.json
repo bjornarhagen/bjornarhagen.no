@@ -1,0 +1,97 @@
+{
+  "content": [
+    {
+      "text": "Reading code is easier when you have line numbers, but how can you show line numbers in a `<pre>` tag?\nThis can easily be solved with a few lines of JS and CSS, no need for a big external library.\n\n**JS:**\n```js\nfunction addLineNumbersToPres() {\n  const pres = document.querySelectorAll('pre')\n  pres.forEach((pre) => {\n    const lineNumberWrapper = document.createElement('span')\n    lineNumberWrapper.classList.add('pre-line-numbers')\n\n    const preLines = pre.textContent.split('\\n').length\n    for (let i = 0; i < preLines - 1; i++) {\n      const span = document.createElement('span')\n      span.appendChild(document.createTextNode(i))\n      lineNumberWrapper.appendChild(span)\n    }\n\n    pre.insertBefore(lineNumberWrapper, pre.firstChild)\n  })\n}\n```\n\nThis changes the HTML for the `<pre>` tag to look something like this:\n\n```html\n<pre>\n  <span class=\"pre-line-numbers\">\n    <span>0</span>\n    <span>1</span>\n    <span>2</span>\n    <span>3</span>\n    <span>4</span>\n    <span>5</span>\n  </span>\n  <code>\n    // Code comes here\n  </code>\n<pre>\n```\n\nNow for the styling.\n\n**CSS:**\n```css\npre {\n  position: relative;\n  width: 100%;\n  overflow: auto;\n  display: grid;\n  grid-template-columns: min-content max-content;\n}\n\npre .pre-line-numbers {\n  display: flex;\n  flex-direction: column;\n  height: 100%;\n  text-align: right;\n  user-select: none;\n}\n```\n\n\n\n**Extra:**\nAccording to caniuse.com `user-select` without prefixes is only supported by 50-70% of browsers at the time of writing, so here's the prefixed properties if you want to add them:\n\n```css\n  -webkit-user-select: none;\n  -khtml-user-select: none;\n  -moz-user-select: none;\n  -ms-user-select: none;\n```\n\n## What about syntax highlighting?\n\nSyntax highlighting is much more complicated to solve, but maybe I'll make a post about it one day. For now my `<pre>` tags remain black and white."
+    }
+  ],
+  "title": "How to add line numbers to pre tags",
+  "author": "Bjørnar Hagen",
+  "categories": ["UX"],
+  "posterImage": "/images/entries/2021/05/pre-line-numbers/header.jpg",
+  "posterImageCredits": "Photo by <a href=\"https://unsplash.com/@adigold1\">Adi Goldstein</a>",
+  "posterImageSize": "sm",
+  "datePublish": "2021-05-06T14:25:01.751Z",
+  "meta": {
+    "fields": [
+      {
+        "name": "title",
+        "type": "text",
+        "required": true,
+        "default": ""
+      },
+      {
+        "name": "author",
+        "type": "text",
+        "required": true,
+        "default": ""
+      },
+      {
+        "name": "dateCreated",
+        "type": "datetime-local",
+        "required": false,
+        "default": ""
+      },
+      {
+        "name": "datePublish",
+        "type": "datetime-local",
+        "required": false,
+        "default": ""
+      },
+      {
+        "name": "dateUpdate",
+        "type": "datetime-local",
+        "required": false,
+        "default": ""
+      },
+      {
+        "name": "dateArchive",
+        "type": "datetime-local",
+        "required": false,
+        "default": ""
+      },
+      {
+        "name": "link",
+        "type": "text",
+        "required": false,
+        "default": ""
+      },
+      {
+        "name": "linkText",
+        "type": "text",
+        "required": false,
+        "default": ""
+      },
+      {
+        "name": "posterImage",
+        "type": "text",
+        "required": false,
+        "default": ""
+      },
+      {
+        "name": "posterImageSize",
+        "type": "text",
+        "required": false,
+        "default": ""
+      },
+      {
+        "name": "posterImageCredits",
+        "type": "text",
+        "required": false,
+        "default": ""
+      },
+      {
+        "name": "summary",
+        "type": "text",
+        "required": false,
+        "default": ""
+      },
+      {
+        "name": "categories",
+        "type": "text",
+        "required": false,
+        "default": ""
+      }
+    ]
+  },
+  "summary": "Reading code is easier when you have line numbers, but how can you show line numbers in a <pre> tag? This can easily be solved with a few lines of JS and CSS, no need for a big external library."
+}
