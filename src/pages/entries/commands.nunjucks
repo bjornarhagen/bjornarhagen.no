@@ -1,0 +1,243 @@
+{% set title = "Commands" %}
+{% set body_classes = "nav-small" %}
+{% extends "default.nunjucks" %}
+{% block head %}
+    <link rel="preload" as="style" href="/fonts/eb-garamond/eb-garamond.css?v20210428">
+{% endblock %}
+{% block content %}
+    <main>
+        <header>
+            <div class="layout layout-xl">
+                <div class="header bg-dots-light bg-dots-md border-light">
+                    <div class="header-content bg-theme-reverse fg-theme">
+                        <h1>🤖 Useful commands</h1>
+                        <p>Lists of commands I often use</p>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <section class="info-section layout">
+            <div class="info-section-left">
+                <div class="heading">
+                    <span class="number">🔐</span>
+                    <h2 class="title">Security &amp; privacy</h2>
+                </div>
+            </div>
+            <div class="info-section-right">
+                <dt>
+                    <input value="tar czf myDir.tar.gz myDir" type="text">
+                    <input value="gpg -c myDir.tar.gz" type="text">
+                </dt>
+                <dd>Make a password encrypted backup of a directory</dd>
+
+                <dt>
+                    <input value="gpg -d myDir.tar.gz.gpg > myDir.tar.gz" type="text">
+                    <input value="tar xzf myDir.tar.gz" type="text">
+                </dt>
+                <dd>Decrypt an encrypted directory</dd>
+            </div>
+        </section>
+        <section class="info-section layout">
+            <div class="info-section-left">
+                <div class="heading">
+                    <span class="number">🐧</span>
+                    <h2 class="title">Linux</h2>
+                </div>
+            </div>
+            <div class="info-section-right">
+                <dl>
+                    <dt>
+                        <input value="sudo usermod -a -G www-data username" type="text">
+                    </dt>
+                    <dd>Add user to www-data</dd>
+
+                    <dt>
+                        <input value="sudo chown www-data:www-data . -R" type="text">
+                    </dt>
+                    <dd>set www-data to owner of folder</dd>
+
+                    <dt>
+                        <input value="sudo find . -type d -exec chmod 775 {} +" type="text">
+                    </dt>
+                    <dd>Change folder permissions</dd>
+
+                    <dt>
+                        <input value="sudo find . -type f -exec chmod 664 {} +" type="text">
+                    </dt>
+                    <dd>Change file permissions</dd>
+
+                    <dt>
+                        <input value="sudo ln -s /etc/nginx/sites-available/example.com /etc/nginx/sites-enabled/example.com" type="text">
+                        <input value="sudo ln -s /etc/apache2/sites-available/example.com.conf /etc/apache2/sites-enabled/example.com.conf" type="text">
+                    </dt>
+                    <dd>Create symbolic link between sites-available and sites-enabled</dd>
+
+                    <dt>
+                        <input value="sudo -H /opt/letsencrypt/letsencrypt-auto certonly -a webroot --agree-tos --renew-by-default --webroot-path=/var/www/example/example.com/www -d example.com -d www.example.com" type="text">
+                    </dt>
+                    <dd>Setup new SSL/TLS Certificate with Let's Encrypt</dd>
+                    <dd>
+                        <span class="warning">WARN:</span> Might cause issues on servers with 512MB of RAM or less</dd>
+
+                    <dt>
+                        <input value="sudo -H le-renew-webroot example.com" type="text">
+                    </dt>
+                    <dd>Renew domain for example.com</dd>
+                    <dd>If you don't specify domain, default domain will be run.</dd>
+                    <dd>Check /usr/local/etc/le-renew-webroot.ini for default settings</dd>
+                    <dd>Go to /usr/local/etc/ to add more domains. Add file le-cli-example.com.ini</dd>
+
+                    <dt>
+                        <input value="sudo -H /opt/letsencrypt/letsencrypt-auto renew" type="text">
+                    </dt>
+                    <dd>Renew all certificates</dd>
+                </dl>
+            </div>
+        </section>
+        <section class="info-section layout">
+            <div class="info-section-left">
+                <div class="heading">
+                    <span class="number">👨‍💻</span>
+                    <h2 class="title">Web dev</h2>
+                </div>
+            </div>
+            <div class="info-section-right">
+                <dl>
+                    <dt>
+                        <input value="openssl req -x509 -sha256 -nodes -days 365 -newkey rsa:2048 -keyout privkey.pem -out fullchain.pem" type="text">
+                    </dt>
+                    <dd>Create self-signed certificate for local use</dd>
+
+                    <dt>
+                        <input value="ssh user@server -L LOCAL_PORT:localhost:REMOTE_PORT" type="text">
+                    </dt>
+                    <dd>Port forward a remote port to a local one</dd>
+                    <dd>Very handy for using local software with remote data</dd>
+                    <dd>
+                        <span class="note">MySQL example:</span>
+                        <code>ssh user@server -L 3307:localhost:3306</code>
+                    </dd>
+                    <dd>
+                        <code>localhost:3307</code> now works locally as <code>localhost:3306</code> works on the server</dd>
+
+                    <dt>
+                        <textarea rows="16">
+const form = document.querySelector('form');
+const data = new FormData(form);
+
+let xhr = new XMLHttpRequest();
+xhr.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+        let response = null;
+
+        try {
+            response = JSON.parse(xhr.responseText);
+        } catch (e) {
+            console.error(e);
+        }
+
+        handleSuccess(input, response);
+    }
+};
+xhr.open("POST", form.action, true);
+xhr.send(data);
+</textarea>
+                    </dt>
+                    <dd>XMLHttpRequest for formdata</dd>
+                </dl>
+            </div>
+        </section>
+
+        <section class="info-section layout">
+            <div class="info-section-left">
+                <div class="heading">
+                    <span class="number">🪟</span>
+                    <h2 class="title">Windows</h2>
+                </div>
+            </div>
+            <div class="info-section-right">
+                <dl>
+                    <dt>
+                        <input value='New-SelfSignedCertificate -DnsName "example.com", "www.example.com"' type="text">
+                    </dt>
+                    <dd>Create a self-signed certificate</dd>
+                    <dd>
+                        <span class="note">NOTE:</span> Requires admin</dd>
+                    <dt>
+                        <input value="Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://chocolatey.org/install.ps1'))" type="text">
+                    </dt>
+                    <dd>Install Chocolatey</dd>
+                    <dd>
+                        <span class="note">NOTE:</span> Requires admin</dd>
+                </dl>
+            </div>
+        </section>
+    </main>
+{% endblock %}
+{% block scripts_after %}
+    <link rel="stylesheet" href="/fonts/eb-garamond/eb-garamond.css?v20210428">
+    <style>
+        dl {
+            display: block;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        dt {
+            margin-top: 50px;
+        }
+
+        dt input,
+        dt textarea {
+            font-family: monospace;
+            font-size: inherit;
+            padding: 10px;
+            color: var(--color-light-contrast);
+            border: 1px solid var(--color-border);
+            outline: none;
+            width: 100%;
+            background-color: var(--color-dark-contrast);
+        }
+
+        dt input:focus,
+        dt input:hover,
+        dt textarea:focus,
+        dt textarea:hover {
+            cursor: pointer;
+            color: var(--color-primary);
+            border-color: var(--color-primary);
+        }
+
+        dt + dd {
+            font-weight: bold;
+        }
+
+        dd {
+            line-height: 200%;
+        }
+
+        .success {
+            padding: 2.5px 5px;
+            color: #fff;
+            background-color: var(--color-success-contrast);
+        }
+
+        .warning {
+            padding: 2.5px 5px;
+            color: #000;
+            background-color: var(--color-warning-contrast);
+        }
+
+        .note {
+            padding: 2.5px 5px;
+            color: #fff;
+            background-color: var(--color-note-contrast);
+        }
+
+        .alert {
+            padding: 2.5px 5px;
+            color: #000;
+            background-color: var(--color-alert-contrast);
+        }
+    </style>
+{% endblock %}
