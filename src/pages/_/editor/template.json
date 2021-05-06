@@ -55,6 +55,12 @@
       "default": ""
     },
     {
+      "name": "posterImageSize",
+      "type": "text",
+      "required": false,
+      "default": ""
+    },
+    {
       "name": "posterImageCredits",
       "type": "text",
       "required": false,

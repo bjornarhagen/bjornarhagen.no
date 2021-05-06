@@ -28,6 +28,7 @@ body {
 #editor .editor-area {
   display: grid;
   grid-template-columns: 1fr 1fr;
+  grid-gap: 4vw;
   gap: 4vw;
   width: 100%;
   max-width: 100%;

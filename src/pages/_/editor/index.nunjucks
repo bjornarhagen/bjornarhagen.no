@@ -1,5 +1,6 @@
 {% set title = "Editor" %}
 {% set body_id = "editor-page" %}
+{% set body_classes = "nav-small" %}
 {% extends "default.nunjucks" %}
 {% block content %}
   <main id="editor" data-editor-template="/_/editor/template.json"></main>
