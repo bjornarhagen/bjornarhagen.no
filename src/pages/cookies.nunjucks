@@ -2,58 +2,58 @@
 {% set page_path = "cookies" %}
 {% extends "default.nunjucks" %}
 {% block content %}
-    <main>
-        <header>
-            <div class="layout layout-xl">
-                <div class="header bg-dots-light">
-                    <div class="header-image">
-                        <img src="/images/graphics/cookies.jpg" alt="Cookies" srcset="/images/graphics/cookies@0,5x.jpg 720w, /images/graphics/cookies.jpg 1440w">
-                    </div>
-                    <div class="header-credits">
-                        <p>Photo by <a href="https://unsplash.com/@erol" target="_blank" rel="noopener">Erol Ahmed</a>
-                        </p>
-                    </div>
-                </div>
-            </div>
-        </header>
-        <section class="info-section layout layout-xl">
-            <div class="info-section-left">
-                <div class="heading">
-                    <span class="number">🍪</span>
-                    <h2 class="title">Cookies</h2>
-                    <p>This website uses cookies, but only the good kind :)</p>
-                </div>
-            </div>
-            <div class="info-section-right">
-                <h3>What does that mean?</h3>
-                <p>No tracking of any kind. The website only use cookies for functionality.</p>
+  <main>
+    <header>
+      <div class="layout layout-xl">
+        <div class="header bg-dots-light">
+          <div class="header-image">
+            <img src="/images/graphics/cookies.jpg" alt="Cookies" srcset="/images/graphics/cookies@0,5x.jpg 720w, /images/graphics/cookies.jpg 1440w">
+          </div>
+          <div class="header-credits">
+            <p>Photo by <a href="https://unsplash.com/@erol" target="_blank" rel="noopener">Erol Ahmed</a>
+            </p>
+          </div>
+        </div>
+      </div>
+    </header>
+    <section class="info-section layout layout-xl">
+      <div class="info-section-left">
+        <div class="heading">
+          <span class="number">🍪</span>
+          <h2 class="title">Cookies</h2>
+          <p>This website uses cookies, but only the good kind :)</p>
+        </div>
+      </div>
+      <div class="info-section-right">
+        <h3>What does that mean?</h3>
+        <p>No tracking of any kind. The website only use cookies for functionality.</p>
 
-                <h3>What kind of functionality?</h3>
-                <p>Only for remembering your selection for dark/light mode, and only if you have selected it at all by clicking the button in the footer. Otherwise dark/light mode is based on the time of day.</p>
+        <h3>What kind of functionality?</h3>
+        <p>Only for remembering your selection for dark/light mode, and only if you have selected it at all by clicking the button in the footer. Otherwise dark/light mode is based on the time of day.</p>
 
-                <h3>I want to delete my cookies.</h3>
-                <button id="cookies-page-clear-button" type="button">Clear cookies</button>
-                <p id="cookies-page-cleared-text"></p>
-            </div>
-        </section>
-    </main>
+        <h3>I want to delete my cookies.</h3>
+        <button id="cookies-page-clear-button" type="button">Clear cookies</button>
+        <p id="cookies-page-cleared-text"></p>
+      </div>
+    </section>
+  </main>
 {% endblock %}
 {% block scripts_after %}
-    <script>
-        (function () {
-            const button = document.querySelector('#cookies-page-clear-button');
-            const statusDisplay = document.querySelector('#cookies-page-cleared-text');
+  <script>
+    (function () {
+      const button = document.querySelector('#cookies-page-clear-button');
+      const statusDisplay = document.querySelector('#cookies-page-cleared-text');
 
-            button.addEventListener('click', function () {
-                Cookies.clear();
-                Cookies.remove('');
+      button.addEventListener('click', function () {
+        Cookies.clear();
+        Cookies.remove('');
 
-                statusDisplay.textContent = 'Done!';
+        statusDisplay.textContent = 'Done!';
 
-                setTimeout(function () {
-                    statusDisplay.textContent = '';
-                }, 3000)
-            })
-        })();
-    </script>
+        setTimeout(function () {
+          statusDisplay.textContent = '';
+        }, 3000)
+      })
+    })();
+  </script>
 {% endblock %}
