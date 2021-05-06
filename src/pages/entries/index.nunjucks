@@ -54,11 +54,11 @@
               </template>
               <div class="heading">
                 <h2 class="title">
-                  <a x-bind:href="'/entries/' + entry.path" x-text="entry.data.title">Loading ...</a>
+                  <a x-bind:href="'/entries/' + entry.path" x-text="entry.data.title"></a>
                 </h2>
                 <p>
                   <template x-for="(category, categoryIndex) in entry.data.categories" :key="categoryIndex">
-                    <a href="/entries/categories/coming-soon" class="button" x-text="category">Loading ...</a>
+                    <a href="/entries/categories/coming-soon" class="button" x-text="category"></a>
                   </template>
                 </p>
               </div>

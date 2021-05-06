@@ -23,7 +23,7 @@
     <header>
       <div class="layout layout-lg entry-intro">
         <div class="text-content">
-          <h1 x-text="entry.title">Loading ...</h1>
+          <h1 x-text="entry.title"></h1>
         </div>
         <div>
           <template x-if="!!entry.author">
@@ -47,7 +47,7 @@
         </div>
       </div>
       <template x-if="entry.posterImage">
-        <div class="layout layout-lg header header-md">
+        <div class="layout layout-lg header" x-bind:class="entry.posterImageSize ? ('header-'+entry.posterImageSize) : 'header-md'">
           <div class="header-image">
             <img class="loading-spinner" src="/images/loading-light.svg" x-bind:src="entry.posterImage" alt="" x-bind:alt="entry.title">
           </div>
