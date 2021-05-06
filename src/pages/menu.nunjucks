@@ -21,19 +21,19 @@
           <a href="/">Index</a>
         </li>
         <li>
+          <a href="/now">/now</a>
+        </li>
+        <li>
           <a href="/entries">Posts</a>
         </li>
         <li>
           <a href="https://datahjelpen.no/kundecaser" target="_blank" rel="noopener">Portfolio</a>
         </li>
         <li>
-          <a href="/menu">᎒᎒᎒ Menu (this page)</a>
-        </li>
-        <li>
           <a href="/cookies">Cookies</a>
         </li>
         <li>
-          <a href="/now">/now</a>
+          <a href="/menu">᎒᎒᎒ Menu (this page)</a>
         </li>
         <li class="section">
           <h2>Social profiles</h2>
@@ -58,6 +58,9 @@
         </li>
         <li>
           <a href="_/calendars">Calendar generator</a>
+        </li>
+        <li>
+          <a href="/entries/commands">Useful commands</a>
         </li>
       </ul>
     </section>

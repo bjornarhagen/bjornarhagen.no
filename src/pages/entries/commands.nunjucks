@@ -8,10 +8,10 @@
     <main>
         <header>
             <div class="layout layout-xl">
-                <div class="header bg-dots-light bg-dots-md border-light">
+                <div class="header bg-theme-reverse bg-dots-dark bg-dots-md">
                     <div class="header-content bg-theme-reverse fg-theme">
                         <h1>🤖 Useful commands</h1>
-                        <p>Lists of commands I often use</p>
+                        <p>Lists of commands I use often, but also forget often.</p>
                     </div>
                 </div>
             </div>
@@ -91,6 +91,36 @@
                         <input value="sudo -H /opt/letsencrypt/letsencrypt-auto renew" type="text">
                     </dt>
                     <dd>Renew all certificates</dd>
+
+                    <dt>
+                        <textarea rows="8">
+#!/bin/sh
+
+# For AWS Credentials
+export HOME=/home/username
+
+THEDATE=`date +%Y-%m-%d-%H-%M-%S`
+prefix="my-prefix"
+
+# tar the folder
+sudo tar czf /backups/${prefix}-www-daily-${THEDATE}.tar.gz -C /var www
+
+# sync to amazon
+/usr/local/bin/aws s3 cp /backups/${prefix}-www-daily-${THEDATE}.tar.gz s3://bucket-name
+</textarea>
+                    </dt>
+                    <dd>Backup folder to AWS S3 using the AWS cli</dd>
+
+                    <dt>
+                        <textarea rows="8">
+0 0 * * * /backup-daily.sh > /backup.log 2>&1
+0 0 * * 0 /backup-weekly.sh > /backup.log 2>&1
+0 0 1 * * /backup-monthly.sh > /backup.log 2>&1
+0 0 1 1 * /backup-yearly.sh > /backup.log 2>&1
+0 0 1 1 * /backup-permanent.sh > /backup.log 2>&1
+</textarea>
+                    </dt>
+                    <dd>Cron job schedule for backups</dd>
                 </dl>
             </div>
         </section>
@@ -98,7 +128,7 @@
             <div class="info-section-left">
                 <div class="heading">
                     <span class="number">👨‍💻</span>
-                    <h2 class="title">Web dev</h2>
+                    <h2 class="title">Web dev &amp; DevOps</h2>
                 </div>
             </div>
             <div class="info-section-right">
@@ -121,7 +151,7 @@
                         <code>localhost:3307</code> now works locally as <code>localhost:3306</code> works on the server</dd>
 
                     <dt>
-                        <textarea rows="16">
+                        <textarea rows="8">
 const form = document.querySelector('form');
 const data = new FormData(form);
 
@@ -193,7 +223,7 @@ xhr.send(data);
             font-size: inherit;
             padding: 10px;
             color: var(--color-light-contrast);
-            border: 1px solid var(--color-border);
+            border: 1px solid var(--color-light-contrast);
             outline: none;
             width: 100%;
             background-color: var(--color-dark-contrast);
