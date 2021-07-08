@@ -1014,6 +1014,13 @@ ul.blocks {
   text-decoration-color: var(--color-primary);
 }
 
+.text-content img {
+  display: block;
+  vertical-align: middle;
+  width: 100%;
+  padding: 0 1.6em;
+}
+
 // Index page --- start
 #index .header {
   height: 25vw;
