@@ -12,6 +12,15 @@
   ],
   "drafts": [
     {
+      "path": "2021/05/11/simple-captcha"
+    },
+    {
+      "path": "2021/05/11/pfsense-local-networking"
+    },
+    {
+      "path": "2021/05/11/k8-paas-at-home"
+    },
+    {
       "path": "2021/04/28/obs-ninja"
     }
   ]
