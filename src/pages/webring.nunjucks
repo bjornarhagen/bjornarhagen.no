@@ -1,0 +1,22 @@
+{% set title = "Now" %}
+{% set page_path = "now" %}
+{% extends "default.nunjucks" %}
+{% block content %}
+    <main>
+        <section class="info-section layout layout-xl">
+            <div class="info-section-left">
+                <div class="heading">
+                    <span class="number">🌐</span>
+                    <h2 class="title">Webring</h2>
+                </div>
+            </div>
+            <div class="info-section-right">
+                <ul>
+                    <li>
+                        <a href="https://webring.xxiivv.com/">https://webring.xxiivv.com/</a>
+                    </li>
+                </ul>
+            </div>
+        </section>
+    </main>
+{% endblock %}
