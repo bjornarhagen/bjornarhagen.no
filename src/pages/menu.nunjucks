@@ -33,9 +33,6 @@
           <a href="/cookies">Cookies</a>
         </li>
         <li>
-          <a href="/menu">᎒᎒᎒ Menu (this page)</a>
-        </li>
-        <li>
           <a href="/webring">Webring</a>
         </li>
         <li class="section">
@@ -64,6 +61,15 @@
         </li>
         <li>
           <a href="/entries/commands">Useful commands</a>
+        </li>
+        <li class="section">
+          <h2>Extra</h2>
+        </li>
+        <li>
+          <a href="/menu">᎒᎒᎒ Menu (this page)</a>
+        </li>
+        <li>
+          <a href="/ipsum">Ipsum (styling test page)</a>
         </li>
       </ul>
     </section>
