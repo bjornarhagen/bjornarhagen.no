@@ -1,0 +1,100 @@
+{
+  "content": [
+    {
+      "text": "## The system is broken.\n\nI believe our system for money is broken.\n\nHow can it be that I can exchange my time and energy for some amount of money today. Then 20 years in the future this money is worth but a fraction of it's original value. I don't think that is a good system, it's certainly not a system I would want to save my money in.\n\nDon't take my word for it. The following quote is by F. A. Hayek, winner of the 1974 Nobel Prize in Economic Sciences\n\n> \"I don't believe we shall ever have a good money again before we take the thing out of the hands of government, that is, we can't take them violently out of the hands of government, all we can do is by some sly roundabout way introduce something that they can't stop.\"\n\n## The solution?\n\nYou might have heard of Bitcoin, but what is it, and who controls it?\n\nBitcoin is:\n* an unstoppable decentralized technology that can store value.\n* controlled by the laws of mathematics.\n* protected by the laws of physics.\n\nOne could say that it's a system for money that can be forced upon the governments of the world in a \"sly roundabout way\".\n\nFirst it will *only* be used by nerds in the fringes of the internet,\\\nthen it will *only* be used by small groups of people,\\\nthen it will *only* be used by small businesses,\\\nthen it will *only* be used by small countries.\n\n### Is it a better system?\n\nLet's go back to the original problem I outlined. If I exchange my time and energy today for some amount of Bitcoin. Can I be sure that 20 years in the future, it will have kept it's value?\n\nYes.\n\nThe reason why is due to the fact that in order to make X amount of Bitcoin, you need to spend energy, however the amount of energy necessary to produce that X amount of Bitcoin is forever increasing.\n\n---\n\nTo summarize, 1₿ = 1₿.\n\nRead more: [Bitcoin whitepaper](/images/entries/2022/03/bitcoin/bitcoin.pdf)."
+    }
+  ],
+  "title": "Good money.",
+  "author": "Bjørnar Hagen",
+  "categories": [
+    "Economy",
+    "Opinion"
+  ],
+  "posterImage": "/images/entries/2022/03/bitcoin/header.jpg",
+  "posterImageCredits": null,
+  "posterImageSize": "sm",
+  "datePublish": "2022-03-15T01:33",
+  "meta": {
+    "fields": [
+      {
+        "name": "title",
+        "type": "text",
+        "required": true,
+        "default": ""
+      },
+      {
+        "name": "author",
+        "type": "text",
+        "required": true,
+        "default": ""
+      },
+      {
+        "name": "dateCreated",
+        "type": "datetime-local",
+        "required": false,
+        "default": ""
+      },
+      {
+        "name": "datePublish",
+        "type": "datetime-local",
+        "required": false,
+        "default": ""
+      },
+      {
+        "name": "dateUpdate",
+        "type": "datetime-local",
+        "required": false,
+        "default": ""
+      },
+      {
+        "name": "dateArchive",
+        "type": "datetime-local",
+        "required": false,
+        "default": ""
+      },
+      {
+        "name": "link",
+        "type": "text",
+        "required": false,
+        "default": ""
+      },
+      {
+        "name": "linkText",
+        "type": "text",
+        "required": false,
+        "default": ""
+      },
+      {
+        "name": "posterImage",
+        "type": "text",
+        "required": false,
+        "default": ""
+      },
+      {
+        "name": "posterImageSize",
+        "type": "text",
+        "required": false,
+        "default": ""
+      },
+      {
+        "name": "posterImageCredits",
+        "type": "text",
+        "required": false,
+        "default": ""
+      },
+      {
+        "name": "summary",
+        "type": "text",
+        "required": false,
+        "default": ""
+      },
+      {
+        "name": "categories",
+        "type": "text",
+        "required": false,
+        "default": ""
+      }
+    ]
+  },
+  "summary": "\"I don't believe we shall ever have a good money again before we take the thing out of the hands of government\" - F. A. Hayek"
+}
