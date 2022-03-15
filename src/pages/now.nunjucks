@@ -12,14 +12,11 @@
         </div>
       </div>
       <div class="info-section-right">
-        <h3>♦ Solidity</h3>
-        <p>I'm learning the Solidity programming language. Solidity is used for developing smart contracts that run on Ethereum.</p>
+        <h3>📙 Svelte</h3>
+        <p>Looking into using Svelte to build components.</p>
 
-        <h3>🎨 Design Systems</h3>
-        <p>Looking into how to build design systems at work.</p>
-
-        <h3>🎬 Re:Zero kara Hajimeru Isekai Seikatsu</h3>
-        <p>Currently watching this.</p>
+        <h3>🎮 NieR series</h3>
+        <p>Currently playing/watching/reading this.</p>
       </div>
     </section>
   </main>
