@@ -49,6 +49,156 @@
                     <input value="ENTRYPOINT ['tail', '-f', '/dev/null']" type="text">
                 </dt>
                 <dd>Make a Dockerfile run forever so you can debug it</dd>
+
+                <dt>
+                    <textarea rows="8">
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: bjornar-dev-certificate
+  namespace: bjornar-dev-ns
+spec:
+  dnsNames:
+    - bjornar.dev
+    - www.bjornar.dev
+  secretName: bjornar-dev-tls
+  issuerRef:
+    name: letsencrypt-cluster-issuer
+    kind: ClusterIssuer
+</textarea>
+                </dt>
+                <dd>k8s manifest example - certificate</dd>
+
+                <dt>
+                    <textarea rows="8">
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: bjornar-dev-deployment
+  namespace: bjornar-dev-ns
+spec:
+  selector:
+    matchLabels:
+      app: bjornar-dev-app
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: bjornar-dev-app
+    spec:
+      containers:
+        - name: bjornar-dev-app
+          image: registry.bjornar.dev/personal/bjornarhagen
+          envFrom:
+            - secretRef:
+                name: dot-env
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "160Mi"
+            limits:
+              memory: "256Mi"
+      imagePullSecrets:
+        - name: private-container-registry-secrets
+</textarea>
+                </dt>
+                <dd>k8s manifest example - deployment</dd>
+
+                <dt>
+                    <textarea rows="8">
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: bjornar-dev-ingress
+  namespace: bjornar-dev-ns
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+  tls:
+    - hosts:
+        - bjornar.dev
+        - www.bjornar.dev
+      secretName: bjornar-dev-tls
+  rules:
+    - host: bjornar.dev
+      http: &http_rules
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: bjornar-dev-service
+                port:
+                  number: 80
+    - host: www.bjornar.dev
+      http: *http_rules
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: bjornar-dev-ingress-admin
+  namespace: bjornar-dev-ns
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: /admin/$1
+    nginx.ingress.kubernetes.io/whitelist-source-range: "127.0.0.1" # Replace with public IP
+spec:
+  tls:
+    - hosts:
+        - bjornar.dev
+        - www.bjornar.dev
+      secretName: bjornar-dev-tls
+  rules:
+    - host: bjornar.dev
+      http: &http_rules_admin
+        paths:
+          - path: /admin
+            pathType: Exact
+            backend:
+              service:
+                name: bjornar-dev-service
+                port:
+                  number: 80
+          - path: /admin/(.*)
+            pathType: Prefix
+            backend:
+              service:
+                name: bjornar-dev-service
+                port:
+                  number: 80
+    - host: www.bjornar.dev
+      http: *http_rules_admin
+</textarea>
+                </dt>
+                <dd>k8s manifest example - ingress with a private /admin space</dd>
+
+                <dt>
+                    <textarea rows="8">
+apiVersion: v1
+kind: Service
+metadata:
+  name: bjornar-dev-service
+  namespace: bjornar-dev-ns
+  labels:
+    app: bjornar-dev-app
+spec:
+  type: ClusterIP
+  selector:
+    app: bjornar-dev-app
+  ports:
+    - protocol: TCP
+      name: http
+      port: 80
+      targetPort: 80
+</textarea>
+                </dt>
+                <dd>k8s manifest example - service</dd>
             </div>
         </section>
         <section class="info-section layout">
@@ -85,26 +235,6 @@
                         <input value="sudo ln -s /etc/apache2/sites-available/example.com.conf /etc/apache2/sites-enabled/example.com.conf" type="text">
                     </dt>
                     <dd>Create symbolic link between sites-available and sites-enabled</dd>
-
-                    <dt>
-                        <input value="sudo -H /opt/letsencrypt/letsencrypt-auto certonly -a webroot --agree-tos --renew-by-default --webroot-path=/var/www/example/example.com/www -d example.com -d www.example.com" type="text">
-                    </dt>
-                    <dd>Setup new SSL/TLS Certificate with Let's Encrypt</dd>
-                    <dd>
-                        <span class="warning">WARN:</span> Might cause issues on servers with 512MB of RAM or less</dd>
-
-                    <dt>
-                        <input value="sudo -H le-renew-webroot example.com" type="text">
-                    </dt>
-                    <dd>Renew domain for example.com</dd>
-                    <dd>If you don't specify domain, default domain will be run.</dd>
-                    <dd>Check /usr/local/etc/le-renew-webroot.ini for default settings</dd>
-                    <dd>Go to /usr/local/etc/ to add more domains. Add file le-cli-example.com.ini</dd>
-
-                    <dt>
-                        <input value="sudo -H /opt/letsencrypt/letsencrypt-auto renew" type="text">
-                    </dt>
-                    <dd>Renew all certificates</dd>
 
                     <dt>
                         <textarea rows="8">
