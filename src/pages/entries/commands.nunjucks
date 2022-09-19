@@ -40,7 +40,7 @@
         <section class="info-section layout">
             <div class="info-section-left">
                 <div class="heading">
-                    <span class="number">☸</span>
+                    <span class="number" style="background-color: blue; color: #fff;">☸</span>
                     <h2 class="title">Kubernetes</h2>
                 </div>
             </div>

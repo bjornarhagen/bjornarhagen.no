@@ -732,6 +732,10 @@ noscript .layout {
   font-size: 8em;
   opacity: 0.1;
   transform: translateY(-75%);
+  border-radius: 100%;
+  height: 1em;
+  width: 1em;
+  text-align: center;
 }
 
 .info-section h1,
