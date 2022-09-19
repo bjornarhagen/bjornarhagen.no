@@ -40,6 +40,20 @@
         <section class="info-section layout">
             <div class="info-section-left">
                 <div class="heading">
+                    <span class="number">☸</span>
+                    <h2 class="title">Kubernetes</h2>
+                </div>
+            </div>
+            <div class="info-section-right">
+                <dt>
+                    <input value="# ENTRYPOINT ['tail', '-f', '/dev/null']" type="text">
+                </dt>
+                <dd>Make a Dockerfile run forever so you can debug it</dd>
+            </div>
+        </section>
+        <section class="info-section layout">
+            <div class="info-section-left">
+                <div class="heading">
                     <span class="number">🐧</span>
                     <h2 class="title">Linux</h2>
                 </div>
