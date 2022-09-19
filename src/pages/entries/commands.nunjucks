@@ -46,7 +46,7 @@
             </div>
             <div class="info-section-right">
                 <dt>
-                    <input value="# ENTRYPOINT ['tail', '-f', '/dev/null']" type="text">
+                    <input value="ENTRYPOINT ['tail', '-f', '/dev/null']" type="text">
                 </dt>
                 <dd>Make a Dockerfile run forever so you can debug it</dd>
             </div>
