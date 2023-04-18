@@ -20,7 +20,7 @@
   },
   "homepage": "https://github.com/bjornarhagen/bjornarhagen.no#readme",
   "devDependencies": {
-    "browser-sync": "^2.26.14",
+    "browser-sync": "^2.29.1",
     "gulp": "^4.0.2",
     "gulp-nunjucks-render": "^2.2.3",
     "gulp-rename": "^2.0.0",
