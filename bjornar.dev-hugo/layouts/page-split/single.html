@@ -1,0 +1,37 @@
+{{ define "content" }}
+<main>
+  {{ if or .Title .Params.posterImage .Params.headerClasses .Params.headerContent }}
+  <header>
+    <div class="layout layout-xl">
+      <div class="header {{ .Params.headerClasses }}">
+        {{ if .Params.posterImage }}
+        <div class="header-image">
+          <img src="{{ .Params.posterImage }}" alt="{{ .Title }}" />
+        </div>
+        {{ end }} {{ if or .Title .Params.headerContent }}
+        <div class="header-content {{ .Params.headerContentClasses }}">
+          {{ if .Title }}
+          <h1>{{ .Title }}</h1>
+          {{ end }} {{ if .Params.headerContent }} {{ .Params.headerContent}} {{ end }}
+        </div>
+        {{ end }} {{ if .Params.posterImageCredits }}
+        <div class="header-credits">
+          <p>{{ .Params.posterImageCredits }}</p>
+        </div>
+        {{ end }}
+      </div>
+    </div>
+  </header>
+  {{ end }}
+  <section class="layout layout-xl info-section {{ .Params.layoutSectionClasses }}">
+    <div class="info-section-left">
+      <div class="heading">
+        <span class="number">{{ .Params.sectionIcon }}</span>
+        <h2 class="title">{{ .Params.sectionTitle }}</h2>
+        <p>{{ .Params.sectionDescription }}</p>
+      </div>
+    </div>
+    <div class="info-section-right">{{ .Content }}</div>
+  </section>
+</main>
+{{ end }}

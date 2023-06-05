@@ -1,0 +1,47 @@
+{{ define "content" }}
+<main>
+  <header>
+    <div class="layout layout-xl">
+      <div class="header bg-primary">
+        <div class="header-image">
+          <img
+            src="/images/entries/index.jpg"
+            alt=""
+            srcset="/images/entries/index@0,5x.jpg 720w, /images/entries/index.jpg 1440w"
+          />
+        </div>
+        <div class="header-content bg-transparent theme-light-hide">
+          <h1><a href='{{ relLangURL "/entries" }}'>Posts</a> / {{ .Title }}</h1>
+        </div>
+        <div class="header-content bg-transparent fg-light theme-dark-hide">
+          <h1><a href='{{ relLangURL "/entries" }}'>Posts</a> / {{ .Title }}</h1>
+        </div>
+        <div class="header-credits">
+          <p>
+            Photo by <a href="https://unsplash.com/@kenshi_kingami" target="_blank" rel="noopener">Kenshi Kingami</a>
+          </p>
+        </div>
+      </div>
+    </div>
+  </header>
+  {{ range sort .Pages "PublishDate" "desc" }} {{ if not .Params.hideFromList }} {{ if .Title }}
+  <section class="info-section layout layout-xl">
+    <div class="info-section-left">
+      {{ if .Params.PosterImage }}
+      <div class="background background-fade-in" style="background-image: url('{{ .Params.PosterImage }}')"></div>
+      {{ end }}
+      <h2 class="title">
+        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+      </h2>
+      <p>
+        {{ range .Params.categories }} {{ $category := . }} {{ $categoryURL := printf "/categories/%s" $category |
+        urlize | relURL }}
+        <a href="{{ $categoryURL }}" class="button">{{ $category }}</a>
+        {{ end }}
+      </p>
+    </div>
+    <div class="info-section-right">{{ .Params.Summary }}</div>
+  </section>
+  {{ end }} {{ end }} {{ end }}
+</main>
+{{ end }}

@@ -1,0 +1,19 @@
+{
+  "nav": {
+    "menu": "Meny"
+  },
+  "posts": {
+    "author": "Forfatter",
+    "categories": "Kategorier",
+    "datePublished": "Dato publisert"
+  },
+  "index": {
+    "header": {
+      "dayTimeNameMorning": "God morgen 🌅",
+      "dayTimeNameAfternoon": "God ettermiddag 🏞",
+      "dayTimeNameEvening": "God kveld 🌃",
+      "greeting": "Hei",
+      "iam": "Jeg er"
+    }
+  }
+}
