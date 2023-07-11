@@ -4,10 +4,10 @@ author: Bjørnar Hagen
 categories:
   - Economy
   - Opinion
-posterImage: /images/entries/2022/03/bitcoin/header.jpg
+posterImage: /entries/2022/03/15/header.jpg
 posterImageCredits: null
 posterImageSize: sm
-publishDate: 2021-03-15T01:33:00Z
+publishDate: 2022-03-15T01:33:00.150Z
 summary: I don't believe we shall ever have a good money again before we take the thing out of the hands of government - F. A. Hayek
 body_id: post-page
 body_classes: nav-small

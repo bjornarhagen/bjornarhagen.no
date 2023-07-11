@@ -4,10 +4,10 @@ author: Bjørnar Hagen
 categories:
   - UX
   - Code
-posterImage: /images/entries/2021/04/links/header.jpg
+posterImage: /entries/2021/04/28/header.jpg
 posterImageCredits: Photo by <a href="https://unsplash.com/@christopher__burns">Christopher Burns</a>
 posterImageSize: sm
-publishDate: 2021-04-28T20:08:47577Z
+publishDate: 2021-04-28T20:08:47.577Z
 summary: Clicking links going to an external site can be annoying if you aren't prepared for that. To improve the user experience you should show some kind of indicator for external links.
 body_id: post-page
 body_classes: nav-small

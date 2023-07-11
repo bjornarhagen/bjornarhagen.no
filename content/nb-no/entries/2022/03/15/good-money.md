@@ -4,7 +4,7 @@ author: Bjørnar Hagen
 categories:
   - Economy
   - Opinion
-posterImage: /images/entries/2022/03/bitcoin/header.jpg
+posterImage: /entries/2022/03/15/header.jpg
 posterImageCredits: null
 posterImageSize: sm
 publishDate: 2022-03-15T01:33:00.150Z

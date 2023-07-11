@@ -4,14 +4,14 @@ author: Bjørnar Hagen
 categories:
   - UX
   - Code
-posterImage: /images/entries/2021/05/pre-line-numbers/header.jpg
+posterImage: /entries/2021/05/06/header.jpg
 posterImageCredits: 'Bilde av [Adi Goldstein](https://unsplash.com/@adigold1)'
 posterImageSize: sm
 publishDate: 2021-05-06T14:25:01.751Z
 summary: Å lese kode er enklere når du har linjenummer, men hvordan kan du vise linjenummer i en <pre> tag? Dette kan enkelt løses med noen få linjer JS og CSS, ingen behov for et stort eksternt bibliotek.
 ---
 
-Å lese kode er enklere når du har linjenummer, men hvordan kan du vise linjenummer i en `<pre>` tag? Dette kan enkelt løses med noen få linjer JS og CSS, ingen behov for et stort eksternt bibliotek.
+Å lese kode er enklere når du har linjenummer, men hvordan kan du vise linjenummer i en `<pre>` tag? Dette kan enkelt løses med noen få linjer JS og CSS, det er ingen behov for et stort eksternt bibliotek.
 
 **JS:**
 

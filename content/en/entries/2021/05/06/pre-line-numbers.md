@@ -4,7 +4,7 @@ author: Bjørnar Hagen
 categories:
   - UX
   - Code
-posterImage: /images/entries/2021/05/pre-line-numbers/header.jpg
+posterImage: /entries/2021/05/06/header.jpg
 posterImageCredits: 'Photo by <a href="https://unsplash.com/@adigold1">Adi Goldstein</a>'
 posterImageSize: sm
 publishDate: 2021-05-06T14:25:01.751Z
