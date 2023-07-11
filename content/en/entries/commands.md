@@ -4,7 +4,7 @@ author: Bjørnar Hagen
 categories:
   - Code
 posterImageSize: sm
-publishDate: 2021-01-28T20:08:47577Z
+publishDate: 2021-01-28T20:08:47.577Z
 summary: Lists of commands I use often, but also forget often.
 type: page
 hideFromList: true
