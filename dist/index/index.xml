@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>indices on bjornar.dev</title>
+    <link>https://bjornar.dev/index/</link>
+    <description>Recent content in indices on bjornar.dev</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language><atom:link href="https://bjornar.dev/index/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title></title>
+      <link>https://bjornar.dev/index/section-2-2/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://bjornar.dev/index/section-2-2/</guid>
+      <description>Work experience Adstate Full-stack developer
+2020 ⟶ present
+Datahjelpen CEO, developer &amp;amp; designer
+2016 ⟶ present
+Optimale Systemer Developer
+2014 ⟶ 2016
+Devloper experience HTML CSS, SASS JS, ES6, NodeJS React, Vue, Angular PHP, Wordpress, Laravel MySQL Git Docker, k8s, Helm Other experience Figma Photoshop </description>
+    </item>
+    
+    <item>
+      <title>Career</title>
+      <link>https://bjornar.dev/index/section-2-1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://bjornar.dev/index/section-2-1/</guid>
+      <description>I learnt HTML, CSS, JS and PHP through self study and got a few gigs through some close friends. Later on I got my first real job as an apprentice at Optimale Systemer in Larvik. Around the same time I met my now wife, we started the company Datahjelpen together so we could take on extra jobs outside of work and school.
+After 2 years at Optimale Systemer I had learned a lot and considered myself a full-stack web developer, though still very much a junior.</description>
+    </item>
+    
+    <item>
+      <title>Personal</title>
+      <link>https://bjornar.dev/index/section-1/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      
+      <guid>https://bjornar.dev/index/section-1/</guid>
+      <description>Born and raised in Larvik, Norway. Currently living in Sandefjord with my lovely wife and our cute dog.
+I&amp;rsquo;ve always loved building and taking things apart, so when I at a young age was introduced to computers, it didn&amp;rsquo;t take very long before I was taking them apart and learning about how they worked. When I was 14 I saved up scholarship money originally ment for school equipment to instead buy computer parts so I could build my first desktop computer.</description>
+    </item>
+    
+  </channel>
+</rss>

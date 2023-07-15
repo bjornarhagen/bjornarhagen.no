@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Opinion on bjornar.dev</title>
+    <link>https://bjornar.dev/categories/opinion/</link>
+    <description>Recent content in Opinion on bjornar.dev</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 04 Jul 2023 13:35:00 +0000</lastBuildDate><atom:link href="https://bjornar.dev/categories/opinion/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Nostr - The future of the web</title>
+      <link>https://bjornar.dev/entries/2023/07/04/nostr-the-web-x-point-0/</link>
+      <pubDate>Tue, 04 Jul 2023 13:35:00 +0000</pubDate>
+      
+      <guid>https://bjornar.dev/entries/2023/07/04/nostr-the-web-x-point-0/</guid>
+      <description>In the wake of Twitter&amp;rsquo;s contreversies sorrunding Elon Musk&amp;rsquo;s take over, a lot of users starting looking for alternative platforms, like Mastodon and Nostr.</description>
+    </item>
+    
+    <item>
+      <title>Good money.</title>
+      <link>https://bjornar.dev/entries/2022/03/15/good-money/</link>
+      <pubDate>Tue, 15 Mar 2022 01:33:00 +0000</pubDate>
+      
+      <guid>https://bjornar.dev/entries/2022/03/15/good-money/</guid>
+      <description>I don&amp;rsquo;t believe we shall ever have a good money again before we take the thing out of the hands of government - F. A. Hayek</description>
+    </item>
+    
+    <item>
+      <title>Are cookies really the most important thing for your business?</title>
+      <link>https://bjornar.dev/entries/2021/07/08/are-cookies-really-the-most-important-thing-for-your-business/</link>
+      <pubDate>Thu, 08 Jul 2021 22:04:54 +0000</pubDate>
+      
+      <guid>https://bjornar.dev/entries/2021/07/08/are-cookies-really-the-most-important-thing-for-your-business/</guid>
+      <description>The number one priority for so many businesses these days seem to be to get your oh so precious consent in order track you with cookies, and don&amp;rsquo;t you dare do anything on their website before you&amp;rsquo;ve given it!</description>
+    </item>
+    
+  </channel>
+</rss>

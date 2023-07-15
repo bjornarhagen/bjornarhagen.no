@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Categories on bjornar.dev</title>
+    <link>https://bjornar.dev/categories/</link>
+    <description>Recent content in Categories on bjornar.dev</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Tue, 04 Jul 2023 13:35:00 +0000</lastBuildDate><atom:link href="https://bjornar.dev/categories/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Opinion</title>
+      <link>https://bjornar.dev/categories/opinion/</link>
+      <pubDate>Tue, 04 Jul 2023 13:35:00 +0000</pubDate>
+      
+      <guid>https://bjornar.dev/categories/opinion/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Social</title>
+      <link>https://bjornar.dev/categories/social/</link>
+      <pubDate>Tue, 04 Jul 2023 13:35:00 +0000</pubDate>
+      
+      <guid>https://bjornar.dev/categories/social/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Economy</title>
+      <link>https://bjornar.dev/categories/economy/</link>
+      <pubDate>Tue, 15 Mar 2022 01:33:00 +0000</pubDate>
+      
+      <guid>https://bjornar.dev/categories/economy/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>UX</title>
+      <link>https://bjornar.dev/categories/ux/</link>
+      <pubDate>Thu, 08 Jul 2021 22:04:54 +0000</pubDate>
+      
+      <guid>https://bjornar.dev/categories/ux/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Code</title>
+      <link>https://bjornar.dev/categories/code/</link>
+      <pubDate>Thu, 06 May 2021 14:25:01 +0000</pubDate>
+      
+      <guid>https://bjornar.dev/categories/code/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

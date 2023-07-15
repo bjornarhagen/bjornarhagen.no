@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>UX on bjornar.dev</title>
+    <link>https://bjornar.dev/nb-no/categories/ux/</link>
+    <description>Recent content in UX on bjornar.dev</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <lastBuildDate>Thu, 08 Jul 2021 22:04:54 +0000</lastBuildDate><atom:link href="https://bjornar.dev/nb-no/categories/ux/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Are cookies really the most important thing for your business?</title>
+      <link>https://bjornar.dev/nb-no/entries/2021/07/08/are-cookies-really-the-most-important-thing-for-your-business/</link>
+      <pubDate>Thu, 08 Jul 2021 22:04:54 +0000</pubDate>
+      
+      <guid>https://bjornar.dev/nb-no/entries/2021/07/08/are-cookies-really-the-most-important-thing-for-your-business/</guid>
+      <description>The number one priority for so many businesses these days seem to be to get your oh so precious consent in order track you with cookies, and don&amp;rsquo;t you dare do anything on their website before you&amp;rsquo;ve given it!</description>
+    </item>
+    
+    <item>
+      <title>Hvordan legge til linjenummer i pre-tagger</title>
+      <link>https://bjornar.dev/nb-no/entries/2021/05/06/pre-line-numbers/</link>
+      <pubDate>Thu, 06 May 2021 14:25:01 +0000</pubDate>
+      
+      <guid>https://bjornar.dev/nb-no/entries/2021/05/06/pre-line-numbers/</guid>
+      <description>&lt;p&gt;Å lese kode er enklere når du har linjenummer, men hvordan kan du vise linjenummer i en &lt;pre&gt; tag? Dette kan enkelt løses med noen få linjer JS og CSS, ingen behov for et stort eksternt bibliotek.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>UX tip for external links</title>
+      <link>https://bjornar.dev/nb-no/entries/2021/04/28/links/</link>
+      <pubDate>Wed, 28 Apr 2021 20:08:47 +0000</pubDate>
+      
+      <guid>https://bjornar.dev/nb-no/entries/2021/04/28/links/</guid>
+      <description>Clicking links going to an external site can be annoying if you aren&amp;rsquo;t prepared for that. To improve the user experience you should show some kind of indicator for external links.</description>
+    </item>
+    
+  </channel>
+</rss>

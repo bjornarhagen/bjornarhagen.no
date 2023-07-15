@@ -1,0 +1,150 @@
+
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr" prefix="og: http://ogp.me/ns" class="theme-dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=2.5, width=device-width, height=device-height" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>UX tip for external links | Bjørnar Hagen</title>
+    <meta name="description" content="Designer &amp; engineer" />
+    <link rel="canonical" href="https://bjornar.dev/nb-no/entries/2021/04/28/links/"/>
+    <meta property="og:title" content="Bjørnar Hagen" />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://bjornar.dev" />
+    <meta property="og:image" content="https://bjornar.dev/image.jpg" />
+    <meta property="og:description" content="Designer &amp; engineer" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#000000" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta http-equiv="Permissions-Policy" content="interest-cohort=()" />
+    <link rel="preload" as="style" href="https://bjornar.dev/scss/global.min.d3385073b64165fa8e0d8fb9bb530c30652f84d9af34bcc2bf07b98c333b1dec.css" />
+    <link rel="preload" as="style" href="/fonts/fira-code/fira-code.css?v20210428" />
+    <link rel="preload" as="script" href="/js/index.js?v20210428" />
+    <link rel="stylesheet" href="https://bjornar.dev/scss/global.min.d3385073b64165fa8e0d8fb9bb530c30652f84d9af34bcc2bf07b98c333b1dec.css" />
+    
+<link rel="preload" as="style" href="/fonts/eb-garamond/eb-garamond.css?v20210428" />
+
+  </head>
+  <body id="post-page" class="nav-small">  
+     
+    <div id="top"></div>
+    <nav id="nav">
+      <div class="nav-inner layout layout-xl">
+        <a class="logo-wrapper" href='/nb-no/'>
+          <img width="128" height="64" class="logo" src="/images/brand/logo/logo-light.svg" alt="Bjørnar Hagen logo" />
+        </a>
+        <div class="links-wrapper">
+          <a href='/nb-no/entries'>Posts</a>
+          <a href="https://datahjelpen.no/kundecaser" target="_blank" rel="noopener">Portfolio</a>
+          <a href="https://github.com/bjornarhagen" target="_blank" rel="noopener">Github</a>
+          <a href="https://www.linkedin.com/in/bjornarhagen/" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+        <div class="mega-menu">
+          <a href='/nb-no/menu'>
+            <span class="icon">᎒᎒᎒</span>
+            <span class="text">Meny</span>
+          </a>
+        </div>
+      </div>
+    </nav>
+    
+<main>
+  
+  <header>
+    <div class="layout layout-lg entry-intro">
+      <div class="text-content">
+        <h1>UX tip for external links</h1>
+      </div>
+      <div>
+        
+        <p>
+          <span>Forfatter:</span>
+          <span>Bjørnar Hagen</span>
+        </p>
+         
+        <p>
+          <span>Dato publisert: </span>
+          <span>2021-04-28T20:08:47Z</span>
+        </p>
+        
+      </div>
+    </div>
+    
+    <div class="layout layout-lg header header-sm">
+      <div class="header-image">
+        <img src="/entries/2021/04/28/header.jpg" alt="UX tip for external links" />
+      </div>
+      
+      <div class="header-credits">
+        <p>Photo by &lt;a href=&#34;https://unsplash.com/@christopher__burns&#34;&gt;Christopher Burns&lt;/a&gt;</p>
+      </div>
+      
+    </div>
+    
+  </header>
+  
+  <section class="layout layout-md text-content"><p>Clicking on a link going to an external site can be annoying if you aren&rsquo;t prepared for that. To improve the user experience you should show some kind of indicator for external links.</p>
+<p>On this website I have made such an indicator. The following link is an example:
+<a href="//example.com" target="_blank" rel="noopener">Example link</a>.</p>
+<p>If you are on desktop, when you hover the link it will show you an indicator. On mobile it should always show, although somewhat subtle to avoid beeing distracting.</p>
+<p>The following code is how I implemented this indicator.</p>
+<p><strong>HTML:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-html" data-lang="html"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-0-1"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-0-1">1</a></span><span>&lt;<span style="color:#f92672">a</span> <span style="color:#a6e22e">href</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;//example.com&#34;</span> <span style="color:#a6e22e">target</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;_blank&#34;</span> <span style="color:#a6e22e">rel</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#34;noopener&#34;</span>&gt;Example link&lt;/<span style="color:#f92672">a</span>&gt;
+</span></span></code></pre></div><p><strong>CSS:</strong></p>
+<div class="highlight"><pre tabindex="0" style="color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4;"><code class="language-css" data-lang="css"><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-1"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-1-1"> 1</a></span><span><span style="color:#f92672">a</span><span style="color:#f92672">[</span><span style="color:#f92672">target</span><span style="color:#f92672">=</span><span style="color:#e6db74">&#39;_blank&#39;</span><span style="color:#f92672">]</span> {
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-2"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-1-2"> 2</a></span><span>  <span style="color:#66d9ef">position</span>: <span style="color:#66d9ef">relative</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-3"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-1-3"> 3</a></span><span>}
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-4"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-1-4"> 4</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-5"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-1-5"> 5</a></span><span><span style="color:#f92672">a</span>::<span style="color:#a6e22e">after</span> {
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-6"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-1-6"> 6</a></span><span>  <span style="color:#66d9ef">content</span>: <span style="color:#e6db74">&#39;\\2197&#39;</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-7"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-1-7"> 7</a></span><span>  <span style="color:#66d9ef">position</span>: <span style="color:#66d9ef">absolute</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-8"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-1-8"> 8</a></span><span>  <span style="color:#66d9ef">top</span>: <span style="color:#ae81ff">-0.5</span><span style="color:#66d9ef">em</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-9"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-1-9"> 9</a></span><span>  <span style="color:#66d9ef">right</span>: <span style="color:#ae81ff">-0.5</span><span style="color:#66d9ef">em</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-10"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-1-10">10</a></span><span>  <span style="color:#66d9ef">opacity</span>: <span style="color:#ae81ff">0.5</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-11"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-1-11">11</a></span><span>}
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-12"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-1-12">12</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-13"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-1-13">13</a></span><span><span style="color:#75715e">/* Desktop */</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-14"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-1-14">14</a></span><span>@<span style="color:#66d9ef">media</span> <span style="color:#f92672">(</span><span style="color:#f92672">min-width</span><span style="color:#f92672">:</span> <span style="color:#f92672">60em</span><span style="color:#f92672">)</span> {
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-15"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-1-15">15</a></span><span>  <span style="color:#f92672">a</span>::<span style="color:#a6e22e">after</span> {
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-16"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-1-16">16</a></span><span>    <span style="color:#66d9ef">opacity</span>: <span style="color:#ae81ff">0</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-17"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-1-17">17</a></span><span>  }
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-18"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-1-18">18</a></span><span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-19"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-1-19">19</a></span><span>  <span style="color:#f92672">a</span>:<span style="color:#a6e22e">focus</span>::<span style="color:#a6e22e">after</span><span style="color:#f92672">,</span>
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-20"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-1-20">20</a></span><span>  <span style="color:#f92672">a</span>:<span style="color:#a6e22e">hover</span>::<span style="color:#a6e22e">after</span> {
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-21"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-1-21">21</a></span><span>    <span style="color:#66d9ef">opacity</span>: <span style="color:#ae81ff">1</span>;
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-22"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-1-22">22</a></span><span>  }
+</span></span><span style="display:flex;"><span style="white-space:pre;user-select:none;margin-right:0.4em;padding:0 0.4em 0 0.4em;color:#7f7f7f" id="hl-1-23"><a style="outline: none; text-decoration:none; color:inherit" href="#hl-1-23">23</a></span><span>}
+</span></span></code></pre></div><p>One drawback of my implementation is that it relies on target=&quot;_blank&quot;. Which you may not always want to add. So an alternative way to set this up would be to use some JavaScript that finds all external links and adds a CSS class to the elements.</p>
+<p>If you are willing to put down the effort, an even better example can be seen on web.mit.edu/contact. If you hover over the &ldquo;Alumni Association&rdquo; link, it will show you the domain of the external site in a tooltip. Unfortunately they have no indicator for mobile users.</p>
+<p>That&rsquo;s it! Really short and sweet tip on how to improve the UX of your external links.</p>
+</section>
+</main>
+
+    <footer id="footer" class="layout bg-dots-gray bg-dots-sm">
+      <div class="footer-inner">
+        <div>
+          <a href='/nb-no/cookies'>Cookies</a>
+        </div>
+        <div>
+          <a href="#light" class="theme-light-hide no-underline square">
+            <span>☀</span>
+          </a>
+          <a href="#dark" class="theme-dark-hide no-underline square">
+            <span>☽</span>
+          </a>
+          <a href="#top" class="no-underline square"> <span>↑</span></a>
+        </div>
+      </div>
+    </footer>
+     
+    <link rel="stylesheet" href="/fonts/fira-code/fira-code.css?v20210428" />
+    <script src="/js/index.js?v20210428" async></script>
+    
+<link rel="stylesheet" href="/fonts/eb-garamond/eb-garamond.css?v20210428" />
+
+  </body>
+</html>
