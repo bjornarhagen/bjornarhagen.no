@@ -1,6 +1,7 @@
 {
+  "id": "en",
+  "translation": "English",
   "nav": {
-    "id": "en",
     "menu": "Menu"
   },
   "posts": {
