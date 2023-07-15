@@ -1,7 +1,7 @@
 {
-  "id": "en",
-  "translation": "English",
   "nav": {
+    "id": "nav",
+    "translation": "Navigation",
     "menu": "Menu"
   },
   "posts": {
