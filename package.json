@@ -4,10 +4,9 @@
   "description": "",
   "main": "gulpfile.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "gulp",
-    "dev": "gulp",
-    "build": "gulp build"
+    "start": "npm run dev",
+    "dev": "hugo server -D",
+    "build": "hugo"
   },
   "repository": {
     "type": "git",
