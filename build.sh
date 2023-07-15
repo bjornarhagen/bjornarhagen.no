@@ -16,4 +16,4 @@ else
 fi
 
 # Run the command
-$CONTAINER_TOOL run --rm -it -v $(pwd):/src -p 1313:1313 docker.io/klakegg/hugo:0.101.0-ext server
+$CONTAINER_TOOL run --rm -it -v $(pwd):/src -p 1313:1313 docker.io/klakegg/hugo:0.101.0-ext -D --gc
