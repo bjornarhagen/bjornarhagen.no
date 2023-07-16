@@ -1,0 +1,23 @@
+name: Run build.sh script
+
+on:
+  push:
+    branches:
+      - master # Trigger the action when code is pushed to the 'master' branch
+
+jobs:
+  build:
+    runs-on: ubuntu-latest # The type of machine to run the job on
+
+    steps:
+      - name: Checkout code # Checks-out your repository under $GITHUB_WORKSPACE
+        uses: actions/checkout@v2
+
+      - name: Install Podman
+        run: |
+          sudo apt-get update
+          sudo apt-get -y install podman
+          # sudo apt-get install -y apt-transport-https ca-certificates curl software-properties-common
+
+      - name: Run build.sh
+        run: bash build.sh
