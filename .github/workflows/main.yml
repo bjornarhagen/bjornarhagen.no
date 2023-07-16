@@ -26,8 +26,11 @@ jobs:
       - name: Run build.sh
         run: bash build.sh
 
-      - name: Copy contents of "dist/" into ".vercel/output/"
-        run: mkdir -p .vercel/output && cp -r dist/ .vercel/output/
+      - name: Copy contents of "dist/" into ".vercel/output/static/"
+        run: mkdir -p .vercel/output/static/ && cp -r dist/ .vercel/output/static/
+
+      - name: Copy vercel-config.json to ".vercel/output/config.json"
+        run: cp vercel-config.json .vercel/output/config.json
 
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
