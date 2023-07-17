@@ -1,3 +1,3 @@
-[![Netlify Status](https://api.netlify.com/api/v1/badges/8332ee0f-64a0-4041-95aa-1d4eb01fdef2/deploy-status)](https://app.netlify.com/sites/elegant-golick-947f3e/deploys)
+[![Pipeline](https://github.com/bjornarhagen/bjornarhagen.no/actions/workflows/main.yml/badge.svg)](https://github.com/bjornarhagen/bjornarhagen.no/actions/workflows/main.yml) ![Vercel](https://therealsujitk-vercel-badge.vercel.app/?app=bjornarhagen-no)
 
 # bjornarhagen.no
