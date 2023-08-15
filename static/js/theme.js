@@ -1,8 +1,4 @@
 ;(function () {
-  let dayTimeNameMorning = ''
-  let dayTimeNameAfternoon = ''
-  let dayTimeNameEvening = ''
-
   const getDayTimeName = (currentTime = new Date()) => {
     const currentHour = currentTime.getHours()
     const splitMorning = 5
@@ -11,13 +7,13 @@
 
     if (currentHour >= splitAfternoon && currentHour < splitEvening) {
       // Between 12 and 18
-      return dayTimeNameAfternoon
+      return window.dayTimeNameAfternoon
     } else if (currentHour >= splitEvening || currentHour < splitMorning) {
       // Between 18 and 00, or between 00 and 05
-      return dayTimeNameEvening
+      return window.dayTimeNameEvening
     }
     // Between 05 and 12
-    return dayTimeNameMorning
+    return window.dayTimeNameMorning
   }
 
   function setupTheme() {
@@ -28,7 +24,10 @@
       themeToggleClick()
     } else if (!themeFromCookie) {
       const dayTimeName = getDayTimeName()
-      if (window.theme === 'dark' && (dayTimeName === dayTimeNameAfternoon || dayTimeName === dayTimeNameMorning)) {
+      if (
+        window.theme === 'dark' &&
+        (dayTimeName === window.dayTimeNameAfternoon || dayTimeName === window.dayTimeNameMorning)
+      ) {
         toggleTheme()
       }
     }
@@ -53,7 +52,7 @@
       }
 
       toggleTheme()
-      Cookies.set('theme', window.theme)
+      Cookies.set('theme', window.theme, { expires: 365, sameSite: 'strict' })
     }
 
     function setThemeClasses(oldTheme, newTheme) {
@@ -86,15 +85,9 @@
   }
 
   function initDayTimeNames() {
-    const greetingEl = document.querySelector('#greeting')
-
-    if (!greetingEl) {
-      return false
-    }
-
-    dayTimeNameMorning = greetingEl.dataset.daytimenamemorning
-    dayTimeNameAfternoon = greetingEl.dataset.daytimenameafternoon
-    dayTimeNameEvening = greetingEl.dataset.daytimenameevening
+    window.dayTimeNameMorning = document.querySelector('meta[property="dayTimeNameMorning"]').content
+    window.dayTimeNameAfternoon = document.querySelector('meta[property="dayTimeNameAfternoon"]').content
+    window.dayTimeNameEvening = document.querySelector('meta[property="dayTimeNameEvening"]').content
   }
 
   function setupGreeting() {

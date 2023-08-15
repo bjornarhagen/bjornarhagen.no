@@ -1,7 +1,7 @@
 {{ $style := resources.Get "scss/global.scss" | resources.ToCSS | resources.Minify | resources.Fingerprint }}
 
 <!DOCTYPE html>
-<html lang="en" dir="ltr" prefix="og: http://ogp.me/ns" class="theme-dark">
+<html lang="en" dir="ltr" prefix="og: http://ogp.me/ns" class="theme-dark" style="background-color:#000000;">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="initial-scale=1, maximum-scale=2.5, width=device-width, height=device-height" />
@@ -37,19 +37,22 @@
     <meta http-equiv="Permissions-Policy" content="interest-cohort=()" />
     <link rel="preload" as="style" href="{{ $style.Permalink }}" />
     <link rel="preload" as="style" href="/fonts/fira-code/fira-code.css?v20210428" />
-    <link rel="preload" as="script" href="/js/index.js?v20210428" />
+    <link rel="preload" as="script" href="/js/theme.js?v20230815" />
     <link rel="stylesheet" href="{{ $style.Permalink }}" />
+    <meta property="dayTimeNameMorning" content='{{ i18n "index.header.dayTimeNameMorning" }}' />
+    <meta property="dayTimeNameAfternoon" content='{{ i18n "index.header.dayTimeNameAfternoon" }}' />
+    <meta property="dayTimeNameEvening" content='{{ i18n "index.header.dayTimeNameEvening" }}' />
     {{ block "head" . }} {{ end }}
   </head>
   <body
     {{- if .Params.body_id -}}
         {{- printf " id=\"%s\"" .Params.body_id | safeHTMLAttr -}}
     {{- end -}}
-    
+
     {{- if .Params.body_classes -}}
         {{- printf " class=\"%s\"" .Params.body_classes | safeHTMLAttr -}}
     {{- end -}}
-  >  
+  >
     {{ block "header" . }} {{ end }}
     <div id="top"></div>
     <nav id="nav">
@@ -90,7 +93,8 @@
     </footer>
     {{ block "scripts_before" . }} {{ end }}
     <link rel="stylesheet" href="/fonts/fira-code/fira-code.css?v20210428" />
-    <script src="/js/index.js?v20210428" async></script>
+    <script src="/js/theme.js?v20230815" async></script>
+    <script src="/js/libraries/htmx.js?v20230704" async></script>
     {{ block "scripts_after" . }} {{ end }}
   </body>
 </html>
