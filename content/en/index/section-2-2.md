@@ -1,37 +1,41 @@
 ### Work experience
 
-- #### Adstate
+- #### Adstate AS
 
   Full-stack developer
 
   2020 ⟶ present
 
-- #### Datahjelpen
+- #### Datahjelpen AS
 
-  CEO, developer &amp; designer
+  CEO, developer, designer, DevOps
 
-  2016 ⟶ present
+  2016 ⟶ present (Mostly part-time)
 
-- #### Optimale Systemer
+- #### Optimale Systemer AS
 
   Developer
 
   2014 ⟶ 2016
 
+-
+
 <br/>
 
 ### Devloper experience
 
-- HTML
-- CSS, SASS
-- JS, ES6, NodeJS
-- React, Vue, Angular
-- PHP, Wordpress, Laravel
-- MySQL
-- Git
-- Docker, k8s, Helm
+- HTML, CSS, SASS, Tailwind
+- JavaSript, TypeScript, Node.js, PHP, Bash
+- HTMX, Svelte, React, Vue, Angular
+- SvelteKit, Next.js, Laravel, WordPress
+- PostgreSQL, MySQL, SQLite
+- Git, Docker, k8s, Helm
 
 ### Other experience
 
+- Linux, MacOS
+- GitHub, GitLab, Bitbucket
+- AWS, DigitalOcean, Netlify, Vercel
+- Matomo / Piwik
 - Figma
 - Photoshop
