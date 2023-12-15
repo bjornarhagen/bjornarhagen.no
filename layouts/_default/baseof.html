@@ -15,7 +15,7 @@
         {{- end -}}
       {{- end -}}
     </title>
-    <meta name="description" content="Designer &amp; engineer" />
+    <meta name="description" content="Software engineer" />
     <link rel="canonical"
       {{- if .RelPermalink -}}
             {{- printf " href=\"https://bjornar.dev%s\"" .RelPermalink | safeHTMLAttr -}}
@@ -27,7 +27,7 @@
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://bjornar.dev" />
     <meta property="og:image" content="https://bjornar.dev/image.jpg" />
-    <meta property="og:description" content="Designer &amp; engineer" />
+    <meta property="og:description" content="Software engineer" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
@@ -94,7 +94,7 @@
     {{ block "scripts_before" . }} {{ end }}
     <link rel="stylesheet" href="/fonts/fira-code/fira-code.css?v20210428" />
     <script src="/js/theme.js?v20230815" async></script>
-    <script src="/js/libraries/htmx.js?v20230704" async></script>
+    {{/*  <script src="/js/libraries/htmx.js?v20230704" async></script>  */}}
     {{ block "scripts_after" . }} {{ end }}
   </body>
 </html>
