@@ -26,7 +26,6 @@
   --color-fg-p: var(--color-light-cold);
   --color-bg: var(--color-dark-contrast);
   --color-border: hsl(227, 23%, 12%);
-  --color-code: hsl(227, 23%, 90%);
 
   --font-body: 'Fira Code', 'SF Mono', monospace;
   --font-code: 'Fira Code', 'SF Mono', monospace;
@@ -267,18 +266,6 @@ pre code {
   line-height: inherit;
 }
 
-// .theme-light pre,
-// .theme-light pre code {
-//   color: var(--color-dark-contrast);
-//   background-color: var(--color-light-contrast);
-// }
-
-// .theme-dark pre,
-// .theme-dark pre code {
-//   color: var(--color-light-warm);
-//   background-color: var(--color-border);
-// }
-
 pre code {
   padding: 1em 0.5em 1em 0.5em;
 }
@@ -294,29 +281,22 @@ pre > code > span > span:first-child:not(:last-child) {
   user-select: none;
 }
 
-// pre .pre-line-numbers {
-//   display: flex;
-//   flex-direction: column;
-//   padding: 1em 0.5em 1em 0.5em;
-//   height: 100%;
-//   text-align: right;
-//   border-right: 1px solid var(--color-dark-contrast);
-//   opacity: 0.5;
-//   -webkit-user-select: none;
-//   -khtml-user-select: none;
-//   -moz-user-select: none;
-//   -ms-user-select: none;
-//   user-select: none;
-// }
-
-code {
+:not(pre) > code {
   font-size: 14px;
   font-family: var(--font-code);
   line-height: 1;
   padding: 1px 2px;
   border-radius: 2px;
-  // color: var(--color-border);
-  // background-color: var(--color-code);
+}
+
+.theme-light :not(pre) > code {
+  color: var(--color-dark-contrast);
+  background-color: var(--color-light-contrast);
+}
+
+.theme-dark :not(pre) > code {
+  color: var(--color-light-warm);
+  background-color: var(--color-border);
 }
 
 ::selection {
