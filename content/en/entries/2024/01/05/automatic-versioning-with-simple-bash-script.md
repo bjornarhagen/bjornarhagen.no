@@ -7,7 +7,7 @@ categories:
 posterImage: /entries/2024/01/05/header.jpg
 posterImageCredits: null
 posterImageSize: sm
-publishDate: 2024-01-05T13:54:00.000Z
+publishDate: 2024-01-05T14:03:00.000Z
 summary: To automatically version your app can be pretty complicated and a lot of solutions require complex dependencies and configurations. In this post I will show you how to do it with just a simple Bash script and Git.
 body_id: post-page
 body_classes: nav-small
