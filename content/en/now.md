@@ -18,7 +18,7 @@ I'm working on a side project with these technologies; I'm very excited about HT
 
 Reading this book by Rune Østgård
 
-### 🌌 Invasion (Apple TV+)
+### 💀 Overlord (Crunchyroll)
 
 Currently watching this show
 
