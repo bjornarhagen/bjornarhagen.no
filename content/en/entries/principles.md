@@ -2,7 +2,7 @@
 title: Principles
 author: Bjørnar Hagen
 posterImageSize: sm
-publishDate: 2024-01-05T14:29:47.577Z
+publishDate: 2024-01-05T13:29:47.577Z
 summary: Principles.
 type: page
 hideFromList: true
