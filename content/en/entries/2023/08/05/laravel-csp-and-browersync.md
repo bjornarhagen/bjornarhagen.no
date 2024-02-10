@@ -46,7 +46,7 @@ In this post I will show you how to do this with Laravel CSP and Browser Sync, b
 
 3. Copy **everything inside** the script tag (even the `//<![CDATA[` stuff) and paste it into a file, for example `data.txt`.
    Make sure to save it exactly as copied, don't apply any formatting.
-4. Now run the following command `cat data.txt | openssl dgst -sha384 -binary | openssl base64 -A`. I got this output `VJ54nlS+flZSG9OXg+tLU2fi0X9vUtpMr9KR3NuzNCwdV8HmZuVokdkiY4rFdohU`. Note that you might get a `%` at the end of the output. That's not part to be there (it's just a indicator of no empty line ending), so just remove it.
+4. Now run the following command `cat data.txt | openssl dgst -sha384 -binary | openssl base64 -A`. I got this output `VJ54nlS+flZSG9OXg+tLU2fi0X9vUtpMr9KR3NuzNCwdV8HmZuVokdkiY4rFdohU`. Note that you might get a `%` at the end of the output. That's not part of the hash, it's just a indicator of no empty line ending, just remove it.
 5. Add this hash to `src/app/Policies/GlobalCSPPolicy.php`, with `sha384-` prepended to it, like so:
 
 ```php
