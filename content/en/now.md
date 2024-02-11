@@ -14,7 +14,7 @@ sectionDescription: This page tells you what I'm up to these days.
 
 Working on a couple of side projects with some friends:
 
-[https://nuva.no](nuva.no)
+[nuva.no](https://nuva.no)
 
 ### 👨‍💻 HTMX, Tailwind, and Laravel
 
