@@ -8,7 +8,7 @@ posterImage: /entries/2024/02/10/you-are-using-docker-wrong.jpg
 posterImageCredits: null
 posterImageSize: null
 publishDate: 2024-02-10T23:55:00.000Z
-summary: I see many repos using Docker wrong. Rather, a lot of developers using Docker wrong. They still run everything locally, and only use Docker in the CI/CD pipeline. While this has it's benefits, there's still a lot of potential being missed.
+summary: I see many developers using Docker wrong. They still run everything locally, and only use Docker in the CI/CD pipeline. While this has it's benefits, there's still a lot of potential being missed.
 body_id: post-page
 body_classes: nav-small
 ---
