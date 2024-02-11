@@ -3,6 +3,7 @@ title: How to run Next.js 13 in Docker
 author: Bjørnar Hagen
 categories:
   - Code
+  - DevOps
 posterImage: /entries/2023/07/17/header.png
 posterImageCredits: null
 posterImageSize: sm
@@ -19,6 +20,8 @@ The Dockerfiles are based on [an example](https://github.com/vercel/next.js/blob
 The container images should run fine on both Docker and Podman.
 
 ## Development container
+
+<mark class="subtle">**Update 2024-02-10**: I've learnt quite a bit about Docker since I wrote this post and have made a dedicated post on [how to best use Docker for local development](/entries/2024/02/10/you-are-using-docker-wrong)</mark>
 
 First of I want to run the project locally inside of Docker, that way I don't have to deal with installing all the different dependencies on my machine.
 
