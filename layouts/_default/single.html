@@ -25,7 +25,7 @@ title = "Post" %} {%- endif -%} {%- if body_classes -%} {% set body_classes = "n
       </div>
     </div>
     {{ if .Params.posterImage }}
-    <div class="layout layout-lg header header-{{ .Params.posterImageSize }}">
+    <div class="layout layout-lg header {{ with .Params.posterImageSize }}header-{{ . }} header-abs{{ end }}">
       <div class="header-image">
         <img src="{{ .Params.posterImage }}" alt="{{ .Title }}" />
       </div>

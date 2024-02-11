@@ -1,13 +1,39 @@
 {{ define "content" }}
+{{ $categorySlug := .Title | urlize }}
+{{ $creditsName := "Unknown" }}
+{{ $creditsURL := "/" }}
+
+{{ if eq $categorySlug "code" }}
+  {{ $creditsName = "Bjørnar Hagen" }}
+  {{ $creditsURL = "/" }}
+{{ else if eq $categorySlug "devops" }}
+  {{ $creditsName = "Bjørnar Hagen" }}
+  {{ $creditsURL = "/" }}
+{{ else if eq $categorySlug "k8s" }}
+  {{ $creditsName = "Bjørnar Hagen" }}
+  {{ $creditsURL = "/" }}
+{{ else if eq $categorySlug "security" }}
+  {{ $creditsName = "Bjørnar Hagen" }}
+  {{ $creditsURL = "/" }}
+{{ else if eq $categorySlug "opinion" }}
+  {{ $creditsName = "Lianhao Qu" }}
+  {{ $creditsURL = "https://unsplash.com/@lianhao" }}
+{{ else if eq $categorySlug "economy" }}
+  {{ $creditsName = "Bjørnar Hagen" }}
+  {{ $creditsURL = "/" }}
+{{ else if eq $categorySlug "ux" }}
+  {{ $creditsName = "Christopher Burns" }}
+  {{ $creditsURL = "https://unsplash.com/@christopher__burns" }}
+{{ end }}
 <main>
   <header>
     <div class="layout layout-xl">
-      <div class="header bg-primary">
+      <div class="header header-abs bg-primary">
         <div class="header-image">
           <img
-            src="/images/entries/index.jpg"
+            src="/images/taxonomies/{{$categorySlug}}.jpg"
             alt=""
-            srcset="/images/entries/index@0,5x.jpg 720w, /images/entries/index.jpg 1440w"
+            srcset="/images/taxonomies/{{$categorySlug}}@0,5x.jpg 720w, /images/taxonomies/{{$categorySlug}}.jpg 1440w"
           />
         </div>
         <div class="header-content bg-transparent theme-light-hide">
@@ -17,9 +43,7 @@
           <h1><a href='{{ relLangURL "/entries" }}'>Posts</a> / {{ .Title }}</h1>
         </div>
         <div class="header-credits">
-          <p>
-            Photo by <a href="https://unsplash.com/@kenshi_kingami" target="_blank" rel="noopener">Kenshi Kingami</a>
-          </p>
+          Photo by <a href="{{ $creditsURL }}" target="_blank" rel="noopener">{{ $creditsName }}</a>
         </div>
       </div>
     </div>
