@@ -1,7 +1,8 @@
 ---
-title:
+title: Cookies
+description: This website uses cookies, but only the good kind :)
 type: page-split
-headerClasses: bg-dots-light
+headerClasses: bg-dots-light header-abs header-sm
 headerContentClasses:
 posterImage: /images/graphics/cookies.jpg
 posterImageCredits: Photo by Photo by [Erol Ahmed](https://unsplash.com/@erol)

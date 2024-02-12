@@ -1,6 +1,9 @@
-{{ define "content" }}
+{{ define "head" }}
+<meta property="og:type" content="website" />
+{{ end }} {{ define "content" }}
 <main>
-  {{ if or .Title .Params.posterImage .Params.headerClasses .Params.headerContent }}
+  {{ if and (or .Title .Params.posterImage .Params.headerClasses .Params.headerContent) (ne .Params.headerClasses
+  "hidden") }}
   <header>
     <div class="layout layout-xl">
       <div class="header {{ .Params.headerClasses }}">

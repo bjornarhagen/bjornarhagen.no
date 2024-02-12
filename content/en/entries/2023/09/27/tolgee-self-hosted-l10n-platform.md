@@ -1,5 +1,6 @@
 ---
 title: Tolgee - Self hosted l10n platform
+description: Tolgee is an open source localization platform with cheap cloud plans and a self hosted option. It has great features, SDKs for all the popular JS front-ends, and a nice UI. In this post I'll show you how I set it up in k8s.
 author: Bjørnar Hagen
 categories:
   - DevOps

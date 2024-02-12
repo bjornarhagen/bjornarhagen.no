@@ -1,5 +1,6 @@
 ---
 title: UX tip for external links
+description: Clicking links going to an external site can be annoying if you aren't prepared for that. To improve the user experience you should show some kind of indicator for external links.
 author: Bjørnar Hagen
 categories:
   - UX

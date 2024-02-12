@@ -1,7 +1,8 @@
 ---
-title:
+title: /now
+description: This page tells you what I'm up to these days.
 type: page-split
-headerClasses:
+headerClasses: hidden
 headerContentClasses:
 posterImage:
 posterImageCredits:

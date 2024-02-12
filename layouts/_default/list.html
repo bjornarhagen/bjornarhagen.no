@@ -1,4 +1,6 @@
-{{ define "content" }}
+{{ define "head" }}
+<meta property="og:type" content="website" />
+{{ end }} {{ define "content" }}
 <main>
   <header>
     <div class="layout layout-xl">
@@ -28,7 +30,10 @@
   <section class="info-section layout layout-xl">
     <div class="info-section-left">
       {{ if .Params.PosterImage }}
-      <div class="background background-fade-in" style="background-image: url('{{ .Params.PosterImage }}')"></div>
+      <div
+        class="background background-fade-in background-fade-in-from-25"
+        style="background-image: url('{{ .Params.PosterImage }}')"
+      ></div>
       {{ end }}
       <h2 class="title">
         <a href="{{ .RelPermalink }}">{{ .Title }}</a>
@@ -40,7 +45,9 @@
         {{ end }}
       </p>
     </div>
-    <div class="info-section-right">{{ .Params.Summary }}</div>
+    <div class="info-section-right">
+      <div class="pb-16">{{ .Params.Summary }}</div>
+    </div>
   </section>
   {{ end }} {{ end }} {{ end }}
 </main>

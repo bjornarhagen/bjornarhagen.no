@@ -1,5 +1,6 @@
 ---
 title: How to run Next.js 13 in Docker
+description: How to setup development and production container images for Next.js 13 with app router and standalone mode.
 author: Bjørnar Hagen
 categories:
   - Code

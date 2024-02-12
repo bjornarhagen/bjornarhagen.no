@@ -1,5 +1,6 @@
 ---
 title: Useful commands
+description: Lists of commands I use often, but also forget often.
 author: Bjørnar Hagen
 categories:
   - Code

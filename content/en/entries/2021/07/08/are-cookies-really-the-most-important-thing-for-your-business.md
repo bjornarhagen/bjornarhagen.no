@@ -1,5 +1,6 @@
 ---
 title: Are cookies really the most important thing for your business?
+description: The number one priority for so many businesses these days seem to be to get your oh so precious consent in order track you with cookies, and don't you dare do anything on their website before you've given it!
 author: Bjørnar Hagen
 categories:
   - UX

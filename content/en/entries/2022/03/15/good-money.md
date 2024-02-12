@@ -1,5 +1,6 @@
 ---
 title: Good money.
+description: Our system for money is broken.
 author: Bjørnar Hagen
 categories:
   - Economy

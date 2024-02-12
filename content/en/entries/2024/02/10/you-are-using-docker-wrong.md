@@ -1,5 +1,6 @@
 ---
 title: You are using Docker wrong
+description: Many developers use Docker wrong. They run everything locally, and only use Docker in the pipelines. There is a lot of potential being missed.
 author: Bjørnar Hagen
 categories:
   - Code

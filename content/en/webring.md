@@ -1,14 +1,15 @@
 ---
-title:
+title: Webring
+description: List of some pages and webrings I like
 headerContent:
 type: page-split
-headerClasses:
+headerClasses: hidden
 headerContentClasses:
 posterImage:
 posterImageCredits:
 sectionTitle: Webring
 sectionIcon: 🌐
-sectionDescription: List of some pages I like
+sectionDescription: List of some pages and webrings I like
 ---
 
 [https://webring.xxiivv.com/](https://webring.xxiivv.com/)

@@ -1,5 +1,6 @@
 ---
 title: How to add line numbers to pre tags
+description: Adding line numbers to pre tags can be a nice touch to your code snippets. In this post I will show you how to do it with just a few lines of CSS and JavaScript.
 author: Bjørnar Hagen
 categories:
   - UX

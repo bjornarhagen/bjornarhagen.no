@@ -1,5 +1,6 @@
 ---
 title: Auto versioning your app with a simple bash script
+description: To automatically version your app can be pretty complicated and a lot of solutions require complex dependencies and configurations. In this post I will show you how to do it with just a simple Bash script and Git.
 author: Bjørnar Hagen
 categories:
   - Code

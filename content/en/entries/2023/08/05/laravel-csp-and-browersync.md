@@ -1,5 +1,6 @@
 ---
 title: Running injected scripts in your web app with CSP enabled
+description: How to run injected scripts with strict Content Security Policy (CSP) headers enabled, without compromising on security.
 author: Bjørnar Hagen
 categories:
   - Code

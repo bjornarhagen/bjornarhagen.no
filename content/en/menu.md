@@ -1,5 +1,6 @@
 ---
 title: ᎒᎒᎒ Menu
+description: Links to all pages on this site.
 type: page
 headerClasses: bg-dots-light bg-dots-md border-light
 headerContentClasses: bg-transparent
