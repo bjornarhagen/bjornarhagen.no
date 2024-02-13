@@ -28,7 +28,7 @@ An infamous phrase in software development you've probably heard before:
 
 While it's often used as a joke, this issue is probably more often a real one, stealing unnecessary time and causing headaches. Docker was supposed to solve this problem by making it work on your machine, then shipping your machine to the server/other developers, figuratively of course (<a href="https://twitter.com/dhh/status/1755600973492564067" target="_blank">or maybe literally?</a>). However, if you don't use Docker locally, you're not shipping your guaranteed-to-work machine, you're still doing things the _"old way"_, but with extra complexity mixed in.
 
-## How to use _properly_ use Docker
+## How to _properly_ use Docker
 
 There are many ways to do this, but here's my preferred way:
 
