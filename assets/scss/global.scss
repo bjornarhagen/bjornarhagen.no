@@ -1296,3 +1296,16 @@ textarea {
 .px-16 {
   padding-left: 4rem;
 }
+
+// Unpoly
+
+up-modal-box {
+  background-color: #000;
+}
+
+up-modal-backdrop {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(1em);
+}
+

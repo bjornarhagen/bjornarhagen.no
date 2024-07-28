@@ -54,6 +54,8 @@
     <link rel="preload" as="style" href="{{ $style.Permalink }}" />
     <link rel="preload" as="style" href="/fonts/fira-code/fira-code.css?v20210428" />
     <link rel="preload" as="script" href="/js/theme.js?v20230815" />
+    <script src="/js/libraries/unpoly.js?v20230815"></script>
+    <link rel="stylesheet" href="/js/libraries/unpoly.css?v20230815" />
     <link rel="stylesheet" href="{{ $style.Permalink }}" />
     <meta property="dayTimeNameMorning" content='{{ i18n "index.header.dayTimeNameMorning" }}' />
     <meta property="dayTimeNameAfternoon" content='{{ i18n "index.header.dayTimeNameAfternoon" }}' />
@@ -73,17 +75,17 @@
     <div id="top"></div>
     <nav id="nav">
       <div class="nav-inner layout layout-xl">
-        <a class="logo-wrapper" href='{{ relLangURL "/" }}'>
+        <a class="logo-wrapper" href='{{ relLangURL "/" }}' up-target="body">
           <img width="128" height="64" class="logo" src="/images/brand/logo/logo-light.svg" alt="Bjørnar Hagen logo" />
         </a>
         <div class="links-wrapper">
-          <a href='{{ relLangURL "/entries" }}'>Posts</a>
+          <a href='{{ relLangURL "/entries" }}' up-target="body">Posts</a>
           <a href="https://datahjelpen.no/kundecaser" target="_blank" rel="noopener">Portfolio</a>
           <a href="https://github.com/bjornarhagen" target="_blank" rel="noopener">Github</a>
           <a href="https://www.linkedin.com/in/bjornarhagen/" target="_blank" rel="noopener">LinkedIn</a>
         </div>
         <div class="mega-menu">
-          <a href='{{ relLangURL "/menu" }}'>
+          <a href='{{ relLangURL "/menu/index.html" }}' up-layer="new" up-size="100%">
             <span class="icon">᎒᎒᎒</span>
             <span class="text">{{ i18n "nav.menu" }}</span>
           </a>
@@ -110,7 +112,7 @@
     {{ block "scripts_before" . }} {{ end }}
     <link rel="stylesheet" href="/fonts/fira-code/fira-code.css?v20210428" />
     <script src="/js/theme.js?v20230815" async></script>
-    {{/*  <script src="/js/libraries/htmx.js?v20230704" async></script>  */}}
+    <!-- {{/*  <script src="/js/libraries/htmx.js?v20230704" async></script>  */}} -->
     {{ block "scripts_after" . }} {{ end }}
   </body>
 </html>

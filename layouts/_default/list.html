@@ -36,12 +36,12 @@
       ></div>
       {{ end }}
       <h2 class="title">
-        <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+        <a href="{{ .RelPermalink }}" up-target="body">{{ .Title }}</a>
       </h2>
       <p>
         {{ range .Params.categories }} {{ $category := . }} {{ $categoryURL := printf "/categories/%s" $category |
         urlize | relURL }}
-        <a href="{{ $categoryURL }}" class="button">{{ $category }}</a>
+        <a href="{{ $categoryURL }}" class="button" up-target="body">{{ $category }}</a>
         {{ end }}
       </p>
     </div>
