@@ -11,24 +11,24 @@ sectionIcon: /now
 sectionDescription: This page tells you what I'm up to these days.
 ---
 
-## ✨ NUVA
+## ✨ Sauna Booking
 
-Working on a couple of side projects with some friends:
+Working on a side project with some friends:
 
-[nuva.no](https://nuva.no)
+[saunabooking.no](https://saunabooking.no/)
 
-### 👨‍💻 HTMX, Tailwind, and Laravel
+### 👨‍💻 Hono and HTMX
 
-I'm also working on a personal side project with these technologies; I'm very excited about HTMX. It's proving to be an efficient and low-complexity, yet powerful way to build web apps, using templating and server-side rendering instead of high-complexity JS components with mixed client/server rendering. Not to mention how much easier state management is on the server.
+Trying out these technologies; I'm very excited about HTMX. It's proving to be an efficient and low-complexity, yet powerful way to build web apps, using templating and server-side rendering instead of high-complexity JS components with mixed client/server rendering and hydration. Not to mention how much easier state management is on the server.
 
-### 📖 Fraudcoin
+### 🐧 Linux
 
-Reading this book by Rune Østgård
+I've started exclusivly using Linux on my machines, specifically Pop!\_OS. It's better than ever before, especially with Steam's compatability tool for Windows programs and games.
 
-### 🧙‍♀️ Frieren
+### 🕵️ Spy X Family
 
 Currently watching this show on Crunchyroll
 
-### 🥃 Highland Park - Viking Honour
+### 🥃 Råstoff - Salty Caramel
 
 Drinking this
