@@ -13,5 +13,5 @@ Engineering at Østfold College University.
 
 3 years later I got my degree and moved to Sandefjord. I started working full-time in Datahjelpen. After about
 a year, Covid hit and I had to find a more stable job as no one was really willing to start new projects at
-the time. That is how I ended up at Adstate, where I currently work. I still run Datahjelpen, though it's more
+the time. That is how I ended up at Adstate, where I worked for 4 years. I'm currently working at [River Security](https://riversecurity.eu/). I still run Datahjelpen, though it's more
 of a hobby as of right now.

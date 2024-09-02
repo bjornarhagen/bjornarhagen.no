@@ -1,10 +1,16 @@
 ### Work experience
 
-- #### Adstate AS
+- #### River Security AS
 
   Full-stack developer
 
-  2020 ⟶ present
+  2024 ⟶ present
+
+- #### Rapid Data AS (formerly Adstate AS)
+
+  Full-stack developer
+
+  2020 ⟶ 2024
 
 - #### Datahjelpen AS
 
@@ -17,8 +23,6 @@
   Developer
 
   2014 ⟶ 2016
-
--
 
 <br/>
 
