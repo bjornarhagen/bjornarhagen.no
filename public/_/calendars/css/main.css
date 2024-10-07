@@ -1,0 +1,352 @@
+.calendar.theme-dark {
+  color: #ffffff;
+  background-color: #000000; }
+  .calendar.theme-dark .cal-year {
+    color: #b3b3b3; }
+  .calendar.theme-dark .cal-month ul li {
+    color: #ffffff; }
+    .calendar.theme-dark .cal-month ul li.cal-day-saturday, .calendar.theme-dark .cal-month ul li.cal-day-sunday {
+      color: #b3b3b3; }
+  .calendar.theme-dark .cal-month ul.cal-weekday-headings li {
+    color: #ffffff; }
+    .calendar.theme-dark .cal-month ul.cal-weekday-headings li.cal-heading-saturday, .calendar.theme-dark .cal-month ul.cal-weekday-headings li.cal-heading-sunday {
+      color: #b3b3b3; }
+  .calendar.theme-dark .cal-month-title {
+    color: #b3b3b3; }
+
+.calendar.theme-dark_arch {
+  color: #ffffff;
+  background-color: #000000; }
+  .calendar.theme-dark_arch .cal-year {
+    color: #0000ff; }
+  .calendar.theme-dark_arch .cal-month ul li {
+    color: #ffffff; }
+    .calendar.theme-dark_arch .cal-month ul li.cal-day-saturday, .calendar.theme-dark_arch .cal-month ul li.cal-day-sunday {
+      color: #ffa500; }
+  .calendar.theme-dark_arch .cal-month ul.cal-weekday-headings li {
+    color: #0000ff; }
+    .calendar.theme-dark_arch .cal-month ul.cal-weekday-headings li.cal-heading-saturday, .calendar.theme-dark_arch .cal-month ul.cal-weekday-headings li.cal-heading-sunday {
+      color: #ffa500; }
+  .calendar.theme-dark_arch .cal-month-title {
+    color: #0000ff; }
+
+.calendar.theme-light {
+  color: #000000;
+  background-color: #ffffff; }
+  .calendar.theme-light .cal-year {
+    color: #ffa500; }
+  .calendar.theme-light .cal-month ul li {
+    color: #000000; }
+    .calendar.theme-light .cal-month ul li.cal-day-saturday, .calendar.theme-light .cal-month ul li.cal-day-sunday {
+      color: #ffa500; }
+  .calendar.theme-light .cal-month ul.cal-weekday-headings li {
+    color: #000000; }
+    .calendar.theme-light .cal-month ul.cal-weekday-headings li.cal-heading-saturday, .calendar.theme-light .cal-month ul.cal-weekday-headings li.cal-heading-sunday {
+      color: #ffa500; }
+  .calendar.theme-light .cal-month-title {
+    color: #ffa500; }
+
+.calendar.theme-light_arch {
+  color: #000000;
+  background-color: #ffffff; }
+  .calendar.theme-light_arch .cal-year {
+    color: #0000ff; }
+  .calendar.theme-light_arch .cal-month ul li {
+    color: #000000; }
+    .calendar.theme-light_arch .cal-month ul li.cal-day-saturday, .calendar.theme-light_arch .cal-month ul li.cal-day-sunday {
+      color: #ffa500; }
+  .calendar.theme-light_arch .cal-month ul.cal-weekday-headings li {
+    color: #0000ff; }
+    .calendar.theme-light_arch .cal-month ul.cal-weekday-headings li.cal-heading-saturday, .calendar.theme-light_arch .cal-month ul.cal-weekday-headings li.cal-heading-sunday {
+      color: #ffa500; }
+  .calendar.theme-light_arch .cal-month-title {
+    color: #0000ff; }
+
+.calendar.theme-matrix {
+  color: #ccffcc;
+  background-color: #000000; }
+  .calendar.theme-matrix .cal-year {
+    color: #00ff00; }
+  .calendar.theme-matrix .cal-month ul li {
+    color: #ccffcc; }
+    .calendar.theme-matrix .cal-month ul li.cal-day-saturday, .calendar.theme-matrix .cal-month ul li.cal-day-sunday {
+      color: #00ff00; }
+  .calendar.theme-matrix .cal-month ul.cal-weekday-headings li {
+    color: #ccffcc; }
+    .calendar.theme-matrix .cal-month ul.cal-weekday-headings li.cal-heading-saturday, .calendar.theme-matrix .cal-month ul.cal-weekday-headings li.cal-heading-sunday {
+      color: #00ff00; }
+  .calendar.theme-matrix .cal-month-title {
+    color: #00ff00; }
+
+.calendar.theme-minimal {
+  color: #777777;
+  background-color: #ffffff; }
+  .calendar.theme-minimal .cal-year {
+    color: #999999; }
+  .calendar.theme-minimal .cal-month ul li {
+    color: #777777; }
+    .calendar.theme-minimal .cal-month ul li.cal-day-saturday, .calendar.theme-minimal .cal-month ul li.cal-day-sunday {
+      color: #000000; }
+  .calendar.theme-minimal .cal-month ul.cal-weekday-headings li {
+    color: #777777; }
+    .calendar.theme-minimal .cal-month ul.cal-weekday-headings li.cal-heading-saturday, .calendar.theme-minimal .cal-month ul.cal-weekday-headings li.cal-heading-sunday {
+      color: #000000; }
+  .calendar.theme-minimal .cal-month-title {
+    color: #999999; }
+
+/* Fix box-sizing */
+*, *:before, *:after {
+  box-sizing: inherit; }
+
+html {
+  box-sizing: border-box; }
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  font-size: 14px; }
+
+body {
+  color: #000000;
+  background-color: #eeeeee; }
+
+.clear:before,
+.clear:after {
+  content: " ";
+  display: table; }
+
+.clear:after {
+  clear: both; }
+
+.wrapper {
+  overflow: auto;
+  display: flex;
+  padding: 10vh 5vw 5vh;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center; }
+
+.calendar {
+  position: relative;
+  display: flex;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-start;
+  align-content: space-between;
+  margin: 0 0 10em 0;
+  margin: 0 0 10vw 0;
+  padding: 5mm;
+  box-shadow: 0 2em 4em rgba(0, 0, 77, 0.2);
+  overflow-y: auto;
+  overflow-x: hidden;
+  background-repeat: no-repeat;
+  font-family: Hack, monospace; }
+  .calendar.a1 {
+    width: 594mm;
+    height: 841mm; }
+  .calendar.a2 {
+    width: 420mm;
+    height: 594mm; }
+  .calendar.a3 {
+    width: 297mm;
+    height: 420mm; }
+  .calendar.a4 {
+    width: 210mm;
+    height: 297mm; }
+  .calendar-meta-title {
+    margin: 0;
+    font-family: 'Playfair Display', serif;
+    font-weight: 900;
+    flex-shrink: 1;
+    font-size: 6em;
+    padding-left: 1em; }
+  .calendar .cal-month {
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    align-content: center;
+    flex-basis: 33.333333%;
+    padding: 0 3em;
+    font-size: 1em;
+    line-height: 1em; }
+    .calendar .cal-month-1 {
+      order: 1; }
+    .calendar .cal-month-2 {
+      order: 2; }
+    .calendar .cal-month-3 {
+      order: 3; }
+    .calendar .cal-month-4 {
+      order: 4; }
+    .calendar .cal-month-5 {
+      order: 5; }
+    .calendar .cal-month-6 {
+      order: 6; }
+    .calendar .cal-month-7 {
+      order: 7; }
+    .calendar .cal-month-8 {
+      order: 8; }
+    .calendar .cal-month-9 {
+      order: 9; }
+    .calendar .cal-month-10 {
+      order: 10; }
+    .calendar .cal-month-11 {
+      order: 11; }
+    .calendar .cal-month-12 {
+      order: 12; }
+    .calendar .cal-month-extra {
+      display: none;
+      padding: 0; }
+    .calendar .cal-month ul {
+      display: flex;
+      margin: 0;
+      padding: 0.2em 0;
+      width: 100%;
+      flex-direction: row;
+      list-style-type: none;
+      justify-content: space-between;
+      align-items: flex-start;
+      align-content: flex-start; }
+      .calendar .cal-month ul li {
+        width: 14.28571%;
+        text-align: right;
+        font-weight: 400; }
+      .calendar .cal-month ul.cal-weekday-headings {
+        margin-bottom: 0.5em; }
+        .calendar .cal-month ul.cal-weekday-headings li {
+          font-weight: 700; }
+    .calendar .cal-month .cal-year {
+      margin: 0;
+      width: 100%;
+      text-align: center;
+      font-size: 1.5em;
+      line-height: 1em; }
+    .calendar .cal-month .cal-month-title {
+      line-height: 1em;
+      margin: 0 0 1em 0;
+      width: 100%;
+      text-align: center;
+      font-size: 1.2em; }
+  .calendar.layout-full {
+    padding: 40mm 5mm 25mm;
+    background-position: center center;
+    background-size: 75%; }
+    .calendar.layout-full .cal-month-extra-1 {
+      position: absolute;
+      top: 15mm;
+      left: 0;
+      right: 0;
+      display: block;
+      margin: 0 auto; }
+      .calendar.layout-full .cal-month-extra-1 .cal-year {
+        display: block; }
+  .calendar.layout-middle-hole {
+    padding: 15mm 5mm;
+    background-position: center 45%;
+    background-size: 60%; }
+    .calendar.layout-middle-hole .cal-month-1 {
+      order: 1; }
+    .calendar.layout-middle-hole .cal-month-2 {
+      order: 2; }
+    .calendar.layout-middle-hole .cal-month-3 {
+      order: 3; }
+    .calendar.layout-middle-hole .cal-month-4 {
+      order: 4; }
+    .calendar.layout-middle-hole .cal-month-5 {
+      order: 6; }
+    .calendar.layout-middle-hole .cal-month-6 {
+      order: 7; }
+    .calendar.layout-middle-hole .cal-month-7 {
+      order: 9; }
+    .calendar.layout-middle-hole .cal-month-8 {
+      order: 10; }
+    .calendar.layout-middle-hole .cal-month-9 {
+      order: 12; }
+    .calendar.layout-middle-hole .cal-month-10 {
+      order: 13; }
+    .calendar.layout-middle-hole .cal-month-11 {
+      order: 14; }
+    .calendar.layout-middle-hole .cal-month-12 {
+      order: 15; }
+    .calendar.layout-middle-hole .cal-month-extra {
+      display: flex; }
+      .calendar.layout-middle-hole .cal-month-extra .cal-year {
+        display: none; }
+      .calendar.layout-middle-hole .cal-month-extra-1 {
+        order: 5; }
+      .calendar.layout-middle-hole .cal-month-extra-2 {
+        order: 8; }
+      .calendar.layout-middle-hole .cal-month-extra-3 {
+        order: 11;
+        justify-content: flex-end;
+        align-items: center;
+        align-content: center; }
+        .calendar.layout-middle-hole .cal-month-extra-3 .cal-year {
+          display: block; }
+  .calendar.layout-top {
+    align-content: flex-start;
+    padding: 25mm 5mm 0;
+    background-position: center bottom;
+    background-size: 30%; }
+    .calendar.layout-top .cal-month-extra-1 {
+      position: absolute;
+      top: 10mm;
+      left: 0;
+      right: 0;
+      display: block;
+      margin: 0 auto; }
+      .calendar.layout-top .cal-month-extra-1 .cal-year {
+        display: block; }
+  .calendar.layout-bottom {
+    align-content: flex-end;
+    padding: 0 5mm 15mm;
+    background-position: center top;
+    background-size: 32.5%; }
+    .calendar.layout-bottom .cal-month-extra-1 {
+      position: absolute;
+      top: 15mm;
+      right: 10mm;
+      display: block;
+      margin: 0; }
+      .calendar.layout-bottom .cal-month-extra-1 .cal-year {
+        display: block;
+        transform: rotate(-90deg); }
+
+.settings {
+  background-color: #ffffff;
+  padding: 1em; }
+  .settings form {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap; }
+    .settings form .settings-single {
+      width: 25%;
+      padding: 0.5em 1em; }
+  .settings button {
+    display: inline-block;
+    padding: 0.25em 1em;
+    border: none;
+    color: #ffffff;
+    background-color: #000000; }
+
+@media print {
+  .settings,
+  .calendar-meta-title {
+    display: none; }
+  .wrapper {
+    padding: 0; }
+  .calendar {
+    position: relative;
+    top: 0;
+    left: 0;
+    right: 0;
+    margin: 0 !important;
+    transform: none;
+    max-width: 100vw;
+    max-height: 100vh;
+    box-shadow: none; } }

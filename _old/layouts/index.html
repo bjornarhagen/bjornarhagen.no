@@ -1,0 +1,83 @@
+{{ define "content" }}
+<main>
+  <header>
+    <div class="layout layout-xl">
+      <div class="header header-abs bg-light">
+        <div class="header-image">
+          <img
+            src="/images/graphics/bjornar-hagen/bg.jpg"
+            alt=""
+            srcset="/images/graphics/bjornar-hagen/bg@0,5x.jpg 720w, /images/graphics/bjornar-hagen/bg.jpg 1440w"
+          />
+          <img
+            src="/images/graphics/bjornar-hagen/fg.png"
+            alt=""
+            srcset="/images/graphics/bjornar-hagen/fg@0,5x.png 720w, /images/graphics/bjornar-hagen/fg.png 1440w"
+          />
+        </div>
+        <div class="header-content">
+          <h1>
+            <span
+              id="greeting"
+              data-dayTimeNameMorning='{{ i18n "index.header.dayTimeNameMorning" }}'
+              data-dayTimeNameAfternoon='{{ i18n "index.header.dayTimeNameAfternoon" }}'
+              data-dayTimeNameEvening='{{ i18n "index.header.dayTimeNameEvening" }}'
+              >{{ i18n "index.header.greeting" }}</span
+            ><span>👋</span>
+            <span class="block"></span>
+            <span>{{ i18n "index.header.iam" }}</span>
+            <span class="fg-primary">Bjørnar</span>
+            <span class="fg-primary">Hagen</span><span>,</span>
+            <span>software engineer.</span>
+          </h1>
+        </div>
+      </div>
+    </div>
+  </header>
+  <section class="info-section layout">
+    {{ $section1 := .Site.GetPage "/index/section-1" }}
+    <div class="info-section-left">
+      <div class="heading">
+        <span class="number">{{ $section1.Params.Subtitle }}</span>
+        <h2 class="title">{{ $section1.Title }}</h2>
+      </div>
+    </div>
+    <div class="info-section-right">
+      <div class="columns">{{ $section1.Content }}</div>
+    </div>
+  </section>
+  <section class="info-section layout">
+    {{ $section2_1 := .Site.GetPage "/index/section-2-1" }}
+    <div class="info-section-left">
+      <div class="heading">
+        <span class="number">{{ $section2_1.Params.Subtitle }}</span>
+        <h2 class="title">{{ $section2_1.Title }}</h2>
+      </div>
+    </div>
+    <div class="info-section-right">
+      <div class="columns">{{ $section2_1.Content }}</div>
+    </div>
+    <div class="info-section-right">
+      {{ $section2_2 := .Site.GetPage "/index/section-2-2" }} {{ $section2_2.Content }}
+    </div>
+  </section>
+  <noscript class="info-section layout">
+    <div class="info-section-left">
+      <div class="heading">
+        <span class="number">03</span>
+        <h2 class="title">No Script</h2>
+      </div>
+    </div>
+    <div class="info-section-right">
+      <div class="columns">
+        <p>I see that you are running with JS disabled.</p>
+        <p>
+          This page is developed to work without JS, but with JS you get some extra niceties like faster page loads (via
+          HTMX) and automatic dark/light mode based on the browser time. No third-party scripts are ever used, no data
+          is logged. Some more information is found on the <a href='{{ relLangURL "/cookies" }}'>Cookies</a> page.
+        </p>
+      </div>
+    </div>
+  </noscript>
+</main>
+{{ end }}

@@ -1,0 +1,77 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ContentSection from "../components/dumb/ContentSection.astro";
+import GradientBackground from "../components/dumb/GradientBackground.astro";
+---
+
+<Layout marginForNav={false}>
+    <main>
+        <div class="relative">
+            <img
+                src="/images/graphics/white-3.jpg"
+                alt=""
+                class="block dark:hidden absolute inset-0 w-full h-full opacity-25 object-cover"
+            />
+            <img
+                src="/images/graphics/black-3.jpg"
+                alt=""
+                class="hidden dark:block absolute inset-0 w-full h-full opacity-25 object-cover"
+            />
+            <ContentSection className="relative">
+                <header
+                    class="text-primary-500 pb-16 pt-32 sm:pb-32 sm:pt-48 md:pb-48 md:pt-64"
+                >
+                    <h1
+                        class="font-heading text-3xl sm:text-4xl md:text-5xl lg:md:text-6xl flex flex-col"
+                    >
+                        <span>Hey! I'm Bjørnar Hagen,</span>
+                        <span>a software engineer</span>
+                    </h1>
+                </header>
+                <!-- <img
+                    src="https://bjornar.dev/images/graphics/bjornar-hagen/fg.png"
+                    alt=""
+                    class="absolute bottom-0 right-24 w-3/4 h-full object-contain object-bottom"
+                /> -->
+                <div
+                    class="absolute -bottom-32 right-4 bg-dots-foreground bg-[length:1rem_1rem] bg-repeat w-96 h-64 opacity-50"
+                >
+                </div>
+            </ContentSection>
+        </div>
+        <ContentSection>
+            <div class="py-16"></div>
+            <p class="text-red-500">Content section</p>
+            <p>Content section</p>
+            <p>Content section</p>
+            <p>Content section</p>
+            <p>Content section</p>
+            <p>Content section</p>
+            <p>Content section</p>
+            <p>Content section</p>
+            <p>Content section</p>
+            <p>Content section</p>
+            <p>Content section</p>
+            <p>Content section</p>
+            <p>Content section</p>
+            <p>Content section</p>
+            <p>Content section</p>
+            <p>Content section</p>
+            <p>Content section</p>
+            <p>Content section</p>
+            <p>Content section</p>
+            <p>Content section</p>
+            <p>Content section</p>
+            <p>Content section</p>
+            <p>Content section</p>
+            <p>Content section</p>
+            <p>Content section</p>
+            <p>Content section</p>
+            <p>Content section</p>
+            <p>Content section</p>
+            <p>Content section</p>
+            <p>Content section</p>
+            <p>Content section</p>
+        </ContentSection>
+    </main>
+</Layout>

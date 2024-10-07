@@ -1,0 +1,12 @@
+services:
+  bjornarhagen-n0:
+    network_mode: host
+    container_name: bjornarhagen-n0
+    build:
+      context: .
+      dockerfile: Dockerfile.local
+    ports:
+      - "3000:3000"
+    volumes:
+      - ../:/app
+    tty: true

@@ -1,0 +1,44 @@
+{
+  "$schema": "./hugo-schema.json",
+  "baseURL": "https://bjornar.dev/",
+  "languageCode": "en",
+  "title": "bjornar.dev",
+  "publishDir": "dist",
+  "defaultContentLanguage": "en",
+  "defaultContentLanguageInSubdir": false,
+  "enableInlineShortcodes": true,
+  "languages": {
+    "en": {
+      "languageName": "English",
+      "weight": 1,
+      "contentDir": "content/en"
+    },
+    "nb-no": {
+      "languageName": "Norsk",
+      "weight": 2,
+      "contentDir": "content/nb-no"
+    }
+  },
+  "markup": {
+    "goldmark": {
+      "renderer": {
+        "unsafe": true
+      }
+    },
+    "highlight": {
+      "anchorLineNos": true,
+      "codeFences": true,
+      "guessSyntax": false,
+      "hl_Lines": "",
+      "hl_inline": false,
+      "lineAnchors": "",
+      "lineNoStart": 1,
+      "lineNos": true,
+      "lineNumbersInTable": false,
+      "noClasses": true,
+      "noHl": false,
+      "style": "monokai",
+      "tabWidth": 4
+    }
+  }
+}

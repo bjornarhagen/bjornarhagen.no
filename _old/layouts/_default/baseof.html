@@ -1,0 +1,118 @@
+{{ $style := resources.Get "scss/global.scss" | resources.ToCSS | resources.Minify | resources.Fingerprint }}
+<!DOCTYPE html>
+<html lang="en" dir="ltr" prefix="og: http://ogp.me/ns" class="theme-dark" style="background-color:#000000;">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="initial-scale=1, maximum-scale=2.5, width=device-width, height=device-height" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    {{- block "title" . -}}
+      {{- $pageTitle := "Bjørnar Hagen" -}}
+      {{- if .Title -}}
+        {{- $pageTitle = printf "%s | Bjørnar Hagen" .Title -}}
+      {{- end -}}
+      <title>{{ $pageTitle | safeHTML }}</title>
+      <meta property="og:title" content="{{ $pageTitle | safeHTML }}" />
+    {{- end -}}
+    {{- $urlBase := "https://bjornar.dev" -}}
+    {{- $canonicalURL := $urlBase -}}
+    {{- if .RelPermalink -}}
+      {{- $canonicalURL = printf "%s%s" $urlBase .RelPermalink -}}
+    {{- end -}}
+    <link rel="canonical" href="{{ $canonicalURL | safeHTMLAttr }}" />
+    <meta property="og:url" content="{{ $canonicalURL }}" />
+    {{ if .Description }}
+    <meta name="description" content="{{ .Description }}" />
+    <meta property="og:description" content="{{ .Description }}" />
+    {{ else }}
+    <meta name="description" content="Software engineer" />
+    <meta property="og:description" content="Software engineer" />
+    {{ end }} {{ if .Params.posterImage }}
+    <meta property="og:image" content="https://bjornar.dev{{ .Params.posterImage }}" />
+    {{ else }}
+    <meta property="og:image" content="https://bjornar.dev/image.jpg" />
+    {{ end }}
+    {{ if .Params.author }}
+    <meta property="article:author" content="{{ .Params.author }}" />
+    {{ end }}
+    {{ if .Params.publishDate }}
+    <meta property="article:published_time" content="{{ .Params.publishDate.Format "2006-01-02T15:04:05Z" }}" />
+    {{ end }}
+    {{ if .Params.categories }}
+    {{ range .Params.categories }}
+    <meta property="article:tag" content="{{ . }}" />
+    {{ end }}
+    {{ end }}
+    <meta property="og:site_name" content="Bjørnar Hagen" />
+    <meta property="og:locale" content="en_US" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#000000" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta http-equiv="Permissions-Policy" content="interest-cohort=()" />
+    <link rel="preload" as="style" href="{{ $style.Permalink }}" />
+    <link rel="preload" as="style" href="/fonts/fira-code/fira-code.css?v20210428" />
+    <link rel="preload" as="script" href="/js/theme.js?v20230815" />
+    <script src="/js/libraries/unpoly.js?v20230815"></script>
+    <link rel="stylesheet" href="/js/libraries/unpoly.css?v20230815" />
+    <link rel="stylesheet" href="{{ $style.Permalink }}" />
+    <meta property="dayTimeNameMorning" content='{{ i18n "index.header.dayTimeNameMorning" }}' />
+    <meta property="dayTimeNameAfternoon" content='{{ i18n "index.header.dayTimeNameAfternoon" }}' />
+    <meta property="dayTimeNameEvening" content='{{ i18n "index.header.dayTimeNameEvening" }}' />
+    {{ block "head" . }} {{ end }}
+  </head>
+  <body
+    {{- if .Params.body_id -}}
+        {{- printf " id=\"%s\"" .Params.body_id | safeHTMLAttr -}}
+    {{- end -}}
+
+    {{- if .Params.body_classes -}}
+        {{- printf " class=\"%s\"" .Params.body_classes | safeHTMLAttr -}}
+    {{- end -}}
+  >
+    {{ block "header" . }} {{ end }}
+    <div id="top"></div>
+    <nav id="nav">
+      <div class="nav-inner layout layout-xl">
+        <a class="logo-wrapper" href='{{ relLangURL "/" }}' up-target="body">
+          <img width="128" height="64" class="logo" src="/images/brand/logo/logo-light.svg" alt="Bjørnar Hagen logo" />
+        </a>
+        <div class="links-wrapper">
+          <a href='{{ relLangURL "/entries" }}' up-target="body">Posts</a>
+          <a href="https://datahjelpen.no/kundecaser" target="_blank" rel="noopener">Portfolio</a>
+          <a href="https://github.com/bjornarhagen" target="_blank" rel="noopener">Github</a>
+          <a href="https://www.linkedin.com/in/bjornarhagen/" target="_blank" rel="noopener">LinkedIn</a>
+        </div>
+        <div class="mega-menu">
+          <a href='{{ relLangURL "/menu/index.html" }}' up-layer="new" up-size="100%">
+            <span class="icon">᎒᎒᎒</span>
+            <span class="text">{{ i18n "nav.menu" }}</span>
+          </a>
+        </div>
+      </div>
+    </nav>
+    {{ block "content" . }} {{ end }}
+    <footer id="footer" class="layout bg-dots-gray bg-dots-sm">
+      <div class="footer-inner">
+        <div>
+          <a href='{{ relLangURL "/cookies" }}'>Cookies</a>
+        </div>
+        <div>
+          <a href="#light" class="theme-light-hide no-underline square">
+            <span>☀</span>
+          </a>
+          <a href="#dark" class="theme-dark-hide no-underline square">
+            <span>☽</span>
+          </a>
+          <a href="#top" class="no-underline square"> <span>↑</span></a>
+        </div>
+      </div>
+    </footer>
+    {{ block "scripts_before" . }} {{ end }}
+    <link rel="stylesheet" href="/fonts/fira-code/fira-code.css?v20210428" />
+    <script src="/js/theme.js?v20230815" async></script>
+    <!-- {{/*  <script src="/js/libraries/htmx.js?v20230704" async></script>  */}} -->
+    {{ block "scripts_after" . }} {{ end }}
+  </body>
+</html>
