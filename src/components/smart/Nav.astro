@@ -73,7 +73,7 @@ import { Menu, Search, X, Sun, MoonStar } from "lucide";
     </div>
     <dialog
         data-nav-menu
-        class="fixed inset-0 bg-background/50 backdrop-blur-md w-full h-screen z-10 hidden open:flex flex-col justify-center items-center p-4"
+        class="fixed inset-0 bg-background/50 backdrop-blur-md w-full h-screen z-10 open:flex flex-col justify-center items-center p-4"
     >
         <a
             href="/"
@@ -115,7 +115,7 @@ import { Menu, Search, X, Sun, MoonStar } from "lucide";
     </dialog>
     <dialog
         data-nav-search
-        class="fixed inset-0 bg-background/50 backdrop-blur-md w-full h-screen z-10 hidden open:flex flex-col justify-center items-center p-4"
+        class="fixed inset-0 bg-background/50 backdrop-blur-md w-full h-screen z-10 open:flex flex-col justify-center items-center p-4"
     >
         <a
             href="/"
@@ -131,7 +131,7 @@ import { Menu, Search, X, Sun, MoonStar } from "lucide";
             action="/search"
         >
             <input
-                name="search"
+                name="q"
                 type="search"
                 class="p-2 border-2 border-border"
                 autofocus
@@ -180,7 +180,7 @@ import { Menu, Search, X, Sun, MoonStar } from "lucide";
             button.addEventListener("click", () => {
                 console.debug("Opening nav menu dialog: Button clicked");
                 navMenuDialog.setAttribute("open", "");
-                navMenuDialog?.focus();
+                navMenuDialog.focus();
                 window.addEventListener("keydown", handleEscapeKey);
             });
         });
@@ -192,7 +192,7 @@ import { Menu, Search, X, Sun, MoonStar } from "lucide";
             button.addEventListener("click", () => {
                 console.debug("Closing nav menu dialog: Button clicked");
                 navMenuDialog.removeAttribute("open");
-                menuOpenButtons[0]?.focus();
+                menuOpenButtons[0].focus();
                 window.removeEventListener("keydown", handleEscapeKey);
             });
         });
@@ -201,7 +201,7 @@ import { Menu, Search, X, Sun, MoonStar } from "lucide";
             if (event.key === "Escape") {
                 console.debug("Closing nav menu dialog: Escape key pressed");
                 navMenuDialog.removeAttribute("open");
-                menuOpenButtons[0]?.focus();
+                menuOpenButtons[0].focus();
                 window.removeEventListener("keydown", handleEscapeKey);
             }
         };
@@ -237,7 +237,7 @@ import { Menu, Search, X, Sun, MoonStar } from "lucide";
             button.addEventListener("click", () => {
                 console.debug("Closing nav search dialog: Button clicked");
                 navSearchDialog.removeAttribute("open");
-                searchOpenButtons[0]?.focus();
+                searchOpenButtons[0].focus();
                 window.removeEventListener("keydown", handleEscapeKey);
             });
         });
@@ -246,7 +246,7 @@ import { Menu, Search, X, Sun, MoonStar } from "lucide";
             if (event.key === "Escape") {
                 console.debug("Closing nav search dialog: Escape key pressed");
                 navSearchDialog.removeAttribute("open");
-                searchOpenButtons[0]?.focus();
+                searchOpenButtons[0].focus();
                 window.removeEventListener("keydown", handleEscapeKey);
             }
         };

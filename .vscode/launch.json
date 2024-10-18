@@ -1,0 +1,16 @@
+{
+    "configurations": [
+        {
+            "name": "Docker - start container",
+            "command": "docker compose -f ${workspaceFolder}/dev/docker-compose.local.yml up -d",
+            "request": "launch",
+            "type": "node-terminal"
+        },
+        {
+            "name": "Docker - Connect to container",
+            "command": "docker exec -it $(docker ps | grep 'bjornarhagen-no' | awk '{print $1}') sh -c 'if [ -x /bin/bash ]; then exec /bin/bash; else exec /bin/sh; fi'",
+            "request": "launch",
+            "type": "node-terminal"
+        }
+    ]
+}

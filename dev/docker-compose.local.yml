@@ -1,7 +1,7 @@
 services:
-  bjornarhagen-n0:
+  bjornarhagen-no:
     network_mode: host
-    container_name: bjornarhagen-n0
+    container_name: bjornarhagen-no
     build:
       context: .
       dockerfile: Dockerfile.local

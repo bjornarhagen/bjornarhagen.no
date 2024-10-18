@@ -1,13 +1,32 @@
 ---
-import ContentSection from "../../components/dumb/ContentSection.astro";
-import { entries } from "../../data/entries";
-import Layout from "../../layouts/Layout.astro";
+import ContentSection from "../../../components/dumb/ContentSection.astro";
+import { entries } from "../../../data/entries";
+import Layout from "../../../layouts/Layout.astro";
+
+export function getStaticPaths() {
+    const paths = Object.keys(entries).flatMap((year) =>
+        Object.keys(entries[year]).map((slug) => ({
+            params: {
+                year: year,
+                slug: slug,
+            },
+        }))
+    );
+    console.log(`Generating pages for "entries/[year]/[slug]"`, { paths });
+    return paths;
+}
+
+const { year } = Astro.params;
 ---
 
 <Layout title="Posts">
     <main class="pt-4">
         <ContentSection>
-            <h1 class="font-heading text-6xl">Posts</h1>
+            <h1 class="font-heading text-6xl">
+                <a href="/entries" class="hover:underline focus:underline"
+                    >Posts</a
+                > / {year}
+            </h1>
 
             {
                 Object.keys(entries).map((year) =>
