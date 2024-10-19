@@ -1,0 +1,106 @@
+---
+import type { PageContent } from "../../data/dynamic-pages";
+
+interface Props {
+    entry: PageContent;
+}
+
+const {
+    entry = {
+        content: {},
+        date: "",
+        imageHeader: "",
+        slug: "",
+        poster: "",
+        summary: "",
+        title: "",
+        imageText: "",
+    },
+} = Astro.props;
+---
+
+<div class="flex flex-col gap-1">
+    <label for="title">Title</label>
+    <input
+        name="title"
+        class="border border-borer bg-background text-foreground"
+        type="text"
+        value={entry.title}
+    />
+</div>
+
+<div class="flex flex-col gap-1">
+    <label for="slug">slug</label>
+    <input
+        name="slug"
+        class="border border-borer bg-background text-foreground"
+        type="text"
+        value={entry.slug}
+    />
+</div>
+
+<div class="flex flex-col gap-1">
+    <label for="imageHeader">imageHeader</label>
+    <input
+        name="imageHeader"
+        class="border border-borer bg-background text-foreground"
+        type="text"
+        value={entry.imageHeader}
+    />
+</div>
+
+<div class="flex flex-col gap-1">
+    <label for="imageText">imageText</label>
+    <input
+        name="imageText"
+        class="border border-borer bg-background text-foreground"
+        type="text"
+        value={entry.imageText}
+    />
+</div>
+
+<div class="flex flex-col gap-1">
+    <label for="poster">poster</label>
+    <input
+        name="poster"
+        class="border border-borer bg-background text-foreground"
+        type="text"
+        value={entry.poster}
+    />
+</div>
+
+<div class="flex flex-col gap-1">
+    <label for="date">Date</label>
+    <input
+        name="date"
+        class="border border-borer bg-background text-foreground"
+        type="text"
+        value={entry.date}
+    />
+</div>
+
+<div class="flex flex-col gap-1">
+    <label for="summary">Summary</label>
+    <textarea
+        name="summary"
+        class="border border-borer bg-background text-foreground"
+        >{entry.summary}</textarea
+    >
+</div>
+
+<div class="flex flex-col gap-1 col-span-2">
+    <label for="content">Content (JSON format)</label>
+    <textarea
+        name="content"
+        class="border border-borer bg-background text-foreground"
+        rows="8">{JSON.stringify(entry.content, null, 2)}</textarea
+    >
+</div>
+
+<div class="flex flex-col gap-1 justify-center items-center col-span-2">
+    <div>
+        <button type="submit" class="bg-primary-500 text-white dark:text-black"
+            >Save</button
+        >
+    </div>
+</div>

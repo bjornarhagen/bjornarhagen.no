@@ -15,7 +15,7 @@ export type ContentSection = {
         "h-align"?: ("" | "start" | "center" | "end")[];
         "text-align"?: ("" | "start" | "center" | "end")[];
     };
-    text: string[];
+    text?: string[];
 };
 
 interface Props {
@@ -61,7 +61,9 @@ const { content } = Astro.props;
         }
 
         // CHILDREN / TEXTS STYLING
-        const textClassesFromParent: string[] = section.text.map(() => "");
+        const textClassesFromParent: string[] = (section.text || []).map(
+            () => ""
+        );
 
         if (section.layout) {
             if (section.layout === "cols-2") {

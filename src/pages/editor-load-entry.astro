@@ -1,0 +1,109 @@
+---
+import ContentSection from "../components/dumb/ContentSection.astro";
+import { entries } from "../data/entries";
+import Layout from "../layouts/Layout.astro";
+
+export const prerender = false;
+
+if (process.env.NODE_ENV !== "development") {
+    return new Response(null, {
+        status: 404,
+    });
+}
+
+const slugsByYear = Object.keys(entries).reduce((acc, year) => {
+    // @ts-ignore
+    acc[year] = Object.keys(entries[year]);
+    return acc;
+}, {});
+---
+
+<Layout>
+    <ContentSection className="py-8">
+        <div class="flex flex-col items-center gap-2 border border-border p-4">
+            {
+                Object.keys(slugsByYear).map((year) => (
+                    <>
+                        <h2>{year}</h2>
+                        {/* @ts-ignore */}
+                        {slugsByYear[year].map((slug) => (
+                            <div class="flex gap-1 items-center">
+                                <h3>{slug}</h3>
+                                <form action="/editor" method="post">
+                                    <input
+                                        name="_method"
+                                        type="hidden"
+                                        value={"POST"}
+                                    />
+                                    <input
+                                        name="year"
+                                        type="hidden"
+                                        value={year}
+                                    />
+                                    <input
+                                        name="slug"
+                                        type="hidden"
+                                        value={slug}
+                                    />
+                                    <button
+                                        type="submit"
+                                        class="bg-primary-500 text-white dark:text-black"
+                                    >
+                                        Edit
+                                    </button>
+                                </form>
+                                <a
+                                    href={`/entries/${year}/${slug}`}
+                                    class="bg-primary-500 text-white dark:text-black"
+                                >
+                                    View
+                                </a>
+                                <form action="/editor" method="post">
+                                    <input
+                                        name="_method"
+                                        type="hidden"
+                                        value={"DELETE"}
+                                    />
+                                    <input
+                                        name="year"
+                                        type="hidden"
+                                        value={year}
+                                    />
+                                    <input
+                                        name="slug"
+                                        type="hidden"
+                                        value={slug}
+                                    />
+                                    <button
+                                        type="submit"
+                                        class="bg-primary-500 text-white dark:text-black"
+                                    >
+                                        Delete
+                                    </button>
+                                </form>
+                            </div>
+                        ))}
+                    </>
+                ))
+            }
+        </div>
+
+        <form
+            class="flex flex-col items-center gap-2 border border-border p-4"
+            action="/editor"
+            method="post"
+        >
+            <input name="_method" type="hidden" value={"POST"} />
+            <input name="year" type="hidden" value={new Date().getFullYear()} />
+            <input name="slug" type="hidden" value="_new" />
+
+            <div>
+                <button
+                    type="submit"
+                    class="bg-primary-500 text-white dark:text-black"
+                    >New Entry</button
+                >
+            </div>
+        </form>
+    </ContentSection>
+</Layout>

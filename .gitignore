@@ -10,3 +10,4 @@ $RECYCLE.BIN/
 *.lnk
 node_modules/
 .astro/
+dist/

@@ -2,6 +2,8 @@
 import logo from "../../../public/images/brand/logo/emblem.svg?raw";
 import Icon from "../dumb/Icon.astro";
 import { Menu, Search, X, Sun, MoonStar } from "lucide";
+
+const isDevEnv = process.env.NODE_ENV === "development";
 ---
 
 <nav id="nav" class="font-paragraph">
@@ -95,11 +97,24 @@ import { Menu, Search, X, Sun, MoonStar } from "lucide";
                 class="text-foreground hover:underline focus:underline hover:text-primary-500 focus:text-primary-500"
                 >Portfolio</a
             >
-            <a
-                href="/kitchen-sink"
-                class="text-foreground hover:underline focus:underline hover:text-primary-500 focus:text-primary-500"
-                >Kitchen Sink</a
-            >
+            {
+                isDevEnv && (
+                    <>
+                        <a
+                            href="/kitchen-sink"
+                            class="text-foreground hover:underline focus:underline hover:text-primary-500 focus:text-primary-500"
+                        >
+                            Kitchen Sink
+                        </a>
+                        <a
+                            href="/editor-load-entry"
+                            class="text-foreground hover:underline focus:underline hover:text-primary-500 focus:text-primary-500"
+                        >
+                            Editor
+                        </a>
+                    </>
+                )
+            }
         </div>
         <div class="mt-auto">
             <button
@@ -164,7 +179,7 @@ import { Menu, Search, X, Sun, MoonStar } from "lucide";
 
         setupMenu(nav);
         setupSearch(nav);
-        setupTheme(nav);
+        setupTheme();
     })();
 
     function setupMenu(nav: HTMLElement) {
@@ -180,6 +195,7 @@ import { Menu, Search, X, Sun, MoonStar } from "lucide";
             button.addEventListener("click", () => {
                 console.debug("Opening nav menu dialog: Button clicked");
                 navMenuDialog.setAttribute("open", "");
+                // @ts-ignore stfu TS
                 navMenuDialog.focus();
                 window.addEventListener("keydown", handleEscapeKey);
             });
@@ -192,6 +208,7 @@ import { Menu, Search, X, Sun, MoonStar } from "lucide";
             button.addEventListener("click", () => {
                 console.debug("Closing nav menu dialog: Button clicked");
                 navMenuDialog.removeAttribute("open");
+                // @ts-ignore stfu TS
                 menuOpenButtons[0].focus();
                 window.removeEventListener("keydown", handleEscapeKey);
             });
@@ -201,6 +218,7 @@ import { Menu, Search, X, Sun, MoonStar } from "lucide";
             if (event.key === "Escape") {
                 console.debug("Closing nav menu dialog: Escape key pressed");
                 navMenuDialog.removeAttribute("open");
+                // @ts-ignore stfu TS
                 menuOpenButtons[0].focus();
                 window.removeEventListener("keydown", handleEscapeKey);
             }
@@ -237,6 +255,7 @@ import { Menu, Search, X, Sun, MoonStar } from "lucide";
             button.addEventListener("click", () => {
                 console.debug("Closing nav search dialog: Button clicked");
                 navSearchDialog.removeAttribute("open");
+                // @ts-ignore stfu TS
                 searchOpenButtons[0].focus();
                 window.removeEventListener("keydown", handleEscapeKey);
             });
@@ -246,13 +265,14 @@ import { Menu, Search, X, Sun, MoonStar } from "lucide";
             if (event.key === "Escape") {
                 console.debug("Closing nav search dialog: Escape key pressed");
                 navSearchDialog.removeAttribute("open");
+                // @ts-ignore stfu TS
                 searchOpenButtons[0].focus();
                 window.removeEventListener("keydown", handleEscapeKey);
             }
         };
     }
 
-    function setupTheme(nav: HTMLElement) {
+    function setupTheme() {
         initialize();
 
         const themeToggleButtons = document.querySelectorAll(
