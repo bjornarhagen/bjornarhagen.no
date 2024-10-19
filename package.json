@@ -4,8 +4,8 @@
     "version": "0.0.1",
     "scripts": {
         "dev": "astro dev --port 3000",
-        "start": "HOST=0.0.0.0 PORT=8080 bun dist/server/entry.mjs",
-        "build": "astro check && astro build",
+        "start": "NODE_ENV=production HOST=0.0.0.0 PORT=8080 bun dist/server/entry.mjs",
+        "build": "astro check && NODE_ENV=production astro build",
         "preview": "astro preview",
         "astro": "astro"
     },
