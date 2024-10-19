@@ -2,6 +2,7 @@
 import ContentSection from "../../components/dumb/ContentSection.astro";
 import { entries } from "../../data/entries";
 import Layout from "../../layouts/Layout.astro";
+import { checkIfImageUrl } from "../../utils/image";
 ---
 
 <Layout title="Posts">
@@ -23,7 +24,11 @@ import Layout from "../../layouts/Layout.astro";
                                         {article.date}
                                     </p>
                                     <img
-                                        src={article.poster}
+                                        src={
+                                            checkIfImageUrl(article.poster)
+                                                ? article.poster
+                                                : "/images/loading-gray.svg"
+                                        }
                                         alt={article.title}
                                         class="w-full h-56 object-cover object-center rounded-lg group-hover:opacity-75 group-focus:opacity-75"
                                     />

@@ -11,25 +11,49 @@ if (process.env.NODE_ENV !== "development") {
     });
 }
 
-const slugsByYear = Object.keys(entries).reduce((acc, year) => {
+const entriesByYear = Object.keys(entries).reduce((acc, year) => {
     // @ts-ignore
-    acc[year] = Object.keys(entries[year]);
+    acc[year] = Object.keys(entries[year]).map((slug) => entries[year][slug]);
     return acc;
 }, {});
 ---
 
 <Layout>
     <ContentSection className="py-8">
-        <div class="flex flex-col items-center gap-2 border border-border p-4">
+        <form
+            class="flex flex-col items-end gap-2 p-4"
+            action="/editor"
+            method="post"
+        >
+            <input name="_method" type="hidden" value={"POST"} />
+            <input name="year" type="hidden" value={new Date().getFullYear()} />
+            <input name="slug" type="hidden" value="_new" />
+
+            <div>
+                <button
+                    type="submit"
+                    class="bg-primary-500 text-white dark:text-black px-2 py-1 hover:bg-primary-600"
+                    >New Entry</button
+                >
+            </div>
+        </form>
+
+        <div class="flex flex-col gap-2 border border-border p-4">
             {
-                Object.keys(slugsByYear).map((year) => (
+                Object.keys(entriesByYear).map((year) => (
                     <>
-                        <h2>{year}</h2>
+                        <h2 class="font-heading text-3xl">{year}</h2>
                         {/* @ts-ignore */}
-                        {slugsByYear[year].map((slug) => (
-                            <div class="flex gap-1 items-center">
-                                <h3>{slug}</h3>
-                                <form action="/editor" method="post">
+                        {entriesByYear[year].map((entry) => (
+                            <div class="grid grid-cols-5 gap-2 items-center justify-start w-full text-center hover:bg-foreground/5 focus-within:bg-foreground/5">
+                                <h3 class="font-paragraph text-xl text-left col-span-2">
+                                    {entry.title}
+                                </h3>
+                                <form
+                                    action="/editor"
+                                    method="post"
+                                    class="contents"
+                                >
                                     <input
                                         name="_method"
                                         type="hidden"
@@ -43,22 +67,26 @@ const slugsByYear = Object.keys(entries).reduce((acc, year) => {
                                     <input
                                         name="slug"
                                         type="hidden"
-                                        value={slug}
+                                        value={entry.slug}
                                     />
                                     <button
                                         type="submit"
-                                        class="bg-primary-500 text-white dark:text-black"
+                                        class="border border-primary-500 text-primary-500 px-2 py-1 hover:bg-primary-500 hover:text-white dark:hover:text-black"
                                     >
                                         Edit
                                     </button>
                                 </form>
                                 <a
-                                    href={`/entries/${year}/${slug}`}
-                                    class="bg-primary-500 text-white dark:text-black"
+                                    href={`/entries/${year}/${entry.slug}`}
+                                    class="border border-primary-500 text-primary-500 px-2 py-1 hover:bg-primary-500 hover:text-white dark:hover:text-black"
                                 >
                                     View
                                 </a>
-                                <form action="/editor" method="post">
+                                <form
+                                    action="/editor"
+                                    method="post"
+                                    class="contents"
+                                >
                                     <input
                                         name="_method"
                                         type="hidden"
@@ -72,11 +100,11 @@ const slugsByYear = Object.keys(entries).reduce((acc, year) => {
                                     <input
                                         name="slug"
                                         type="hidden"
-                                        value={slug}
+                                        value={entry.slug}
                                     />
                                     <button
                                         type="submit"
-                                        class="bg-primary-500 text-white dark:text-black"
+                                        class="border border-primary-500 text-primary-500 px-2 py-1 hover:bg-primary-500 hover:text-white dark:hover:text-black"
                                     >
                                         Delete
                                     </button>
@@ -87,23 +115,5 @@ const slugsByYear = Object.keys(entries).reduce((acc, year) => {
                 ))
             }
         </div>
-
-        <form
-            class="flex flex-col items-center gap-2 border border-border p-4"
-            action="/editor"
-            method="post"
-        >
-            <input name="_method" type="hidden" value={"POST"} />
-            <input name="year" type="hidden" value={new Date().getFullYear()} />
-            <input name="slug" type="hidden" value="_new" />
-
-            <div>
-                <button
-                    type="submit"
-                    class="bg-primary-500 text-white dark:text-black"
-                    >New Entry</button
-                >
-            </div>
-        </form>
     </ContentSection>
 </Layout>

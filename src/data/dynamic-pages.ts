@@ -10,3 +10,9 @@ export type PageContent = {
     imageText?: string;
     content: ContentSection[];
 };
+
+export type Entries = {
+    [key: string]: {
+        [key: string]: PageContent;
+    };
+};

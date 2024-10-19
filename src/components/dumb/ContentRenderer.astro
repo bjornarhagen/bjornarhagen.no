@@ -2,18 +2,58 @@
 import { marked } from "marked";
 import "./ContentRenderer.css";
 
+type ContentSectionLayout =
+    | ""
+    | "cols-2"
+    | "cols-1-3"
+    | "cols-3-1"
+    | "cols-3"
+    | "full";
+
+export const ContentSectionLayouts: readonly ContentSectionLayout[] = [
+    "",
+    "cols-2",
+    "cols-1-3",
+    "cols-3-1",
+    "cols-3",
+    "full",
+];
+
+type ContentSectionBackground = "" | "light" | "dark";
+
+export const ContentSectionBackgrounds: readonly ContentSectionBackground[] = [
+    "",
+    "light",
+    "dark",
+];
+
+type ContentSectionAttributeWidth =
+    | ""
+    | "small"
+    | "medium"
+    | "large"
+    | "extra-large";
+
+export const ContentSectionAttributeWidths: readonly ContentSectionAttributeWidth[] =
+    ["", "small", "medium", "large", "extra-large"];
+
+type ContentSectionAttributeAlignment = "" | "start" | "center" | "end";
+
+export const ContentSectionAttributeAlignments: readonly ContentSectionAttributeAlignment[] =
+    ["", "start", "center", "end"];
+
 export type ContentSection = {
-    layout?: "cols-2" | "cols-1-3" | "cols-3-1" | "cols-3" | "full";
+    layout?: ContentSectionLayout;
     margin?: boolean;
     padded?: boolean;
-    bg?: "light" | "dark";
+    bg?: ContentSectionBackground;
     attributes?: {
         sticky?: number[];
         borders?: number[];
-        widths?: ("" | "small" | "medium" | "large" | "extra-large")[];
-        "v-align"?: ("" | "start" | "center" | "end")[];
-        "h-align"?: ("" | "start" | "center" | "end")[];
-        "text-align"?: ("" | "start" | "center" | "end")[];
+        widths?: ContentSectionAttributeWidth[];
+        "v-align"?: ContentSectionAttributeAlignment[];
+        "h-align"?: ContentSectionAttributeAlignment[];
+        "text-align"?: ContentSectionAttributeAlignment[];
     };
     text?: string[];
 };

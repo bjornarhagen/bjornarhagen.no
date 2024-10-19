@@ -1,5 +1,5 @@
 ---
-import { ArrowLeft } from "lucide";
+import { ArrowLeft, Eye } from "lucide";
 import ContentSection from "../components/dumb/ContentSection.astro";
 import EditorComponent from "../components/dumb/EditorComponent.astro";
 import { entries } from "../data/entries";
@@ -376,21 +376,8 @@ function saveToEntryFile({
         ...entry,
     };
 
-    // Convert the updated entries object to a string
-    const updatedContent = `
-        import type { PageContent } from './dynamic-pages';
-
-        export type Entries = {
-        [key: string]: {
-            [key: string]: PageContent;
-        };
-        };
-
-        export const entries: Entries = ${JSON.stringify(updatedEntries, null, 2)};
-        `;
-
-    // Write the updated content back to the file
-    fs.writeFileSync("./src/data/entries.ts", updatedContent);
+    const updatedContent = `${JSON.stringify(updatedEntries, null, 2)}`;
+    fs.writeFileSync("./src/data/entries.json", updatedContent);
     console.log({ existingContent: entries, updatedContent: updatedEntries });
 }
 
@@ -402,35 +389,37 @@ function deleteFromEntryFile({ year, slug }: { year: string; slug: string }) {
     }
 
     delete updatedEntries[year][slug];
-
-    // Convert the updated entries object to a string
-    const updatedContent = `
-        import type { PageContent } from './dynamic-pages';
-
-        export type Entries = {
-        [key: string]: {
-            [key: string]: PageContent;
-        };
-        };
-
-        export const entries: Entries = ${JSON.stringify(updatedEntries, null, 2)};
-        `;
-
-    // Write the updated content back to the file
-    fs.writeFileSync("./src/data/entries.ts", updatedContent);
+    const updatedContent = `${JSON.stringify(updatedEntries, null, 2)}`;
+    fs.writeFileSync("./src/data/entries.json", updatedContent);
     console.log({ existingContent: entries, updatedContent: updatedEntries });
 }
+
+// @ts-ignore
+const entryYear = entry.date ? entry.date.split("-")[0] : "";
 ---
 
 <Layout>
     <ContentSection className="py-8">
-        <a href="/editor-load-entry" class="flex items-center gap-1">
-            <Icon icon={ArrowLeft} />
-            <span>Back</span>
-        </a>
-        <!-- <pre>
-            <code>{JSON.stringify(entry, null, 2)}</code>
-        </pre> -->
+        <div class="flex justify-between gap-4">
+            <a
+                href="/editor-load-entry"
+                class="inline-flex items-center gap-1 bg-primary-500 text-white dark:text-black px-2 py-1 hover:bg-primary-600"
+            >
+                <Icon icon={ArrowLeft} />
+                <span>Back</span>
+            </a>
+            {
+                !isNew && (
+                    <a
+                        href={`/entries/${entryYear}/${entry.slug}`}
+                        class="inline-flex items-center gap-1 bg-primary-500 text-white dark:text-black px-2 py-1 hover:bg-primary-600"
+                    >
+                        <Icon icon={Eye} />
+                        <span>View</span>
+                    </a>
+                )
+            }
+        </div>
         <form
             class="grid grid-cols-2 items-center gap-2 p-4"
             action="/editor"

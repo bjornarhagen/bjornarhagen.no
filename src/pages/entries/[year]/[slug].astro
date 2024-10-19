@@ -2,6 +2,7 @@
 import ContentRenderer from "../../../components/dumb/ContentRenderer.astro";
 import { entries } from "../../../data/entries";
 import Layout from "../../../layouts/Layout.astro";
+import { checkIfImageUrl } from "../../../utils/image";
 
 export function getStaticPaths() {
     const paths = Object.keys(entries).flatMap((year) =>
@@ -51,7 +52,7 @@ const entry = entries[year][slug];
                             >
                         </div>
                         <h1
-                            class="font-bold flex flex-col lg:flex-row lg:gap-4 text-5xl sm:text-7xl font-heading leading-none text-left max-w-screen-lg"
+                            class="flex flex-col lg:flex-row lg:gap-4 text-5xl sm:text-7xl font-heading leading-none text-left max-w-screen-lg"
                         >
                             <span>{entry.title}</span>
                         </h1>
@@ -69,7 +70,9 @@ const entry = entries[year][slug];
                     </div>
                 </div>
                 <img
-                    src={entry.imageHeader}
+                    src={checkIfImageUrl(entry.imageHeader)
+                        ? entry.imageHeader
+                        : "/images/loading-gray.svg"}
                     alt=`${entry.title}`
                     class="w-full px-4 pb-8 lg:px-8 lg:pb-16 max-w-screen-2xl"
                 />

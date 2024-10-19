@@ -1,10 +1,21 @@
 /* Headings */
 .content-renderer-section h1 {
-    @apply text-6xl font-bold font-paragraph mb-4;
+    @apply font-heading text-9xl mb-4;
 }
-
 .content-renderer-section h2 {
-    @apply text-4xl font-bold font-paragraph mb-4;
+    @apply font-heading text-8xl mb-4;
+}
+.content-renderer-section h3 {
+    @apply font-heading text-7xl mb-4;
+}
+.content-renderer-section h4 {
+    @apply font-heading text-6xl mb-4;
+}
+.content-renderer-section h5 {
+    @apply font-heading text-5xl mb-4;
+}
+.content-renderer-section h6 {
+    @apply font-heading text-4xl mb-4;
 }
 
 /* Copy */
