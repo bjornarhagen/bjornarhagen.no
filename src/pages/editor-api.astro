@@ -1,0 +1,494 @@
+---
+import ContentSection from "../components/dumb/ContentSection.astro";
+import { dynamicPages, type PageContent } from "../data/dynamic-pages";
+import Layout from "../layouts/Layout.astro";
+import fs from "fs";
+
+export const prerender = false;
+
+if (process.env.NODE_ENV !== "development") {
+    return new Response(null, {
+        status: 404,
+    });
+}
+
+console.log("Editor API Request:", Astro.request);
+
+if (["GET"].includes(Astro.request.method)) {
+    const url = new URL(Astro.request.url);
+    const year = url.searchParams.get("year");
+    const slug = url.searchParams.get("slug");
+    const type = url.searchParams.get("type") as
+        | keyof typeof dynamicPages
+        | undefined
+        | null;
+
+    if (!year || !slug || !type) {
+        return new Response(
+            JSON.stringify({ error: "Missing required fields" }),
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                status: 400,
+            }
+        );
+    }
+
+    console.log("Year:", year);
+    console.log("Slug:", slug);
+    console.log("Type:", type);
+
+    let entry = {};
+
+    if (slug === "_new") {
+        const date = new Date();
+        entry = {
+            title: `New ${type}`,
+            date: `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`,
+        };
+        console.log("New Entry:", entry);
+    } else {
+        try {
+            entry = dynamicPages[type][year][slug];
+
+            console.log("entryentryentryentryentry", entry);
+
+            if (entry === undefined) {
+                throw Error;
+            }
+        } catch (error) {
+            console.error(error);
+            return new Response(JSON.stringify({ error: "Entry not found" }), {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                status: 404,
+            });
+        }
+    }
+
+    return handleJsonOrRedirectResponse({
+        dynamicPage: entry,
+        year,
+        slug,
+        type,
+    });
+}
+
+if (["POST", "PATCH", "PUT", "DELETE"].includes(Astro.request.method)) {
+    if (
+        Astro.request.headers.get("content-type") !==
+        "application/x-www-form-urlencoded"
+    ) {
+        return new Response(
+            JSON.stringify({
+                error: "Invalid Content-Type. Use application/x-www-form-urlencoded",
+            }),
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                status: 400,
+            }
+        );
+    }
+
+    const body = await Astro.request.text();
+    const params = new URLSearchParams(body);
+    const formData = Object.fromEntries(params.entries());
+
+    if (formData._method === "PATCH") {
+        const patchResponse = await handlePATCH(formData);
+        const isResponse = patchResponse instanceof Response;
+        const isEntry = !isResponse && typeof patchResponse === "object";
+        console.log("patch Response:", {
+            isEntry,
+            isResponse,
+        });
+        if (isResponse) {
+            return patchResponse;
+        }
+        const entry = patchResponse;
+        console.log("handle patch Entry:", entry);
+
+        const year = formData.date.split("-")[0];
+        const type = formData.type as keyof typeof dynamicPages;
+
+        return handleJsonOrRedirectResponse({
+            dynamicPage: entry,
+            year,
+            slug: entry.slug,
+            type,
+        });
+    } else if (formData._method === "PUT") {
+        const putResponse = await handlePUT(formData);
+        const isResponse = putResponse instanceof Response;
+        const isEntry = !isResponse && typeof putResponse === "object";
+        console.log("put Response:", {
+            isEntry,
+            isResponse,
+        });
+        if (isResponse) {
+            return putResponse;
+        }
+        const entry = putResponse;
+        console.log("handle put Entry:", entry);
+
+        const year = formData.date.split("-")[0];
+        const type = formData.type as keyof typeof dynamicPages;
+
+        return handleJsonOrRedirectResponse({
+            dynamicPage: entry,
+            year,
+            slug: entry.slug,
+            type,
+        });
+    } else if (formData._method === "DELETE") {
+        const deleteResponse = await handleDELETE(formData);
+        const isResponse = deleteResponse instanceof Response;
+        console.log("delete Response:", {
+            isResponse,
+        });
+        if (!isResponse) {
+            return new Response(
+                JSON.stringify({ error: "Something went wrong" }),
+                {
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    status: 500,
+                }
+            );
+        }
+
+        return deleteResponse;
+    } else {
+        return new Response(null, {
+            status: 405,
+            headers: {
+                allow: "POST, PATCH, PUT",
+            },
+        });
+    }
+} else {
+    return new Response(null, {
+        status: 405,
+        headers: {
+            allow: "POST, PATCH, PUT",
+        },
+    });
+}
+
+async function handlePATCH(formData: { [k: string]: string }) {
+    if (
+        !formData.title ||
+        !formData.slug ||
+        !formData.imageHeader ||
+        !formData.imageText ||
+        !formData.poster ||
+        !formData.date ||
+        !formData.summary ||
+        !formData.content
+    ) {
+        console.log("HandlePATCH formData:", formData);
+        return new Response(
+            JSON.stringify({ error: "Missing required fields" }),
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                status: 400,
+            }
+        );
+    }
+
+    console.log("Form Data:", formData);
+
+    let entry = {};
+    let updatedEntry = {};
+    const year = formData.date.split("-")[0];
+    const type = formData.type as keyof typeof dynamicPages;
+    console.log("Year:", year);
+
+    try {
+        entry = dynamicPages[type][year][formData.slug];
+        console.log("Entry:", entry);
+
+        if (entry === undefined) {
+            throw Error;
+        }
+
+        const formDataWithoutMethod = JSON.parse(
+            JSON.stringify({ ...formData, _method: undefined })
+        );
+
+        updatedEntry = {
+            ...entry,
+            ...formDataWithoutMethod,
+            content: JSON.parse(formData.content),
+        };
+
+        saveToEntryFile({
+            year,
+            slug: formData.slug,
+            type,
+            entry: {
+                ...entry,
+                ...updatedEntry,
+            },
+        });
+    } catch (error) {
+        console.error(error);
+        return new Response(JSON.stringify({ error: "entry not found, 2" }), {
+            headers: {
+                "Content-Type": "application/json",
+            },
+            status: 400,
+        });
+    }
+
+    return updatedEntry || entry;
+}
+
+async function handlePUT(formData: { [k: string]: string }) {
+    if (
+        !formData.title ||
+        !formData.slug ||
+        !formData.imageHeader ||
+        !formData.imageText ||
+        !formData.poster ||
+        !formData.date ||
+        !formData.summary ||
+        !formData.content
+    ) {
+        console.log("HandlePUT formData:", formData);
+        return new Response(
+            JSON.stringify({ error: "Missing required fields" }),
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                status: 400,
+            }
+        );
+    }
+
+    if (!Array.isArray(JSON.parse(formData.content))) {
+        return new Response(
+            JSON.stringify({ error: "Content must be an array" }),
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                status: 400,
+            }
+        );
+    }
+
+    console.log("Form Data:", formData);
+
+    let newEntry = {};
+    const year = formData.date.split("-")[0];
+    const type = formData.type as keyof typeof dynamicPages;
+
+    console.log("Year:", year);
+    console.log("Type:", type);
+
+    if (!year || !type) {
+        return new Response(
+            JSON.stringify({ error: "Missing required fields" }),
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                status: 400,
+            }
+        );
+    }
+
+    try {
+        const existingEntry = dynamicPages[type][year]
+            ? dynamicPages[type][year][formData.slug]
+            : undefined;
+        console.log("Entry:", existingEntry);
+
+        if (existingEntry !== undefined) {
+            throw Error;
+        }
+
+        const formDataWithoutMethod = JSON.parse(
+            JSON.stringify({ ...formData, _method: undefined })
+        );
+
+        newEntry = {
+            ...{},
+            ...formDataWithoutMethod,
+            content: JSON.parse(formData.content),
+        };
+
+        saveToEntryFile({
+            year,
+            slug: formData.slug,
+            type,
+            entry: {
+                ...newEntry,
+            },
+        });
+    } catch (error) {
+        console.error(error);
+        return new Response(JSON.stringify({ error: "Existing entry found" }), {
+            headers: {
+                "Content-Type": "application/json",
+            },
+            status: 404,
+        });
+    }
+
+    return newEntry;
+}
+
+async function handleDELETE(formData: { [k: string]: string }) {
+    if (!formData.year || !formData.slug) {
+        console.log("HandleDELETE formData:", formData);
+        return new Response(
+            JSON.stringify({ error: "Missing required fields" }),
+            {
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                status: 400,
+            }
+        );
+    }
+
+    console.log("Form Data:", formData);
+    const type = formData.type as keyof typeof dynamicPages;
+
+    try {
+        const existingEntry = dynamicPages[type][formData.year]
+            ? dynamicPages[type][formData.year][formData.slug]
+            : undefined;
+        console.log("Entry:", existingEntry);
+
+        if (existingEntry === undefined) {
+            throw Error;
+        }
+
+        deleteFromEntryFile({
+            year: formData.year,
+            slug: formData.slug,
+            type,
+        });
+
+        return new Response(null, {
+            status: 303,
+            headers: {
+                Location: "/editor-load-entry",
+            },
+        });
+    } catch (error) {
+        console.error(error);
+        return new Response(JSON.stringify({ error: "Entry not found" }), {
+            headers: {
+                "Content-Type": "application/json",
+            },
+            status: 404,
+        });
+    }
+}
+
+function saveToEntryFile({
+    year,
+    slug,
+    type,
+    entry,
+}: {
+    year: string;
+    slug: string;
+    type: keyof typeof dynamicPages;
+    entry: { [k: string]: any };
+}) {
+    const updatedEntries = JSON.parse(JSON.stringify(dynamicPages[type]));
+
+    if (!updatedEntries[year]) {
+        updatedEntries[year] = {};
+    }
+
+    updatedEntries[year][slug] = {
+        ...entry,
+    };
+
+    const updatedContent = `${JSON.stringify(updatedEntries, null, 2)}`;
+    fs.writeFileSync(`./src/data/${type}.json`, updatedContent);
+    console.log({
+        existingContent: dynamicPages[type],
+        updatedContent: updatedEntries,
+    });
+}
+
+function deleteFromEntryFile({
+    year,
+    slug,
+    type,
+}: {
+    year: string;
+    slug: string;
+    type: keyof typeof dynamicPages;
+}) {
+    const updatedEntries = JSON.parse(JSON.stringify(dynamicPages[type]));
+
+    if (!updatedEntries[year]) {
+        return;
+    }
+
+    delete updatedEntries[year][slug];
+    const updatedContent = `${JSON.stringify(updatedEntries, null, 2)}`;
+    fs.writeFileSync(`./src/data/${type}.json`, updatedContent);
+    console.log({
+        existingContent: dynamicPages[type],
+        updatedContent: updatedEntries,
+    });
+}
+
+function handleJsonOrRedirectResponse({
+    dynamicPage,
+    year,
+    slug,
+    type,
+}: {
+    dynamicPage: PageContent;
+    year: string;
+    slug: string;
+    type: keyof typeof dynamicPages;
+}) {
+    if (
+        Astro.request.headers.get("accept") === "application/json" ||
+        Astro.request.headers.get("content-type") === "application/json"
+    ) {
+        console.log(
+            "dynamicPagedynamicPagedynamicPagedynamicPage",
+            dynamicPage
+        );
+
+        return new Response(JSON.stringify(dynamicPage), {
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+    }
+
+    return new Response(null, {
+        status: 303,
+        headers: {
+            Location: `/editor?year=${year}&slug=${slug}&type=${type}`,
+        },
+    });
+}
+---
+
+<Layout>
+    <ContentSection className="py-8">
+        <p>Something went wrong</p>
+    </ContentSection>
+</Layout>

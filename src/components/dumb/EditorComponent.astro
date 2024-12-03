@@ -1,14 +1,16 @@
 ---
-import type { PageContent } from "../../data/dynamic-pages";
+import { ArrowLeft, Eye, Save, Plus } from "lucide";
+import type { dynamicPages, PageContent } from "../../data/dynamic-pages";
 import { initializeContent } from "../../utils/dynamic-pages";
 import { ContentSectionAttributeAlignments, ContentSectionAttributeWidths, ContentSectionBackgrounds, ContentSectionLayouts, type ContentSection } from "./ContentRenderer.astro";
+import Icon from "./Icon.astro";
 
 interface Props {
-    entry: PageContent;
+    page: PageContent;
 }
 
 const {
-    entry = {
+    page = {
         content: [],
         date: "",
         imageHeader: "",
@@ -20,8 +22,12 @@ const {
     },
 } = Astro.props;
 
-entry.content = initializeContent(entry);
+page.content = initializeContent(page);
+const requestUrl = new URL(Astro.request.url);
+const pageType = requestUrl.searchParams.get("type") as keyof typeof dynamicPages | undefined | null;
 ---
+
+<input name="type" type="hidden" value={pageType} />
 
 <div class="flex flex-col gap-1">
     <label for="title">Title</label>
@@ -29,7 +35,7 @@ entry.content = initializeContent(entry);
         name="title"
         class="border border-borer bg-background text-foreground"
         type="text"
-        value={entry.title}
+        value={page.title}
     />
 </div>
 
@@ -39,7 +45,7 @@ entry.content = initializeContent(entry);
         name="slug"
         class="border border-borer bg-background text-foreground"
         type="text"
-        value={entry.slug}
+        value={page.slug}
     />
 </div>
 
@@ -49,7 +55,7 @@ entry.content = initializeContent(entry);
         name="imageHeader"
         class="border border-borer bg-background text-foreground"
         type="text"
-        value={entry.imageHeader}
+        value={page.imageHeader}
         required
     />
 </div>
@@ -60,7 +66,7 @@ entry.content = initializeContent(entry);
         name="imageText"
         class="border border-borer bg-background text-foreground"
         type="text"
-        value={entry.imageText}
+        value={page.imageText}
         required
     />
 </div>
@@ -71,7 +77,7 @@ entry.content = initializeContent(entry);
         name="poster"
         class="border border-borer bg-background text-foreground"
         type="text"
-        value={entry.poster}
+        value={page.poster}
         required
     />
 </div>
@@ -82,7 +88,7 @@ entry.content = initializeContent(entry);
         name="date"
         class="border border-borer bg-background text-foreground"
         type="text"
-        value={entry.date}
+        value={page.date}
         required
     />
 </div>
@@ -93,25 +99,25 @@ entry.content = initializeContent(entry);
         name="summary"
         class="border border-borer bg-background text-foreground"
         required
-        >{entry.summary}</textarea
+        >{page.summary}</textarea
     >
 </div>
 
 <div class="flex flex-col gap-1 col-span-2">
     <label>Content</label>
     {
-        entry.content && (
+        page.content && (
             <section>
-                {/* <pre>{JSON.stringify(entry, null, 2)}</pre> */}
+                {/* <pre>{JSON.stringify(page, null, 2)}</pre> */}
 
-                {entry.content.map((section, sectionIndex) => {
+                {page.content.map((section, sectionIndex) => {
                     return (
                         <h2 class="font-bold">Content section: {sectionIndex}</h2>
                         <div class="flex flex-col gap-4 pl-8 border border-border p-4">
                             <div class="grid grid-cols-3 gap-4">
                                 <button data-move-content-section-up={sectionIndex} disabled={sectionIndex === 0} class="bg-primary-500 text-white dark:text-black disabled:opacity-30" type="button">Move section up</button>
-                                <button data-move-content-section-down={sectionIndex} disabled={sectionIndex === entry.content.length-1} class="bg-primary-500 text-white dark:text-black disabled:opacity-30" type="button">Move section down</button>
-                                <button data-delete-content-section={sectionIndex} disabled={entry.content.length === 1} class="bg-primary-500 text-white dark:text-black disabled:opacity-30" type="button">Delete section</button>
+                                <button data-move-content-section-down={sectionIndex} disabled={sectionIndex === page.content.length-1} class="bg-primary-500 text-white dark:text-black disabled:opacity-30" type="button">Move section down</button>
+                                <button data-delete-content-section={sectionIndex} disabled={page.content.length === 1} class="bg-primary-500 text-white dark:text-black disabled:opacity-30" type="button">Delete section</button>
                             </div>
                             <div class="grid grid-cols-4 gap-4">
                                 <div class="flex gap-1">
@@ -257,17 +263,19 @@ entry.content = initializeContent(entry);
 
 <div class="flex flex-col gap-1 justify-center items-center col-span-2">
     <div>
-        <button id="add-new-content-section" type="button" class="bg-primary-500 text-white dark:text-black disabled:opacity-30"
-            >add-new-content-section</button
-        >
+        <button id="add-new-content-section" type="button" class="bg-primary-500 text-white dark:text-black disabled:opacity-30 flex gap-1 items-center">
+            <Icon icon={Plus} />
+            <span>Add new content section</span>
+        </button>
     </div>
 </div>
 
 <div class="flex flex-col gap-1 justify-center items-center col-span-2">
     <div>
-        <button id="save" type="button" class="bg-primary-500 text-white dark:text-black disabled:opacity-30"
-            >Save</button
-        >
+        <button id="save" type="button" class="bg-primary-500 text-white dark:text-black disabled:opacity-30 flex gap-1 items-center">
+            <Icon icon={Save} />
+            <span>Save</span>
+        </button>
     </div>
 </div>
 
@@ -414,6 +422,7 @@ entry.content = initializeContent(entry);
         console.log(form);
 
         const formattedEntry = {
+            type: form.type.value,
             title: form.title.value,
             slug: form.slug.value,
             imageHeader: form.imageHeader.value,

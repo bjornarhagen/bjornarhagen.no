@@ -1,6 +1,6 @@
 ---
 import ContentSection from "../components/dumb/ContentSection.astro";
-import { entries } from "../data/entries";
+import { dynamicPages } from "../data/dynamic-pages";
 import Layout from "../layouts/Layout.astro";
 
 export const prerender = false;
@@ -11,108 +11,157 @@ if (process.env.NODE_ENV !== "development") {
     });
 }
 
-const entriesByYear = Object.keys(entries).reduce((acc, year) => {
-    // @ts-ignore
-    acc[year] = Object.keys(entries[year]).map((slug) => entries[year][slug]);
+const types = Object.keys(dynamicPages) as (keyof typeof dynamicPages)[];
+
+const pageByTypeAndYear = types.reduce((acc, type) => {
+    acc[type] = Object.keys(dynamicPages[type]).reduce((acc, year) => {
+        // @ts-ignore
+        acc[year] = Object.keys(dynamicPages[type][year]).map(
+            (slug) => dynamicPages[type][year][slug]
+        );
+        return acc;
+    }, {});
     return acc;
 }, {});
 ---
 
 <Layout>
     <ContentSection className="py-8">
-        <form
-            class="flex flex-col items-end gap-2 p-4"
-            action="/editor"
-            method="post"
-        >
-            <input name="_method" type="hidden" value={"POST"} />
-            <input name="year" type="hidden" value={new Date().getFullYear()} />
-            <input name="slug" type="hidden" value="_new" />
-
-            <div>
-                <button
-                    type="submit"
-                    class="bg-primary-500 text-white dark:text-black px-2 py-1 hover:bg-primary-600"
-                    >New Entry</button
-                >
-            </div>
-        </form>
-
         <div class="flex flex-col gap-2 border border-border p-4">
             {
-                Object.keys(entriesByYear).map((year) => (
-                    <>
-                        <h2 class="font-heading text-3xl">{year}</h2>
-                        {/* @ts-ignore */}
-                        {entriesByYear[year].map((entry) => (
-                            <div class="grid grid-cols-5 gap-2 items-center justify-start w-full text-center hover:bg-foreground/5 focus-within:bg-foreground/5">
-                                <h3 class="font-paragraph text-xl text-left col-span-2">
-                                    {entry.title}
-                                </h3>
+                Object.keys(pageByTypeAndYear).map((type) => {
+                    const pagesByYear = pageByTypeAndYear[type];
+
+                    return (
+                        <>
+                            <div class="flex justify-between items-center">
+                                <h2 class="font-heading text-3xl">{type}</h2>
+
                                 <form
+                                    class="flex flex-col items-end gap-2 p-4"
                                     action="/editor"
-                                    method="post"
-                                    class="contents"
+                                    method="get"
                                 >
                                     <input
                                         name="_method"
                                         type="hidden"
-                                        value={"POST"}
+                                        value={"GET"}
                                     />
                                     <input
                                         name="year"
                                         type="hidden"
-                                        value={year}
+                                        value={new Date().getFullYear()}
                                     />
                                     <input
                                         name="slug"
                                         type="hidden"
-                                        value={entry.slug}
-                                    />
-                                    <button
-                                        type="submit"
-                                        class="border border-primary-500 text-primary-500 px-2 py-1 hover:bg-primary-500 hover:text-white dark:hover:text-black"
-                                    >
-                                        Edit
-                                    </button>
-                                </form>
-                                <a
-                                    href={`/entries/${year}/${entry.slug}`}
-                                    class="border border-primary-500 text-primary-500 px-2 py-1 hover:bg-primary-500 hover:text-white dark:hover:text-black"
-                                >
-                                    View
-                                </a>
-                                <form
-                                    action="/editor"
-                                    method="post"
-                                    class="contents"
-                                >
-                                    <input
-                                        name="_method"
-                                        type="hidden"
-                                        value={"DELETE"}
+                                        value="_new"
                                     />
                                     <input
-                                        name="year"
+                                        name="type"
                                         type="hidden"
-                                        value={year}
+                                        value={type}
                                     />
-                                    <input
-                                        name="slug"
-                                        type="hidden"
-                                        value={entry.slug}
-                                    />
-                                    <button
-                                        type="submit"
-                                        class="border border-primary-500 text-primary-500 px-2 py-1 hover:bg-primary-500 hover:text-white dark:hover:text-black"
-                                    >
-                                        Delete
-                                    </button>
+
+                                    <div>
+                                        <button
+                                            type="submit"
+                                            class="bg-primary-500 text-white dark:text-black px-2 py-1 hover:bg-primary-600"
+                                        >
+                                            New {type}
+                                        </button>
+                                    </div>
                                 </form>
                             </div>
-                        ))}
-                    </>
-                ))
+
+                            {Object.keys(pagesByYear).map((year) => (
+                                <>
+                                    <h2 class="font-heading text-3xl">
+                                        {year}
+                                    </h2>
+                                    {/* @ts-ignore */}
+                                    {pagesByYear[year].map((entry) => (
+                                        <div class="grid grid-cols-5 gap-2 items-center justify-start w-full text-center hover:bg-foreground/5 focus-within:bg-foreground/5">
+                                            <h3 class="font-paragraph text-xl text-left col-span-2">
+                                                {entry.title}
+                                            </h3>
+                                            <form
+                                                action="/editor"
+                                                method="get"
+                                                class="contents"
+                                            >
+                                                <input
+                                                    name="_method"
+                                                    type="hidden"
+                                                    value={"GET"}
+                                                />
+                                                <input
+                                                    name="year"
+                                                    type="hidden"
+                                                    value={year}
+                                                />
+                                                <input
+                                                    name="slug"
+                                                    type="hidden"
+                                                    value={entry.slug}
+                                                />
+                                                <input
+                                                    name="type"
+                                                    type="hidden"
+                                                    value={type}
+                                                />
+                                                <button
+                                                    type="submit"
+                                                    class="border border-primary-500 text-primary-500 px-2 py-1 hover:bg-primary-500 hover:text-white dark:hover:text-black"
+                                                >
+                                                    Edit
+                                                </button>
+                                            </form>
+                                            <a
+                                                href={`/${type}/${year}/${entry.slug}`}
+                                                class="border border-primary-500 text-primary-500 px-2 py-1 hover:bg-primary-500 hover:text-white dark:hover:text-black"
+                                            >
+                                                View
+                                            </a>
+                                            <form
+                                                action="/editor-api"
+                                                method="post"
+                                                class="contents"
+                                            >
+                                                <input
+                                                    name="_method"
+                                                    type="hidden"
+                                                    value={"DELETE"}
+                                                />
+                                                <input
+                                                    name="year"
+                                                    type="hidden"
+                                                    value={year}
+                                                />
+                                                <input
+                                                    name="slug"
+                                                    type="hidden"
+                                                    value={entry.slug}
+                                                />
+                                                <input
+                                                    name="type"
+                                                    type="hidden"
+                                                    value={type}
+                                                />
+                                                <button
+                                                    type="submit"
+                                                    class="border border-primary-500 text-primary-500 px-2 py-1 hover:bg-primary-500 hover:text-white dark:hover:text-black"
+                                                >
+                                                    Delete
+                                                </button>
+                                            </form>
+                                        </div>
+                                    ))}
+                                </>
+                            ))}
+                        </>
+                    );
+                })
             }
         </div>
     </ContentSection>

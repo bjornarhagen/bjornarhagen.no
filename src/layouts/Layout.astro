@@ -1,4 +1,5 @@
 ---
+import Footer from "../components/smart/Footer.astro";
 import Nav from "../components/smart/Nav.astro";
 
 interface Props {
@@ -6,6 +7,7 @@ interface Props {
     description?: string;
     image?: string;
     marginForNav?: boolean;
+    marginForFooter?: boolean;
 }
 
 const defaultTitle = "Bjørnar Hagen";
@@ -15,6 +17,7 @@ const {
     description = "Software engineer",
     image = "/image.jpg",
     marginForNav = true,
+    marginForFooter = true,
 } = Astro.props;
 ---
 
@@ -76,6 +79,8 @@ const {
         <Nav />
         {marginForNav && <div class="pt-14 md:pt-16" />}
         <slot />
+        {marginForFooter && <div class="pt-14 md:pt-16" />}
+        <Footer />
     </body>
 </html>
 <style is:global>
@@ -195,6 +200,9 @@ const {
             --primary-300: 34, 74%, 80%;
             --primary-400: 34, 74%, 75%;
             --primary-500: 34, 74%, 70%;
+            /* The old brown: */
+            /* --primary-500: 345.5, 17.2%, 33.1%; */
+            /* Other, unknown: */
             /* --primary-500: 160.4, 100%, 42.5%; */
             /* --primary-500: 346.2, 100%, 69.2%; */
             /* --primary-500: 41.3, 100%, 54.1%; */
@@ -231,5 +239,29 @@ const {
         background-color: hsl(var(--primary-500));
         color: hsl(var(--background));
         text-shadow: none;
+    }
+
+    a[target="_blank"] {
+        position: relative;
+    }
+
+    a[target="_blank"]::after {
+        content: "\2197";
+        position: absolute;
+        top: -0.5em;
+        right: -0.5em;
+        opacity: 0.5;
+    }
+
+    /* Desktop */
+    @media (min-width: 60em) {
+        a[target="_blank"]::after {
+            opacity: 0;
+        }
+
+        a[target="_blank"]:focus::after,
+        a[target="_blank"]:hover::after {
+            opacity: 1;
+        }
     }
 </style>

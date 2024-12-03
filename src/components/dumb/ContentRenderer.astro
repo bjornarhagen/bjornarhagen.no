@@ -32,10 +32,11 @@ type ContentSectionAttributeWidth =
     | "small"
     | "medium"
     | "large"
-    | "extra-large";
+    | "extra-large"
+    | "screen-md";
 
 export const ContentSectionAttributeWidths: readonly ContentSectionAttributeWidth[] =
-    ["", "small", "medium", "large", "extra-large"];
+    ["", "small", "medium", "large", "extra-large", "screen-md"];
 
 type ContentSectionAttributeAlignment = "" | "start" | "center" | "end";
 
@@ -73,11 +74,10 @@ const { content } = Astro.props;
         if (section.bg) {
             if (section.bg === "light") {
                 // light means low contrast
-                sectionWrapperClasses += " bg-slate-100 dark:bg-slate-900";
+                sectionWrapperClasses += " bg-foreground/10";
             } else if (section.bg === "dark") {
                 // Dark means high contrast
-                sectionWrapperClasses +=
-                    " bg-slate-500 text-white dark:bg-slate-600";
+                sectionWrapperClasses += " bg-foreground/90 text-background";
             }
         }
 
@@ -124,7 +124,11 @@ const { content } = Astro.props;
                     textClassesFromParent[0] += " col-span-2";
                     textClassesFromParent[1] += " col-span-1";
                 }
+            } else {
+                sectionClasses += " grid";
             }
+        } else {
+            sectionClasses += " grid";
         }
 
         if (section.attributes) {
@@ -157,6 +161,9 @@ const { content } = Astro.props;
                         textClassesFromParent[textIndex] += " w-full max-w-64";
                     } else if (width === "extra-large") {
                         textClassesFromParent[textIndex] += " w-full max-w-96";
+                    } else if (width === "screen-md") {
+                        textClassesFromParent[textIndex] +=
+                            " w-full max-w-screen-md";
                     }
                 });
             }
@@ -242,3 +249,32 @@ const { content } = Astro.props;
         );
     })
 }
+
+<script is:inline>
+    (function () {
+        function addLineNumbersToPres() {
+            const pres = document.querySelectorAll("pre");
+            pres.forEach((pre) => {
+                const lineNumberWrapper = document.createElement("span");
+                lineNumberWrapper.classList.add("pre-line-numbers");
+
+                const preCode = pre.querySelector("code");
+
+                if (!preCode) {
+                    return;
+                }
+
+                const preLines = preCode.textContent.split("\n").length;
+                for (let i = 0; i < preLines - 1; i++) {
+                    const span = document.createElement("span");
+                    span.appendChild(document.createTextNode(i));
+                    lineNumberWrapper.appendChild(span);
+                }
+
+                pre.insertBefore(lineNumberWrapper, pre.firstChild);
+            });
+        }
+
+        addLineNumbersToPres();
+    })();
+</script>

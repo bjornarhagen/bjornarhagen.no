@@ -4,8 +4,11 @@ import { resolve } from "path";
 
 import ContentSection from "../components/dumb/ContentSection.astro";
 
-import type { PageContent } from "../data/dynamic-pages";
-import { entries } from "../data/entries";
+import {
+    dynamicPages,
+    dynamicPagesConfig,
+    type PageContent,
+} from "../data/dynamic-pages";
 import Layout from "../layouts/Layout.astro";
 
 export const prerender = false;
@@ -13,24 +16,33 @@ export const prerender = false;
 const url = new URL(Astro.request.url);
 const search = url.searchParams.get("q") ?? "";
 
-const entriesSearchResults = Object.keys(entries).reduce((acc, year) => {
-    const articles = Object.keys(entries[year]).reduce((acc, slug) => {
-        const article = entries[year][slug];
-        if (
-            article.title.toLowerCase().includes(search.toLowerCase()) ||
-            article.summary.toLowerCase().includes(search.toLowerCase())
-        ) {
+// TODO: Make this work with all dynamic page types
+const dynamicPagesSearchResults = Object.keys(dynamicPages["entries"]).reduce(
+    (acc, year) => {
+        const articles = Object.keys(dynamicPages["entries"][year]).reduce(
+            (acc, slug) => {
+                const article = dynamicPages["entries"][year][slug];
+                if (
+                    article.title
+                        .toLowerCase()
+                        .includes(search.toLowerCase()) ||
+                    article.summary.toLowerCase().includes(search.toLowerCase())
+                ) {
+                    // @ts-ignore
+                    acc.push(article);
+                }
+                return acc;
+            },
+            []
+        );
+        if (articles.length) {
             // @ts-ignore
-            acc.push(article);
+            acc[year] = articles;
         }
         return acc;
-    }, []);
-    if (articles.length) {
-        // @ts-ignore
-        acc[year] = articles;
-    }
-    return acc;
-}, {});
+    },
+    {}
+);
 
 export function getRootRoutes() {
     if (process.env.NODE_ENV === "production") {
@@ -107,12 +119,12 @@ const pagesSearchResults = getRootRoutes().reduce((acc, page) => {
 
         <ContentSection className="pb-16">
             {
-                Object.keys(entriesSearchResults).length > 0 &&
-                    Object.entries(entriesSearchResults).map(
+                Object.keys(dynamicPagesSearchResults).length > 0 &&
+                    Object.entries(dynamicPagesSearchResults).map(
                         ([year, entries]) => (
                             <section class="pt-12">
                                 <h2 class="text-3xl font-paragraph font-bold pb-2">
-                                    Posts {year}
+                                    {dynamicPagesConfig["entries"].title} {year}
                                 </h2>
                                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-16 md:gap-8 relative">
                                     {(entries as PageContent[])

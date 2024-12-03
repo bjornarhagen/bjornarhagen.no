@@ -1,21 +1,21 @@
 /* Headings */
 .content-renderer-section h1 {
-    @apply font-heading text-9xl mb-4;
+    @apply font-heading text-5xl pt-8 mb-4;
 }
 .content-renderer-section h2 {
-    @apply font-heading text-8xl mb-4;
+    @apply font-heading text-4xl pt-8 mb-4;
 }
 .content-renderer-section h3 {
-    @apply font-heading text-7xl mb-4;
+    @apply font-heading text-3xl pt-8 mb-4;
 }
 .content-renderer-section h4 {
-    @apply font-heading text-6xl mb-4;
+    @apply font-heading text-2xl pt-8 mb-4;
 }
 .content-renderer-section h5 {
-    @apply font-heading text-5xl mb-4;
+    @apply font-heading text-xl pt-8 mb-4;
 }
 .content-renderer-section h6 {
-    @apply font-heading text-4xl mb-4;
+    @apply font-heading text-lg pt-8 mb-4;
 }
 
 /* Copy */
@@ -89,9 +89,14 @@
     right: 1rem;
 }
 
+/* Quite - skip person */
+.content-renderer-section blockquote + hr {
+    @apply hidden;
+}
+
 /* Quote - person image wrapper */
 .content-renderer-section blockquote + p {
-    @apply inline-block w-14 h-14 mt-4 mb-0;
+    @apply relative block w-14 h-14 mt-4 mb-0 left-1/2 -translate-x-1/2 -ml-32 md:-ml-28;
 }
 
 /* Quote - person image */
@@ -101,10 +106,34 @@
 
 /* Quote - person name */
 .content-renderer-section blockquote + p + p {
-    @apply block -mt-14 pl-16 mb-0 font-normal;
+    /* @apply block -mt-14 pl-16 mb-0 font-normal; */
+    @apply relative block w-64 max-w-full leading-none mb-0 text-slate-700 dark:text-slate-300 left-1/2 -top-[3.25rem] -translate-x-1/2 ml-10 md:ml-14 font-bold;
 }
 
 /* Quote - person description */
 .content-renderer-section blockquote + p + p + p {
-    @apply block -mt-1 pl-16 mb-0 text-slate-500;
+    @apply relative block w-64 max-w-full leading-none mb-0 text-slate-500 left-1/2 -top-[3.25rem] -translate-x-1/2 ml-10 md:ml-14;
+}
+
+/* Code */
+.content-renderer-section p code {
+    @apply font-content bg-foreground text-background text-xs p-[4px];
+}
+
+.content-renderer-section pre {
+    @apply font-content bg-foreground text-background text-xs w-full max-w-full grid overflow-auto relative;
+    grid-template-columns: min-content 1fr;
+}
+
+.content-renderer-section pre code,
+.content-renderer-section pre .pre-line-numbers {
+    @apply py-1 font-content;
+}
+
+.content-renderer-section pre code {
+    @apply pl-1 w-full max-w-full overflow-auto whitespace-pre;
+}
+
+.content-renderer-section pre .pre-line-numbers {
+    @apply border-r border-background px-1 flex flex-col h-full text-right select-none opacity-50;
 }

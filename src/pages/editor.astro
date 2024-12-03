@@ -1,11 +1,10 @@
 ---
-import { ArrowLeft, Eye } from "lucide";
+import { ArrowLeft, Eye, Save } from "lucide";
 import ContentSection from "../components/dumb/ContentSection.astro";
 import EditorComponent from "../components/dumb/EditorComponent.astro";
-import { entries } from "../data/entries";
 import Layout from "../layouts/Layout.astro";
-import fs from "fs";
 import Icon from "../components/dumb/Icon.astro";
+import type { PageContent } from "../data/dynamic-pages";
 
 export const prerender = false;
 
@@ -15,387 +14,44 @@ if (process.env.NODE_ENV !== "development") {
     });
 }
 
-let entry = {};
-let isNew = false;
+const currentUrl = new URL(Astro.request.url);
+const url = new URL(Astro.request.url);
+const year = url.searchParams.get("year");
+const slug = url.searchParams.get("slug");
+const type = url.searchParams.get("type");
+const isNew = slug === "_new";
 
-if (["POST", "PATCH", "PUT", "DELETE"].includes(Astro.request.method)) {
-    if (
-        Astro.request.headers.get("content-type") !==
-        "application/x-www-form-urlencoded"
-    ) {
-        return new Response(
-            JSON.stringify({
-                error: "Invalid Content-Type. Use application/x-www-form-urlencoded",
-            }),
-            {
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                status: 400,
-            }
-        );
-    }
-
-    const body = await Astro.request.text();
-    const params = new URLSearchParams(body);
-    const formData = Object.fromEntries(params.entries());
-
-    if (formData._method === "POST") {
-        const postResponse = await handlePOST(formData);
-        const isResponse = postResponse instanceof Response;
-        const isEntry = !isResponse && typeof postResponse === "object";
-        console.log("Post Response:", {
-            isEntry,
-            isResponse,
-        });
-        if (isResponse) {
-            return postResponse;
-        }
-        entry = postResponse;
-        console.log("handle post Entry:", entry);
-    } else if (formData._method === "PATCH") {
-        const patchResponse = await handlePATCH(formData);
-        const isResponse = patchResponse instanceof Response;
-        const isEntry = !isResponse && typeof patchResponse === "object";
-        console.log("patch Response:", {
-            isEntry,
-            isResponse,
-        });
-        if (isResponse) {
-            return patchResponse;
-        }
-        entry = patchResponse;
-        console.log("handle patch Entry:", entry);
-    } else if (formData._method === "PUT") {
-        const putResponse = await handlePUT(formData);
-        const isResponse = putResponse instanceof Response;
-        const isEntry = !isResponse && typeof putResponse === "object";
-        console.log("put Response:", {
-            isEntry,
-            isResponse,
-        });
-        if (isResponse) {
-            return putResponse;
-        }
-        entry = putResponse;
-        console.log("handle put Entry:", entry);
-    } else if (formData._method === "DELETE") {
-        const deleteResponse = await handleDELETE(formData);
-        const isResponse = deleteResponse instanceof Response;
-        console.log("delete Response:", {
-            isResponse,
-        });
-        if (!isResponse) {
-            return new Response(
-                JSON.stringify({ error: "Something went wrong" }),
-                {
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    status: 500,
-                }
-            );
-        }
-
-        return deleteResponse;
-    } else {
-        return new Response(null, {
-            status: 405,
-            headers: {
-                allow: "POST, PATCH, PUT",
-            },
-        });
-    }
-} else {
-    return new Response(null, {
-        status: 405,
+if (!year || !slug || !type) {
+    return new Response(JSON.stringify({ error: "Missing required fields" }), {
         headers: {
-            allow: "POST, PATCH, PUT",
+            "Content-Type": "application/json",
         },
+        status: 400,
     });
 }
 
-async function handlePOST(formData: { [k: string]: string }) {
-    if (!formData.year || !formData.slug) {
-        return new Response(
-            JSON.stringify({ error: "Missing required fields" }),
-            {
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                status: 400,
-            }
-        );
+const pageRequest = await fetch(
+    `${currentUrl.origin}/editor-api?year=${year}&slug=${slug}&type=${type}`,
+    {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
     }
+);
 
-    console.log("Form Data:", formData);
+console.log("pageRequest", pageRequest);
 
-    let entry = {};
+const page: PageContent = await pageRequest.json();
 
-    if (formData.slug === "_new") {
-        const date = new Date();
-        entry = {
-            title: "New Entry",
-            date: `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`,
-        };
-        isNew = true;
-    } else {
-        try {
-            entry = entries[formData.year][formData.slug];
-            if (entry === undefined) {
-                throw Error;
-            }
-        } catch (error) {
-            console.error(error);
-            return new Response(
-                JSON.stringify({ error: "Entry not found, 1" }),
-                {
-                    headers: {
-                        "Content-Type": "application/json",
-                    },
-                    status: 404,
-                }
-            );
-        }
-    }
+console.log("pageRequest, JSON content", page);
+// interface Props {
+//     page: PageContent;
+//     year: number;
+//     isNew: boolean;
+// }
 
-    return entry;
-}
-
-async function handlePATCH(formData: { [k: string]: string }) {
-    if (
-        !formData.title ||
-        !formData.slug ||
-        !formData.imageHeader ||
-        !formData.imageText ||
-        !formData.poster ||
-        !formData.date ||
-        !formData.summary ||
-        !formData.content
-    ) {
-        return new Response(
-            JSON.stringify({ error: "Missing required fields" }),
-            {
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                status: 400,
-            }
-        );
-    }
-
-    console.log("Form Data:", formData);
-
-    let entry = {};
-    let updatedEntry = {};
-    const year = formData.date.split("-")[0];
-    console.log("Year:", year);
-
-    try {
-        entry = entries[year][formData.slug];
-        console.log("Entry:", entry);
-
-        if (entry === undefined) {
-            throw Error;
-        }
-
-        const formDataWithoutMethod = JSON.parse(
-            JSON.stringify({ ...formData, _method: undefined })
-        );
-
-        updatedEntry = {
-            ...entry,
-            ...formDataWithoutMethod,
-            content: JSON.parse(formData.content),
-        };
-
-        saveToEntryFile({
-            year,
-            slug: formData.slug,
-            entry: {
-                ...entry,
-                ...updatedEntry,
-            },
-        });
-    } catch (error) {
-        console.error(error);
-        return new Response(JSON.stringify({ error: "entry not found, 2" }), {
-            headers: {
-                "Content-Type": "application/json",
-            },
-            status: 400,
-        });
-    }
-
-    return updatedEntry || entry;
-}
-
-async function handlePUT(formData: { [k: string]: string }) {
-    if (
-        !formData.title ||
-        !formData.slug ||
-        !formData.imageHeader ||
-        !formData.imageText ||
-        !formData.poster ||
-        !formData.date ||
-        !formData.summary ||
-        !formData.content
-    ) {
-        return new Response(
-            JSON.stringify({ error: "Missing required fields" }),
-            {
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                status: 400,
-            }
-        );
-    }
-
-    if (!Array.isArray(JSON.parse(formData.content))) {
-        return new Response(
-            JSON.stringify({ error: "Content must be an array" }),
-            {
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                status: 400,
-            }
-        );
-    }
-
-    console.log("Form Data:", formData);
-
-    let newEntry = {};
-    const year = formData.date.split("-")[0];
-    console.log("Year:", year);
-
-    try {
-        const existingEntry = entries[year]
-            ? entries[year][formData.slug]
-            : undefined;
-        console.log("Entry:", existingEntry);
-
-        if (existingEntry !== undefined) {
-            throw Error;
-        }
-
-        const formDataWithoutMethod = JSON.parse(
-            JSON.stringify({ ...formData, _method: undefined })
-        );
-
-        newEntry = {
-            ...entry,
-            ...formDataWithoutMethod,
-            content: JSON.parse(formData.content),
-        };
-
-        saveToEntryFile({
-            year,
-            slug: formData.slug,
-            entry: {
-                ...newEntry,
-            },
-        });
-    } catch (error) {
-        console.error(error);
-        return new Response(JSON.stringify({ error: "Existing entry found" }), {
-            headers: {
-                "Content-Type": "application/json",
-            },
-            status: 404,
-        });
-    }
-
-    return newEntry;
-}
-
-async function handleDELETE(formData: { [k: string]: string }) {
-    if (!formData.year || !formData.slug) {
-        return new Response(
-            JSON.stringify({ error: "Missing required fields" }),
-            {
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                status: 400,
-            }
-        );
-    }
-
-    console.log("Form Data:", formData);
-
-    try {
-        const existingEntry = entries[formData.year]
-            ? entries[formData.year][formData.slug]
-            : undefined;
-        console.log("Entry:", existingEntry);
-
-        if (existingEntry === undefined) {
-            throw Error;
-        }
-
-        deleteFromEntryFile({
-            year: formData.year,
-            slug: formData.slug,
-        });
-
-        return new Response(null, {
-            status: 303,
-            headers: {
-                Location: "/editor-load-entry",
-            },
-        });
-    } catch (error) {
-        console.error(error);
-        return new Response(JSON.stringify({ error: "Entry not found" }), {
-            headers: {
-                "Content-Type": "application/json",
-            },
-            status: 404,
-        });
-    }
-}
-
-function saveToEntryFile({
-    year,
-    slug,
-    entry,
-}: {
-    year: string;
-    slug: string;
-    entry: { [k: string]: any };
-}) {
-    const updatedEntries = JSON.parse(JSON.stringify(entries));
-
-    if (!updatedEntries[year]) {
-        updatedEntries[year] = {};
-    }
-
-    updatedEntries[year][slug] = {
-        ...entry,
-    };
-
-    const updatedContent = `${JSON.stringify(updatedEntries, null, 2)}`;
-    fs.writeFileSync("./src/data/entries.json", updatedContent);
-    console.log({ existingContent: entries, updatedContent: updatedEntries });
-}
-
-function deleteFromEntryFile({ year, slug }: { year: string; slug: string }) {
-    const updatedEntries = JSON.parse(JSON.stringify(entries));
-
-    if (!updatedEntries[year]) {
-        return;
-    }
-
-    delete updatedEntries[year][slug];
-    const updatedContent = `${JSON.stringify(updatedEntries, null, 2)}`;
-    fs.writeFileSync("./src/data/entries.json", updatedContent);
-    console.log({ existingContent: entries, updatedContent: updatedEntries });
-}
-
-// @ts-ignore
-const entryYear = entry.date ? entry.date.split("-")[0] : "";
+// const { page, year, isNew = false } = Astro.props;
 ---
 
 <Layout>
@@ -408,10 +64,11 @@ const entryYear = entry.date ? entry.date.split("-")[0] : "";
                 <Icon icon={ArrowLeft} />
                 <span>Back</span>
             </a>
+            <div class="mr-auto"></div>
             {
                 !isNew && (
                     <a
-                        href={`/entries/${entryYear}/${entry.slug}`}
+                        href={`/${type}/${year}/${page.slug}`}
                         class="inline-flex items-center gap-1 bg-primary-500 text-white dark:text-black px-2 py-1 hover:bg-primary-600"
                     >
                         <Icon icon={Eye} />
@@ -419,10 +76,18 @@ const entryYear = entry.date ? entry.date.split("-")[0] : "";
                     </a>
                 )
             }
+            <button
+                id="editor-save"
+                class="inline-flex items-center gap-1 bg-primary-500 text-white dark:text-black px-2 py-1 hover:bg-primary-600"
+            >
+                <Icon icon={Save} />
+                <span>Save</span>
+            </button>
         </div>
         <form
+            id="editor-form"
             class="grid grid-cols-2 items-center gap-2 p-4"
-            action="/editor"
+            action="/editor-api"
             method="post"
         >
             <input
@@ -431,7 +96,35 @@ const entryYear = entry.date ? entry.date.split("-")[0] : "";
                 value={isNew ? "PUT" : "PATCH"}
             />
             <!-- @ts-ignore -->
-            <EditorComponent entry={entry} />
+            <EditorComponent page={page} />
         </form>
     </ContentSection>
 </Layout>
+
+<script is:inline>
+    (function () {
+        const editorSaveButton = document.querySelector("#editor-save");
+
+        if (!editorSaveButton) {
+            console.error("Button not found");
+            return;
+        }
+
+        editorSaveButton.addEventListener("click", () => {
+            const form = document.querySelector("#editor-form");
+            if (!form) {
+                console.error("Form not found");
+                return;
+            }
+
+            const formSaveButton = form.querySelector("#save");
+            if (!formSaveButton) {
+                console.error("Button not found", form);
+                return;
+            }
+
+            console.log("Saving...", formSaveButton);
+            formSaveButton.click();
+        });
+    })();
+</script>

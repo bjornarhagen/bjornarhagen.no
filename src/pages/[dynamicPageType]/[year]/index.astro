@@ -1,0 +1,111 @@
+---
+import ContentSection from "../../../components/dumb/ContentSection.astro";
+import { dynamicPages, dynamicPagesConfig } from "../../../data/dynamic-pages";
+
+import Layout from "../../../layouts/Layout.astro";
+import { checkIfImageUrl } from "../../../utils/image";
+
+export function getStaticPaths() {
+    const types = Object.keys(dynamicPages) as (keyof typeof dynamicPages)[];
+    // const paths = Object.keys(dynamicPages[dynamicPageType]).flatMap((year) =>
+    //     Object.keys(dynamicPages[dynamicPageType][year]).map((slug) => ({
+    //         params: {
+    //             year: year,
+    //             slug: slug,
+    //         },
+    //     }))
+    // );
+
+    const paths = types.flatMap((type) =>
+        Object.keys(dynamicPages[type]).map((year) => ({
+            params: {
+                dynamicPageType: type,
+                year: year,
+            },
+        }))
+    );
+
+    console.log(`Generating pages for "[dynamicPageType]]/[year]/index"`, {
+        paths,
+    });
+    return paths;
+}
+
+const { dynamicPageType, year } = Astro.params;
+---
+
+<Layout title={dynamicPagesConfig[dynamicPageType].title}>
+    <main class="pt-4">
+        <ContentSection>
+            <h1 class="font-heading text-6xl">
+                <a
+                    href={`/${dynamicPageType}`}
+                    class="hover:underline focus:underline"
+                    >{dynamicPagesConfig[dynamicPageType].title}</a
+                > / {year}
+            </h1>
+
+            <div class="grid lg:grid-cols-2 gap-4 lg:gap-8 mt-4 lg:mt-8">
+                {
+                    Object.keys(dynamicPages[dynamicPageType])
+                        .filter((entryYear) => entryYear === year)
+                        .toSorted((a, b) => Number(b) - Number(a))
+                        .map((year) =>
+                            Object.keys(dynamicPages[dynamicPageType][year])
+                                .toSorted((a, b) => {
+                                    const dateA = new Date(
+                                        dynamicPages[dynamicPageType][year][
+                                            a
+                                        ].date
+                                    );
+                                    const dateB = new Date(
+                                        dynamicPages[dynamicPageType][year][
+                                            b
+                                        ].date
+                                    );
+                                    // @ts-ignore
+                                    return dateB - dateA;
+                                })
+                                .map((slug) => {
+                                    const article =
+                                        dynamicPages[dynamicPageType][year][
+                                            slug
+                                        ];
+                                    return (
+                                        <article>
+                                            <a
+                                                href={`/${dynamicPageType}/${year}/${article.slug}`}
+                                                class="flex flex-col gap-2 group"
+                                            >
+                                                <p class="text-right opacity-70 font-light text-xs">
+                                                    {article.date}
+                                                </p>
+                                                <img
+                                                    src={
+                                                        checkIfImageUrl(
+                                                            article.poster
+                                                        )
+                                                            ? article.poster
+                                                            : "/images/loading-gray.svg"
+                                                    }
+                                                    alt={article.title}
+                                                    class="w-full h-56 object-cover object-center group-hover:opacity-75 group-focus:opacity-75"
+                                                />
+                                                <div class="flex flex-col">
+                                                    <h2 class="font-bold font-paragraph text-2xl leading-none mt-1 mb-2 group-hover:underline group-focus:underline">
+                                                        {article.title}
+                                                    </h2>
+                                                    <p class="font-light opacity-90 text-xs">
+                                                        {article.summary}
+                                                    </p>
+                                                </div>
+                                            </a>
+                                        </article>
+                                    );
+                                })
+                        )
+                }
+            </div>
+        </ContentSection>
+    </main>
+</Layout>

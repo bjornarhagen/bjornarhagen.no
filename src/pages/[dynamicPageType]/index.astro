@@ -1,0 +1,83 @@
+---
+import ContentSection from "../../components/dumb/ContentSection.astro";
+import { dynamicPages, dynamicPagesConfig } from "../../data/dynamic-pages";
+import Layout from "../../layouts/Layout.astro";
+import { checkIfImageUrl } from "../../utils/image";
+
+const { dynamicPageType } = Astro.params;
+const pages = dynamicPages[dynamicPageType];
+
+export function getStaticPaths() {
+    const types = Object.keys(dynamicPages) as (keyof typeof dynamicPages)[];
+    const paths = types.flatMap((type) =>
+        Object.keys(dynamicPages[type]).map((slug) => ({
+            params: {
+                dynamicPageType: type,
+            },
+        }))
+    );
+
+    console.log(`Generating pages for "[dynamicPageType]"`, { paths });
+    return paths;
+}
+---
+
+<Layout title={dynamicPagesConfig[dynamicPageType].title}>
+    <main class="pt-4">
+        <ContentSection>
+            <h1 class="font-heading text-6xl">
+                {dynamicPagesConfig[dynamicPageType].title}
+            </h1>
+
+            <div class="grid lg:grid-cols-2 gap-4 lg:gap-8 mt-4 lg:mt-8">
+                {
+                    Object.keys(pages)
+                        .toSorted((a, b) => Number(b) - Number(a))
+                        .map((year) =>
+                            Object.keys(pages[year])
+                                .toSorted((a, b) => {
+                                    const dateA = new Date(pages[year][a].date);
+                                    const dateB = new Date(pages[year][b].date);
+                                    // @ts-ignore
+                                    return dateB - dateA;
+                                })
+                                .map((slug) => {
+                                    const article = pages[year][slug];
+                                    return (
+                                        <article>
+                                            <a
+                                                href={`/${dynamicPageType}/${year}/${article.slug}`}
+                                                class="flex flex-col gap-2 group border border-border justify-center items-start h-full"
+                                            >
+                                                <p class="text-right opacity-70 font-light text-xs -mb-2 border-l border-l-border ml-auto pl-2">
+                                                    {article.date}
+                                                </p>
+                                                <img
+                                                    src={
+                                                        checkIfImageUrl(
+                                                            article.poster
+                                                        )
+                                                            ? article.poster
+                                                            : "/images/loading-gray.svg"
+                                                    }
+                                                    alt={article.title}
+                                                    class="w-full h-56 object-cover object-center group-hover:opacity-75 group-focus:opacity-75 border-y border-y-border"
+                                                />
+                                                <div class="flex flex-col w-full grow">
+                                                    <h2 class="px-4 font-bold font-paragraph text-2xl leading-none mb-2">
+                                                        {article.title}
+                                                    </h2>
+                                                    <p class="pb-2 px-4 pt-2 font-light opacity-90 text-xs border-t border-t-border">
+                                                        {article.summary}
+                                                    </p>
+                                                </div>
+                                            </a>
+                                        </article>
+                                    );
+                                })
+                        )
+                }
+            </div>
+        </ContentSection>
+    </main>
+</Layout>

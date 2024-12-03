@@ -1,0 +1,13 @@
+---
+export const prerender = false;
+
+const { dynamicPageType, year, slug } = Astro.params;
+const newPath = `/${dynamicPageType}/${year}/${slug}`;
+
+return new Response(null, {
+    status: 302,
+    headers: {
+        Location: newPath,
+    },
+});
+---

@@ -1,0 +1,30 @@
+---
+import logo from "../../../public/images/brand/logo/emblem.svg?raw";
+---
+
+<footer id="footer" class="font-paragraph">
+    <div
+        class="w-full top-0 right-0 left-0 backdrop-blur-md z-10 border-b border-b-border bg-foreground/10"
+    >
+        <div
+            class="p-4 md:p-8 max-w-screen-2xl mx-auto grid w-full justify-center"
+        >
+            <a
+                href="/"
+                class="py-2 w-full font-heading text-3xl md:text-4xl flex gap-2 text-foreground items-center justify-center hover:text-primary-500 focus:text-primary-500"
+            >
+                <span class="logo w-8 md:w-10 h-auto block text-current">
+                    <Fragment class="w-full" set:html={logo} />
+                </span>
+                <!-- <span>Bjørnar Hagen</span> -->
+            </a>
+        </div>
+    </div>
+</footer>
+
+<style is:global>
+    #footer .logo svg {
+        width: 100%;
+        height: auto;
+    }
+</style>
