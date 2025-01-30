@@ -92,6 +92,11 @@
     @apply hidden;
 }
 
+/* Quote - first paragraph after skip */
+.content-renderer-section blockquote + hr + p {
+    @apply mt-8;
+}
+
 /* Quote - person image wrapper */
 .content-renderer-section blockquote + p {
     @apply relative block w-14 h-14 mt-4 mb-0 left-1/2 -translate-x-1/2 -ml-32 md:-ml-28;
@@ -116,11 +121,11 @@
 /* Code */
 .content-renderer-section code,
 .content-renderer-section code p {
-    @apply font-code bg-foreground text-background text-[0.7rem] px-[3px] py-[1px];
+    @apply font-code bg-primary-950 dark:bg-secondary-950 text-primary-300 dark:text-secondary-300 text-[0.7rem] px-[3px] py-[1px];
 }
 
 .content-renderer-section pre {
-    @apply font-code bg-foreground text-background text-xs w-full max-w-full grid overflow-auto relative;
+    @apply font-code bg-primary-950 dark:bg-secondary-950 text-primary-300 dark:text-secondary-300 text-xs w-full max-w-full grid overflow-auto relative;
     grid-template-columns: min-content 1fr;
 }
 
@@ -134,5 +139,5 @@
 }
 
 .content-renderer-section pre .pre-line-numbers {
-    @apply border-r border-background px-1 flex flex-col h-full text-right select-none opacity-50;
+    @apply border-r border-primary-500 dark:border-secondary-500 px-1 flex flex-col h-full text-right select-none opacity-50;
 }

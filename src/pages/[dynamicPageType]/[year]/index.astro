@@ -45,7 +45,9 @@ const { dynamicPageType, year } = Astro.params;
                 > / {year}
             </h1>
 
-            <div class="grid lg:grid-cols-2 gap-4 lg:gap-8 mt-4 lg:mt-8">
+            <div
+                class="grid md:grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-8 mt-4 lg:mt-8"
+            >
                 {
                     Object.keys(dynamicPages[dynamicPageType])
                         .filter((entryYear) => entryYear === year)
@@ -75,27 +77,30 @@ const { dynamicPageType, year } = Astro.params;
                                         <article>
                                             <a
                                                 href={`/${dynamicPageType}/${year}/${article.slug}`}
-                                                class="flex flex-col gap-2 group"
+                                                class="relative flex flex-col group border border-border justify-center items-start h-full hover:border-primary-500 focus:border-primary-500 focus:outline-none"
                                             >
-                                                <p class="text-right opacity-70 font-light text-xs">
-                                                    {article.date}
-                                                </p>
-                                                <img
-                                                    src={
-                                                        checkIfImageUrl(
-                                                            article.poster
-                                                        )
-                                                            ? article.poster
-                                                            : "/images/loading-gray.svg"
-                                                    }
-                                                    alt={article.title}
-                                                    class="w-full h-56 object-cover object-center group-hover:opacity-75 group-focus:opacity-75"
-                                                />
-                                                <div class="flex flex-col">
-                                                    <h2 class="font-bold font-paragraph text-2xl leading-none mt-1 mb-2 group-hover:underline group-focus:underline">
+                                                <div class="relative w-full">
+                                                    <img
+                                                        src={
+                                                            checkIfImageUrl(
+                                                                article.poster
+                                                            )
+                                                                ? article.poster
+                                                                : "/images/loading-gray.svg"
+                                                        }
+                                                        alt={article.title}
+                                                        class="w-full h-48 object-cover object-center group-hover:opacity-75 group-focus:opacity-75 border-b border-b-border group-hover:border-b-primary-500 group-focus:border-b-primary-500"
+                                                    />
+                                                    <p class="z-10 absolute bottom-px right-0 p-2 text-right font-light text-xs text-white bg-black/10 backdrop-blur-md">
+                                                        {article.date}
+                                                    </p>
+                                                </div>
+                                                <div class="flex flex-col w-full grow">
+                                                    {/* <h2 class="px-4 py-2 font-heading text-2xl leading-none m-0 group-hover:bg-foreground group-hover:text-background group-focus:bg-foreground group-focus:text-background"> */}
+                                                    <h2 class="px-4 py-2 font-heading text-2xl leading-none group-hover:text-primary-500 group-focus:text-primary-500">
                                                         {article.title}
                                                     </h2>
-                                                    <p class="font-light opacity-90 text-xs">
+                                                    <p class="pb-2 px-4 pt-2 font-paragraph font-light opacity-90 border-t border-t-border group-hover:border-t-primary-500 group-focus:border-t-primary-500">
                                                         {article.summary}
                                                     </p>
                                                 </div>
