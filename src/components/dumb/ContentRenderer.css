@@ -61,13 +61,11 @@
 
 /* Quote */
 .content-renderer-section blockquote {
-    @apply relative p-0;
-    margin: 0.8rem auto;
+    @apply relative p-0 mt-8;
 }
 
 .content-renderer-section blockquote p {
-    @apply px-12 mb-0;
-    position: relative;
+    @apply relative px-12 mb-0;
 }
 
 .content-renderer-section blockquote::before,
@@ -116,18 +114,19 @@
 }
 
 /* Code */
-.content-renderer-section p code {
-    @apply font-content bg-foreground text-background text-xs p-[4px];
+.content-renderer-section code,
+.content-renderer-section code p {
+    @apply font-code bg-foreground text-background text-[0.7rem] px-[3px] py-[1px];
 }
 
 .content-renderer-section pre {
-    @apply font-content bg-foreground text-background text-xs w-full max-w-full grid overflow-auto relative;
+    @apply font-code bg-foreground text-background text-xs w-full max-w-full grid overflow-auto relative;
     grid-template-columns: min-content 1fr;
 }
 
 .content-renderer-section pre code,
 .content-renderer-section pre .pre-line-numbers {
-    @apply py-1 font-content;
+    @apply py-1 font-code;
 }
 
 .content-renderer-section pre code {

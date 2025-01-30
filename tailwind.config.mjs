@@ -8,6 +8,7 @@ export default {
             fontFamily: {
                 heading: ["Pirata One", "serif"],
                 content: ["Hack", "monospace"],
+                code: ["Hack", "monospace"],
                 paragraph: ["EB Garamond", "serif"],
             },
             // colors
