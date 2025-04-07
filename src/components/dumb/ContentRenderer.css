@@ -1,3 +1,10 @@
+@import "tailwindcss";
+@config "../../../tailwind.config.mjs";
+
+.content-renderer-section {
+    @apply overflow-hidden;
+}
+
 /* Headings */
 .content-renderer-section h1 {
     @apply font-heading text-5xl pt-8 mb-4;
@@ -42,6 +49,15 @@
 /* Links */
 .content-renderer-section a {
     @apply text-blue-500 dark:text-blue-400 hover:underline focus:underline font-normal;
+}
+
+/* Lists */
+.content-renderer-section ul {
+    @apply list-disc list-inside pl-4 mb-4;
+}
+
+.content-renderer-section ol {
+    @apply list-decimal list-inside pl-4 mb-4;
 }
 
 /* Images */
@@ -131,7 +147,7 @@
 
 .content-renderer-section pre code,
 .content-renderer-section pre .pre-line-numbers {
-    @apply py-1 font-code;
+    @apply py-1 font-code text-xs;
 }
 
 .content-renderer-section pre code {
