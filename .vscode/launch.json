@@ -2,7 +2,7 @@
     "configurations": [
         {
             "name": "Docker - start container",
-            "command": "docker compose -f ${workspaceFolder}/dev/docker-compose.local.yml up -d",
+            "command": "docker compose -f ${workspaceFolder}/docker/docker-compose.local.yml up -d",
             "request": "launch",
             "type": "node-terminal"
         },
