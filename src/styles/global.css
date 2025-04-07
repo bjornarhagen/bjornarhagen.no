@@ -159,7 +159,7 @@ a[href^="https://"]::after
     position: absolute;
     top: -0.5em;
     right: -1em;
-    opacity: 0.5;
+    opacity: 0;
     line-height: 1;
     background-color: hsl(var(--background));
     border: 1px solid hsl(var(--border));
@@ -168,8 +168,16 @@ a[href^="https://"]::after
     z-index: 1;
 }
 
+a[target="_blank"]:focus::after,
+a[target="_blank"]:hover::after,
+a[href^="https://"]:focus::after,
+a[href^="https://"]:hover::after
+{
+    opacity: 1;
+}
+
 /* Desktop */
-@media (min-width: 60em) {
+/* @media (min-width: 60em) {
     a[target="_blank"]::after,
     a[href^="https://"]::after
     {
@@ -183,4 +191,4 @@ a[href^="https://"]::after
     {
         opacity: 1;
     }
-}
+} */
