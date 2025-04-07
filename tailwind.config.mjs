@@ -110,4 +110,8 @@ export default {
         },
     },
     plugins: [],
+    safelist: [
+        "w-6",
+        "h-6",
+    ],
 };
