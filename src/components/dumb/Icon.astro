@@ -10,10 +10,10 @@ const {
     [key: string]: any;
 } = Astro.props;
 
-const [, attributes, children] = icon;
+const iconElements = Array.isArray(icon) ? icon : [];
 
-const componentChildren = children
-    ?.map(
+const componentChildren = iconElements
+    .map(
         ([shape, attributes]) =>
             `<${shape} ${Object.entries(attributes)
                 .map(([k, v]) => `${k}="${v}"`)
@@ -21,7 +21,20 @@ const componentChildren = children
     )
     .join("");
 
-const componentAttributes = { ...attributes, ...props };
+// Default SVG attributes from Lucide
+const defaultAttributes = {
+    xmlns: "http://www.w3.org/2000/svg",
+    width: 24,
+    height: 24,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    "stroke-width": 2,
+    "stroke-linecap": "round",
+    "stroke-linejoin": "round",
+} as const;
+
+const componentAttributes = { ...defaultAttributes, ...props };
 ---
 
 <svg {...componentAttributes} set:html={componentChildren} />
