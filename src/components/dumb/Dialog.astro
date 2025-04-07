@@ -1,0 +1,80 @@
+---
+import { cn } from "@/utils/misc";
+
+interface Props {
+    dialogId: string;
+    class?: string;
+    closeOnBackdropClick?: boolean;
+}
+
+const {
+    dialogId,
+    class: className = "",
+    closeOnBackdropClick = true,
+} = Astro.props;
+---
+
+<dialog
+    data-dialog={dialogId}
+    class={cn(
+        "fixed inset-0 bg-transparent w-full h-screen z-20 open:flex flex-col justify-center items-center p-4",
+        className
+    )}
+>
+    {
+        closeOnBackdropClick && (
+            <div
+                data-dialog-backdrop={dialogId}
+                class="bg-background/50 backdrop-blur-md w-full h-full absolute inset-0"
+            />
+        )
+    }
+    {
+        !closeOnBackdropClick && (
+            <div class="bg-background/50 backdrop-blur-md w-full h-full absolute inset-0" />
+        )
+    }
+    <slot />
+</dialog>
+
+<script define:vars={{ dialogId }}>
+    const dialog = document.querySelector(`dialog[data-dialog="${dialogId}"]`);
+    if (!dialog) {
+        console.error(`Dialog with id ${dialogId} not found`);
+        return;
+    }
+
+    // Handle backdrop click
+    const backdrop = dialog.querySelector(
+        `[data-dialog-backdrop="${dialogId}"]`
+    );
+    if (backdrop) {
+        backdrop.addEventListener("click", (event) => {
+            console.debug(`Backdrop for dialog ${dialogId} clicked`);
+            if (event.target === backdrop) {
+                dialog.removeAttribute("open");
+                const firstTrigger = document.querySelector(
+                    `[data-dialog-trigger="${dialogId}"]`
+                );
+                if (firstTrigger) {
+                    firstTrigger.focus();
+                }
+            }
+        });
+    }
+
+    // Handle escape key
+    const handleEscapeKey = (event) => {
+        if (event.key === "Escape" && dialog.hasAttribute("open")) {
+            const firstTrigger = document.querySelector(
+                `[data-dialog-trigger="${dialogId}"]`
+            );
+            if (firstTrigger) {
+                dialog.removeAttribute("open");
+                firstTrigger.focus();
+            }
+        }
+    };
+
+    window.addEventListener("keydown", handleEscapeKey);
+</script>
