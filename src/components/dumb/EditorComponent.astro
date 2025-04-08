@@ -1,0 +1,610 @@
+---
+import { ArrowLeft, Eye, Save, Plus } from "lucide";
+import type { dynamicPages, PageContent } from "../../data/dynamic-pages";
+import { initializeContent } from "../../utils/dynamic-pages";
+import { ContentSectionAttributeAlignments, ContentSectionAttributeWidths, ContentSectionBackgrounds, ContentSectionLayouts, type ContentSection } from "./ContentRenderer.astro";
+import Icon from "./Icon.astro";
+
+interface Props {
+    page: PageContent;
+}
+
+const {
+    page = {
+        content: [],
+        date: "",
+        imageHeader: "",
+        slug: "",
+        poster: "",
+        summary: "",
+        title: "",
+        imageText: "",
+    },
+} = Astro.props;
+
+page.content = initializeContent(page);
+const requestUrl = new URL(Astro.request.url);
+const pageType = requestUrl.searchParams.get("type") as keyof typeof dynamicPages | undefined | null;
+---
+
+<input name="type" type="hidden" value={pageType} />
+
+<div class="flex flex-col gap-1">
+    <label for="title">Title</label>
+    <input
+        name="title"
+        class="border border-borer bg-background text-foreground"
+        type="text"
+        value={page.title}
+    />
+</div>
+
+<div class="flex flex-col gap-1">
+    <label for="slug">slug</label>
+    <input
+        name="slug"
+        class="border border-borer bg-background text-foreground"
+        type="text"
+        value={page.slug}
+    />
+</div>
+
+<div class="flex flex-col gap-1">
+    <label for="imageHeader">imageHeader</label>
+    <input
+        name="imageHeader"
+        class="border border-borer bg-background text-foreground"
+        type="text"
+        value={page.imageHeader}
+        required
+    />
+</div>
+
+<div class="flex flex-col gap-1">
+    <label for="imageText">imageText</label>
+    <input
+        name="imageText"
+        class="border border-borer bg-background text-foreground"
+        type="text"
+        value={page.imageText}
+        required
+    />
+</div>
+
+<div class="flex flex-col gap-1">
+    <label for="poster">poster</label>
+    <input
+        name="poster"
+        class="border border-borer bg-background text-foreground"
+        type="text"
+        value={page.poster}
+        required
+    />
+</div>
+
+<div class="flex flex-col gap-1">
+    <label for="date">Date</label>
+    <input
+        name="date"
+        class="border border-borer bg-background text-foreground"
+        type="text"
+        value={page.date}
+        required
+    />
+</div>
+
+<div class="flex flex-col gap-1">
+    <label for="summary">Summary</label>
+    <textarea
+        name="summary"
+        class="border border-borer bg-background text-foreground"
+        required
+        >{page.summary}</textarea
+    >
+</div>
+
+<div class="flex flex-col gap-1 col-span-2">
+    <label>Content</label>
+    {
+        page.content && (
+            <section>
+                {/* <pre>{JSON.stringify(page, null, 2)}</pre> */}
+
+                {page.content.map((section, sectionIndex) => {
+                    return (
+                        <h2 class="font-bold">Content section: {sectionIndex}</h2>
+                        <div class="flex flex-col gap-4 pl-8 border border-border p-4">
+                            <div class="grid grid-cols-3 gap-4">
+                                <button data-move-content-section-up={sectionIndex} disabled={sectionIndex === 0} class="bg-primary-500 text-white dark:text-black disabled:opacity-30" type="button">Move section up</button>
+                                <button data-move-content-section-down={sectionIndex} disabled={sectionIndex === page.content.length-1} class="bg-primary-500 text-white dark:text-black disabled:opacity-30" type="button">Move section down</button>
+                                <button data-delete-content-section={sectionIndex} disabled={page.content.length === 1} class="bg-primary-500 text-white dark:text-black disabled:opacity-30" type="button">Delete section</button>
+                            </div>
+                            <div class="grid grid-cols-4 gap-4">
+                                <div class="flex gap-1">
+                                <label>layout:</label>
+                                <select name={`content:${sectionIndex}:layout`} class="border border-borer bg-background text-foreground">
+                                    {ContentSectionLayouts.map((layout) => (
+                                        <option value={layout} selected={section.layout === layout}>{layout === "" ? "default" : layout}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div class="flex gap-1">
+                                <label>bg:</label>
+                                <select name={`content:${sectionIndex}:bg`} class="border border-borer bg-background text-foreground">
+                                    {ContentSectionBackgrounds.map((bg) => (
+                                        <option value={bg} selected={section.bg === bg}>{bg === "" ? "default" : bg}</option>
+                                    ))}
+                                </select>
+                            </div>
+                            <div class="flex gap-1">
+                                <label>padded:</label>
+                                <input
+                                    name={`content:${sectionIndex}:padded`}
+                                    class="border border-borer bg-background text-foreground"
+                                    type="checkbox"
+                                    checked={section.padded}
+                                    value="true"
+                                />
+                            </div>
+                            <div class="flex gap-1">
+                                <label>margin:</label>
+                                <input
+                                    name={`content:${sectionIndex}:margin`}
+                                    class="border border-borer bg-background text-foreground"
+                                    type="checkbox"
+                                    checked={section.margin}
+                                    value="true"
+                                />
+                            </div>
+                            </div>
+                            {section.text && Array.isArray(section.text) && (
+                                <div class="flex gap-1">
+                                    <label>texts:</label>
+                                    <div class="flex flex-col gap-1 w-full">
+                                        {section.text.map((textValue, textIndex) => (
+                                            <div class="border border-border p-4">
+                                                <p>Attributes for {textIndex}</p>
+                                                {section.attributes && (
+                                                    <div class="grid grid-cols-3">
+                                                        <div class="flex flex-col gap-1">
+                                                            {section.attributes.borders && (
+                                                                <label>border:</label>
+                                                                <input
+                                                                    name={`content:${sectionIndex}:attributes:borders:${textIndex}`}
+                                                                    class="border border-borer bg-background text-foreground"
+                                                                    type="checkbox"
+                                                                    checked={section.attributes.borders[textIndex] === textIndex || false}
+                                                                    value={textIndex}
+                                                                />
+                                                            )}
+                                                        </div>
+                                                        <div class="flex flex-col gap-1">
+                                                            {section.attributes.sticky && (
+                                                                <label>sticky:</label>
+                                                                <input
+                                                                    name={`content:${sectionIndex}:attributes:sticky:${textIndex}`}
+                                                                    class="border border-borer bg-background text-foreground"
+                                                                    type="checkbox"
+                                                                    checked={section.attributes.sticky[textIndex] === textIndex || false}
+                                                                    value={textIndex}
+                                                                />
+                                                            )}
+                                                        </div>
+                                                        <div class="flex flex-col gap-1">
+                                                            {section.attributes["text-align"] && (
+                                                                <label>text-align:</label>
+                                                                <select name={`content:${sectionIndex}:attributes:text-align:${textIndex}`} class="border border-borer bg-background text-foreground">
+                                                                    {ContentSectionAttributeAlignments.map((alignment) => (
+                                                                        <option value={alignment} selected={section.attributes!["text-align"]![textIndex] === alignment}>{alignment === "" ? "default" : alignment}</option>
+                                                                    ))}
+                                                                </select>
+                                                            )}
+                                                        </div>
+                                                        <div class="flex flex-col gap-1">
+                                                            {section.attributes["v-align"] && (
+                                                                <label>v-align:</label>
+                                                                <select name={`content:${sectionIndex}:attributes:v-align:${textIndex}`} class="border border-borer bg-background text-foreground">
+                                                                    {ContentSectionAttributeAlignments.map((alignment) => (
+                                                                        <option value={alignment} selected={section.attributes!["v-align"]![textIndex] === alignment}>{alignment === "" ? "default" : alignment}</option>
+                                                                    ))}
+                                                                </select>
+                                                            )}
+                                                        </div>
+                                                        <div class="flex flex-col gap-1">
+                                                            {section.attributes["h-align"] && (
+                                                                <label>h-align:</label>
+                                                                <select name={`content:${sectionIndex}:attributes:h-align:${textIndex}`} class="border border-borer bg-background text-foreground">
+                                                                    {ContentSectionAttributeAlignments.map((alignment) => (
+                                                                        <option value={alignment} selected={section.attributes!["h-align"]![textIndex] === alignment}>{alignment === "" ? "default" : alignment}</option>
+                                                                    ))}
+                                                                </select>
+                                                            )}
+                                                        </div>
+                                                        <div class="flex flex-col gap-1">
+                                                            {section.attributes["widths"] && (
+                                                                <label>width:</label>
+                                                                <select name={`content:${sectionIndex}:attributes:widths:${textIndex}`} class="border border-borer bg-background text-foreground">
+                                                                    {ContentSectionAttributeWidths.map((width) => (
+                                                                        <option value={width} selected={section.attributes!["widths"]![textIndex] === width}>{width === "" ? "default" : width}</option>
+                                                                    ))}
+                                                                </select>
+                                                            )}
+                                                        </div>
+                                                    </div>
+                                                )}
+                                                <div class="flex flex-col gap-1">
+                                                    <label>Text:</label>
+                                                    <textarea class="border border-borer bg-background text-foreground w-full min-h-12"
+                                                    name={`content:${sectionIndex}:text:${textIndex}`}
+                                                    >{textValue}</textarea>
+                                                </div>
+                                                <div class="grid grid-cols-3 gap-4">
+                                                    <button data-move-text-up={JSON.stringify({sectionIndex, textIndex})} disabled={textIndex === 0} class="bg-primary-500 text-white dark:text-black disabled:opacity-30" type="button">Move up</button>
+                                                    <button data-move-text-down={JSON.stringify({sectionIndex, textIndex})} disabled={textIndex === section.text!.length-1} class="bg-primary-500 text-white dark:text-black disabled:opacity-30" type="button">Move down</button>
+                                                    <button data-delete-text={JSON.stringify({sectionIndex, textIndex})} disabled={section.text!.length === 1} class="bg-primary-500 text-white dark:text-black disabled:opacity-30" type="button">Delete</button>
+                                                </div>
+                                            </div>
+                                        ))}
+                                        <div class="grid grid-cols-3 gap-4">
+                                            <div></div>
+                                            <button data-add-new-text={sectionIndex} class="bg-primary-500 text-white dark:text-black disabled:opacity-30" type="button">Add new text</button>
+                                            <div></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    );
+                })}
+            </section>
+        )
+    }
+</div>
+
+<div class="flex flex-col gap-1 justify-center items-center col-span-2">
+    <div>
+        <button id="add-new-content-section" type="button" class="bg-primary-500 text-white dark:text-black disabled:opacity-30 flex gap-1 items-center">
+            <Icon icon={Plus} />
+            <span>Add new content section</span>
+        </button>
+    </div>
+</div>
+
+<div class="flex flex-col gap-1 justify-center items-center col-span-2">
+    <div>
+        <button id="save" type="button" class="bg-primary-500 text-white dark:text-black disabled:opacity-30 flex gap-1 items-center">
+            <Icon icon={Save} />
+            <span>Save</span>
+        </button>
+    </div>
+</div>
+
+<script is:inline>
+    const performance = window.performance;
+    const performanceMark = (name) => performance.mark(name);
+    const performanceMeasure = (name, start, end) => console.log(name, performance.measure(name, start, end));
+
+    (() => {
+        performanceMark("start, editor component, initialization");
+
+        const saveButton = document.querySelector("#save");
+        if (!saveButton) {
+            alert("Save button not found.");
+        }
+        
+        const form = saveButton.form;
+        if (!form) {
+            alert("Editor component must be used inside a form element to work correctly.");
+        }
+
+        // FORM CONTROLS
+        saveButton.addEventListener("click", () => {
+            if (!form.reportValidity()) {
+                return;
+            }
+            formatData(form);
+            form.submit();
+        });
+
+        // SECTION CONTROLS
+        const addNewContentSectionButton = form.querySelector("#add-new-content-section");
+        if (!addNewContentSectionButton) {
+            alert("Add new content section button not found.");
+        }
+        addNewContentSectionButton.addEventListener("click", () => {
+            if (!form.reportValidity()) {
+                return;
+            }
+            formatData(form);
+            addNewContentSection(form);
+            form.submit();
+        });
+
+        const moveConentSectionupButtons = form.querySelectorAll("[data-move-content-section-up]");
+        moveConentSectionupButtons.forEach((button) => {
+            button.addEventListener("click", (event) => {
+                if (!form.reportValidity()) {
+                    return;
+                }
+                const currentIndex = +event.target.getAttribute("data-move-content-section-up");
+                formatData(form);
+                moveContentSectionUp(form, currentIndex);
+                form.submit();
+            });
+        });
+
+        const moveConentSectionDownButtons = form.querySelectorAll("[data-move-content-section-down]");
+        moveConentSectionDownButtons.forEach((button) => {
+            button.addEventListener("click", (event) => {
+                if (!form.reportValidity()) {
+                    return;
+                }
+                const currentIndex = +event.target.getAttribute("data-move-content-section-down");
+                formatData(form);
+                moveContentSectionDown(form, currentIndex);
+                form.submit();
+            });
+        });
+
+        const deleteContentSectionButtons = form.querySelectorAll("[data-delete-content-section]");
+        deleteContentSectionButtons.forEach((button) => {
+            button.addEventListener("click", (event) => {
+                if (!form.reportValidity()) {
+                    return;
+                }
+                const currentIndex = +event.target.getAttribute("data-delete-content-section");
+                formatData(form);
+                deleteContentSection(form, currentIndex);
+                form.submit();
+            });
+        });
+
+        // TEXT CONTROLS
+        const addNewTextButtons = form.querySelectorAll("[data-add-new-text]");
+        addNewTextButtons.forEach((button) => {
+            button.addEventListener("click", (event) => {
+                if (!form.reportValidity()) {
+                    return;
+                }
+                const sectionIndex = +event.target.getAttribute("data-add-new-text");
+                formatData(form);
+                addNewTextSection(form, sectionIndex);
+                form.submit();
+            });
+        });
+
+        const moveTextUpButtons = form.querySelectorAll("[data-move-text-up]");
+        moveTextUpButtons.forEach((button) => {
+            button.addEventListener("click", (event) => {
+                if (!form.reportValidity()) {
+                    return;
+                }
+                const { sectionIndex, textIndex } = JSON.parse(event.target.getAttribute("data-move-text-up"));
+                formatData(form);
+                moveTextUp(form, sectionIndex, textIndex);
+                form.submit();
+            });
+        });
+
+        const moveTextDownButtons = form.querySelectorAll("[data-move-text-down]");
+        moveTextDownButtons.forEach((button) => {
+            button.addEventListener("click", (event) => {
+                if (!form.reportValidity()) {
+                    return;
+                }
+                const { sectionIndex, textIndex } = JSON.parse(event.target.getAttribute("data-move-text-down"));
+                formatData(form);
+                moveTextDown(form, sectionIndex, textIndex);
+                form.submit();
+            });
+        });
+
+        const deleteTextButtons = form.querySelectorAll("[data-delete-text]");
+        deleteTextButtons.forEach((button) => {
+            button.addEventListener("click", (event) => {
+                if (!form.reportValidity()) {
+                    return;
+                }
+                const { sectionIndex, textIndex } = JSON.parse(event.target.getAttribute("data-delete-text"));
+                formatData(form);
+                deleteText(form, sectionIndex, textIndex);
+                form.submit();
+            });
+        });
+
+        performanceMark("end, editor component, initialization");
+        performanceMeasure("editor component initialization", "start, editor component, initialization", "end, editor component, initialization");
+    })()
+
+    function formatData(form) {
+        performanceMark("start, formatData");
+
+        console.log(form);
+
+        const formattedEntry = {
+            type: form.type.value,
+            title: form.title.value,
+            slug: form.slug.value,
+            imageHeader: form.imageHeader.value,
+            imageText: form.imageText.value,
+            poster: form.poster.value,
+            date: form.date.value,
+            summary: form.summary.value,
+            content: [],
+        }
+
+        const formData = new FormData(form);
+
+        for (const [key, value] of formData.entries()) {
+            console.log({ key, value });
+
+            if (key.startsWith("content:")) {
+                const [_, ...rest] = key.split(":");
+                const sectionIndex = rest[0];
+                const sectionProperty = rest[1];
+                const sectionValue = rest.slice(2).join(":");
+
+                if (!formattedEntry.content[sectionIndex]) {
+                    formattedEntry.content[sectionIndex] = {};
+                }
+
+                if (sectionProperty === "text") {
+                    if (!formattedEntry.content[sectionIndex].text) {
+                        formattedEntry.content[sectionIndex].text = [];
+                    }
+
+                    formattedEntry.content[sectionIndex].text.push(value);
+                } else if (sectionProperty === "attributes") {
+                    if (!formattedEntry.content[sectionIndex].attributes) {
+                        formattedEntry.content[sectionIndex].attributes = {};
+                    }
+
+                    const attributeProperty = rest[2];
+                    const attributeIndex = rest[3];
+
+                    if (!formattedEntry.content[sectionIndex].attributes[attributeProperty]) {
+                        formattedEntry.content[sectionIndex].attributes[attributeProperty] = [];
+                    }
+
+                    formattedEntry.content[sectionIndex].attributes[attributeProperty][attributeIndex] = convertValueToType(value);
+                } else {
+                    formattedEntry.content[sectionIndex][sectionProperty] = convertValueToType(value);
+                }
+            }
+        }
+
+        console.log("formattedEntry", formattedEntry);
+
+        form.innerHTML = "";
+
+
+        // set formdata for new form
+        for (const key in formattedEntry) {
+            // skip content
+            if (key.includes("content")) {
+                continue;
+            }
+
+            const input = document.createElement("input");
+            // input.type = "hidden";
+            input.name = key;
+            input.value = formattedEntry[key];
+            form.appendChild(input);
+        }
+
+        const methodInput = document.createElement("input");
+        methodInput.name = "_method";
+        methodInput.value = formData.get("_method");
+        form.appendChild(methodInput);
+
+        const contentInput = document.createElement("input");
+        contentInput.name = "content";
+        contentInput.value = JSON.stringify(formattedEntry.content, null, 2);
+        form.appendChild(contentInput);
+
+        performanceMark("end, formatData");
+        performanceMeasure("formatData", "start, formatData", "end, formatData");
+    }
+
+    function addNewContentSection(form) {
+        const contentInput = form.querySelector("input[name=content]");
+        const content = JSON.parse(contentInput.value);
+        content.push({})
+        contentInput.value = JSON.stringify(content, null, 2);
+    }
+
+    function addNewTextSection(form, sectionIndex) {
+        const contentInput = form.querySelector("input[name=content]");
+        const content = JSON.parse(contentInput.value);
+        content[sectionIndex].text.push("");
+        contentInput.value = JSON.stringify(content, null, 2);
+    }
+
+    function moveContentSectionUp(form, currentIndex) {
+        const contentInput = form.querySelector("input[name=content]");
+        const content = JSON.parse(contentInput.value);
+        const newIndex = currentIndex - 1;
+        if (newIndex < 0) {
+            return;
+        }
+
+        const temp = content[currentIndex];
+        content[currentIndex] = content[newIndex];
+        content[newIndex] = temp;
+        contentInput.value = JSON.stringify(content, null, 2);
+    }
+
+    function moveTextUp(form, sectionIndex, currentIndex) {
+        const contentInput = form.querySelector("input[name=content]");
+        const content = JSON.parse(contentInput.value);
+        const newIndex = currentIndex - 1;
+        if (newIndex < 0) {
+            return;
+        }
+
+        const temp = content[sectionIndex].text[currentIndex];
+        content[sectionIndex].text[currentIndex] = content[sectionIndex].text[newIndex];
+        content[sectionIndex].text[newIndex] = temp;
+        contentInput.value = JSON.stringify(content, null, 2);
+    }
+
+    function moveContentSectionDown(form, currentIndex) {
+        const contentInput = form.querySelector("input[name=content]");
+        const content = JSON.parse(contentInput.value);
+        const newIndex = currentIndex + 1;
+
+        if (newIndex >= content.length) {
+            return;
+        }
+
+        const temp = content[currentIndex];
+        content[currentIndex] = content[newIndex];
+        content[newIndex] = temp;
+        contentInput.value = JSON.stringify(content, null, 2);
+    }
+
+    function moveTextDown(form, sectionIndex, currentIndex) {
+        const contentInput = form.querySelector("input[name=content]");
+        const content = JSON.parse(contentInput.value);
+        const newIndex = currentIndex + 1;
+
+        if (newIndex >= content[sectionIndex].text.length) {
+            return;
+        }
+
+        const temp = content[sectionIndex].text[currentIndex];
+        content[sectionIndex].text[currentIndex] = content[sectionIndex].text[newIndex];
+        content[sectionIndex].text[newIndex] = temp;
+        contentInput.value = JSON.stringify(content, null, 2);
+    }
+
+    function deleteContentSection(form, currentIndex) {
+        const contentInput = form.querySelector("input[name=content]");
+        const content = JSON.parse(contentInput.value);
+        content.splice(currentIndex, 1);
+        contentInput.value = JSON.stringify(content, null, 2);
+    }
+
+    function deleteText(form, sectionIndex, currentIndex) {
+        const contentInput = form.querySelector("input[name=content]");
+        const content = JSON.parse(contentInput.value);
+        content[sectionIndex].text.splice(currentIndex, 1);
+        contentInput.value = JSON.stringify(content, null, 2);
+    }
+
+    function convertValueToType(value) {
+        // boolean
+        if (value === "true" || value === "false") {
+            return value === "true";
+        }
+
+        // number
+        if (!isNaN(value) && value !== "") {
+            return +value;
+        }
+
+        // string
+        return value;
+    }
+
+</script>

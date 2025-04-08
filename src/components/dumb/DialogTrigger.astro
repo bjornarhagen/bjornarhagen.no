@@ -1,0 +1,69 @@
+---
+interface Props {
+    dialogId: string;
+    action?: "open" | "close" | "toggle";
+    class?: string;
+}
+
+const { dialogId, action = "toggle", class: className = "" } = Astro.props;
+---
+
+<div
+    data-dialog-trigger={dialogId}
+    data-dialog-trigger-action={action}
+    class={className}
+>
+    <slot />
+</div>
+
+<script define:vars={{ dialogId, action }}>
+    const triggers = document.querySelectorAll(
+        `[data-dialog-trigger="${dialogId}"]:not([data-dialog-trigger-initialized])`
+    );
+    if (!triggers.length) {
+        return;
+    }
+
+    triggers.forEach((trigger) => {
+        // Mark this trigger as initialized
+        trigger.setAttribute("data-dialog-trigger-initialized", "");
+
+        trigger.addEventListener("click", (event) => {
+            console.debug(`Trigger with id ${dialogId} clicked`);
+            event.preventDefault();
+            event.stopPropagation();
+
+            const dialog = document.querySelector(
+                `dialog[data-dialog="${dialogId}"]`
+            );
+            if (!dialog) {
+                console.error(`Dialog with id ${dialogId} not found`);
+                return;
+            }
+
+            switch (action) {
+                case "open":
+                    console.debug(`Opening dialog with id ${dialogId}`);
+                    dialog.setAttribute("open", "");
+                    dialog.focus();
+                    break;
+                case "close":
+                    console.debug(`Closing dialog with id ${dialogId}`);
+                    dialog.removeAttribute("open");
+                    trigger.focus();
+                    break;
+                case "toggle":
+                default:
+                    console.debug(`Toggling dialog with id ${dialogId}`);
+                    if (dialog.hasAttribute("open")) {
+                        dialog.removeAttribute("open");
+                        trigger.focus();
+                    } else {
+                        dialog.setAttribute("open", "");
+                        dialog.focus();
+                    }
+                    break;
+            }
+        });
+    });
+</script>

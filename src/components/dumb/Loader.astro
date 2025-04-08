@@ -1,0 +1,301 @@
+---
+type ProgressIndicatorStyle = {
+    frames: string[];
+    interval: number;
+};
+
+const styles = {
+    arrow: {
+        frames: ["↑", "↗", "→", "↘", "↓", "↙", "←", "↖"],
+        interval: 100,
+    },
+    ball_wave: {
+        frames: ["𓃉𓃉𓃉", "𓃉𓃉∘", "𓃉∘°", "∘°∘", "°∘𓃉", "∘𓃉𓃉"],
+        interval: 100,
+    },
+    blocks1: {
+        frames: ["░", "▒", "▓", "█"],
+        interval: 100,
+    },
+    blocks2: {
+        frames: ["▛", "▜", "▟", "▙"],
+        interval: 100,
+    },
+    cym: {
+        frames: ["⊏", "⊓", "⊐", "⊔"],
+        interval: 100,
+    },
+    dots1: {
+        frames: ["⣾", "⣽", "⣻", "⢿", "⡿", "⣟", "⣯", "⣷"],
+        interval: 50,
+    },
+    dots2: {
+        frames: ["⠋", "⠙", "⠹", "⠸", "⠼", "⠴", "⠦", "⠧", "⠇", "⠏"],
+        interval: 50,
+    },
+    dots3: {
+        frames: ["⠋", "⠙", "⠚", "⠞", "⠖", "⠦", "⠴", "⠲", "⠳", "⠓"],
+        interval: 50,
+    },
+    dots4: {
+        frames: [
+            "⠄",
+            "⠆",
+            "⠇",
+            "⠋",
+            "⠙",
+            "⠸",
+            "⠰",
+            "⠠",
+            "⠰",
+            "⠸",
+            "⠙",
+            "⠋",
+            "⠇",
+            "⠆",
+        ],
+        interval: 50,
+    },
+    dots5: {
+        frames: [
+            "⠋",
+            "⠙",
+            "⠚",
+            "⠒",
+            "⠂",
+            "⠂",
+            "⠒",
+            "⠲",
+            "⠴",
+            "⠦",
+            "⠖",
+            "⠒",
+            "⠐",
+            "⠐",
+            "⠒",
+            "⠓",
+            "⠋",
+        ],
+        interval: 50,
+    },
+    dots6: {
+        frames: [
+            "⠁",
+            "⠉",
+            "⠙",
+            "⠚",
+            "⠒",
+            "⠂",
+            "⠂",
+            "⠒",
+            "⠲",
+            "⠴",
+            "⠤",
+            "⠄",
+            "⠄",
+            "⠤",
+            "⠴",
+            "⠲",
+            "⠒",
+            "⠂",
+            "⠂",
+            "⠒",
+            "⠚",
+            "⠙",
+            "⠉",
+            "⠁",
+        ],
+        interval: 50,
+    },
+    dots7: {
+        frames: [
+            "⠈",
+            "⠉",
+            "⠋",
+            "⠓",
+            "⠒",
+            "⠐",
+            "⠐",
+            "⠒",
+            "⠖",
+            "⠦",
+            "⠤",
+            "⠠",
+            "⠠",
+            "⠤",
+            "⠦",
+            "⠖",
+            "⠒",
+            "⠐",
+            "⠐",
+            "⠒",
+            "⠓",
+            "⠋",
+            "⠉",
+            "⠈",
+        ],
+        interval: 50,
+    },
+    dots8: {
+        frames: [
+            "⠁",
+            "⠁",
+            "⠉",
+            "⠙",
+            "⠚",
+            "⠒",
+            "⠂",
+            "⠂",
+            "⠒",
+            "⠲",
+            "⠴",
+            "⠤",
+            "⠄",
+            "⠄",
+            "⠤",
+            "⠠",
+            "⠠",
+            "⠤",
+            "⠦",
+            "⠖",
+            "⠒",
+            "⠐",
+            "⠐",
+            "⠒",
+            "⠓",
+            "⠋",
+            "⠉",
+            "⠈",
+            "⠈",
+        ],
+        interval: 50,
+    },
+    dots9: {
+        frames: ["⢹", "⢺", "⢼", "⣸", "⣇", "⡧", "⡗", "⡏"],
+        interval: 50,
+    },
+    dots10: {
+        frames: ["⢄", "⢂", "⢁", "⡁", "⡈", "⡐", "⡠"],
+        interval: 50,
+    },
+    dots11: {
+        frames: ["⠁", "⠂", "⠄", "⡀", "⢀", "⠠", "⠐", "⠈"],
+        interval: 50,
+    },
+    emoji_blink: {
+        frames: [
+            "😐",
+            "😐",
+            "😐",
+            "😐",
+            "😐",
+            "😐",
+            "😐",
+            "😐",
+            "😐",
+            "😐",
+            "😑",
+        ],
+        interval: 100,
+    },
+    emoji_bomb: {
+        frames: [
+            "💣   ",
+            " 💣  ",
+            "  💣 ",
+            "   💣",
+            "   💣",
+            "   💣",
+            "   💣",
+            "   💣",
+            "   💥",
+            "    ",
+            "    ",
+        ],
+        interval: 100,
+    },
+    emoji_earth: {
+        frames: ["🌍", "🌎", "🌏"],
+        interval: 200,
+    },
+    emoji_hour: {
+        frames: [
+            "🕛",
+            "🕐",
+            "🕑",
+            "🕒",
+            "🕓",
+            "🕔",
+            "🕕",
+            "🕖",
+            "🕗",
+            "🕘",
+            "🕙",
+            "🕚",
+        ],
+        interval: 100,
+    },
+    emoji_moon: {
+        frames: ["🌑", "🌒", "🌓", "🌔", "🌕", "🌖", "🌗", "🌘"],
+        interval: 200,
+    },
+    line: {
+        frames: ["☰", "☱", "☳", "☷", "☶", "☴"],
+        interval: 100,
+    },
+    old: {
+        frames: ["—", "\\", "|", "/"],
+        interval: 100,
+    },
+    x_plus: {
+        frames: ["×", "+"],
+        interval: 100,
+    },
+} satisfies Record<string, ProgressIndicatorStyle>;
+
+type Props = {
+    style: keyof typeof styles;
+};
+
+const { style }: Props = Astro.props;
+
+if (!styles[style]) {
+    throw new Error("Invalid style name");
+}
+
+const { frames, interval } = styles[style];
+---
+
+<div
+    id={`progress-${style}`}
+    class="font-mono pointer-events-none text-center user-select-none whitespace-pre w-6"
+>
+    {frames[0]}
+</div>
+
+<script define:vars={{ style, frames, interval }}>
+    let index = 0;
+    let intervalId;
+
+    function startAnimation() {
+        const element = document.querySelector(`#progress-${style}`);
+        intervalId = setInterval(() => {
+            index = (index + 1) % frames.length;
+            if (element) {
+                element.textContent = frames[index];
+            }
+        }, interval);
+    }
+
+    function stopAnimation() {
+        if (intervalId) {
+            clearInterval(intervalId);
+        }
+    }
+
+    // Start animation when the component is loaded
+    startAnimation();
+
+    // Clean up on component unmount
+    window.addEventListener("beforeunload", stopAnimation);
+</script>

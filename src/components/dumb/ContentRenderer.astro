@@ -1,0 +1,280 @@
+---
+import { marked } from "marked";
+import "./ContentRenderer.css";
+
+type ContentSectionLayout =
+    | ""
+    | "cols-2"
+    | "cols-1-3"
+    | "cols-3-1"
+    | "cols-3"
+    | "full";
+
+export const ContentSectionLayouts: readonly ContentSectionLayout[] = [
+    "",
+    "cols-2",
+    "cols-1-3",
+    "cols-3-1",
+    "cols-3",
+    "full",
+];
+
+type ContentSectionBackground = "" | "light" | "dark";
+
+export const ContentSectionBackgrounds: readonly ContentSectionBackground[] = [
+    "",
+    "light",
+    "dark",
+];
+
+type ContentSectionAttributeWidth =
+    | ""
+    | "small"
+    | "medium"
+    | "large"
+    | "extra-large"
+    | "screen-md";
+
+export const ContentSectionAttributeWidths: readonly ContentSectionAttributeWidth[] =
+    ["", "small", "medium", "large", "extra-large", "screen-md"];
+
+type ContentSectionAttributeAlignment = "" | "start" | "center" | "end";
+
+export const ContentSectionAttributeAlignments: readonly ContentSectionAttributeAlignment[] =
+    ["", "start", "center", "end"];
+
+export type ContentSection = {
+    layout?: ContentSectionLayout;
+    margin?: boolean;
+    padded?: boolean;
+    bg?: ContentSectionBackground;
+    attributes?: {
+        sticky?: number[];
+        borders?: number[];
+        widths?: ContentSectionAttributeWidth[];
+        "v-align"?: ContentSectionAttributeAlignment[];
+        "h-align"?: ContentSectionAttributeAlignment[];
+        "text-align"?: ContentSectionAttributeAlignment[];
+    };
+    text?: string[];
+};
+
+interface Props {
+    content: ContentSection[];
+}
+
+const { content } = Astro.props;
+---
+
+{
+    content.map((section) => {
+        let sectionWrapperClasses = "content-renderer-section w-full";
+
+        // WRAPPER STYLING
+        if (section.bg) {
+            if (section.bg === "light") {
+                // light means low contrast
+                sectionWrapperClasses += " bg-foreground/10";
+            } else if (section.bg === "dark") {
+                // Dark means high contrast
+                sectionWrapperClasses += " bg-foreground/90 text-background";
+            }
+        }
+
+        let sectionClasses = "w-full";
+
+        // SECTION STYLING
+        if (section.padded === true) {
+            sectionClasses += " px-4 py-8 lg:px-8 lg:py-24";
+            // @ts-ignore section.padded can be undefined, Astro is using Zod in some weird way and gets confused
+        } else if (section.padded === undefined && section.layout !== "full") {
+            // Default padding
+            sectionClasses += " px-4 lg:py-8";
+        }
+
+        if (section.margin === true) {
+            sectionClasses += " max-w-screen-2xl my-8 lg:my-24 mx-auto";
+            // @ts-ignore section.margin can be undefined, Astro is using Zod in some weird way and gets confused
+        } else if (section.margin === undefined && section.layout !== "full") {
+            // Default margin
+            sectionClasses += " max-w-screen-2xl m-auto";
+        }
+
+        // CHILDREN / TEXTS STYLING
+        const textClassesFromParent: string[] = (section.text || []).map(
+            () => ""
+        );
+
+        if (section.layout) {
+            if (section.layout === "cols-2") {
+                sectionClasses +=
+                    " grid items-start gap-4 lg:gap-8 lg:grid-cols-2";
+            } else if (
+                section.layout === "cols-3" ||
+                section.layout === "cols-1-3" ||
+                section.layout === "cols-3-1"
+            ) {
+                sectionClasses +=
+                    " grid items-start gap-4 lg:gap-8 lg:grid-cols-3";
+
+                if (section.layout === "cols-1-3") {
+                    textClassesFromParent[0] += " col-span-1";
+                    textClassesFromParent[1] += " col-span-2";
+                } else if (section.layout === "cols-3-1") {
+                    textClassesFromParent[0] += " col-span-2";
+                    textClassesFromParent[1] += " col-span-1";
+                }
+            } else {
+                sectionClasses += " grid";
+            }
+        } else {
+            sectionClasses += " grid";
+        }
+
+        if (section.attributes) {
+            if (Array.isArray(section.attributes.sticky)) {
+                // example: [0]
+                // textIndex 0 will be sticky, all other textIndexes will not be sticky
+                section.attributes.sticky.forEach((textIndex) => {
+                    textClassesFromParent[textIndex] += " lg:sticky lg:top-24";
+                });
+            }
+
+            if (Array.isArray(section.attributes.borders)) {
+                // example: [1, 2]
+                // textIndex 1 and 2 will have borders, all other textIndexes will not have borders
+                section.attributes.borders.forEach((textIndex) => {
+                    textClassesFromParent[textIndex] +=
+                        " border border-slate-300";
+                });
+            }
+
+            if (Array.isArray(section.attributes.widths)) {
+                // example: ["", "medium"]
+                // textIndex 0 will have default width, textIndex 1 will have medium width
+                section.attributes.widths.forEach((width, textIndex) => {
+                    if (width === "small") {
+                        textClassesFromParent[textIndex] += " w-full max-w-16";
+                    } else if (width === "medium") {
+                        textClassesFromParent[textIndex] += " w-full max-w-32";
+                    } else if (width === "large") {
+                        textClassesFromParent[textIndex] += " w-full max-w-64";
+                    } else if (width === "extra-large") {
+                        textClassesFromParent[textIndex] += " w-full max-w-96";
+                    } else if (width === "screen-md") {
+                        textClassesFromParent[textIndex] +=
+                            " w-full max-w-screen-md";
+                    }
+                });
+            }
+
+            if (Array.isArray(section.attributes["h-align"])) {
+                // example: ["", "start",]
+                // textIndex 0 will have default vertical alignment, textIndex 1 will have start vertical alignment,
+                // all other textIndexes will have default vertical alignment
+                section.attributes["h-align"].forEach(
+                    (horizontalAlignment, textIndex) => {
+                        if (horizontalAlignment === "start") {
+                            textClassesFromParent[textIndex] +=
+                                " justify-self-start";
+                        } else if (horizontalAlignment === "center") {
+                            textClassesFromParent[textIndex] +=
+                                " justify-self-center";
+                        } else if (horizontalAlignment === "end") {
+                            textClassesFromParent[textIndex] +=
+                                " justify-self-end";
+                        }
+                    }
+                );
+            }
+
+            if (Array.isArray(section.attributes["v-align"])) {
+                // example: ["", "start",]
+                // textIndex 0 will have default vertical alignment, textIndex 1 will have start vertical alignment,
+                // all other textIndexes will have default vertical alignment
+                section.attributes["v-align"].forEach(
+                    (verticalAlignment, textIndex) => {
+                        if (verticalAlignment === "start") {
+                            textClassesFromParent[textIndex] += " self-start";
+                        } else if (verticalAlignment === "center") {
+                            textClassesFromParent[textIndex] += " self-center";
+                        } else if (verticalAlignment === "end") {
+                            textClassesFromParent[textIndex] += " self-end";
+                        }
+                    }
+                );
+            }
+
+            if (Array.isArray(section.attributes["text-align"])) {
+                // example: ["", "start",]
+                // textIndex 0 will have default text alignment, textIndex 1 will have start text alignment,
+                // all other textIndexes will have default vertical alignment
+                section.attributes["text-align"].forEach(
+                    (textAlignment, textIndex) => {
+                        if (textAlignment === "start") {
+                            textClassesFromParent[textIndex] += " text-left";
+                        } else if (textAlignment === "center") {
+                            textClassesFromParent[textIndex] += " text-center";
+                        } else if (textAlignment === "end") {
+                            textClassesFromParent[textIndex] += " text-right";
+                        }
+                    }
+                );
+            }
+        }
+
+        return (
+            <div class={sectionWrapperClasses}>
+                <section class={sectionClasses}>
+                    {section.text &&
+                        section.text.map((markdownText, markdownTextIndex) => {
+                            const textClasses =
+                                textClassesFromParent[markdownTextIndex] || "";
+
+                            // if (section.attributes) {
+                            //     if (section.attributes.sticky && section.attributes.sticky[markdownTextIndex]) {
+                            //         textClasses += " sticky";
+                            //     }
+                            // }
+
+                            return (
+                                <div
+                                    class={textClasses}
+                                    set:html={marked(markdownText)}
+                                />
+                            );
+                        })}
+                </section>
+            </div>
+        );
+    })
+}
+
+<script is:inline>
+    (function () {
+        function addLineNumbersToPres() {
+            const pres = document.querySelectorAll("pre");
+            pres.forEach((pre) => {
+                const lineNumberWrapper = document.createElement("span");
+                lineNumberWrapper.classList.add("pre-line-numbers");
+
+                const preCode = pre.querySelector("code");
+
+                if (!preCode) {
+                    return;
+                }
+
+                const preLines = preCode.textContent.split("\n").length;
+                for (let i = 0; i < preLines - 1; i++) {
+                    const span = document.createElement("span");
+                    span.appendChild(document.createTextNode(i));
+                    lineNumberWrapper.appendChild(span);
+                }
+
+                pre.insertBefore(lineNumberWrapper, pre.firstChild);
+            });
+        }
+
+        addLineNumbersToPres();
+    })();
+</script>

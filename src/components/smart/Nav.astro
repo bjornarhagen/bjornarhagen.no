@@ -1,0 +1,256 @@
+---
+import { cn } from "@/utils/misc";
+import logo from "../../../public/images/brand/logo/emblem.svg?raw";
+import Icon from "../dumb/Icon.astro";
+import { Menu, Search, X, Sun, MoonStar } from "lucide";
+import Dialog from "../dumb/Dialog.astro";
+import DialogTrigger from "../dumb/DialogTrigger.astro";
+
+const isDevEnv = process.env.NODE_ENV === "development";
+
+function urlIsActive(path: string) {
+    return Astro.url.pathname === path;
+}
+
+function subUrlIsActive(path: string) {
+    return Astro.url.pathname.startsWith(path);
+}
+---
+
+<nav id="nav" class="font-paragraph z-20">
+    <div
+        class="fixed w-full top-0 right-0 left-0 backdrop-blur-md z-20 border-b border-b-border bg-background/50"
+    >
+        <div class="px-4 md:px-8 max-w-screen-2xl mx-auto grid grid-cols-12">
+            <!-- LINKS -->
+            <div
+                class="hidden md:flex md:col-span-4 gap-4 justify-end items-center border-r border-r-border md:pr-8"
+            >
+                <a
+                    href="/entries"
+                    class={cn(
+                        "text-foreground hover:underline focus:underline hover:text-primary-500 focus:text-primary-500",
+                        {
+                            underline: subUrlIsActive("/entries"),
+                        }
+                    )}>Posts</a
+                >
+                <a
+                    href="/portfolio-tmp"
+                    class="text-foreground hover:underline focus:underline hover:text-primary-500 focus:text-primary-500"
+                    >Portfolio</a
+                >
+            </div>
+
+            <!-- LOGO -->
+            <a
+                href="/"
+                class="py-2 col-span-5 md:col-span-4 w-full mr-auto md:mx-auto font-heading text-3xl md:text-4xl flex gap-2 text-foreground items-center justify-center hover:text-primary-500 focus:text-primary-500"
+            >
+                <span class="logo w-8 md:w-10 h-auto block text-current">
+                    <Fragment class="w-full" set:html={logo} />
+                </span>
+                <span>HB</span>
+            </a>
+
+            <!-- BUTTONS -->
+            <div
+                class="col-span-7 md:col-span-4 flex gap-4 justify-end md:justify-start items-center border-l border-l-border md:pl-8"
+            >
+                <button
+                    data-theme-toggle-trigger
+                    title="Switch theme"
+                    type="button"
+                    class="hidden sm:flex gap-1 items-center text-foreground hover:underline focus:underline hover:text-primary-500 focus:text-primary-500"
+                >
+                    <Icon
+                        class="dark:block hidden text-current"
+                        icon={MoonStar}
+                    />
+                    <Icon class="dark:hidden block text-current" icon={Sun} />
+                    <span class="hidden xl:block">Theme</span>
+                </button>
+                <DialogTrigger dialogId="nav-search">
+                    <button
+                        data-search-open-trigger
+                        title="Open search"
+                        type="button"
+                        class="flex gap-1 items-center text-foreground hover:underline focus:underline hover:text-primary-500 focus:text-primary-500"
+                    >
+                        <Icon class="text-current" icon={Search} />
+                        <span class="hidden xl:block">Search</span>
+                    </button>
+                </DialogTrigger>
+                <DialogTrigger dialogId="nav-menu">
+                    <button
+                        title="Open menu"
+                        type="button"
+                        class="flex gap-1 items-center text-foreground hover:underline focus:underline hover:text-primary-500 focus:text-primary-500"
+                    >
+                        <Icon class="text-current" icon={Menu} />
+                        <span class="block">Menu</span>
+                    </button>
+                </DialogTrigger>
+            </div>
+        </div>
+    </div>
+    <Dialog dialogId="nav-menu" closeOnBackdropClick={true}>
+        <div class="relative flex flex-col w-full h-full">
+            <a
+                href="/"
+                class="mx-auto mb-auto font-heading text-3xl md:text-5xl flex gap-2 text-foreground items-center justify-center hover:text-primary-500 focus:text-primary-500"
+            >
+                <span class="logo w-8 md:w-12 h-auto block text-current">
+                    <Fragment class="w-full" set:html={logo} />
+                </span>
+                <span>HB</span>
+            </a>
+            <div class="my-auto flex flex-col gap-4 text-center">
+                <a
+                    href="/entries"
+                    class="text-foreground hover:underline focus:underline hover:text-primary-500 focus:text-primary-500"
+                    >Posts</a
+                >
+                <a
+                    href="/portfolio-tmp"
+                    class="text-foreground hover:underline focus:underline hover:text-primary-500 focus:text-primary-500"
+                    >Portfolio</a
+                >
+                <a
+                    href="/now"
+                    class="text-foreground hover:underline focus:underline hover:text-primary-500 focus:text-primary-500"
+                    >/now</a
+                >
+                {
+                    isDevEnv && (
+                        <>
+                            <a
+                                href="/kitchen-sink"
+                                class="text-foreground hover:underline focus:underline hover:text-primary-500 focus:text-primary-500"
+                            >
+                                Kitchen Sink
+                            </a>
+                            <a
+                                href="/editor-load-entry"
+                                class="text-foreground hover:underline focus:underline hover:text-primary-500 focus:text-primary-500"
+                            >
+                                Editor
+                            </a>
+                        </>
+                    )
+                }
+            </div>
+            <div class="mt-auto mx-auto mb-16">
+                <DialogTrigger dialogId="nav-menu" action="close">
+                    <button
+                        data-menu-close-trigger
+                        title="Close menu"
+                        type="button"
+                        class="flex gap-1 items-center text-foreground hover:underline focus:underline hover:text-primary-500 focus:text-primary-500 cursor-pointer"
+                    >
+                        <Icon class="text-current" icon={X} />
+                        <span>Close</span>
+                    </button>
+                </DialogTrigger>
+            </div>
+        </div>
+    </Dialog>
+    <Dialog dialogId="nav-search" closeOnBackdropClick={true}>
+        <div class="relative flex flex-col w-full h-full">
+            <a
+                href="/"
+                class="mx-auto mb-auto font-heading text-3xl md:text-5xl flex gap-2 text-foreground items-center justify-center hover:text-primary-500 focus:text-primary-500"
+            >
+                <span class="logo w-8 md:w-12 h-auto block text-current">
+                    <Fragment class="w-full" set:html={logo} />
+                </span>
+                <span>HB</span>
+            </a>
+            <form
+                class="my-auto flex gap-2 text-center justify-center items-center"
+                action="/search"
+            >
+                <input
+                    name="q"
+                    type="search"
+                    class="p-2 border-2 border-border text-foreground"
+                    autofocus
+                />
+                <button type="submit" class="text-foreground cursor-pointer">
+                    <Icon class="text-current" icon={Search} />
+                </button>
+            </form>
+            <div class="mt-auto mx-auto mb-16">
+                <DialogTrigger dialogId="nav-search" action="close">
+                    <button
+                        data-search-close-trigger
+                        title="Close search"
+                        type="button"
+                        class="flex gap-1 items-center text-foreground hover:underline focus:underline hover:text-primary-500 focus:text-primary-500"
+                    >
+                        <Icon class="text-current" icon={X} />
+                        <span>Close</span>
+                    </button>
+                </DialogTrigger>
+            </div>
+        </div>
+    </Dialog>
+</nav>
+
+<script>
+    (function () {
+        const nav = document.getElementById("nav");
+
+        if (!nav) {
+            throw new Error("No nav element found");
+        }
+
+        setupTheme();
+    })();
+
+    function setupTheme() {
+        initialize();
+
+        const themeToggleButtons = document.querySelectorAll(
+            "[data-theme-toggle-trigger]"
+        );
+        themeToggleButtons.forEach((button) => {
+            button.addEventListener("click", () => {
+                console.debug("Toggling theme: Button clicked");
+                const savedTheme = localStorage.getItem("theme");
+                applyTheme(savedTheme === "light" ? "dark" : "light");
+            });
+        });
+
+        function initialize() {
+            const preferredTheme = window.matchMedia(
+                "(prefers-color-scheme: dark)"
+            ).matches
+                ? "dark"
+                : "light";
+            const savedTheme = localStorage.getItem("theme");
+
+            if (!savedTheme) {
+                localStorage.setItem("theme", preferredTheme);
+                applyTheme(preferredTheme);
+            } else {
+                applyTheme(savedTheme as "light" | "dark");
+            }
+        }
+
+        function applyTheme(theme: "light" | "dark") {
+            console.debug(`Applying theme: ${theme}`);
+            document.documentElement.classList.remove("dark");
+            document.documentElement.classList.remove("light");
+            document.documentElement.classList.add(theme);
+            localStorage.setItem("theme", theme);
+        }
+    }
+</script>
+
+<style is:global>
+    #nav .logo svg {
+        width: 100%;
+        height: auto;
+    }
+</style>

@@ -1,0 +1,130 @@
+---
+import { ArrowLeft, Eye, Save } from "lucide";
+import ContentSection from "../components/dumb/ContentSection.astro";
+import EditorComponent from "../components/dumb/EditorComponent.astro";
+import Layout from "../layouts/Layout.astro";
+import Icon from "../components/dumb/Icon.astro";
+import type { PageContent } from "../data/dynamic-pages";
+
+export const prerender = false;
+
+if (process.env.NODE_ENV !== "development") {
+    return new Response(null, {
+        status: 404,
+    });
+}
+
+const currentUrl = new URL(Astro.request.url);
+const url = new URL(Astro.request.url);
+const year = url.searchParams.get("year");
+const slug = url.searchParams.get("slug");
+const type = url.searchParams.get("type");
+const isNew = slug === "_new";
+
+if (!year || !slug || !type) {
+    return new Response(JSON.stringify({ error: "Missing required fields" }), {
+        headers: {
+            "Content-Type": "application/json",
+        },
+        status: 400,
+    });
+}
+
+const pageRequest = await fetch(
+    `${currentUrl.origin}/editor-api?year=${year}&slug=${slug}&type=${type}`,
+    {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json",
+        },
+    }
+);
+
+console.log("pageRequest", pageRequest);
+
+const page: PageContent = await pageRequest.json();
+
+console.log("pageRequest, JSON content", page);
+// interface Props {
+//     page: PageContent;
+//     year: number;
+//     isNew: boolean;
+// }
+
+// const { page, year, isNew = false } = Astro.props;
+---
+
+<Layout>
+    <ContentSection className="py-8">
+        <div class="flex justify-between gap-4">
+            <a
+                href="/editor-load-entry"
+                class="inline-flex items-center gap-1 bg-primary-500 text-white dark:text-black px-2 py-1 hover:bg-primary-600"
+            >
+                <Icon icon={ArrowLeft} />
+                <span>Back</span>
+            </a>
+            <div class="mr-auto"></div>
+            {
+                !isNew && (
+                    <a
+                        href={`/${type}/${year}/${page.slug}`}
+                        class="inline-flex items-center gap-1 bg-primary-500 text-white dark:text-black px-2 py-1 hover:bg-primary-600"
+                    >
+                        <Icon icon={Eye} />
+                        <span>View</span>
+                    </a>
+                )
+            }
+            <button
+                id="editor-save"
+                class="inline-flex items-center gap-1 bg-primary-500 text-white dark:text-black px-2 py-1 hover:bg-primary-600"
+            >
+                <Icon icon={Save} />
+                <span>Save</span>
+            </button>
+        </div>
+        <form
+            id="editor-form"
+            class="grid grid-cols-2 items-center gap-2 p-4"
+            action="/editor-api"
+            method="post"
+        >
+            <input
+                name="_method"
+                type="hidden"
+                value={isNew ? "PUT" : "PATCH"}
+            />
+            <!-- @ts-ignore -->
+            <EditorComponent page={page} />
+        </form>
+    </ContentSection>
+</Layout>
+
+<script is:inline>
+    (function () {
+        const editorSaveButton = document.querySelector("#editor-save");
+
+        if (!editorSaveButton) {
+            console.error("Button not found");
+            return;
+        }
+
+        editorSaveButton.addEventListener("click", () => {
+            const form = document.querySelector("#editor-form");
+            if (!form) {
+                console.error("Form not found");
+                return;
+            }
+
+            const formSaveButton = form.querySelector("#save");
+            if (!formSaveButton) {
+                console.error("Button not found", form);
+                return;
+            }
+
+            console.log("Saving...", formSaveButton);
+            formSaveButton.click();
+        });
+    })();
+</script>

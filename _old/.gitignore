@@ -8,7 +8,3 @@ $RECYCLE.BIN/
 *.msm
 *.msp
 *.lnk
-node_modules/
-.astro/
-dist/
-.vercel

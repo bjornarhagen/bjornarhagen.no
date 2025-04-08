@@ -1,0 +1,89 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import ContentSection from "@/components/dumb/ContentSection.astro";
+import { getAscii } from "@/utils/ascii";
+import "@/components/dumb/ContentRenderer.css";
+
+const pulsarMapAscii = getAscii("pulsar-map");
+---
+
+<Layout marginForNav={false} marginForFooter={false}>
+    <main>
+        <ContentSection className="relative">
+            <section class="md:grid md:grid-cols-12 font-paragraph">
+                <div
+                    class="md:sticky md:top-24 md:col-span-4 border-b border-b-border md:border-r md:border-b-0 md:border-r-border pb-8 md:pb-0 pt-24 md:pr-8"
+                >
+                    <div class="relative inline-block">
+                        <span
+                            class="font-heading text-8xl absolute top-1/2 -translate-y-1/2 left-0 right-0 mx-auto opacity-25 text-center pointer-events-none"
+                        >
+                            <!-- <span class="whitespace-nowrap">/now</span> -->
+                        </span>
+                        <h2 class="font-heading text-3xl">/now</h2>
+                        <p>This page tells you what I'm up to these days.</p>
+                    </div>
+                </div>
+                <div class="md:col-span-8">
+                    <section
+                        class="content-renderer-section pb-8 md:py-16 md:pl-8"
+                    >
+                        <h2>🏫 Gokstad Akademiet</h2>
+                        <p>
+                            After 6 short months at River Security I have
+                            started working for <a
+                                href="https://gokstadakademiet.no/?ref=bjornar.dev"
+                                target="_blank"
+                                rel="noopener">Gokstad Akademiet</a
+                            > as their IT manager.
+                        </p>
+                        <p>
+                            Leaving River Security so quickly was unexpected,
+                            and while I'm very excited to join Gokstad and look
+                            forward to to the amazing projects and I'll be
+                            working on there, it's been kind of bittersweet to
+                            leave. I had a great time at River, and will miss
+                            the fantastic team there.
+                        </p>
+                        <p>
+                            Gokstad Akademiet is a vocational school with a
+                            focus on IT, design, sales, and marketing. I'm going
+                            to help them scale their IT solutions to handle the
+                            mind-blowing growth they've had, as well as work on
+                            some exciting secret projects ;)
+                        </p>
+
+                        <h2>✨ NUVA &amp; Sauna Booking</h2>
+                        <p>Working on side projects with friends:</p>
+                        <p>
+                            <a
+                                href="https://nuva.no/?ref=bjornar.dev"
+                                target="_blank"
+                                rel="noopener">nuva.no</a
+                            >
+                            <span>|</span>
+                            <a
+                                href="https://saunabooking.no/?ref=bjornar.dev"
+                                target="_blank"
+                                rel="noopener">saunabooking.no</a
+                            >
+                        </p>
+
+                        <h3>🚀 Astro</h3>
+                        <p>
+                            Been using Astro more and more as of late, really
+                            enjoying it. As a matter of fact, I just updated
+                            this website to use Astro (used Hugo before).
+                        </p>
+
+                        <h3>⚽️ Ted Lasso</h3>
+                        <p>Currently watching this show on Apple TV</p>
+
+                        <h3>🎸 Dayseeker</h3>
+                        <p>Been listening to a lot of Dayseeker lately</p>
+                    </section>
+                </div>
+            </section>
+        </ContentSection>
+    </main>
+</Layout>

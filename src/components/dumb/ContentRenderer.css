@@ -1,0 +1,159 @@
+@import "tailwindcss";
+@config "../../../tailwind.config.mjs";
+
+.content-renderer-section {
+    @apply overflow-hidden;
+}
+
+/* Headings */
+.content-renderer-section h1 {
+    @apply font-heading text-5xl pt-8 mb-4;
+}
+.content-renderer-section h2 {
+    @apply font-heading text-4xl pt-8 mb-4;
+}
+.content-renderer-section h3 {
+    @apply font-heading text-3xl pt-8 mb-4;
+}
+.content-renderer-section h4 {
+    @apply font-heading text-2xl pt-8 mb-4;
+}
+.content-renderer-section h5 {
+    @apply font-heading text-xl pt-8 mb-4;
+}
+.content-renderer-section h6 {
+    @apply font-heading text-lg pt-8 mb-4;
+}
+
+/* Copy */
+.content-renderer-section {
+    @apply font-paragraph;
+}
+
+.content-renderer-section p {
+    @apply mb-4 font-light leading-relaxed;
+}
+
+.content-renderer-section p:last-child {
+    @apply mb-0;
+}
+
+.content-renderer-section strong {
+    @apply font-bold;
+}
+
+.content-renderer-section div > p > strong {
+    @apply font-paragraph block;
+}
+
+/* Links */
+.content-renderer-section a {
+    @apply text-blue-500 dark:text-blue-400 hover:underline focus:underline font-normal;
+}
+
+/* Lists */
+.content-renderer-section ul {
+    @apply list-disc list-inside pl-4 mb-4;
+}
+
+.content-renderer-section ol {
+    @apply list-decimal list-inside pl-4 mb-4;
+}
+
+/* Images */
+.content-renderer-section img {
+    @apply w-full h-auto;
+}
+
+.content-renderer-section .lg\:grid-cols-2 .border,
+.content-renderer-section .lg\:grid-cols-2 img {
+    @apply rounded-lg;
+}
+
+.content-renderer-section .lg\:grid-cols-3 .border,
+.content-renderer-section .lg\:grid-cols-3 img {
+    @apply rounded-lg mt-4 lg:mt-2;
+}
+
+/* Quote */
+.content-renderer-section blockquote {
+    @apply relative p-0 mt-8;
+}
+
+.content-renderer-section blockquote p {
+    @apply relative px-12 mb-0;
+}
+
+.content-renderer-section blockquote::before,
+.content-renderer-section blockquote::after {
+    @apply z-0 absolute text-center italic font-heading text-slate-200 dark:text-slate-600;
+    font-size: 15em;
+    line-height: 1rem;
+}
+
+.content-renderer-section blockquote::before {
+    content: "“";
+    top: 4rem;
+    left: -3rem;
+}
+
+.content-renderer-section blockquote::after {
+    content: "”";
+    bottom: -4rem;
+    right: 1rem;
+}
+
+/* Quite - skip person */
+.content-renderer-section blockquote + hr {
+    @apply hidden;
+}
+
+/* Quote - first paragraph after skip */
+.content-renderer-section blockquote + hr + p {
+    @apply mt-8;
+}
+
+/* Quote - person image wrapper */
+.content-renderer-section blockquote + p {
+    @apply relative block w-14 h-14 mt-4 mb-0 left-1/2 -translate-x-1/2 -ml-32 md:-ml-28;
+}
+
+/* Quote - person image */
+.content-renderer-section blockquote + p img {
+    @apply w-full h-full rounded-full object-cover object-center;
+}
+
+/* Quote - person name */
+.content-renderer-section blockquote + p + p {
+    /* @apply block -mt-14 pl-16 mb-0 font-normal; */
+    @apply relative block w-64 max-w-full leading-none mb-0 text-slate-700 dark:text-slate-300 left-1/2 -top-[3.25rem] -translate-x-1/2 ml-10 md:ml-14 font-bold;
+}
+
+/* Quote - person description */
+.content-renderer-section blockquote + p + p + p {
+    @apply relative block w-64 max-w-full leading-none mb-0 text-slate-500 left-1/2 -top-[3.25rem] -translate-x-1/2 ml-10 md:ml-14;
+}
+
+/* Code */
+.content-renderer-section code,
+.content-renderer-section code p {
+    @apply font-code bg-primary-950 dark:bg-secondary-950 text-primary-300 dark:text-secondary-300 text-[0.7rem] px-[3px] py-[1px];
+}
+
+.content-renderer-section pre {
+    @apply font-code bg-primary-950 dark:bg-secondary-950 text-primary-300 dark:text-secondary-300 text-xs w-full max-w-full grid overflow-auto relative;
+    grid-template-columns: min-content 1fr;
+}
+
+.content-renderer-section pre code,
+.content-renderer-section pre .pre-line-numbers {
+    @apply py-1 font-code text-xs;
+}
+
+.content-renderer-section pre code {
+    @apply pl-1 w-full max-w-full overflow-auto whitespace-pre;
+}
+
+.content-renderer-section pre .pre-line-numbers {
+    @apply border-r border-primary-500 dark:border-secondary-500 px-1 flex flex-col h-full text-right select-none opacity-50;
+}

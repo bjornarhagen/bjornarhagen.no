@@ -1,0 +1,201 @@
+---
+import { readdirSync } from "fs";
+import { resolve } from "path";
+
+import ContentSection from "../components/dumb/ContentSection.astro";
+
+import {
+    dynamicPages,
+    dynamicPagesConfig,
+    type PageContent,
+} from "../data/dynamic-pages";
+import Layout from "../layouts/Layout.astro";
+
+export const prerender = false;
+
+const url = new URL(Astro.request.url);
+const search = url.searchParams.get("q") ?? "";
+
+// TODO: Make this work with all dynamic page types
+const dynamicPagesSearchResults = Object.keys(dynamicPages["entries"]).reduce(
+    (acc, year) => {
+        const articles = Object.keys(dynamicPages["entries"][year]).reduce(
+            (acc, slug) => {
+                const article = dynamicPages["entries"][year][slug];
+                if (
+                    article.title
+                        .toLowerCase()
+                        .includes(search.toLowerCase()) ||
+                    article.summary.toLowerCase().includes(search.toLowerCase())
+                ) {
+                    // @ts-ignore
+                    acc.push(article);
+                }
+                return acc;
+            },
+            []
+        );
+        if (articles.length) {
+            // @ts-ignore
+            acc[year] = articles;
+        }
+        return acc;
+    },
+    {}
+);
+
+export function getRootRoutes() {
+    if (process.env.NODE_ENV === "production") {
+        return [];
+    }
+
+    const pagesDir = resolve("./src/pages");
+    const files = readdirSync(pagesDir);
+
+    return (
+        files
+            // @ts-ignore
+            .filter((file) => file.endsWith(".astro"))
+            // @ts-ignore
+            .filter((file) => {
+                let path = file.replace(".astro", "");
+
+                if (path === "search") {
+                    return false;
+                } else if (path === "kitchen-sink") {
+                    return false;
+                } else if (path === "editor") {
+                    return false;
+                } else if (path === "editor-load-entry") {
+                    return false;
+                } else if (path === "editor-api") {
+                    return false;
+                }
+
+                return true;
+            })
+            // @ts-ignore
+            .map((file) => {
+                let path = file.replace(".astro", "");
+                let title = path.replace("-", " ");
+
+                if (path === "index") {
+                    path = "/";
+                    title = "Home";
+                }
+
+                return {
+                    path,
+                    title,
+                };
+            })
+    );
+}
+
+// @ts-ignore
+const pagesSearchResults = getRootRoutes().reduce((acc, page) => {
+    if (
+        page.title.toLowerCase().includes(search.toLowerCase()) ||
+        page.path.toLowerCase().includes(search.toLowerCase())
+    ) {
+        // @ts-ignore
+        acc.push(page);
+    }
+    return acc;
+}, []);
+---
+
+<Layout title={`${search} | Search`}>
+    <main class="relative max-w-full overflow-x-hidden min-h-screen">
+        <header
+            class="pt-16 flex flex-col gap-8 items-center relative w-full max-w-screen-2xl mx-auto"
+        >
+            <div class="w-full px-4 lg:px-8">
+                <h1
+                    class="flex flex-col lg:flex-row lg:gap-4 text-5xl sm:text-7xl font-heading leading-none text-left"
+                >
+                    <span>Søk: {search}</span>
+                </h1>
+            </div>
+        </header>
+
+        <ContentSection className="pb-16">
+            {
+                Object.keys(dynamicPagesSearchResults).length > 0 &&
+                    Object.entries(dynamicPagesSearchResults).map(
+                        ([year, entries]) => (
+                            <section class="pt-12">
+                                <h2 class="text-3xl font-paragraph font-bold pb-2">
+                                    {dynamicPagesConfig["entries"].title} {year}
+                                </h2>
+                                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-16 md:gap-8 relative">
+                                    {(entries as PageContent[])
+                                        .toSorted((a, b) =>
+                                            a.date.localeCompare(b.date)
+                                        )
+                                        .map((entry) => (
+                                            <article>
+                                                <a
+                                                    href={`/entries/${year}/${entry.slug}`}
+                                                    class="flex flex-col gap-2 group"
+                                                >
+                                                    <p class="text-right opacity-70 font-light">
+                                                        {entry.date}
+                                                    </p>
+                                                    <img
+                                                        src={entry.poster}
+                                                        alt={entry.title}
+                                                        class="w-full h-56 object-cover object-center rounded-lg group-hover:opacity-75 group-focus:opacity-75"
+                                                    />
+                                                    <div class="flex flex-col">
+                                                        <h2 class="font-bold font-paragraph text-2xl leading-none mt-1 mb-2 group-hover:underline group-focus:underline">
+                                                            {entry.title}
+                                                        </h2>
+                                                        <p class="font-light opacity-90">
+                                                            {entry.summary}
+                                                        </p>
+                                                    </div>
+                                                </a>
+                                            </article>
+                                        ))}
+                                </div>
+                            </section>
+                        )
+                    )
+            }
+
+            {
+                pagesSearchResults.length > 0 && (
+                    <section>
+                        <h2 class="text-3xl font-serif font-bold pb-2 pt-12">
+                            Pages
+                        </h2>
+                        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-16 md:gap-8 relative">
+                            {(
+                                pagesSearchResults as {
+                                    path: string;
+                                    title: string;
+                                }[]
+                            )
+                                .toSorted((a, b) =>
+                                    a.title.localeCompare(b.title)
+                                )
+                                .map((page) => (
+                                    <article>
+                                        <a
+                                            href={page.path}
+                                            class="flex flex-col gap-2 group"
+                                        >
+                                            <h2 class="font-bold font-serif text-2xl leading-none mt-1 mb-2 group-hover:underline group-focus:underline capitalize">
+                                                {page.title}
+                                            </h2>
+                                        </a>
+                                    </article>
+                                ))}
+                        </div>
+                    </section>
+                )
+            }
+        </ContentSection>
+    </main>
+</Layout>

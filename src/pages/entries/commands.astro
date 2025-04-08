@@ -1,0 +1,518 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import ContentSection from "@/components/dumb/ContentSection.astro";
+import Icon from "@/components/dumb/Icon.astro";
+import { Dribbble } from "lucide";
+---
+
+<Layout marginForNav={false} marginForFooter={false}>
+    <main>
+        <ContentSection className="relative">
+            <section class="md:grid md:grid-cols-12 font-paragraph">
+                <div
+                    class="text-center md:self-start md:sticky md:top-24 md:col-span-4 border-b border-b-border md:border-b-0 pb-16 pt-24 md:pt-24 md:pr-8"
+                >
+                    <div class="relative inline-block">
+                        <span
+                            class="font-heading text-8xl absolute top-1/2 -translate-y-1/2 left-0 right-0 mx-auto opacity-25 text-center pointer-events-none"
+                        >
+                            🔐
+                        </span>
+                        <h2 class="font-heading text-3xl">
+                            Security & privacy
+                        </h2>
+                    </div>
+                </div>
+                <div
+                    class="mt-8 md:mt-0 md:col-span-8 md:shadow-[-1px_0_0_0_hsl(var(--border))]"
+                >
+                    <section class="pb-8 md:py-24 md:pl-8">
+                        <dt class="mt-12">
+                            <input
+                                value="tar czf myDir.tar.gz myDir"
+                                type="text"
+                                class="w-full bg-background text-foreground border border-foreground p-2 font-mono hover:border-primary-500 focus:border-primary-500 focus:outline-none"
+                            />
+                            <input
+                                value="gpg -c myDir.tar.gz"
+                                type="text"
+                                class="w-full bg-background text-foreground border border-foreground p-2 font-mono hover:border-primary-500 focus:border-primary-500 focus:outline-none"
+                            />
+                        </dt>
+                        <dd class="font-bold ml-12">
+                            Make a password encrypted backup of a directory
+                        </dd>
+
+                        <dt class="mt-12">
+                            <input
+                                value="gpg -d myDir.tar.gz.gpg > myDir.tar.gz"
+                                type="text"
+                                class="w-full bg-background text-foreground border border-foreground p-2 font-mono hover:border-primary-500 focus:border-primary-500 focus:outline-none"
+                            />
+                            <input
+                                value="tar xzf myDir.tar.gz"
+                                type="text"
+                                class="w-full bg-background text-foreground border border-foreground p-2 font-mono hover:border-primary-500 focus:border-primary-500 focus:outline-none"
+                            />
+                        </dt>
+                        <dd class="font-bold ml-12">
+                            Decrypt an encrypted directory
+                        </dd>
+                    </section>
+                </div>
+            </section>
+        </ContentSection>
+        <ContentSection className="relative border-t border-t-border">
+            <section class="md:grid md:grid-cols-12 font-paragraph">
+                <div
+                    class="text-center md:self-start md:sticky md:top-24 md:col-span-4 border-b border-b-border md:border-b-0 pb-16 pt-24 md:pt-24 md:pr-8"
+                >
+                    <div class="relative inline-block">
+                        <span
+                            class="font-heading text-8xl absolute top-1/2 -translate-y-1/2 left-0 right-0 mx-auto opacity-25 text-center pointer-events-none"
+                        >
+                            ☸
+                        </span>
+                        <h2 class="font-heading text-3xl">Kubernetes</h2>
+                    </div>
+                </div>
+                <div
+                    class="mt-8 md:mt-0 md:col-span-8 md:shadow-[-1px_0_0_0_hsl(var(--border))]"
+                >
+                    <section class="pb-8 md:py-24 md:pl-8">
+                        <dt class="mt-12">
+                            <input
+                                value="ENTRYPOINT ['tail', '-f', '/dev/null']"
+                                type="text"
+                                class="w-full bg-background text-foreground border border-foreground p-2 font-mono hover:border-primary-500 focus:border-primary-500 focus:outline-none"
+                            />
+                        </dt>
+                        <dd class="font-bold ml-12">
+                            Make a Dockerfile run forever so you can debug it
+                        </dd>
+
+                        <dt class="mt-12">
+                            <textarea
+                                class="resize-y min-h-48 w-full bg-background text-foreground border border-foreground p-2 font-mono hover:border-primary-500 focus:border-primary-500 focus:outline-none"
+                            >
+                                {
+                                    `
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+name: bjornar-dev-certificate
+namespace: bjornar-dev-ns
+spec:
+dnsNames: - bjornar.dev - www.bjornar.dev
+secretName: bjornar-dev-tls
+issuerRef:
+name: letsencrypt-cluster-issuer
+kind: ClusterIssuer
+`
+                                }
+                            </textarea>
+                        </dt>
+                        <dd class="font-bold ml-12">
+                            k8s manifest example - certificate
+                        </dd>
+
+                        <dt class="mt-12">
+                            <textarea
+                                class="resize-y min-h-48 w-full bg-background text-foreground border border-foreground p-2 font-mono hover:border-primary-500 focus:border-primary-500 focus:outline-none"
+                            >
+                                {
+                                    `
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+name: bjornar-dev-deployment
+namespace: bjornar-dev-ns
+spec:
+selector:
+matchLabels:
+app: bjornar-dev-app
+replicas: 1
+template:
+metadata:
+labels:
+app: bjornar-dev-app
+spec:
+containers: - name: bjornar-dev-app
+image: registry.bjornar.dev/personal/bjornarhagen
+envFrom: - secretRef:
+name: dot-env
+imagePullPolicy: Always
+ports: - containerPort: 80
+resources:
+requests:
+cpu: "100m"
+memory: "160Mi"
+limits:
+memory: "256Mi"
+imagePullSecrets: - name: private-container-registry-secrets
+`
+                                }
+                            </textarea>
+                        </dt>
+                        <dd class="font-bold ml-12">
+                            k8s manifest example - deployment
+                        </dd>
+
+                        <dt class="mt-12">
+                            <textarea
+                                class="resize-y min-h-48 w-full bg-background text-foreground border border-foreground p-2 font-mono hover:border-primary-500 focus:border-primary-500 focus:outline-none"
+                            >
+                                {
+                                    `
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+name: bjornar-dev-ingress
+namespace: bjornar-dev-ns
+annotations:
+kubernetes.io/ingress.class: "nginx"
+nginx.ingress.kubernetes.io/ssl-redirect: "true"
+spec:
+tls: - hosts: - bjornar.dev - www.bjornar.dev
+secretName: bjornar-dev-tls
+rules: - host: bjornar.dev
+http: &http_rules
+paths: - path: /
+pathType: Prefix
+backend:
+service:
+name: bjornar-dev-service
+port:
+number: 80 - host: www.bjornar.dev
+http: \*http_rules
+
+---
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+name: bjornar-dev-ingress-admin
+namespace: bjornar-dev-ns
+annotations:
+kubernetes.io/ingress.class: "nginx"
+nginx.ingress.kubernetes.io/ssl-redirect: "true"
+nginx.ingress.kubernetes.io/use-regex: "true"
+nginx.ingress.kubernetes.io/rewrite-target: /admin/$1
+nginx.ingress.kubernetes.io/whitelist-source-range: "127.0.0.1" # Replace with public IP
+spec:
+tls: - hosts: - bjornar.dev - www.bjornar.dev
+secretName: bjornar-dev-tls
+rules: - host: bjornar.dev
+http: &http_rules_admin
+paths: - path: /admin
+pathType: Exact
+backend:
+service:
+name: bjornar-dev-service
+port:
+number: 80 - path: /admin/(.*)
+pathType: Prefix
+backend:
+service:
+name: bjornar-dev-service
+port:
+number: 80 - host: www.bjornar.dev
+http: *http_rules_admin
+`
+                                }
+                            </textarea>
+                        </dt>
+                        <dd class="font-bold ml-12">
+                            k8s manifest example - ingress with a private /admin
+                            space
+                        </dd>
+
+                        <dt class="mt-12">
+                            <textarea
+                                class="resize-y min-h-48 w-full bg-background text-foreground border border-foreground p-2 font-mono hover:border-primary-500 focus:border-primary-500 focus:outline-none"
+                            >
+                                {
+                                    `
+apiVersion: v1
+kind: Service
+metadata:
+name: bjornar-dev-service
+namespace: bjornar-dev-ns
+labels:
+app: bjornar-dev-app
+spec:
+type: ClusterIP
+selector:
+app: bjornar-dev-app
+ports: - protocol: TCP
+name: http
+port: 80
+targetPort: 80
+
+`
+                                }
+                            </textarea>
+                        </dt>
+                        <dd class="font-bold ml-12">
+                            k8s manifest example - service
+                        </dd>
+                    </section>
+                </div>
+            </section>
+        </ContentSection>
+        <ContentSection className="relative border-t border-t-border">
+            <section class="md:grid md:grid-cols-12 font-paragraph">
+                <div
+                    class="text-center md:self-start md:sticky md:top-24 md:col-span-4 border-b border-b-border md:border-b-0 pb-16 pt-24 md:pt-24 md:pr-8"
+                >
+                    <div class="relative inline-block">
+                        <span
+                            class="font-heading text-8xl absolute top-1/2 -translate-y-1/2 left-0 right-0 mx-auto opacity-25 text-center pointer-events-none"
+                        >
+                            🐧
+                        </span>
+                        <h2 class="font-heading text-3xl">Linux</h2>
+                    </div>
+                </div>
+                <div
+                    class="mt-8 md:mt-0 md:col-span-8 md:shadow-[-1px_0_0_0_hsl(var(--border))]"
+                >
+                    <section class="pb-8 md:py-24 md:pl-8">
+                        <dt class="mt-12">
+                            <input
+                                value="usermod -a -G www-data username"
+                                type="text"
+                                class="w-full bg-background text-foreground border border-foreground p-2 font-mono hover:border-primary-500 focus:border-primary-500 focus:outline-none"
+                            />
+                        </dt>
+                        <dd class="font-bold ml-12">Add user to www-data</dd>
+
+                        <dt class="mt-12">
+                            <input
+                                value="chown -R www-data:www-data /var/www/html/website"
+                                type="text"
+                                class="w-full bg-background text-foreground border border-foreground p-2 font-mono hover:border-primary-500 focus:border-primary-500 focus:outline-none"
+                            />
+                        </dt>
+                        <dd class="font-bold ml-12">
+                            set www-data to owner of folder
+                        </dd>
+
+                        <dt class="mt-12">
+                            <input
+                                value="chmod -R 755 /var/www/html/website"
+                                type="text"
+                                class="w-full bg-background text-foreground border border-foreground p-2 font-mono hover:border-primary-500 focus:border-primary-500 focus:outline-none"
+                            />
+                        </dt>
+                        <dd class="font-bold ml-12">
+                            Change folder permissions
+                        </dd>
+
+                        <dt class="mt-12">
+                            <input
+                                value="chmod 644 /var/www/html/website/file.php"
+                                type="text"
+                                class="w-full bg-background text-foreground border border-foreground p-2 font-mono hover:border-primary-500 focus:border-primary-500 focus:outline-none"
+                            />
+                        </dt>
+                        <dd class="font-bold ml-12">Change file permissions</dd>
+
+                        <dt class="mt-12">
+                            <input
+                                value="sudo ln -s /etc/nginx/sites-available/website /etc/nginx/sites-enabled/"
+                                type="text"
+                                class="w-full bg-background text-foreground border border-foreground p-2 font-mono hover:border-primary-500 focus:border-primary-500 focus:outline-none"
+                            />
+                        </dt>
+                        <dd class="font-bold ml-12">
+                            Create symbolic link between sites-available and
+                            sites-enabled
+                        </dd>
+
+                        <dt class="mt-12">
+                            <textarea
+                                class="resize-y min-h-48 w-full bg-background text-foreground border border-foreground p-2 font-mono hover:border-primary-500 focus:border-primary-500 focus:outline-none"
+                            >
+                                {
+                                    `
+#!/bin/sh
+# For AWS Credentials
+export HOME=/home/username
+THEDATE=\`date +%Y-%m-%d-%H-%M-%S\`
+prefix="my-prefix"
+
+# tar the folder
+sudo tar czf /backups/\${prefix}-www-daily-\${THEDATE}.tar.gz -C /var www
+
+# sync to amazon
+/usr/local/bin/aws s3 cp /backups/\${prefix}-www-daily-\${THEDATE}.tar.gz s3://bucket-name
+`
+                                }
+                            </textarea>
+                        </dt>
+                        <dd class="font-bold ml-12">
+                            Backup folder to AWS S3 using the AWS cli
+                        </dd>
+
+                        <dt class="mt-12">
+                            <textarea
+                                class="resize-y min-h-48 w-full bg-background text-foreground border border-foreground p-2 font-mono hover:border-primary-500 focus:border-primary-500 focus:outline-none"
+                            >
+                                {
+                                    `
+0 0 * * * /backup-daily.sh > /backup.log 2>&1
+0 0 * * 0 /backup-weekly.sh > /backup.log 2>&1
+0 0 1 * * /backup-monthly.sh > /backup.log 2>&1
+0 0 1 1 * /backup-yearly.sh > /backup.log 2>&1
+0 0 1 1 * /backup-permanent.sh > /backup.log 2>&1
+`
+                                }
+                            </textarea>
+                        </dt>
+                        <dd class="font-bold ml-12">
+                            Cron job schedule for backups
+                        </dd>
+                    </section>
+                </div>
+            </section>
+        </ContentSection>
+        <ContentSection className="relative border-t border-t-border">
+            <section class="md:grid md:grid-cols-12 font-paragraph">
+                <div
+                    class="text-center md:self-start md:sticky md:top-24 md:col-span-4 border-b border-b-border md:border-b-0 pb-16 pt-24 md:pt-24 md:pr-8"
+                >
+                    <div class="relative inline-block">
+                        <span
+                            class="font-heading text-8xl absolute top-1/2 -translate-y-1/2 left-0 right-0 mx-auto opacity-25 text-center pointer-events-none"
+                        >
+                            👨‍💻
+                        </span>
+                        <h2 class="font-heading text-3xl">Web dev & DevOps</h2>
+                    </div>
+                </div>
+                <div
+                    class="mt-8 md:mt-0 md:col-span-8 md:shadow-[-1px_0_0_0_hsl(var(--border))]"
+                >
+                    <section class="pb-8 md:py-24 md:pl-8">
+                        <dt class="mt-12">
+                            <input
+                                value="openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout localhost.key -out localhost.crt"
+                                type="text"
+                                class="w-full bg-background text-foreground border border-foreground p-2 font-mono hover:border-primary-500 focus:border-primary-500 focus:outline-none"
+                            />
+                        </dt>
+                        <dd class="font-bold ml-12">
+                            Create self-signed certificate for local use
+                        </dd>
+
+                        <dt class="mt-12">
+                            <input
+                                value="ssh user@server -L 3307:localhost:3306"
+                                type="text"
+                                class="w-full bg-background text-foreground border border-foreground p-2 font-mono hover:border-primary-500 focus:border-primary-500 focus:outline-none"
+                            />
+                        </dt>
+                        <dd class="font-bold ml-12">
+                            Port forward a remote port to a local one
+                            <p class="text-sm font-normal">
+                                Very handy for using local software with remote
+                                data
+                            </p>
+                            <p class="text-sm font-normal">
+                                MySQL example:
+                                <code
+                                    >ssh user@server -L 3307:localhost:3306</code
+                                >
+                            </p>
+                            <p class="text-sm font-normal">
+                                <code>localhost:3307</code> now works locally as
+                                <code>localhost:3306</code> works on the server
+                            </p>
+                        </dd>
+
+                        <dt class="mt-12">
+                            <textarea
+                                class="resize-y min-h-48 w-full bg-background text-foreground border border-foreground p-2 font-mono hover:border-primary-500 focus:border-primary-500 focus:outline-none"
+                            >
+                                {
+                                    `
+const form = document.querySelector('form');
+const data = new FormData(form);
+
+let xhr = new XMLHttpRequest();
+xhr.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+        let response = null;
+        try {
+            response = JSON.parse(xhr.responseText);
+        } catch (e) {
+            console.error(e);
+        }
+        handleSuccess(input, response);
+    }
+};
+xhr.open("POST", form.action, true);
+xhr.send(data);
+`
+                                }
+                            </textarea>
+                        </dt>
+                        <dd class="font-bold ml-12">
+                            XMLHttpRequest for formdata
+                        </dd>
+                    </section>
+                </div>
+            </section>
+        </ContentSection>
+        <ContentSection className="relative border-t border-t-border">
+            <section class="md:grid md:grid-cols-12 font-paragraph">
+                <div
+                    class="text-center md:self-start md:sticky md:top-24 md:col-span-4 border-b border-b-border md:border-b-0 pb-16 pt-24 md:pt-24 md:pr-8"
+                >
+                    <div class="relative inline-block">
+                        <span
+                            class="font-heading text-8xl absolute top-1/2 -translate-y-1/2 left-0 right-0 mx-auto opacity-25 text-center pointer-events-none"
+                        >
+                            🪟
+                        </span>
+                        <h2 class="font-heading text-3xl">Windows</h2>
+                    </div>
+                </div>
+                <div
+                    class="mt-8 md:mt-0 md:col-span-8 md:shadow-[-1px_0_0_0_hsl(var(--border))]"
+                >
+                    <section class="pb-8 md:py-24 md:pl-8">
+                        <dt class="mt-12">
+                            <input
+                                value='New-SelfSignedCertificate -DnsName "localhost" -CertStoreLocation "cert:\\LocalMachine\\My"'
+                                type="text"
+                                class="w-full bg-background text-foreground border border-foreground p-2 font-mono hover:border-primary-500 focus:border-primary-500 focus:outline-none"
+                            />
+                        </dt>
+                        <dd class="font-bold ml-12">
+                            Create a self-signed certificate
+                            <p class="text-sm font-normal">
+                                NOTE: Requires admin
+                            </p>
+                        </dd>
+
+                        <dt class="mt-12">
+                            <input
+                                value="Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))"
+                                type="text"
+                                class="w-full bg-background text-foreground border border-foreground p-2 font-mono hover:border-primary-500 focus:border-primary-500 focus:outline-none"
+                            />
+                        </dt>
+                        <dd class="font-bold ml-12">
+                            Install Chocolatey
+                            <p class="text-sm font-normal">
+                                NOTE: Requires admin
+                            </p>
+                        </dd>
+                    </section>
+                </div>
+            </section>
+        </ContentSection>
+    </main>
+</Layout>

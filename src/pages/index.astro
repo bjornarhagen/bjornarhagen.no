@@ -1,0 +1,277 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import ContentSection from "@/components/dumb/ContentSection.astro";
+import { getAscii } from "@/utils/ascii";
+
+const waveAscii = getAscii("wave");
+const pulsarMapAscii = getAscii("pulsar-map");
+---
+
+<Layout marginForNav={false}>
+    <!-- <style>
+        @keyframes wave {
+            0% {
+                transform: rotate(0deg) scaleX(-1);
+            }
+            10% {
+                transform: rotate(10deg) scaleX(-1);
+            }
+            20% {
+                transform: rotate(-5deg) scaleX(-1);
+            }
+            30% {
+                transform: rotate(10deg) scaleX(-1);
+            }
+            40% {
+                transform: rotate(-5deg) scaleX(-1);
+            }
+            50% {
+                transform: rotate(10deg) scaleX(-1);
+            }
+            60% {
+                transform: rotate(0deg) scaleX(-1);
+            }
+            100% {
+                transform: rotate(0deg) scaleX(-1);
+            }
+        }
+    </style> -->
+    <main>
+        <div class="relative">
+            <img
+                src="/images/graphics/white-3.webp"
+                alt=""
+                class="block dark:hidden absolute inset-0 w-full h-full opacity-35 object-cover"
+            />
+            <img
+                src="/images/graphics/black-3.webp"
+                alt=""
+                class="hidden dark:block absolute inset-0 w-full h-full opacity-35 object-cover"
+            />
+            <ContentSection className="relative overflow-hidden">
+                <header
+                    class="relative text-primary-500 flex justify-center lg:justify-between pb-16 pt-32 sm:pb-32 sm:pt-48 md:pb-48 md:pt-64"
+                >
+                    <h1
+                        class="relative z-10 font-heading text-3xl sm:text-4xl md:text-5xl lg:md:text-6xl flex flex-col"
+                    >
+                        <span>Hey! I'm Bjørnar Hagen,</span>
+                        <span
+                            >software engineer <span class="lg:hidden">👋</span
+                            ></span
+                        >
+                    </h1>
+                    <!-- style="animation-name: wave; animation-duration: 4s; animation-iteration-count: 2; animation-delay: 3s;"  -->
+                    <pre
+                        class="hidden lg:block font-mono text-[12px] scale-x-[-1] leading-none absolute top-14 -right-24">{waveAscii}</pre>
+                </header>
+                <!-- <img
+                    src="https://bjornar.dev/images/graphics/bjornar-hagen/fg.png"
+                    alt=""
+                    class="absolute bottom-0 right-24 w-3/4 h-full object-contain object-bottom"
+                /> -->
+                <!-- <div
+                    class="absolute -bottom-32 right-4 bg-dots-foreground bg-[length:1rem_1rem] bg-repeat w-96 h-64 opacity-50"
+                >
+                </div> -->
+            </ContentSection>
+        </div>
+        <ContentSection className="relative">
+            <pre
+                class="hidden lg:block pointer-events-none font-mono text-[12px] leading-none absolute top-[32rem] -left-80 overflow-hidden opacity-20">{pulsarMapAscii}</pre>
+
+            <section class="lg:grid lg:grid-cols-4 mt-16 mb-4 font-paragraph">
+                <div class="lg:sticky lg:top-24">
+                    <div class="relative inline-block">
+                        <span
+                            class="font-heading text-8xl absolute top-1/2 -translate-y-1/2 left-0 right-0 mx-auto opacity-25 text-center pointer-events-none"
+                            >01</span
+                        >
+                        <h2 class="font-heading text-3xl">Personal</h2>
+                    </div>
+                </div>
+                <div class="col-span-3">
+                    <div class="flex flex-col gap-4 lg:block lg:columns-2">
+                        <p class="lg:mb-4">
+                            Born and raised in Larvik, Norway. Currently living
+                            in Sandefjord.
+                        </p>
+                        <p class="lg:mb-4">
+                            I’ve always loved building and taking things apart,
+                            so when I at a young age was introduced to
+                            computers, it didn’t take very long before I was
+                            taking them apart and learning about how they
+                            worked. When I was 14 I saved up scholarship money
+                            originally ment for school equipment to instead buy
+                            computer parts so I could build my first desktop
+                            computer. Once I had that built, I started learning
+                            about code and software. I was instantly facinated
+                            with the web technologies and building websites.
+                            Since then I’ve learnt more and more about
+                            programming and different software techologies.
+                        </p>
+                    </div>
+                </div>
+            </section>
+        </ContentSection>
+
+        <div class="w-full h-px bg-border my-16"></div>
+
+        <ContentSection className="relative">
+            <section class="lg:grid lg:grid-cols-4 mb-4 font-paragraph">
+                <div class="lg:sticky lg:top-24">
+                    <div class="relative inline-block">
+                        <span
+                            class="font-heading text-8xl absolute top-1/2 -translate-y-1/2 left-0 right-0 mx-auto opacity-25 text-center pointer-events-none"
+                            >02</span
+                        >
+                        <h2 class="font-heading text-3xl">Career</h2>
+                    </div>
+                </div>
+                <div class="col-span-3">
+                    <div class="flex flex-col gap-4 lg:block lg:columns-2">
+                        <p class="lg:mb-4">
+                            I learnt HTML, CSS, JS and PHP through self study
+                            and got a few gigs through some close friends. Later
+                            on I got my first "real job" as an apprentice at
+                            Optimale Systemer in Larvik. Around the same time I
+                            started the company Datahjelpen so to take on extra
+                            jobs outside of work and school.
+                        </p>
+                        <p class="lg:mb-4">
+                            After 2 years at Optimale Systemer I had learned a
+                            lot and considered myself a full-stack web
+                            developer, though still very much a junior. I now
+                            knew how to setup the LEMP stack from scratch on a
+                            VPS, and I could make both the front-end and
+                            back-end of a webapp. After this I moved to Halden
+                            to start on my Bachelor of Science in Computer
+                            Engineering at Østfold College University.
+                        </p>
+                        <p class="lg:mb-4">
+                            3 years later I got my degree and moved to
+                            Sandefjord, where I still live. I started working
+                            full-time in Datahjelpen. After a good year, Covid
+                            unfortunately became a thing. I had to find a more
+                            stable job as no one was willing to start new
+                            projects at the time. That is how I ended up at
+                            Adstate, where I stayed for 4 years.
+                        </p>
+                        <p class="lg:mb-4">
+                            In 2023 I started <a
+                                href="https://nuva.no/?ref=bjornar.dev"
+                                target="_blank"
+                                class="underline"
+                                rel="noopener">NUVA</a
+                            > with a couple of friends.
+                        </p>
+                        <p class="lg:mb-4">
+                            I’m currently working full-time at <a
+                                href="https://gokstadakademiet.no/?ref=bjornar.dev"
+                                target="_blank"
+                                class="underline"
+                                rel="noopener">Gokstad Akademiet</a
+                            >.
+                        </p>
+                    </div>
+                </div>
+                <div class="col-start-2 col-span-3 font-content">
+                    <h3
+                        id="work-experience"
+                        class="font-heading text-2xl mt-4 md:mt-8"
+                    >
+                        Work experience
+                    </h3>
+                    <ul class="grid lg:grid-cols-2 border border-border/50">
+                        <li class="border border-border/50 p-4">
+                            <h4 id="river-security-as">Gokstad Akademiet AS</h4>
+                            <p class="opacity-70">IT manager</p>
+                            <p class="opacity-70">2025 ⟶ present</p>
+                        </li>
+                        <li class="border border-border/50 p-4">
+                            <h4 id="river-security-as">River Security AS</h4>
+                            <p class="opacity-70">
+                                Senior full-stack developer
+                            </p>
+                            <p class="opacity-70">2024 ⟶ 2025</p>
+                        </li>
+                        <li class="border border-border/50 p-4">
+                            <h4 id="river-security-as">NUVA AS</h4>
+                            <p class="opacity-70">Developer &amp; COB</p>
+                            <p class="opacity-70">2023 ⟶ present (sidegig)</p>
+                        </li>
+                        <li class="border border-border/50 p-4">
+                            <h4 id="rapid-data-as-formerly-adstate-as">
+                                Rapid Data AS (formerly Adstate AS)
+                            </h4>
+                            <p class="opacity-70">Full-stack developer</p>
+                            <p class="opacity-70">2020 ⟶ 2024</p>
+                        </li>
+                        <li class="border border-border/50 p-4">
+                            <h4 id="datahjelpen-as">Datahjelpen AS</h4>
+                            <p class="opacity-70">Developer &amp; CEO</p>
+                            <p class="opacity-70">
+                                2016 ⟶ present (Mostly part-time)
+                            </p>
+                        </li>
+                        <li class="border border-border/50 p-4">
+                            <h4 id="optimale-systemer-as">
+                                Optimale Systemer AS
+                            </h4>
+                            <p class="opacity-70">Junior developer</p>
+                            <p class="opacity-70">2014 ⟶ 2016</p>
+                        </li>
+                    </ul>
+                    <h3
+                        id="devloper-experience"
+                        class="font-heading text-2xl mt-4 md:mt-8"
+                    >
+                        Devloper experience
+                    </h3>
+                    <ul class="grid lg:grid-cols-2 border border-border/50">
+                        <li class="border border-border/50 p-4">
+                            HTML, CSS, SASS, Tailwind
+                        </li>
+                        <li class="border border-border/50 p-4">
+                            JavaSript, TypeScript, Node.js, PHP, Bash
+                        </li>
+                        <li class="border border-border/50 p-4">
+                            HTMX, Svelte, React, Vue, Angular
+                        </li>
+                        <li class="border border-border/50 p-4">
+                            Astro, SvelteKit, Next.js, Laravel, WordPress
+                        </li>
+                        <li class="border border-border/50 p-4">
+                            PostgreSQL, MySQL, SQLite
+                        </li>
+                        <li class="border border-border/50 p-4">
+                            Git, Docker, k8s, Helm, Coolify, LEMP/LAMP
+                        </li>
+                    </ul>
+                    <h3
+                        id="other-experience"
+                        class="font-heading text-2xl mt-4 md:mt-8"
+                    >
+                        Other experience
+                    </h3>
+                    <ul class="grid lg:grid-cols-2 border border-border/50">
+                        <li class="border border-border/50 p-4">
+                            Linux, MacOS
+                        </li>
+                        <li class="border border-border/50 p-4">
+                            GitHub, GitLab, Bitbucket
+                        </li>
+                        <li class="border border-border/50 p-4">
+                            AWS, DigitalOcean, Netlify, Vercel.
+                        </li>
+                        <li class="border border-border/50 p-4">
+                            Matomo/Piwik
+                        </li>
+                        <li class="border border-border/50 p-4">Figma</li>
+                        <li class="border border-border/50 p-4">Photoshop</li>
+                    </ul>
+                </div>
+            </section>
+        </ContentSection>
+    </main>
+</Layout>

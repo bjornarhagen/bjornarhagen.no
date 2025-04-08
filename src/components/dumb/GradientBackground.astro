@@ -1,0 +1,9 @@
+---
+interface Props {
+	src?: string;
+}
+
+const { src = "/images/nuva-gradient-bg-min.webp" } = Astro.props;
+---
+
+<img class="z-0 pointer-events-none absolute -top-[100vw] w-[200vw] max-w-[200vw] left-1/2 -translate-x-1/2 opacity-25" src={src} alt="">

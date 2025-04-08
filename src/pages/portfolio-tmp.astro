@@ -1,0 +1,135 @@
+---
+import Layout from "../layouts/Layout.astro";
+import ContentSection from "../components/dumb/ContentSection.astro";
+import Icon from "@/components/dumb/Icon.astro";
+import { Dribbble } from "lucide";
+---
+
+<Layout marginForNav={false} marginForFooter={false}>
+    <main>
+        <ContentSection className="relative">
+            <section
+                class="md:grid md:grid-cols-12 font-paragraph min-h-screen"
+            >
+                <div
+                    class="md:sticky md:top-24 md:col-span-4 border-b border-b-border md:border-r md:border-b-0 md:border-r-border pb-8 md:pb-0 pt-24 md:pr-8"
+                >
+                    <div class="relative inline-block">
+                        <span
+                            class="font-heading text-8xl absolute top-1/2 -translate-y-1/2 left-0 right-0 mx-auto opacity-25 text-center pointer-events-none"
+                        >
+                            <!-- <span class="whitespace-nowrap">/now</span> -->
+                        </span>
+                        <h2 class="font-heading text-3xl">Portfolio</h2>
+                        <p>
+                            I have yet to build a proper page for my portfolio,
+                            but you can find my work on these links.
+                        </p>
+                    </div>
+                </div>
+                <div class="mt-8 md:mt-0 md:col-span-8">
+                    <section class="pb-8 md:py-24 md:pl-8">
+                        <ul class="flex flex-col gap-2">
+                            <li>
+                                <a
+                                    href="https://datahjelpen.no/kundecaser?ref=bjornar.dev"
+                                    target="_blank"
+                                    rel="noopener"
+                                >
+                                    <span
+                                        class="inline-flex items-center gap-2 hover:text-primary-500 focus:text-primary-500"
+                                    >
+                                        <span
+                                            class="w-[24px] h-[24px] flex items-center justify-center"
+                                        >
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 128 97"
+                                                width="128"
+                                                height="97"
+                                                class="w-full h-auto"
+                                                ><defs
+                                                    ><linearGradient
+                                                        id="a"
+                                                        x1="0%"
+                                                        y1="0%"
+                                                        y2="100%"
+                                                        ><stop
+                                                            offset="0%"
+                                                            stop-color="#f65"
+                                                        ></stop>
+                                                        <stop
+                                                            offset="100%"
+                                                            stop-color="#ff192f"
+                                                        ></stop></linearGradient
+                                                    ></defs
+                                                >
+                                                <path
+                                                    d="M128 6.63v69.23H0V6.63C0-.17 6.9 0 6.9 0h114c7.72 0 7.1 6.63 7.1 6.63zm-79.5 73.8h29.1l5.83 13.67S84.6 97 81.8 97H44.34c-2.7 0-1.66-2.9-1.66-2.9zM33.53 53.55H45.1q7.7 0 11.97-4.13t4.25-11.54q0-7.42-4.26-11.52t-11.95-4.1H33.58v31.28zm5.74-4.66v-22h5.48q10.82 0 10.82 10.95 0 11-10.82 11h-5.48zm49.57-13.57H72.77v-13.1h-5.65v31.3h5.65v-13.6h16.08v13.6h5.6v-31.3h-5.6v13.1z"
+                                                    fill-rule="evenodd"
+                                                    fill="url(#a)"></path></svg
+                                            >
+                                        </span>
+                                        <span>Datahjelpen</span>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    href="https://nuva.no?ref=bjornar.dev"
+                                    target="_blank"
+                                    rel="noopener"
+                                >
+                                    <span
+                                        class="inline-flex items-center gap-2 hover:text-primary-500 focus:text-primary-500"
+                                    >
+                                        <span
+                                            class="w-[24px] h-[24px] flex items-center justify-center"
+                                        >
+                                            <svg
+                                                width="1571"
+                                                height="1188"
+                                                viewBox="0 0 1571 1188"
+                                                fill="none"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                class="w-full h-auto"
+                                            >
+                                                <path
+                                                    d="M874.843 201H979V988H864.804L699.157 421.008V988H595V201H714.216L874.843 752.906V201Z"
+                                                    fill="white"></path>
+                                                <path
+                                                    d="M240.175 126.703V441.58C240.175 486.741 231.792 522.285 215.026 548.211C199.098 573.301 175.626 588.355 144.608 593.373C176.464 596.718 200.356 611.354 216.284 637.28C232.211 663.206 240.175 697.913 240.175 741.402V1060.04C240.175 1074.26 243.109 1084.3 248.978 1090.15C254.846 1096 265.325 1098.93 280.414 1098.93H337V1188H233.888C191.973 1188 163.47 1177.55 148.381 1156.64C133.291 1135.73 125.746 1108.55 125.746 1075.1V772.765C125.746 725.93 117.363 691.641 100.597 669.897C84.6692 648.152 58.2624 637.28 21.3769 637.28H0V549.466H21.3769C58.2624 549.466 84.6692 538.593 100.597 516.849C117.363 495.105 125.746 459.979 125.746 411.472V112.904C125.746 79.4509 133.291 52.2704 148.381 31.3622C163.47 10.4541 191.973 0 233.888 0H337V89.0687H280.414C265.325 89.0687 254.846 91.9958 248.978 97.8501C243.109 103.704 240.175 113.322 240.175 126.703Z"
+                                                    fill="#1F855C"></path>
+                                                <path
+                                                    d="M1332.61 441.58V126.703C1332.61 113.322 1329.68 103.704 1323.83 97.8501C1317.97 91.9958 1307.52 89.0687 1292.46 89.0687H1236V0H1338.88C1380.71 0 1408.73 10.4541 1422.95 31.3622C1438 52.2704 1445.53 79.4509 1445.53 112.904V411.472C1445.53 459.979 1453.9 495.105 1470.63 516.849C1487.35 538.593 1514.12 549.466 1550.93 549.466H1571V637.28H1550.93C1514.12 637.28 1487.35 648.152 1470.63 669.897C1453.9 691.641 1445.53 725.93 1445.53 772.765V1075.1C1445.53 1108.55 1438 1135.73 1422.95 1156.64C1408.73 1177.55 1380.71 1188 1338.88 1188H1236V1098.93H1292.46C1307.52 1098.93 1317.97 1096 1323.83 1090.15C1329.68 1084.3 1332.61 1074.26 1332.61 1060.04V741.402C1332.61 697.913 1340.56 663.206 1356.45 637.28C1372.34 611.354 1396.18 596.718 1427.97 593.373C1397.02 588.355 1373.18 573.301 1356.45 548.211C1340.56 522.285 1332.61 486.741 1332.61 441.58Z"
+                                                    fill="#1F855C"></path>
+                                            </svg>
+                                        </span>
+                                        <span>NUVA</span>
+                                    </span>
+                                </a>
+                            </li>
+                            <li>
+                                <a
+                                    href="https://dribbble.com/bjornarhagen/"
+                                    target="_blank"
+                                    rel="noopener"
+                                >
+                                    <span
+                                        class="inline-flex items-center gap-2 hover:text-primary-500 focus:text-primary-500"
+                                    >
+                                        <Icon
+                                            icon={Dribbble}
+                                            class="text-pink-500"
+                                        />
+                                        <span>Dribbble</span>
+                                    </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </section>
+                </div>
+            </section>
+        </ContentSection>
+    </main>
+</Layout>
