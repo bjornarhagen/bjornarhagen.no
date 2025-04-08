@@ -11,3 +11,4 @@ $RECYCLE.BIN/
 node_modules/
 .astro/
 dist/
+.vercel
