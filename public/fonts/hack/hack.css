@@ -10,6 +10,7 @@
         url("./hack-regular-subset.woff?sha=3114f1256") format("woff");
     font-weight: 400;
     font-style: normal;
+    font-display: swap;
 }
 
 @font-face {
@@ -18,6 +19,7 @@
         url("./hack-bold-subset.woff?sha=3114f1256") format("woff");
     font-weight: 700;
     font-style: normal;
+    font-display: swap;
 }
 
 @font-face {
@@ -25,6 +27,7 @@
     src: url("./hack-italic-subset.woff2?sha=3114f1256") format("woff2");
     font-weight: 400;
     font-style: italic;
+    font-display: swap;
 }
 
 @font-face {
@@ -33,4 +36,5 @@
         url("./hack-bolditalic-subset.woff?sha=3114f1256") format("woff");
     font-weight: 700;
     font-style: italic;
+    font-display: swap;
 }
