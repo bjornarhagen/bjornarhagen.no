@@ -1,7 +1,7 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import ContentSection from "../components/dumb/ContentSection.astro";
-import { getAscii } from "../utils/ascii";
+import Layout from "@/layouts/Layout.astro";
+import ContentSection from "@/components/dumb/ContentSection.astro";
+import { getAscii } from "@/utils/ascii";
 import "@/components/dumb/ContentRenderer.css";
 
 const pulsarMapAscii = getAscii("pulsar-map");
@@ -12,7 +12,7 @@ const pulsarMapAscii = getAscii("pulsar-map");
         <ContentSection className="relative">
             <section class="md:grid md:grid-cols-12 font-paragraph">
                 <div
-                    class="md:sticky md:top-24 md:col-span-4 border-b border-b-border md:border-r md:border-b-0 md:border-r-border pb-16 md:pb-0 pt-24 md:pr-8"
+                    class="md:sticky md:top-24 md:col-span-4 border-b border-b-border md:border-r md:border-b-0 md:border-r-border pb-8 md:pb-0 pt-24 md:pr-8"
                 >
                     <div class="relative inline-block">
                         <span
