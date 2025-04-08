@@ -37,6 +37,10 @@ export function getStaticPaths() {
 
 const { dynamicPageType, year, slug } = Astro.params;
 
+if (!dynamicPages[dynamicPageType]?.[year]?.[slug]) {
+    return new Response("Not found", { status: 404 });
+}
+
 const page = dynamicPages[dynamicPageType][year][slug];
 ---
 
