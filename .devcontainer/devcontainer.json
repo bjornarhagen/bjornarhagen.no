@@ -1,0 +1,19 @@
+{
+    "name": "bjornarhagen-no-devcontainer",
+    "workspaceFolder": "/app",
+    "context": ".",
+    "dockerComposeFile": ["docker-compose.local.yml"],
+    "service": "bjornarhagen-no",
+    "extensions": [
+        "ms-azuretools.vscode-docker",
+        "naumovs.color-highlight",
+        "nhoizey.gremlins",
+        "esbenp.prettier-vscode",
+        "bradlc.vscode-tailwindcss",
+        "stivo.tailwind-fold",
+        "usernamehw.errorlens"
+    ],
+    "shutdownAction": "stopCompose",
+    "forwardPorts": [5173],
+    "remoteUser": "root"
+}
