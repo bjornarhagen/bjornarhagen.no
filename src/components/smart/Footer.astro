@@ -1,30 +1,39 @@
 ---
 import logo from "../../../public/images/brand/logo/emblem.svg?raw";
+import xxiivvWebringIcon from "../../../public/images/graphics/webring-xxiivv.svg?raw";
+import ContentSection from "../dumb/ContentSection.astro";
 ---
 
 <footer id="footer" class="font-paragraph">
     <div
         class="w-full top-0 right-0 left-0 backdrop-blur-md z-10 border-t border-t-border bg-foreground/10"
     >
-        <div
-            class="p-4 md:p-8 max-w-screen-2xl mx-auto grid w-full justify-center"
-        >
+        <ContentSection className="grid grid-cols-12 gap-8 py-6">
+            <div
+                class="col-span-4 lg:col-span-3 flex justify-start items-center"
+            >
+            </div>
             <a
                 href="/"
-                class="py-2 w-full font-heading text-3xl md:text-4xl flex gap-2 text-foreground items-center justify-center hover:text-primary-500 focus:text-primary-500"
+                class="col-span-4 lg:col-span-6 py-2 w-full font-heading text-3xl md:text-4xl flex gap-2 text-foreground items-center justify-center hover:text-primary-500 focus:text-primary-500"
             >
-                <span class="logo w-8 md:w-10 h-auto block text-current">
-                    <Fragment class="w-full" set:html={logo} />
+                <span
+                    class="svg-fragment w-8 md:w-10 h-auto block text-current"
+                >
+                    <Fragment set:html={logo} />
                 </span>
                 <!-- <span>Bjørnar Hagen</span> -->
             </a>
-        </div>
+            <div class="col-span-4 lg:col-span-3 flex justify-end items-center">
+                <a
+                    href="https://webring.xxiivv.com/"
+                    target="_blank"
+                    class="svg-fragment size-8 block text-current hover:text-primary-500 focus:text-primary-500"
+                    title="xxiivv Webring"
+                >
+                    <Fragment set:html={xxiivvWebringIcon} />
+                </a>
+            </div>
+        </ContentSection>
     </div>
 </footer>
-
-<style is:global>
-    #footer .logo svg {
-        width: 100%;
-        height: auto;
-    }
-</style>
