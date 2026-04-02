@@ -14,7 +14,7 @@ export function getStaticPaths() {
             params: {
                 dynamicPageType: type,
             },
-        }))
+        })),
     );
 
     console.log(`Generating pages for "[dynamicPageType]"`, { paths });
@@ -23,15 +23,13 @@ export function getStaticPaths() {
 ---
 
 <Layout title={dynamicPagesConfig[dynamicPageType].title}>
-    <main class="pt-4">
+    <main class="pt-4 min-h-screen">
         <ContentSection>
             <h1 class="font-heading text-6xl">
                 {dynamicPagesConfig[dynamicPageType].title}
             </h1>
 
-            <div
-                class="grid md:grid-cols-2 xl:grid-cols-3 gap-4 lg:gap-8 mt-4 lg:mt-8"
-            >
+            <ul class="grid grid-cols-12 gap-4 lg:gap-8 mt-4 lg:mt-8">
                 {
                     Object.keys(pages)
                         .toSorted((a, b) => Number(b) - Number(a))
@@ -46,43 +44,45 @@ export function getStaticPaths() {
                                 .map((slug) => {
                                     const article = pages[year][slug];
                                     return (
-                                        <article>
-                                            <a
-                                                href={`/${dynamicPageType}/${year}/${article.slug}`}
-                                                class="relative flex flex-col group border border-border justify-center items-start h-full hover:border-primary-500 focus:border-primary-500 focus:outline-none"
-                                            >
-                                                <div class="relative w-full">
-                                                    <img
-                                                        src={
-                                                            checkIfImageUrl(
-                                                                article.poster
-                                                            )
-                                                                ? article.poster
-                                                                : "/images/loading-gray.svg"
-                                                        }
-                                                        alt={article.title}
-                                                        class="w-full h-48 object-cover object-center group-hover:opacity-75 group-focus:opacity-75 border-b border-b-border group-hover:border-b-primary-500 group-focus:border-b-primary-500"
-                                                    />
-                                                    <p class="z-10 absolute bottom-px right-0 p-2 text-right font-light text-xs text-white bg-black/10 backdrop-blur-md">
-                                                        {article.date}
-                                                    </p>
-                                                </div>
-                                                <div class="flex flex-col w-full grow">
-                                                    {/* <h2 class="px-4 py-2 font-heading text-2xl leading-none m-0 group-hover:bg-foreground group-hover:text-background group-focus:bg-foreground group-focus:text-background"> */}
-                                                    <h2 class="px-4 py-2 font-heading text-2xl leading-none group-hover:text-primary-500 group-focus:text-primary-500">
-                                                        {article.title}
-                                                    </h2>
-                                                    <p class="pb-2 px-4 pt-2 font-paragraph font-light opacity-90 border-t border-t-border group-hover:border-t-primary-500 group-focus:border-t-primary-500">
-                                                        {article.summary}
-                                                    </p>
-                                                </div>
-                                            </a>
-                                        </article>
+                                        <li class="height-full col-span-12 md:col-span-6 first-of-type:md:col-span-12 lg:col-span-4 first-of-type:lg:col-span-8 nth-of-type-[6n]:lg:col-span-8 xl:col-span-3 first-of-type:xl:col-span-6 nth-of-type-[6n]:xl:col-span-6">
+                                            <article class="h-full">
+                                                <a
+                                                    href={`/${dynamicPageType}/${year}/${article.slug}`}
+                                                    class="relative flex flex-col group border border-border justify-center items-start h-full hover:border-primary-500 focus:border-primary-500 focus:outline-none"
+                                                >
+                                                    <div class="relative w-full">
+                                                        <img
+                                                            src={
+                                                                checkIfImageUrl(
+                                                                    article.poster,
+                                                                )
+                                                                    ? article.poster
+                                                                    : "/images/loading-gray.svg"
+                                                            }
+                                                            alt={article.title}
+                                                            class="w-full h-48 object-cover object-center group-hover:opacity-75 group-focus:opacity-75 border-b border-b-border group-hover:border-b-primary-500 group-focus:border-b-primary-500"
+                                                        />
+                                                        <p class="z-10 absolute bottom-px right-0 p-2 text-right font-light text-xs text-white bg-black/10 backdrop-blur-md">
+                                                            {article.date}
+                                                        </p>
+                                                    </div>
+                                                    <div class="flex flex-col w-full grow">
+                                                        {/* <h2 class="px-4 py-2 font-heading text-2xl leading-none m-0 group-hover:bg-foreground group-hover:text-background group-focus:bg-foreground group-focus:text-background"> */}
+                                                        <h2 class="px-4 py-2 font-heading text-2xl leading-none group-hover:text-primary-500 group-focus:text-primary-500">
+                                                            {article.title}
+                                                        </h2>
+                                                        <p class="pb-2 px-4 pt-2 font-paragraph font-light opacity-90 border-t border-t-border group-hover:border-t-primary-500 group-focus:border-t-primary-500">
+                                                            {article.summary}
+                                                        </p>
+                                                    </div>
+                                                </a>
+                                            </article>
+                                        </li>
                                     );
-                                })
+                                }),
                         )
                 }
-            </div>
+            </ul>
         </ContentSection>
     </main>
 </Layout>

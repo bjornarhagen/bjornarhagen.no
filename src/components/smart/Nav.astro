@@ -21,23 +21,25 @@ function subUrlIsActive(path: string) {
     <div
         class="fixed w-full top-0 right-0 left-0 backdrop-blur-md z-20 border-b border-b-border bg-background/50"
     >
-        <div class="px-4 md:px-8 max-w-screen-2xl mx-auto grid grid-cols-12">
+        <div
+            class="px-4 md:px-8 max-w-screen-2xl mx-auto grid grid-cols-12 gap-8"
+        >
             <!-- LINKS -->
             <div
-                class="hidden md:flex md:col-span-4 gap-4 justify-end items-center border-r border-r-border md:pr-8"
+                class="hidden md:flex md:col-span-4 lg:col-span-3 gap-4 justify-end items-center"
             >
                 <a
                     href="/entries"
                     class={cn(
-                        "text-foreground hover:underline focus:underline hover:text-primary-500 focus:text-primary-500",
+                        "text-foreground hover:underline focus:underline hover:text-primary-500 focus:text-primary-500 focus:outline-1 focus:outline-primary-500 focus:outline-offset-4",
                         {
                             underline: subUrlIsActive("/entries"),
-                        }
+                        },
                     )}>Posts</a
                 >
                 <a
                     href="/portfolio-tmp"
-                    class="text-foreground hover:underline focus:underline hover:text-primary-500 focus:text-primary-500"
+                    class="text-foreground hover:underline focus:underline hover:text-primary-500 focus:text-primary-500 focus:outline-1 focus:outline-primary-500 focus:outline-offset-4"
                     >Portfolio</a
                 >
             </div>
@@ -45,23 +47,25 @@ function subUrlIsActive(path: string) {
             <!-- LOGO -->
             <a
                 href="/"
-                class="py-2 col-span-5 md:col-span-4 w-full mr-auto md:mx-auto font-heading text-3xl md:text-4xl flex gap-2 text-foreground items-center justify-center hover:text-primary-500 focus:text-primary-500"
+                class="border-r border-r-border md:border-l md:border-l-border py-2 col-span-5 md:col-span-4 lg:col-span-6 w-full mr-auto md:mx-auto font-heading text-3xl md:text-4xl flex gap-2 text-foreground items-center justify-center hover:text-primary-500 focus:text-primary-500 focus:outline-1 focus:outline-primary-500"
             >
-                <span class="logo w-8 md:w-10 h-auto block text-current">
-                    <Fragment class="w-full" set:html={logo} />
+                <span
+                    class="svg-fragment w-8 md:w-10 h-auto block text-current"
+                >
+                    <Fragment set:html={logo} />
                 </span>
                 <span>HB</span>
             </a>
 
             <!-- BUTTONS -->
             <div
-                class="col-span-7 md:col-span-4 flex gap-4 justify-end md:justify-start items-center border-l border-l-border md:pl-8"
+                class="col-span-7 md:col-span-4 lg:col-span-3 flex gap-4 justify-end md:justify-start items-center"
             >
                 <button
                     data-theme-toggle-trigger
                     title="Switch theme"
                     type="button"
-                    class="hidden sm:flex gap-1 items-center text-foreground hover:underline focus:underline hover:text-primary-500 focus:text-primary-500"
+                    class="flex gap-1 items-center text-foreground hover:underline focus:underline hover:text-primary-500 focus:text-primary-500 focus:outline-1 focus:outline-primary-500 focus:outline-offset-4"
                 >
                     <Icon
                         class="dark:block hidden text-current"
@@ -75,7 +79,7 @@ function subUrlIsActive(path: string) {
                         data-search-open-trigger
                         title="Open search"
                         type="button"
-                        class="flex gap-1 items-center text-foreground hover:underline focus:underline hover:text-primary-500 focus:text-primary-500"
+                        class="flex gap-1 items-center text-foreground hover:underline focus:underline hover:text-primary-500 focus:text-primary-500 focus:outline-1 focus:outline-primary-500 focus:outline-offset-4"
                     >
                         <Icon class="text-current" icon={Search} />
                         <span class="hidden xl:block">Search</span>
@@ -85,10 +89,10 @@ function subUrlIsActive(path: string) {
                     <button
                         title="Open menu"
                         type="button"
-                        class="flex gap-1 items-center text-foreground hover:underline focus:underline hover:text-primary-500 focus:text-primary-500"
+                        class="flex gap-1 items-center text-foreground hover:underline focus:underline hover:text-primary-500 focus:text-primary-500 focus:outline-1 focus:outline-primary-500 focus:outline-offset-4"
                     >
                         <Icon class="text-current" icon={Menu} />
-                        <span class="block">Menu</span>
+                        <span class="hidden sm:block">Menu</span>
                     </button>
                 </DialogTrigger>
             </div>
@@ -100,8 +104,10 @@ function subUrlIsActive(path: string) {
                 href="/"
                 class="mx-auto mb-auto font-heading text-3xl md:text-5xl flex gap-2 text-foreground items-center justify-center hover:text-primary-500 focus:text-primary-500"
             >
-                <span class="logo w-8 md:w-12 h-auto block text-current">
-                    <Fragment class="w-full" set:html={logo} />
+                <span
+                    class="svg-fragment w-8 md:w-12 h-auto block text-current"
+                >
+                    <Fragment set:html={logo} />
                 </span>
                 <span>HB</span>
             </a>
@@ -161,8 +167,10 @@ function subUrlIsActive(path: string) {
                 href="/"
                 class="mx-auto mb-auto font-heading text-3xl md:text-5xl flex gap-2 text-foreground items-center justify-center hover:text-primary-500 focus:text-primary-500"
             >
-                <span class="logo w-8 md:w-12 h-auto block text-current">
-                    <Fragment class="w-full" set:html={logo} />
+                <span
+                    class="svg-fragment w-8 md:w-12 h-auto block text-current"
+                >
+                    <Fragment set:html={logo} />
                 </span>
                 <span>HB</span>
             </a>
@@ -212,7 +220,7 @@ function subUrlIsActive(path: string) {
         initialize();
 
         const themeToggleButtons = document.querySelectorAll(
-            "[data-theme-toggle-trigger]"
+            "[data-theme-toggle-trigger]",
         );
         themeToggleButtons.forEach((button) => {
             button.addEventListener("click", () => {
@@ -224,7 +232,7 @@ function subUrlIsActive(path: string) {
 
         function initialize() {
             const preferredTheme = window.matchMedia(
-                "(prefers-color-scheme: dark)"
+                "(prefers-color-scheme: dark)",
             ).matches
                 ? "dark"
                 : "light";
@@ -247,10 +255,3 @@ function subUrlIsActive(path: string) {
         }
     }
 </script>
-
-<style is:global>
-    #nav .logo svg {
-        width: 100%;
-        height: auto;
-    }
-</style>

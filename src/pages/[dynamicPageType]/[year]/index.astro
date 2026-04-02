@@ -22,7 +22,7 @@ export function getStaticPaths() {
                 dynamicPageType: type,
                 year: year,
             },
-        }))
+        })),
     );
 
     console.log(`Generating pages for "[dynamicPageType]]/[year]/index"`, {
@@ -35,7 +35,7 @@ const { dynamicPageType, year } = Astro.params;
 ---
 
 <Layout title={dynamicPagesConfig[dynamicPageType].title}>
-    <main class="pt-4">
+    <main class="pt-4 min-h-screen">
         <ContentSection>
             <h1 class="font-heading text-6xl">
                 <a
@@ -56,14 +56,12 @@ const { dynamicPageType, year } = Astro.params;
                             Object.keys(dynamicPages[dynamicPageType][year])
                                 .toSorted((a, b) => {
                                     const dateA = new Date(
-                                        dynamicPages[dynamicPageType][year][
-                                            a
-                                        ].date
+                                        dynamicPages[dynamicPageType][year][a]
+                                            .date,
                                     );
                                     const dateB = new Date(
-                                        dynamicPages[dynamicPageType][year][
-                                            b
-                                        ].date
+                                        dynamicPages[dynamicPageType][year][b]
+                                            .date,
                                     );
                                     // @ts-ignore
                                     return dateB - dateA;
@@ -83,7 +81,7 @@ const { dynamicPageType, year } = Astro.params;
                                                     <img
                                                         src={
                                                             checkIfImageUrl(
-                                                                article.poster
+                                                                article.poster,
                                                             )
                                                                 ? article.poster
                                                                 : "/images/loading-gray.svg"
@@ -107,7 +105,7 @@ const { dynamicPageType, year } = Astro.params;
                                             </a>
                                         </article>
                                     );
-                                })
+                                }),
                         )
                 }
             </div>

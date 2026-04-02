@@ -2,6 +2,8 @@
 import Layout from "@/layouts/Layout.astro";
 import ContentSection from "@/components/dumb/ContentSection.astro";
 import { getAscii } from "@/utils/ascii";
+import Icon from "@/components/dumb/Icon.astro";
+import { Archive, Briefcase, Code, Wrench } from "lucide";
 
 const waveAscii = getAscii("wave");
 const pulsarMapAscii = getAscii("pulsar-map");
@@ -38,16 +40,11 @@ const pulsarMapAscii = getAscii("pulsar-map");
     </style> -->
     <main>
         <div class="relative">
-            <img
-                src="/images/graphics/white-3.webp"
-                alt=""
-                class="block dark:hidden absolute inset-0 w-full h-full opacity-35 object-cover"
-            />
-            <img
-                src="/images/graphics/black-3.webp"
-                alt=""
-                class="hidden dark:block absolute inset-0 w-full h-full opacity-35 object-cover"
-            />
+            <div
+                class="absolute inset-0 w-full h-full opacity-35 bg-cover bg-center bg-[url('/images/graphics/white-3.webp')] dark:bg-[url('/images/graphics/black-3.webp')]"
+                aria-hidden="true"
+            >
+            </div>
             <ContentSection className="relative overflow-hidden">
                 <header
                     class="relative text-primary-500 flex justify-center lg:justify-between pb-16 pt-32 sm:pb-32 sm:pt-48 md:pb-48 md:pt-64"
@@ -61,15 +58,9 @@ const pulsarMapAscii = getAscii("pulsar-map");
                             ></span
                         >
                     </h1>
-                    <!-- style="animation-name: wave; animation-duration: 4s; animation-iteration-count: 2; animation-delay: 3s;"  -->
                     <pre
-                        class="hidden lg:block font-mono text-[12px] scale-x-[-1] leading-none absolute top-14 -right-24">{waveAscii}</pre>
+                        class="ascii hidden lg:block font-mono text-[12px] scale-x-[-1] leading-none absolute top-14 -right-24 dark:mix-blend-hard-light opacity-50">{waveAscii}</pre>
                 </header>
-                <!-- <img
-                    src="https://bjornar.dev/images/graphics/bjornar-hagen/fg.png"
-                    alt=""
-                    class="absolute bottom-0 right-24 w-3/4 h-full object-contain object-bottom"
-                /> -->
                 <!-- <div
                     class="absolute -bottom-32 right-4 bg-dots-foreground bg-[length:1rem_1rem] bg-repeat w-96 h-64 opacity-50"
                 >
@@ -77,11 +68,10 @@ const pulsarMapAscii = getAscii("pulsar-map");
             </ContentSection>
         </div>
         <ContentSection className="relative">
-            <pre
-                class="hidden lg:block pointer-events-none font-mono text-[12px] leading-none absolute top-[32rem] -left-80 overflow-hidden opacity-20">{pulsarMapAscii}</pre>
-
-            <section class="lg:grid lg:grid-cols-4 mt-16 mb-4 font-paragraph">
-                <div class="lg:sticky lg:top-24">
+            <section
+                class="lg:grid lg:grid-cols-12 lg:gap-8 mt-16 mb-4 font-paragraph"
+            >
+                <div class="lg:sticky lg:top-24 lg:col-span-3">
                     <div class="relative inline-block">
                         <span
                             class="font-heading text-8xl absolute top-1/2 -translate-y-1/2 left-0 right-0 mx-auto opacity-25 text-center pointer-events-none"
@@ -90,7 +80,7 @@ const pulsarMapAscii = getAscii("pulsar-map");
                         <h2 class="font-heading text-3xl">Personal</h2>
                     </div>
                 </div>
-                <div class="col-span-3">
+                <div class="col-span-9">
                     <div class="flex flex-col gap-4 lg:block lg:columns-2">
                         <p class="lg:mb-4">
                             Born and raised in Larvik, Norway. Currently living
@@ -118,17 +108,21 @@ const pulsarMapAscii = getAscii("pulsar-map");
         <div class="w-full h-px bg-border my-16"></div>
 
         <ContentSection className="relative">
-            <section class="lg:grid lg:grid-cols-4 mb-4 font-paragraph">
-                <div class="lg:sticky lg:top-24">
+            <section
+                class="lg:grid lg:grid-cols-12 lg:gap-8 mb-4 font-paragraph"
+            >
+                <div class="lg:sticky lg:top-24 lg:col-span-3">
                     <div class="relative inline-block">
                         <span
                             class="font-heading text-8xl absolute top-1/2 -translate-y-1/2 left-0 right-0 mx-auto opacity-25 text-center pointer-events-none"
                             >02</span
                         >
                         <h2 class="font-heading text-3xl">Career</h2>
+                        <pre
+                            class="ascii hidden lg:block font-mono text-[12px] leading-none absolute top-[200%] -left-[540%] opacity-25">{pulsarMapAscii}</pre>
                     </div>
                 </div>
-                <div class="col-span-3">
+                <div class="col-span-9">
                     <div class="flex flex-col gap-4 lg:block lg:columns-2">
                         <p class="lg:mb-4">
                             I learnt HTML, CSS, JS and PHP through self study
@@ -175,12 +169,13 @@ const pulsarMapAscii = getAscii("pulsar-map");
                         </p>
                     </div>
                 </div>
-                <div class="col-start-2 col-span-3 font-content">
+                <div class="col-start-4 col-span-9 font-content">
                     <h3
                         id="work-experience"
-                        class="font-heading text-2xl mt-4 md:mt-8"
+                        class="font-heading text-2xl mt-4 md:mt-8 flex items-center gap-2"
                     >
-                        Work experience
+                        <Icon icon={Briefcase} class="size-6" />
+                        <span>Work experience</span>
                     </h3>
                     <ul class="grid lg:grid-cols-2 border border-border/50">
                         <li class="border border-border/50 p-4">
@@ -224,9 +219,10 @@ const pulsarMapAscii = getAscii("pulsar-map");
                     </ul>
                     <h3
                         id="devloper-experience"
-                        class="font-heading text-2xl mt-4 md:mt-8"
+                        class="font-heading text-2xl mt-4 md:mt-8 flex items-center gap-2"
                     >
-                        Devloper experience
+                        <Icon icon={Code} class="size-6" />
+                        <span>Devloper experience</span>
                     </h3>
                     <ul class="grid lg:grid-cols-2 border border-border/50">
                         <li class="border border-border/50 p-4">
@@ -250,9 +246,10 @@ const pulsarMapAscii = getAscii("pulsar-map");
                     </ul>
                     <h3
                         id="other-experience"
-                        class="font-heading text-2xl mt-4 md:mt-8"
+                        class="font-heading text-2xl mt-4 md:mt-8 flex items-center gap-2"
                     >
-                        Other experience
+                        <Icon icon={Archive} class="size-6" />
+                        <span>Other experience</span>
                     </h3>
                     <ul class="grid lg:grid-cols-2 border border-border/50">
                         <li class="border border-border/50 p-4">

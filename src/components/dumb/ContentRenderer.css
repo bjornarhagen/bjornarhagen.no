@@ -24,6 +24,14 @@
 .content-renderer-section h6 {
     @apply font-heading text-lg pt-8 mb-4;
 }
+.content-renderer-section div > h1,
+.content-renderer-section div > h2,
+.content-renderer-section div > h3,
+.content-renderer-section div > h4,
+.content-renderer-section div > h5,
+.content-renderer-section div > h6 {
+    @apply pt-0;
+}
 
 /* Copy */
 .content-renderer-section {
