@@ -1,41 +1,154 @@
 ---
-import logo from "../../../public/images/brand/logo/emblem.svg?raw";
-import xxiivvWebringIcon from "../../../public/images/graphics/webring-xxiivv.svg?raw";
-import ContentSection from "../dumb/ContentSection.astro";
+import StatusBar from "./StatusBar.astro";
+
+const year = new Date().getFullYear();
 ---
 
-<footer id="footer" class="font-paragraph">
-    <div
-        class="w-full top-0 right-0 left-0 backdrop-blur-md z-10 border-t border-t-border bg-foreground/10"
-    >
-        <ContentSection
-            className="grid grid-cols-12 gap-2 sm:gap-4 md:gap-8 py-6"
-        >
-            <div
-                class="col-span-4 lg:col-span-3 flex justify-start items-center"
-            >
+<footer id="footer" class="bjfooter">
+    <div class="container-x">
+        <div class="rule signoff-rule">
+            <span>signoff</span>
+            <span>· EOF ·</span>
+            <span>0xHB</span>
+        </div>
+        <div class="signoff-grid">
+            <div class="brand-block">
+                <div class="wordmark">
+                    bjornar<span class="dot">.</span>dev
+                </div>
+                <div class="tagline">
+                    // keep the lights on · &copy; 2009&ndash;{year}
+                </div>
             </div>
-            <a
-                href="/"
-                class="col-span-4 lg:col-span-6 py-2 w-full font-heading text-3xl md:text-4xl flex gap-2 text-foreground items-center justify-center hover:text-primary-500 focus:text-primary-500"
-            >
-                <span
-                    class="svg-fragment w-8 md:w-10 h-auto block text-current"
-                >
-                    <Fragment set:html={logo} />
-                </span>
-                <!-- <span>Bjørnar Hagen</span> -->
-            </a>
-            <div class="col-span-4 lg:col-span-3 flex justify-end items-center">
-                <a
-                    href="https://webring.xxiivv.com/"
-                    target="_blank"
-                    class="svg-fragment size-8 block text-current hover:text-primary-500 focus:text-primary-500"
-                    title="xxiivv Webring"
-                >
-                    <Fragment set:html={xxiivvWebringIcon} />
-                </a>
+            <div class="link-cols">
+                <div>
+                    <div class="col-head">// nav</div>
+                    <div><a href="/entries">Posts</a></div>
+                    <div><a href="/portfolio-tmp">Portfolio</a></div>
+                    <div><a href="/now">/now</a></div>
+                    <div><a href="/about">About</a></div>
+                </div>
+                <div>
+                    <div class="col-head">// channels</div>
+                    <div>
+                        <a
+                            href="https://github.com/bjornarhagen"
+                            target="_blank"
+                            rel="noopener">GitHub</a
+                        >
+                    </div>
+                    <div>
+                        <a
+                            href="https://linkedin.com/in/bjornarhagen"
+                            target="_blank"
+                            rel="noopener">LinkedIn</a
+                        >
+                    </div>
+                    <div>
+                        <a
+                            href="https://twitter.com/bjornarhagen"
+                            target="_blank"
+                            rel="noopener">X</a
+                        >
+                    </div>
+                    <div>
+                        <a href="mailto:post@bjornarhagen.no">Email</a>
+                    </div>
+                </div>
+                <div>
+                    <div class="col-head">// system</div>
+                    <div><a href="/rss.xml">RSS feed</a></div>
+                    <div><a href="/about">Colophon</a></div>
+                    <div>
+                        <a
+                            href="https://github.com/bjornarhagen/bjornarhagen.no"
+                            target="_blank"
+                            rel="noopener">Source</a
+                        >
+                    </div>
+                    <div>
+                        <a
+                            href="https://webring.xxiivv.com/"
+                            target="_blank"
+                            rel="noopener">xxiivv ring</a
+                        >
+                    </div>
+                </div>
             </div>
-        </ContentSection>
+        </div>
     </div>
+    <StatusBar position="bottom" />
 </footer>
+
+<style>
+    .bjfooter {
+        border-top: 1px solid var(--border-token);
+        margin-top: var(--s-9);
+    }
+    .container-x {
+        padding-top: var(--s-7);
+        padding-bottom: var(--s-7);
+    }
+    .signoff-rule {
+        margin-bottom: var(--s-5);
+    }
+    .signoff-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--s-7);
+        align-items: end;
+    }
+    @media (min-width: 800px) {
+        .signoff-grid {
+            grid-template-columns: 1fr auto;
+        }
+    }
+    .wordmark {
+        font:
+            400 88px / 0.9 var(--font-display);
+        color: var(--fg);
+        letter-spacing: 0.005em;
+    }
+    @media (max-width: 720px) {
+        .wordmark {
+            font-size: 64px;
+        }
+    }
+    .wordmark .dot {
+        color: var(--amber);
+    }
+    .tagline {
+        font:
+            500 var(--t-mono-xs) / 1 var(--font-mono);
+        color: var(--fg-dim);
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        margin-top: var(--s-4);
+    }
+    .link-cols {
+        display: grid;
+        grid-template-columns: repeat(3, auto);
+        gap: var(--s-5) var(--s-7);
+        font:
+            500 var(--t-mono-sm) / 1.8 var(--font-mono);
+    }
+    @media (max-width: 600px) {
+        .link-cols {
+            grid-template-columns: 1fr 1fr;
+        }
+    }
+    .col-head {
+        color: var(--fg-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        font-size: 11px;
+        margin-bottom: 10px;
+    }
+    .link-cols a {
+        color: var(--fg-1);
+        text-decoration: none;
+    }
+    .link-cols a:hover {
+        color: var(--amber);
+    }
+</style>

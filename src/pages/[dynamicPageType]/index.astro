@@ -1,5 +1,4 @@
 ---
-import ContentSection from "../../components/dumb/ContentSection.astro";
 import { dynamicPages, dynamicPagesConfig } from "../../data/dynamic-pages";
 import Layout from "../../layouts/Layout.astro";
 import { checkIfImageUrl } from "../../utils/image";
@@ -16,73 +15,543 @@ export function getStaticPaths() {
             },
         })),
     );
-
-    console.log(`Generating pages for "[dynamicPageType]"`, { paths });
     return paths;
+}
+
+type EntryRow = {
+    year: string;
+    slug: string;
+    page: (typeof pages)[string][string];
+};
+
+const allEntries: EntryRow[] = Object.keys(pages)
+    .flatMap((year) =>
+        Object.keys(pages[year]).map((slug) => ({
+            year,
+            slug,
+            page: pages[year][slug],
+        })),
+    )
+    .sort(
+        (a, b) =>
+            new Date(b.page.date).getTime() - new Date(a.page.date).getTime(),
+    );
+
+const [feature, ...rest] = allEntries;
+const years = Object.keys(pages).sort().reverse();
+const total = allEntries.length;
+const pageTitle = dynamicPagesConfig[dynamicPageType].title;
+const pageLabel = dynamicPageType === "portfolio" ? "portfolio" : "posts";
+
+function fmtDate(iso: string): string {
+    const d = new Date(iso);
+    const y = d.getUTCFullYear();
+    const m = String(d.getUTCMonth() + 1).padStart(2, "0");
+    const day = String(d.getUTCDate()).padStart(2, "0");
+    return `${y}·${m}·${day}`;
+}
+
+function entryNo(i: number): string {
+    return "No. " + String(i + 1).padStart(4, "0");
 }
 ---
 
-<Layout title={dynamicPagesConfig[dynamicPageType].title}>
-    <main class="pt-4 min-h-screen">
-        <ContentSection>
-            <h1 class="font-heading text-6xl">
-                {dynamicPagesConfig[dynamicPageType].title}
-            </h1>
-
-            <ul class="grid grid-cols-12 gap-4 lg:gap-8 mt-4 lg:mt-8">
+<Layout title={pageTitle} cwd={`~/${pageLabel}`}>
+    <section class="header-block">
+        <div>
+            <div class="bread">
+                <a href="/">~</a><span class="sep">/</span>
+                <span class="cwd">{pageLabel}</span>
+                <span class="caret"></span>
+            </div>
+            <h1 class="page-title">{pageTitle}.</h1>
+            <p class="lede">
+                Notes, experiments and mistakes documented in real-time.
+                Some of these are useful. Most of them are at least specific.
+            </p>
+        </div>
+        <div class="filters">
+            <div class="row">
+                <span class="l">// year</span>
+                <a
+                    href={`/${dynamicPageType}`}
+                    class="tag amber">all · {total}</a
+                >
                 {
-                    Object.keys(pages)
-                        .toSorted((a, b) => Number(b) - Number(a))
-                        .map((year) =>
-                            Object.keys(pages[year])
-                                .toSorted((a, b) => {
-                                    const dateA = new Date(pages[year][a].date);
-                                    const dateB = new Date(pages[year][b].date);
-                                    // @ts-ignore
-                                    return dateB - dateA;
-                                })
-                                .map((slug) => {
-                                    const article = pages[year][slug];
-                                    return (
-                                        <li class="height-full col-span-12 md:col-span-6 first-of-type:md:col-span-12 lg:col-span-4 first-of-type:lg:col-span-8 nth-of-type-[6n]:lg:col-span-8 xl:col-span-3 first-of-type:xl:col-span-6 nth-of-type-[6n]:xl:col-span-6">
-                                            <article class="h-full">
-                                                <a
-                                                    href={`/${dynamicPageType}/${year}/${article.slug}`}
-                                                    class="relative flex flex-col group border border-border justify-center items-start h-full hover:border-primary-500 focus:border-primary-500 focus:outline-none"
-                                                >
-                                                    <div class="relative w-full">
-                                                        <img
-                                                            src={
-                                                                checkIfImageUrl(
-                                                                    article.poster,
-                                                                )
-                                                                    ? article.poster
-                                                                    : "/images/loading-gray.svg"
-                                                            }
-                                                            alt={article.title}
-                                                            class="w-full h-48 object-cover object-center group-hover:opacity-75 group-focus:opacity-75 border-b border-b-border group-hover:border-b-primary-500 group-focus:border-b-primary-500"
-                                                        />
-                                                        <p class="z-10 absolute bottom-px right-0 p-2 text-right font-light text-xs text-white bg-black/10 backdrop-blur-md">
-                                                            {article.date}
-                                                        </p>
-                                                    </div>
-                                                    <div class="flex flex-col w-full grow">
-                                                        {/* <h2 class="px-4 py-2 font-heading text-2xl leading-none m-0 group-hover:bg-foreground group-hover:text-background group-focus:bg-foreground group-focus:text-background"> */}
-                                                        <h2 class="px-4 py-2 font-heading text-2xl leading-none group-hover:text-primary-500 group-focus:text-primary-500">
-                                                            {article.title}
-                                                        </h2>
-                                                        <p class="pb-2 px-4 pt-2 font-paragraph font-light opacity-90 border-t border-t-border group-hover:border-t-primary-500 group-focus:border-t-primary-500">
-                                                            {article.summary}
-                                                        </p>
-                                                    </div>
-                                                </a>
-                                            </article>
-                                        </li>
-                                    );
-                                }),
-                        )
+                    years.map((y) => (
+                        <a
+                            href={`/${dynamicPageType}/${y}`}
+                            class="tag"
+                        >
+                            {y} · {Object.keys(pages[y]).length}
+                        </a>
+                    ))
                 }
-            </ul>
-        </ContentSection>
-    </main>
+            </div>
+            <div class="row">
+                <span class="l">// sort</span>
+                <span class="tag amber">newest</span>
+            </div>
+        </div>
+    </section>
+
+    <div class="stats-strip">
+        <span><strong>{total}</strong> entries</span>
+        <span class="sep">·</span>
+        <span><strong>{years.length}</strong> years</span>
+        <span class="sep">·</span>
+        <span>
+            last update <strong>{fmtDate(feature.page.date)}</strong>
+        </span>
+        <span class="spacer"></span>
+        <span class="hint text-amber">// scroll · or pick an entry</span>
+    </div>
+
+    {
+        feature && (
+            <section class="feature-wrap">
+                <div class="container-x">
+                    <div class="rule">
+                        <span>{entryNo(0)}</span>
+                        <span>· featured · most recent ·</span>
+                        <span>{fmtDate(feature.page.date)}</span>
+                    </div>
+                </div>
+                <a
+                    href={`/${dynamicPageType}/${feature.year}/${feature.slug}`}
+                    class="feature"
+                >
+                    <div class="img">
+                        {checkIfImageUrl(feature.page.poster) ? (
+                            <img
+                                src={feature.page.poster}
+                                alt={feature.page.title}
+                                loading="eager"
+                            />
+                        ) : (
+                            <div class="img-fallback halftone" />
+                        )}
+                        <div class="id-badge">{entryNo(0)} · LATEST</div>
+                        <div class="date-badge">
+                            {fmtDate(feature.page.date)}
+                        </div>
+                    </div>
+                    <div class="body">
+                        <span class="feature-tag">
+                            // featured · latest entry
+                        </span>
+                        <div class="ttl">{feature.page.title}</div>
+                        <div class="post-meta">
+                            <span>{fmtDate(feature.page.date)}</span>
+                            <span class="sep">·</span>
+                            <span class="reading">{feature.year}</span>
+                        </div>
+                        <p class="ex">{feature.page.summary}</p>
+                        <div class="cta-row">
+                            <span class="btn primary">
+                                <span>Read entry</span>
+                                <span class="arrow" />
+                            </span>
+                        </div>
+                    </div>
+                </a>
+            </section>
+        )
+    }
+
+    {
+        rest.length > 0 && (
+            <section class="grid-wrap">
+                <div class="container-x">
+                    <div class="rule">
+                        <span>
+                            {entryNo(1)} — {entryNo(rest.length)}
+                        </span>
+                        <span>
+                            · archive · {rest.length} entries ·
+                        </span>
+                        <span>desc</span>
+                    </div>
+                </div>
+                <div class="posts-grid">
+                    {rest.map((entry, i) => (
+                        <a
+                            href={`/${dynamicPageType}/${entry.year}/${entry.slug}`}
+                            class="post-card"
+                        >
+                            <div class="post-thumb">
+                                {checkIfImageUrl(entry.page.poster) ? (
+                                    <img
+                                        src={entry.page.poster}
+                                        alt={entry.page.title}
+                                        loading="lazy"
+                                    />
+                                ) : (
+                                    <div class="img-fallback halftone" />
+                                )}
+                                <div class="id-badge">{entryNo(i + 1)}</div>
+                                <div class="date-badge">
+                                    {fmtDate(entry.page.date)}
+                                </div>
+                            </div>
+                            <div class="post-meta">
+                                <span>{fmtDate(entry.page.date)}</span>
+                                <span class="sep">·</span>
+                                <span class="reading">{entry.year}</span>
+                            </div>
+                            <h3 class="post-title">{entry.page.title}</h3>
+                            <p class="post-excerpt">{entry.page.summary}</p>
+                        </a>
+                    ))}
+                </div>
+            </section>
+        )
+    }
 </Layout>
+
+<style>
+    .header-block {
+        padding: var(--s-8) var(--gutter) var(--s-7);
+        border-bottom: 1px solid var(--border-token);
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: var(--s-6);
+        align-items: end;
+        max-width: var(--max-w);
+        margin: 0 auto;
+    }
+    @media (max-width: 960px) {
+        .header-block {
+            grid-template-columns: 1fr;
+            padding: var(--s-7) var(--gutter) var(--s-6);
+        }
+    }
+    .page-title {
+        font-size: clamp(64px, 12vw, 144px);
+        line-height: 0.9;
+    }
+    .lede {
+        margin-top: var(--s-4);
+        font:
+            400 var(--t-body-lg) / 1.5 var(--font-body);
+        color: var(--fg-1);
+        max-width: 56ch;
+    }
+    .bread {
+        margin-bottom: 20px;
+    }
+
+    .filters {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        min-width: 320px;
+    }
+    .filters .row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+    .filters .l {
+        font:
+            500 var(--t-mono-xs) / 1 var(--font-mono);
+        color: var(--fg-dim);
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        min-width: 64px;
+    }
+    a.tag {
+        text-decoration: none;
+        transition: color 0.15s, border-color 0.15s;
+    }
+    a.tag:hover {
+        color: var(--amber);
+        border-color: color-mix(in srgb, var(--amber) 50%, transparent);
+        text-decoration: none;
+    }
+
+    .stats-strip {
+        max-width: var(--max-w);
+        margin: 0 auto;
+        padding: var(--s-5) var(--gutter);
+        border-bottom: 1px solid var(--border-token);
+        display: flex;
+        gap: var(--s-6);
+        align-items: center;
+        font:
+            400 var(--t-mono-sm) / 1 var(--font-mono);
+        color: var(--fg-dim);
+        flex-wrap: wrap;
+    }
+    .stats-strip strong {
+        color: var(--fg);
+        font-weight: 500;
+    }
+    .stats-strip .sep {
+        color: var(--fg-faint);
+    }
+    .stats-strip .spacer {
+        flex: 1;
+    }
+    .stats-strip .hint {
+        font-size: var(--t-mono-xs);
+    }
+
+    .feature-wrap {
+        margin-top: var(--s-6);
+        padding: 0 var(--gutter);
+    }
+    .feature-wrap .container-x {
+        padding: 0;
+    }
+    .feature-wrap .rule {
+        margin-bottom: 18px;
+    }
+    .feature {
+        max-width: var(--max-w);
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+        border: 1px solid var(--border-strong);
+        background: var(--bg-1);
+        text-decoration: none;
+        color: inherit;
+        transition: border-color 0.15s;
+    }
+    .feature:hover {
+        border-color: var(--amber);
+        text-decoration: none;
+    }
+    .feature:hover .ttl {
+        color: var(--amber);
+    }
+    @media (max-width: 800px) {
+        .feature {
+            grid-template-columns: 1fr;
+        }
+    }
+    .feature .img {
+        border-right: 1px solid var(--border-token);
+        aspect-ratio: 16/10;
+        position: relative;
+        overflow: hidden;
+    }
+    @media (max-width: 800px) {
+        .feature .img {
+            border-right: none;
+            border-bottom: 1px solid var(--border-token);
+        }
+    }
+    .feature .img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        filter: grayscale(1) contrast(1.05);
+    }
+    .img-fallback {
+        width: 100%;
+        height: 100%;
+    }
+    .feature .img::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: repeating-linear-gradient(
+            0deg,
+            transparent 0 2px,
+            rgba(0, 0, 0, 0.16) 2px 3px
+        );
+    }
+    .feature .body {
+        padding: 36px 40px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        justify-content: center;
+    }
+    @media (max-width: 720px) {
+        .feature .body {
+            padding: 24px 24px;
+        }
+    }
+    .feature .body .ttl {
+        font:
+            400 clamp(40px, 5vw, 64px) / 1 var(--font-display);
+        color: var(--fg);
+        transition: color 0.15s;
+    }
+    .feature .body .ex {
+        font-size: 17px;
+        line-height: 1.6;
+        color: var(--fg-1);
+        max-width: 52ch;
+    }
+    .feature .body .feature-tag {
+        align-self: flex-start;
+        font:
+            500 var(--t-mono-xs) / 1 var(--font-mono);
+        color: var(--amber);
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+    }
+    .feature .body .feature-tag::before {
+        content: "■ ";
+    }
+    .feature .body .cta-row {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        margin-top: 6px;
+    }
+
+    .id-badge,
+    .date-badge {
+        position: absolute;
+        font:
+            500 var(--t-mono-xs) / 1 var(--font-mono);
+        background: color-mix(in srgb, var(--bg) 85%, transparent);
+        padding: 4px 8px;
+        border: 1px solid var(--border-token);
+        z-index: 2;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+    }
+    .id-badge {
+        top: 8px;
+        left: 8px;
+        color: var(--fg-dim);
+    }
+    .date-badge {
+        bottom: 8px;
+        right: 8px;
+        color: var(--fg);
+    }
+
+    .grid-wrap {
+        margin-top: var(--s-6);
+        padding: 0 var(--gutter) var(--s-8);
+    }
+    .grid-wrap .container-x {
+        padding: 0;
+    }
+    .grid-wrap .rule {
+        margin-bottom: 18px;
+    }
+    .posts-grid {
+        max-width: var(--max-w);
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0;
+        border-left: 1px solid var(--border-token);
+        border-right: 1px solid var(--border-token);
+        border-bottom: 1px solid var(--border-token);
+        border-top: 1px solid var(--border-token);
+    }
+    @media (max-width: 960px) {
+        .posts-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    @media (max-width: 640px) {
+        .posts-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+    .post-card {
+        padding: 20px;
+        border-right: 1px solid var(--border-token);
+        border-bottom: 1px solid var(--border-token);
+        background: var(--bg);
+        display: grid;
+        grid-template-rows: auto auto 1fr auto;
+        gap: 14px;
+        position: relative;
+        transition: background 0.2s;
+        text-decoration: none;
+        color: inherit;
+    }
+    .post-card:hover {
+        background: var(--bg-1);
+        text-decoration: none;
+    }
+    .post-card:hover .post-title {
+        color: var(--amber);
+    }
+    .post-card:nth-child(3n) {
+        border-right: none;
+    }
+    @media (max-width: 960px) {
+        .post-card:nth-child(3n) {
+            border-right: 1px solid var(--border-token);
+        }
+        .post-card:nth-child(2n) {
+            border-right: none;
+        }
+    }
+    @media (max-width: 640px) {
+        .post-card {
+            border-right: none !important;
+        }
+    }
+    .post-thumb {
+        aspect-ratio: 16/9;
+        background: var(--bg-1);
+        border: 1px solid var(--border-token);
+        position: relative;
+        overflow: hidden;
+    }
+    .post-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        filter: grayscale(1) contrast(1.05);
+    }
+    .post-thumb::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: repeating-linear-gradient(
+            0deg,
+            transparent 0 2px,
+            rgba(0, 0, 0, 0.16) 2px 3px
+        );
+    }
+    .post-meta {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        font:
+            400 var(--t-mono-xs) / 1 var(--font-mono);
+        color: var(--fg-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+    }
+    .post-meta .sep {
+        color: var(--fg-faint);
+    }
+    .post-meta .reading {
+        color: var(--fg-dim);
+    }
+    .post-title {
+        font:
+            400 32px / 1 var(--font-display);
+        color: var(--fg);
+        transition: color 0.15s;
+        letter-spacing: 0.01em;
+    }
+    .post-excerpt {
+        font:
+            400 14px / 1.55 var(--font-body);
+        color: var(--fg-1);
+        max-height: 4.2em;
+        overflow: hidden;
+        margin: 0;
+    }
+</style>

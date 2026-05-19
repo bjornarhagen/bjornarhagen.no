@@ -1,22 +1,11 @@
 ---
 import ContentRenderer from "../../../components/dumb/ContentRenderer.astro";
 import { dynamicPages, dynamicPagesConfig } from "../../../data/dynamic-pages";
-
 import Layout from "../../../layouts/Layout.astro";
 import { checkIfImageUrl } from "../../../utils/image";
 
 export function getStaticPaths() {
     const types = Object.keys(dynamicPages) as (keyof typeof dynamicPages)[];
-
-    // const paths = Object.keys(dynamicPages[dynamicPageType]).flatMap((year) =>
-    //     Object.keys(dynamicPages[dynamicPageType][year]).map((slug) => ({
-    //         params: {
-    //             year: year,
-    //             slug: slug,
-    //         },
-    //     }))
-    // );
-
     const paths = types.flatMap((type) =>
         Object.keys(dynamicPages[type]).flatMap((year) =>
             Object.keys(dynamicPages[type][year]).map((slug) => ({
@@ -28,10 +17,6 @@ export function getStaticPaths() {
             })),
         ),
     );
-
-    console.log(`Generating pages for "[dynamicPageType]/[year]/[slug]"`, {
-        paths,
-    });
     return paths;
 }
 
@@ -42,70 +27,517 @@ if (!dynamicPages[dynamicPageType]?.[year]?.[slug]) {
 }
 
 const page = dynamicPages[dynamicPageType][year][slug];
+const pageTitle = dynamicPagesConfig[dynamicPageType].title;
+const pageLabel = dynamicPageType === "portfolio" ? "portfolio" : "posts";
+
+function fmtDate(iso: string): string {
+    const d = new Date(iso);
+    const y = d.getUTCFullYear();
+    const m = String(d.getUTCMonth() + 1).padStart(2, "0");
+    const day = String(d.getUTCDate()).padStart(2, "0");
+    return `${y}·${m}·${day}`;
+}
+
+const allEntries = Object.keys(dynamicPages[dynamicPageType])
+    .flatMap((y) =>
+        Object.keys(dynamicPages[dynamicPageType][y]).map((s) => ({
+            year: y,
+            slug: s,
+            page: dynamicPages[dynamicPageType][y][s],
+        })),
+    )
+    .sort(
+        (a, b) =>
+            new Date(b.page.date).getTime() - new Date(a.page.date).getTime(),
+    );
+
+const currentIndex = allEntries.findIndex(
+    (e) => e.year === year && e.slug === slug,
+);
+const newer = currentIndex > 0 ? allEntries[currentIndex - 1] : null;
+const older =
+    currentIndex < allEntries.length - 1 ? allEntries[currentIndex + 1] : null;
+
+const allText = (page.content || [])
+    .flatMap((section: any) => section.text || [])
+    .join(" ");
+const wordCount = allText.split(/\s+/).filter(Boolean).length;
+const readMin = Math.max(1, Math.round(wordCount / 200));
 ---
 
 <Layout
-    title={`${page.title} | ${dynamicPagesConfig[dynamicPageType].title}`}
+    title={`${page.title} | ${pageTitle}`}
     description={page.summary}
     image={page.poster}
-    marginForNav={false}
-    marginForFooter={false}
+    cwd={`~/${pageLabel}/${year}/${slug}`}
 >
-    <main class="relative max-w-full min-h-screen pt-16">
-        <article>
-            <header
-                class="pt-16 flex flex-col gap-8 items-center relative w-full"
-            >
-                <div class="w-full max-w-screen-2xl mx-auto">
-                    <div class="w-full px-4 lg:px-8 flex flex-col gap-4">
-                        <div class="flex gap-1 font-sm opacity-50">
-                            <a
-                                class="hover:underline focus:underline whitespace-nowrap"
-                                href={`/${dynamicPageType}`}
-                                >{dynamicPagesConfig[dynamicPageType].title}</a
-                            >
-                            <span>/</span>
-                            <a
-                                class="hover:underline focus:underline whitespace-nowrap"
-                                href={`/${dynamicPageType}/${year}`}>{year}</a
-                            >
-                            <span>/</span>
-                            <a
-                                class="hover:underline focus:underline truncate"
-                                href={`/${dynamicPageType}/${year}/${slug}`}
-                                >{slug}</a
-                            >
-                        </div>
-                        <h1
-                            class="flex flex-col lg:flex-row lg:gap-4 text-5xl sm:text-7xl font-heading leading-none text-left max-w-screen-lg"
-                        >
-                            <span>{page.title}</span>
-                        </h1>
-                        <div class="grid md:grid-cols-4 gap-4">
-                            <p
-                                class="col-span-4 lg:col-span-2 font-light font-paragraph opacity-70"
-                            >
-                                {page.summary}
-                            </p>
-                            <div
-                                class="col-span-2 flex flex-col gap-1 lg:justify-self-end"
-                            >
-                                <p class="opacity-70">Date</p>
-                                <time class="font-bold">{page.date}</time>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <img
-                    src={checkIfImageUrl(page.imageHeader)
-                        ? page.imageHeader
-                        : "/images/loading-gray.svg"}
-                    alt=`${page.title}`
-                    class="w-full pb-8 lg:pb-16 max-w-screen-2xl"
-                />
-            </header>
+    <section class="post-head">
+        <div class="bread">
+            <a href="/">~</a><span class="sep">/</span>
+            <a href={`/${dynamicPageType}`}>{pageLabel}</a>
+            <span class="sep">/</span>
+            <a href={`/${dynamicPageType}/${year}`} class="text-dim">{year}</a>
+            <span class="sep">/</span>
+            <span class="cwd">{slug}</span>
+        </div>
+        <div class="rule head-rule">
+            <span>entry {currentIndex === 0 ? "· latest" : ""}</span>
+            <span>· {fmtDate(page.date)}</span>
+            <span>{year}</span>
+        </div>
+        <h1 class="post-title">{page.title}</h1>
+        <div class="meta-row">
+            <span>
+                <span class="k">date /</span>
+                <span class="v">{fmtDate(page.date)}</span>
+            </span>
+            <span class="sep">::</span>
+            <span>
+                <span class="k">read /</span>
+                <span class="v">{readMin} min</span>
+            </span>
+            <span class="sep">::</span>
+            <span>
+                <span class="k">words /</span>
+                <span class="v">{wordCount.toLocaleString("en-US")}</span>
+            </span>
+            <span class="sep">::</span>
+            <span>
+                <span class="k">type /</span>
+                <span class="tag">{pageLabel}</span>
+            </span>
+        </div>
+    </section>
 
+    {
+        checkIfImageUrl(page.imageHeader) && (
+            <section class="post-hero">
+                <div class="post-hero-inner">
+                    <img src={page.imageHeader} alt={page.title} />
+                    <span class="corner c-tl">{slug}</span>
+                    <span class="corner c-tr">FIG. 01</span>
+                    <span class="corner c-bl">// COVER</span>
+                    <span class="corner c-br">{fmtDate(page.date)}</span>
+                </div>
+            </section>
+        )
+    }
+
+    <section class="post-layout">
+        <aside class="side side-left">
+            <div class="lbl">// meta</div>
+            <div class="stack">
+                <div class="stat">
+                    <div class="l">date</div>
+                    <div class="v">{fmtDate(page.date)}</div>
+                </div>
+                <div class="stat">
+                    <div class="l">read time</div>
+                    <div class="v">{readMin} min</div>
+                </div>
+                <div class="stat">
+                    <div class="l">words</div>
+                    <div class="v">{wordCount.toLocaleString("en-US")}</div>
+                </div>
+            </div>
+
+            <div class="lbl spaced">// navigate</div>
+            <div class="share-links">
+                <a href={`/${dynamicPageType}`}>→ back to {pageLabel}</a>
+                <a href={`/${dynamicPageType}/${year}`}>→ year {year}</a>
+                {
+                    newer && (
+                        <a
+                            href={`/${dynamicPageType}/${newer.year}/${newer.slug}`}
+                        >
+                            → newer entry
+                        </a>
+                    )
+                }
+                {
+                    older && (
+                        <a
+                            href={`/${dynamicPageType}/${older.year}/${older.slug}`}
+                        >
+                            → older entry
+                        </a>
+                    )
+                }
+            </div>
+        </aside>
+
+        <article class="prose article-body">
+            <p class="lead">{page.summary}</p>
             <ContentRenderer content={page.content} />
         </article>
-    </main>
+
+        <aside class="side side-right">
+            <div class="rule"><span>meta</span></div>
+            <div class="stack">
+                <div class="lbl">// stats</div>
+                <div class="stat">
+                    <div class="l">words</div>
+                    <div class="v">{wordCount.toLocaleString("en-US")}</div>
+                </div>
+                <div class="stat">
+                    <div class="l">read time</div>
+                    <div class="v">{readMin} min</div>
+                </div>
+                <div class="stat">
+                    <div class="l">year</div>
+                    <div class="v">{year}</div>
+                </div>
+            </div>
+        </aside>
+    </section>
+
+    <section class="post-foot">
+        <div class="container-x">
+            <div class="rule foot-rule">
+                <span>EOF</span>
+                <span>· next entries ·</span>
+                <span>0xHB</span>
+            </div>
+            {
+                (newer || older) && (
+                    <div class="related-row">
+                        {newer ? (
+                            <a
+                                href={`/${dynamicPageType}/${newer.year}/${newer.slug}`}
+                                class="rel-cell"
+                            >
+                                <div class="l">← newer</div>
+                                <div class="t">{newer.page.title}</div>
+                                <div class="m">
+                                    {fmtDate(newer.page.date)} · {newer.year}
+                                </div>
+                            </a>
+                        ) : (
+                            <div class="rel-cell empty">
+                                <div class="l">← newer</div>
+                                <div class="t">— start of feed</div>
+                            </div>
+                        )}
+                        <a href={`/${dynamicPageType}`} class="rel-cell">
+                            <div class="l">↑ index</div>
+                            <div class="t">All {pageLabel}</div>
+                            <div class="m">{allEntries.length} entries</div>
+                        </a>
+                        {older ? (
+                            <a
+                                href={`/${dynamicPageType}/${older.year}/${older.slug}`}
+                                class="rel-cell"
+                            >
+                                <div class="l">older →</div>
+                                <div class="t">{older.page.title}</div>
+                                <div class="m">
+                                    {fmtDate(older.page.date)} · {older.year}
+                                </div>
+                            </a>
+                        ) : (
+                            <div class="rel-cell empty">
+                                <div class="l">older →</div>
+                                <div class="t">— end of feed</div>
+                            </div>
+                        )}
+                    </div>
+                )
+            }
+            <div class="signoff">
+                <div class="rule signoff-rule">
+                    <span>signoff</span>
+                    <span>· 0xHB ·</span>
+                    <span>{fmtDate(page.date)}</span>
+                </div>
+                <span class="blackletter">
+                    bjornar<span class="amber">.</span>dev
+                </span>
+                <div class="signoff-text">
+                    // typed in Sandefjord, Norway
+                </div>
+            </div>
+        </div>
+    </section>
 </Layout>
+
+<style>
+    .post-head {
+        max-width: 1240px;
+        margin: 0 auto;
+        padding: var(--s-7) var(--gutter) var(--s-4);
+    }
+    .post-head .post-title {
+        font-size: clamp(48px, 8vw, 96px);
+        line-height: 0.94;
+        margin-top: 18px;
+        letter-spacing: 0.005em;
+    }
+    .head-rule {
+        margin-top: 22px;
+    }
+    .meta-row {
+        margin-top: 24px;
+        display: flex;
+        gap: 18px;
+        align-items: center;
+        flex-wrap: wrap;
+        font:
+            400 var(--t-mono-sm) / 1.4 var(--font-mono);
+        color: var(--fg-dim);
+    }
+    .meta-row .sep {
+        color: var(--fg-faint);
+    }
+    .meta-row .k {
+        color: var(--fg-muted);
+    }
+    .meta-row .v {
+        color: var(--fg);
+    }
+
+    .post-hero {
+        max-width: 1240px;
+        margin: 24px auto 0;
+        padding: 0 var(--gutter);
+    }
+    .post-hero-inner {
+        border: 1px solid var(--border-strong);
+        position: relative;
+        aspect-ratio: 21/9;
+        overflow: hidden;
+        background: var(--bg-1);
+    }
+    .post-hero-inner img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        filter: grayscale(1) contrast(1.05);
+    }
+    .post-hero-inner::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: repeating-linear-gradient(
+            0deg,
+            transparent 0 2px,
+            rgba(0, 0, 0, 0.16) 2px 3px
+        );
+    }
+    .corner {
+        position: absolute;
+        font:
+            500 var(--t-mono-xs) / 1 var(--font-mono);
+        color: var(--fg-dim);
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        background: color-mix(in srgb, var(--bg) 80%, transparent);
+        padding: 6px 10px;
+        border: 1px solid var(--border-token);
+        z-index: 2;
+    }
+    .c-tl {
+        top: 12px;
+        left: 12px;
+    }
+    .c-tr {
+        top: 12px;
+        right: 12px;
+    }
+    .c-bl {
+        bottom: 12px;
+        left: 12px;
+        color: var(--amber);
+    }
+    .c-br {
+        bottom: 12px;
+        right: 12px;
+    }
+
+    .post-layout {
+        max-width: 1240px;
+        margin: 0 auto;
+        padding: var(--s-7) var(--gutter) var(--s-9);
+        display: grid;
+        grid-template-columns: 220px 1fr 240px;
+        gap: var(--s-7);
+        align-items: start;
+    }
+    @media (max-width: 1100px) {
+        .post-layout {
+            grid-template-columns: 1fr;
+            gap: var(--s-5);
+        }
+        .side {
+            display: none;
+        }
+    }
+
+    .side {
+        position: sticky;
+        top: 56px;
+        padding-top: 2px;
+    }
+    .lbl {
+        font:
+            500 var(--t-mono-xs) / 1 var(--font-mono);
+        color: var(--fg-dim);
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        margin-bottom: 14px;
+    }
+    .lbl.spaced {
+        margin-top: 32px;
+    }
+    .stack {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .share-links {
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        font:
+            400 13px / 1.4 var(--font-mono);
+    }
+    .share-links a {
+        color: var(--fg-1);
+        text-decoration: none;
+    }
+    .share-links a:hover {
+        color: var(--amber);
+    }
+    .side-right .rule {
+        margin-bottom: 14px;
+    }
+
+    .article-body {
+        max-width: 100%;
+        min-width: 0;
+    }
+    .article-body .lead {
+        font-size: 19px;
+        color: var(--fg);
+        max-width: 64ch;
+        margin-bottom: 1.5em;
+    }
+    .article-body :global(.content-renderer-section) {
+        margin: 0;
+        max-width: 100%;
+    }
+    .article-body :global(.content-renderer-section section) {
+        padding: 0;
+        margin: 0;
+        gap: var(--s-5);
+    }
+
+    .post-foot {
+        max-width: 1240px;
+        margin: 0 auto;
+        padding: 0 var(--gutter) var(--s-8);
+    }
+    .post-foot .container-x {
+        padding: 0;
+    }
+    .foot-rule {
+        margin-bottom: 18px;
+    }
+    .related-row {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        border: 1px solid var(--border-token);
+        background: var(--bg-1);
+    }
+    @media (max-width: 800px) {
+        .related-row {
+            grid-template-columns: 1fr;
+        }
+    }
+    .rel-cell {
+        padding: 18px 20px;
+        border-right: 1px solid var(--border-token);
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        text-decoration: none;
+        color: inherit;
+        transition: background 0.15s;
+    }
+    .rel-cell:last-child {
+        border-right: none;
+    }
+    @media (max-width: 800px) {
+        .rel-cell {
+            border-right: none;
+            border-bottom: 1px solid var(--border-token);
+        }
+        .rel-cell:last-child {
+            border-bottom: none;
+        }
+    }
+    .rel-cell:not(.empty):hover {
+        background: var(--bg);
+        text-decoration: none;
+    }
+    .rel-cell:not(.empty):hover .t {
+        color: var(--amber);
+    }
+    .rel-cell.empty {
+        opacity: 0.5;
+    }
+    .rel-cell .l {
+        font:
+            500 var(--t-mono-xs) / 1 var(--font-mono);
+        color: var(--amber);
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+    }
+    .rel-cell.empty .l {
+        color: var(--fg-muted);
+    }
+    .rel-cell .t {
+        font:
+            400 26px / 1.1 var(--font-display);
+        color: var(--fg);
+        transition: color 0.15s;
+    }
+    .rel-cell .m {
+        font:
+            400 var(--t-mono-xs) / 1.4 var(--font-mono);
+        color: var(--fg-muted);
+        margin-top: auto;
+    }
+
+    .signoff {
+        margin-top: var(--s-7);
+        text-align: center;
+        font:
+            400 var(--t-mono-sm) / 1.6 var(--font-mono);
+        color: var(--fg-muted);
+    }
+    .signoff-rule {
+        margin-bottom: 28px;
+    }
+    .signoff .blackletter {
+        font:
+            400 88px / 0.9 var(--font-display);
+        color: var(--fg);
+        letter-spacing: 0.01em;
+        display: block;
+        margin: 18px 0 24px;
+    }
+    @media (max-width: 600px) {
+        .signoff .blackletter {
+            font-size: 56px;
+        }
+    }
+    .signoff .blackletter .amber {
+        color: var(--amber);
+    }
+    .signoff-text {
+        max-width: 56ch;
+        margin: 0 auto;
+    }
+</style>
