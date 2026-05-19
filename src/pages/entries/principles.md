@@ -24,7 +24,8 @@ body_classes: nav-small
 
 ## Life
 
-1. If you continue to wait for the right time, nothing will happen and you waste all your life
+1. Everything in moderation
+1. If you continue to wait for the right time, nothing will happen and you waste all your time.
 1. Just because everyone else is doing something, doesn't mean you should.
 1. Exercise. It will improve all aspects of your life.
 1. To grow, you must suffer.
