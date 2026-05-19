@@ -1,20 +1,23 @@
 ---
-import { dynamicPages, dynamicPagesConfig } from "../../data/dynamic-pages";
-import Layout from "../../layouts/Layout.astro";
-import { checkIfImageUrl } from "../../utils/image";
+import Layout from "@/layouts/Layout.astro";
+import { dynamicPages, dynamicPagesConfig } from "@/data/dynamic-pages";
+import PageHeader from "@/components/dumb/PageHeader.astro";
+import FilterRow from "@/components/dumb/FilterRow.astro";
+import Tag from "@/components/dumb/Tag.astro";
+import StatsStrip from "@/components/dumb/StatsStrip.astro";
+import Rule from "@/components/dumb/Rule.astro";
+import FeatureCard from "@/components/dumb/FeatureCard.astro";
+import PostsGrid from "@/components/dumb/PostsGrid.astro";
+import PostCard from "@/components/dumb/PostCard.astro";
 
 const { dynamicPageType } = Astro.params;
 const pages = dynamicPages[dynamicPageType];
 
 export function getStaticPaths() {
     const types = Object.keys(dynamicPages) as (keyof typeof dynamicPages)[];
-    const paths = types.flatMap((type) =>
-        Object.keys(dynamicPages[type]).map((slug) => ({
-            params: {
-                dynamicPageType: type,
-            },
-        })),
-    );
+    const paths = types.map((type) => ({
+        params: { dynamicPageType: type },
+    }));
     return paths;
 }
 
@@ -57,45 +60,37 @@ function entryNo(i: number): string {
 ---
 
 <Layout title={pageTitle} cwd={`~/${pageLabel}`}>
-    <section class="header-block">
-        <div>
-            <div class="bread">
-                <a href="/">~</a><span class="sep">/</span>
-                <span class="cwd">{pageLabel}</span>
-                <span class="caret"></span>
-            </div>
-            <h1 class="page-title">{pageTitle}.</h1>
-            <p class="lede">
-                Notes, experiments and mistakes documented in real-time.
-                Some of these are useful. Most of them are at least specific.
-            </p>
-        </div>
-        <div class="filters">
-            <div class="row">
-                <span class="l">// year</span>
-                <a
-                    href={`/${dynamicPageType}`}
-                    class="tag amber">all · {total}</a
-                >
+    <PageHeader
+        title={`${pageTitle}.`}
+        bread={[
+            { label: "~", href: "/" },
+            { label: pageLabel, cwd: true },
+        ]}
+        filters
+    >
+        Notes, experiments and mistakes documented in real-time. Some of these
+        are useful. Most of them are at least specific.
+
+        <Fragment slot="filters">
+            <FilterRow label="// year">
+                <Tag href={`/${dynamicPageType}`} variant="amber">
+                    all · {total}
+                </Tag>
                 {
                     years.map((y) => (
-                        <a
-                            href={`/${dynamicPageType}/${y}`}
-                            class="tag"
-                        >
+                        <Tag href={`/${dynamicPageType}/${y}`}>
                             {y} · {Object.keys(pages[y]).length}
-                        </a>
+                        </Tag>
                     ))
                 }
-            </div>
-            <div class="row">
-                <span class="l">// sort</span>
-                <span class="tag amber">newest</span>
-            </div>
-        </div>
-    </section>
+            </FilterRow>
+            <FilterRow label="// sort">
+                <Tag variant="amber">newest</Tag>
+            </FilterRow>
+        </Fragment>
+    </PageHeader>
 
-    <div class="stats-strip">
+    <StatsStrip>
         <span><strong>{total}</strong> entries</span>
         <span class="sep">·</span>
         <span><strong>{years.length}</strong> years</span>
@@ -103,58 +98,28 @@ function entryNo(i: number): string {
         <span>
             last update <strong>{fmtDate(feature.page.date)}</strong>
         </span>
-        <span class="spacer"></span>
-        <span class="hint text-amber">// scroll · or pick an entry</span>
-    </div>
+        <span slot="right">{"// scroll · or pick an entry"}</span>
+    </StatsStrip>
 
     {
         feature && (
             <section class="feature-wrap">
                 <div class="container-x">
-                    <div class="rule">
+                    <Rule class="mb-rule">
                         <span>{entryNo(0)}</span>
                         <span>· featured · most recent ·</span>
                         <span>{fmtDate(feature.page.date)}</span>
-                    </div>
+                    </Rule>
                 </div>
-                <a
+                <FeatureCard
                     href={`/${dynamicPageType}/${feature.year}/${feature.slug}`}
-                    class="feature"
-                >
-                    <div class="img">
-                        {checkIfImageUrl(feature.page.poster) ? (
-                            <img
-                                src={feature.page.poster}
-                                alt={feature.page.title}
-                                loading="eager"
-                            />
-                        ) : (
-                            <div class="img-fallback halftone" />
-                        )}
-                        <div class="id-badge">{entryNo(0)} · LATEST</div>
-                        <div class="date-badge">
-                            {fmtDate(feature.page.date)}
-                        </div>
-                    </div>
-                    <div class="body">
-                        <span class="feature-tag">
-                            // featured · latest entry
-                        </span>
-                        <div class="ttl">{feature.page.title}</div>
-                        <div class="post-meta">
-                            <span>{fmtDate(feature.page.date)}</span>
-                            <span class="sep">·</span>
-                            <span class="reading">{feature.year}</span>
-                        </div>
-                        <p class="ex">{feature.page.summary}</p>
-                        <div class="cta-row">
-                            <span class="btn primary">
-                                <span>Read entry</span>
-                                <span class="arrow" />
-                            </span>
-                        </div>
-                    </div>
-                </a>
+                    title={feature.page.title}
+                    summary={feature.page.summary}
+                    date={fmtDate(feature.page.date)}
+                    poster={feature.page.poster}
+                    idBadge={`${entryNo(0)} · LATEST`}
+                    secondary={feature.year}
+                />
             </section>
         )
     }
@@ -163,7 +128,7 @@ function entryNo(i: number): string {
         rest.length > 0 && (
             <section class="grid-wrap">
                 <div class="container-x">
-                    <div class="rule">
+                    <Rule class="mb-rule">
                         <span>
                             {entryNo(1)} — {entryNo(rest.length)}
                         </span>
@@ -171,387 +136,40 @@ function entryNo(i: number): string {
                             · archive · {rest.length} entries ·
                         </span>
                         <span>desc</span>
-                    </div>
+                    </Rule>
                 </div>
-                <div class="posts-grid">
+                <PostsGrid>
                     {rest.map((entry, i) => (
-                        <a
+                        <PostCard
                             href={`/${dynamicPageType}/${entry.year}/${entry.slug}`}
-                            class="post-card"
-                        >
-                            <div class="post-thumb">
-                                {checkIfImageUrl(entry.page.poster) ? (
-                                    <img
-                                        src={entry.page.poster}
-                                        alt={entry.page.title}
-                                        loading="lazy"
-                                    />
-                                ) : (
-                                    <div class="img-fallback halftone" />
-                                )}
-                                <div class="id-badge">{entryNo(i + 1)}</div>
-                                <div class="date-badge">
-                                    {fmtDate(entry.page.date)}
-                                </div>
-                            </div>
-                            <div class="post-meta">
-                                <span>{fmtDate(entry.page.date)}</span>
-                                <span class="sep">·</span>
-                                <span class="reading">{entry.year}</span>
-                            </div>
-                            <h3 class="post-title">{entry.page.title}</h3>
-                            <p class="post-excerpt">{entry.page.summary}</p>
-                        </a>
+                            title={entry.page.title}
+                            excerpt={entry.page.summary}
+                            date={fmtDate(entry.page.date)}
+                            poster={entry.page.poster}
+                            idBadge={entryNo(i + 1)}
+                            secondary={entry.year}
+                        />
                     ))}
-                </div>
+                </PostsGrid>
             </section>
         )
     }
 </Layout>
 
 <style>
-    .header-block {
-        padding: var(--s-8) var(--gutter) var(--s-7);
-        border-bottom: 1px solid var(--border-token);
-        display: grid;
-        grid-template-columns: 1fr auto;
-        gap: var(--s-6);
-        align-items: end;
-        max-width: var(--max-w);
-        margin: 0 auto;
-    }
-    @media (max-width: 960px) {
-        .header-block {
-            grid-template-columns: 1fr;
-            padding: var(--s-7) var(--gutter) var(--s-6);
-        }
-    }
-    .page-title {
-        font-size: clamp(64px, 12vw, 144px);
-        line-height: 0.9;
-    }
-    .lede {
-        margin-top: var(--s-4);
-        font:
-            400 var(--t-body-lg) / 1.5 var(--font-body);
-        color: var(--fg-1);
-        max-width: 56ch;
-    }
-    .bread {
-        margin-bottom: 20px;
-    }
-
-    .filters {
-        display: flex;
-        flex-direction: column;
-        gap: 14px;
-        min-width: 320px;
-    }
-    .filters .row {
-        display: flex;
-        align-items: center;
-        gap: 8px;
-        flex-wrap: wrap;
-    }
-    .filters .l {
-        font:
-            500 var(--t-mono-xs) / 1 var(--font-mono);
-        color: var(--fg-dim);
-        text-transform: uppercase;
-        letter-spacing: 0.16em;
-        min-width: 64px;
-    }
-    a.tag {
-        text-decoration: none;
-        transition: color 0.15s, border-color 0.15s;
-    }
-    a.tag:hover {
-        color: var(--amber);
-        border-color: color-mix(in srgb, var(--amber) 50%, transparent);
-        text-decoration: none;
-    }
-
-    .stats-strip {
-        max-width: var(--max-w);
-        margin: 0 auto;
-        padding: var(--s-5) var(--gutter);
-        border-bottom: 1px solid var(--border-token);
-        display: flex;
-        gap: var(--s-6);
-        align-items: center;
-        font:
-            400 var(--t-mono-sm) / 1 var(--font-mono);
-        color: var(--fg-dim);
-        flex-wrap: wrap;
-    }
-    .stats-strip strong {
-        color: var(--fg);
-        font-weight: 500;
-    }
-    .stats-strip .sep {
-        color: var(--fg-faint);
-    }
-    .stats-strip .spacer {
-        flex: 1;
-    }
-    .stats-strip .hint {
-        font-size: var(--t-mono-xs);
-    }
-
     .feature-wrap {
         margin-top: var(--s-6);
         padding: 0 var(--gutter);
     }
-    .feature-wrap .container-x {
-        padding: 0;
-    }
-    .feature-wrap .rule {
-        margin-bottom: 18px;
-    }
-    .feature {
-        max-width: var(--max-w);
-        margin: 0 auto;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 0;
-        border: 1px solid var(--border-strong);
-        background: var(--bg-1);
-        text-decoration: none;
-        color: inherit;
-        transition: border-color 0.15s;
-    }
-    .feature:hover {
-        border-color: var(--amber);
-        text-decoration: none;
-    }
-    .feature:hover .ttl {
-        color: var(--amber);
-    }
-    @media (max-width: 800px) {
-        .feature {
-            grid-template-columns: 1fr;
-        }
-    }
-    .feature .img {
-        border-right: 1px solid var(--border-token);
-        aspect-ratio: 16/10;
-        position: relative;
-        overflow: hidden;
-    }
-    @media (max-width: 800px) {
-        .feature .img {
-            border-right: none;
-            border-bottom: 1px solid var(--border-token);
-        }
-    }
-    .feature .img img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-        filter: grayscale(1) contrast(1.05);
-    }
-    .img-fallback {
-        width: 100%;
-        height: 100%;
-    }
-    .feature .img::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        pointer-events: none;
-        background: repeating-linear-gradient(
-            0deg,
-            transparent 0 2px,
-            rgba(0, 0, 0, 0.16) 2px 3px
-        );
-    }
-    .feature .body {
-        padding: 36px 40px;
-        display: flex;
-        flex-direction: column;
-        gap: 16px;
-        justify-content: center;
-    }
-    @media (max-width: 720px) {
-        .feature .body {
-            padding: 24px 24px;
-        }
-    }
-    .feature .body .ttl {
-        font:
-            400 clamp(40px, 5vw, 64px) / 1 var(--font-display);
-        color: var(--fg);
-        transition: color 0.15s;
-    }
-    .feature .body .ex {
-        font-size: 17px;
-        line-height: 1.6;
-        color: var(--fg-1);
-        max-width: 52ch;
-    }
-    .feature .body .feature-tag {
-        align-self: flex-start;
-        font:
-            500 var(--t-mono-xs) / 1 var(--font-mono);
-        color: var(--amber);
-        text-transform: uppercase;
-        letter-spacing: 0.18em;
-    }
-    .feature .body .feature-tag::before {
-        content: "■ ";
-    }
-    .feature .body .cta-row {
-        display: flex;
-        gap: 12px;
-        align-items: center;
-        margin-top: 6px;
-    }
-
-    .id-badge,
-    .date-badge {
-        position: absolute;
-        font:
-            500 var(--t-mono-xs) / 1 var(--font-mono);
-        background: color-mix(in srgb, var(--bg) 85%, transparent);
-        padding: 4px 8px;
-        border: 1px solid var(--border-token);
-        z-index: 2;
-        text-transform: uppercase;
-        letter-spacing: 0.14em;
-    }
-    .id-badge {
-        top: 8px;
-        left: 8px;
-        color: var(--fg-dim);
-    }
-    .date-badge {
-        bottom: 8px;
-        right: 8px;
-        color: var(--fg);
-    }
-
     .grid-wrap {
         margin-top: var(--s-6);
         padding: 0 var(--gutter) var(--s-8);
     }
+    .feature-wrap .container-x,
     .grid-wrap .container-x {
         padding: 0;
     }
-    .grid-wrap .rule {
+    :global(.mb-rule) {
         margin-bottom: 18px;
-    }
-    .posts-grid {
-        max-width: var(--max-w);
-        margin: 0 auto;
-        display: grid;
-        grid-template-columns: repeat(3, 1fr);
-        gap: 0;
-        border-left: 1px solid var(--border-token);
-        border-right: 1px solid var(--border-token);
-        border-bottom: 1px solid var(--border-token);
-        border-top: 1px solid var(--border-token);
-    }
-    @media (max-width: 960px) {
-        .posts-grid {
-            grid-template-columns: repeat(2, 1fr);
-        }
-    }
-    @media (max-width: 640px) {
-        .posts-grid {
-            grid-template-columns: 1fr;
-        }
-    }
-    .post-card {
-        padding: 20px;
-        border-right: 1px solid var(--border-token);
-        border-bottom: 1px solid var(--border-token);
-        background: var(--bg);
-        display: grid;
-        grid-template-rows: auto auto 1fr auto;
-        gap: 14px;
-        position: relative;
-        transition: background 0.2s;
-        text-decoration: none;
-        color: inherit;
-    }
-    .post-card:hover {
-        background: var(--bg-1);
-        text-decoration: none;
-    }
-    .post-card:hover .post-title {
-        color: var(--amber);
-    }
-    .post-card:nth-child(3n) {
-        border-right: none;
-    }
-    @media (max-width: 960px) {
-        .post-card:nth-child(3n) {
-            border-right: 1px solid var(--border-token);
-        }
-        .post-card:nth-child(2n) {
-            border-right: none;
-        }
-    }
-    @media (max-width: 640px) {
-        .post-card {
-            border-right: none !important;
-        }
-    }
-    .post-thumb {
-        aspect-ratio: 16/9;
-        background: var(--bg-1);
-        border: 1px solid var(--border-token);
-        position: relative;
-        overflow: hidden;
-    }
-    .post-thumb img {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        display: block;
-        filter: grayscale(1) contrast(1.05);
-    }
-    .post-thumb::after {
-        content: "";
-        position: absolute;
-        inset: 0;
-        pointer-events: none;
-        background: repeating-linear-gradient(
-            0deg,
-            transparent 0 2px,
-            rgba(0, 0, 0, 0.16) 2px 3px
-        );
-    }
-    .post-meta {
-        display: flex;
-        gap: 12px;
-        align-items: center;
-        font:
-            400 var(--t-mono-xs) / 1 var(--font-mono);
-        color: var(--fg-muted);
-        text-transform: uppercase;
-        letter-spacing: 0.14em;
-    }
-    .post-meta .sep {
-        color: var(--fg-faint);
-    }
-    .post-meta .reading {
-        color: var(--fg-dim);
-    }
-    .post-title {
-        font:
-            400 32px / 1 var(--font-display);
-        color: var(--fg);
-        transition: color 0.15s;
-        letter-spacing: 0.01em;
-    }
-    .post-excerpt {
-        font:
-            400 14px / 1.55 var(--font-body);
-        color: var(--fg-1);
-        max-height: 4.2em;
-        overflow: hidden;
-        margin: 0;
     }
 </style>

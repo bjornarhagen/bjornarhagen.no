@@ -1,0 +1,155 @@
+---
+import PostThumb from "./PostThumb.astro";
+import Btn from "./Btn.astro";
+
+interface Props {
+    href: string;
+    title: string;
+    summary: string;
+    date: string;
+    poster?: string;
+    idBadge?: string;
+    secondary?: string; // small text after date
+    cta?: string;
+}
+
+const {
+    href,
+    title,
+    summary,
+    date,
+    poster,
+    idBadge,
+    secondary,
+    cta = "Read entry",
+} = Astro.props;
+---
+
+<a href={href} class="feature">
+    <div class="feature-thumb">
+        <PostThumb
+            src={poster}
+            alt={title}
+            idBadge={idBadge}
+            dateBadge={date}
+            aspect="16/10"
+            eager
+        />
+    </div>
+    <div class="body">
+        <span class="feature-tag">// featured · latest entry</span>
+        <div class="ttl">{title}</div>
+        <div class="meta">
+            <span>{date}</span>
+            {
+                secondary && (
+                    <>
+                        <span class="sep">·</span>
+                        <span class="reading">{secondary}</span>
+                    </>
+                )
+            }
+        </div>
+        <p class="ex">{summary}</p>
+        <div class="cta-row">
+            <Btn variant="primary">{cta}</Btn>
+        </div>
+    </div>
+</a>
+
+<style>
+    .feature {
+        max-width: var(--max-w);
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+        border: 1px solid var(--border-strong);
+        background: var(--bg-1);
+        text-decoration: none;
+        color: inherit;
+        transition: border-color 0.15s;
+    }
+    .feature:hover {
+        border-color: var(--amber);
+        text-decoration: none;
+    }
+    .feature:hover .ttl {
+        color: var(--amber);
+    }
+    @media (max-width: 800px) {
+        .feature {
+            grid-template-columns: 1fr;
+        }
+    }
+    .feature-thumb {
+        border-right: 1px solid var(--border-token);
+    }
+    .feature-thumb :global(.post-thumb) {
+        border: none;
+    }
+    @media (max-width: 800px) {
+        .feature-thumb {
+            border-right: none;
+            border-bottom: 1px solid var(--border-token);
+        }
+    }
+    .body {
+        padding: 36px 40px;
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        justify-content: center;
+    }
+    @media (max-width: 720px) {
+        .body {
+            padding: 24px;
+        }
+    }
+    .ttl {
+        font:
+            400 clamp(40px, 5vw, 64px) / 1 var(--font-display);
+        color: var(--fg);
+        transition: color 0.15s;
+    }
+    .ex {
+        font-size: 17px;
+        line-height: 1.6;
+        color: var(--fg-1);
+        max-width: 52ch;
+        margin: 0;
+    }
+    .feature-tag {
+        align-self: flex-start;
+        font:
+            500 var(--t-mono-xs) / 1 var(--font-mono);
+        color: var(--amber);
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+    }
+    .feature-tag::before {
+        content: "■ ";
+    }
+    .meta {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        font:
+            400 var(--t-mono-xs) / 1 var(--font-mono);
+        color: var(--fg-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+    }
+    .meta .sep {
+        color: var(--fg-faint);
+    }
+    .meta .reading {
+        color: var(--fg-dim);
+    }
+    .cta-row {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        margin-top: 6px;
+    }
+</style>

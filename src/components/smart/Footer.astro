@@ -1,21 +1,21 @@
 ---
 import StatusBar from "./StatusBar.astro";
+import Rule from "../dumb/Rule.astro";
+import Wordmark from "../dumb/Wordmark.astro";
 
 const year = new Date().getFullYear();
 ---
 
 <footer id="footer" class="bjfooter">
     <div class="container-x">
-        <div class="rule signoff-rule">
+        <Rule class="signoff-rule">
             <span>signoff</span>
             <span>· EOF ·</span>
             <span>0xHB</span>
-        </div>
+        </Rule>
         <div class="signoff-grid">
             <div class="brand-block">
-                <div class="wordmark">
-                    bjornar<span class="dot">.</span>dev
-                </div>
+                <Wordmark size="md" />
                 <div class="tagline">
                     // keep the lights on · &copy; 2009&ndash;{year}
                 </div>
@@ -102,20 +102,6 @@ const year = new Date().getFullYear();
         .signoff-grid {
             grid-template-columns: 1fr auto;
         }
-    }
-    .wordmark {
-        font:
-            400 88px / 0.9 var(--font-display);
-        color: var(--fg);
-        letter-spacing: 0.005em;
-    }
-    @media (max-width: 720px) {
-        .wordmark {
-            font-size: 64px;
-        }
-    }
-    .wordmark .dot {
-        color: var(--amber);
     }
     .tagline {
         font:

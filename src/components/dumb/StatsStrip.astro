@@ -1,0 +1,42 @@
+---
+/**
+ * The mono strip under the listing header with summary numbers.
+ * Use <strong> for highlighted values and <span class="sep">·</span> between
+ * groups. The right-aligned tail goes in the optional `right` slot.
+ */
+---
+
+<div class="stats-strip">
+    <slot />
+    <span class="spacer"></span>
+    <span class="hint text-amber"><slot name="right" /></span>
+</div>
+
+<style>
+    .stats-strip {
+        max-width: var(--max-w);
+        margin: 0 auto;
+        padding: var(--s-5) var(--gutter);
+        border-bottom: 1px solid var(--border-token);
+        display: flex;
+        gap: var(--s-6);
+        align-items: center;
+        font:
+            400 var(--t-mono-sm) / 1 var(--font-mono);
+        color: var(--fg-dim);
+        flex-wrap: wrap;
+    }
+    .stats-strip :global(strong) {
+        color: var(--fg);
+        font-weight: 500;
+    }
+    .stats-strip :global(.sep) {
+        color: var(--fg-faint);
+    }
+    .spacer {
+        flex: 1;
+    }
+    .hint {
+        font-size: var(--t-mono-xs);
+    }
+</style>

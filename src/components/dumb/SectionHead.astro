@@ -1,0 +1,55 @@
+---
+/**
+ * The big heading + small sub-label + slot for a Rule on the right.
+ * Used by WorkLog and NowSection.
+ */
+interface Props {
+    title: string;
+    sub: string;
+}
+
+const { title, sub } = Astro.props;
+---
+
+<div class="section-head">
+    <div>
+        <h3 class="big-heading">{title}</h3>
+        <div class="sub-heading" set:html={sub} />
+    </div>
+    <slot name="rule" />
+</div>
+
+<style>
+    .section-head {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: var(--s-5);
+        margin-bottom: 28px;
+        flex-wrap: wrap;
+    }
+    .big-heading {
+        font-size: 56px;
+    }
+    @media (max-width: 720px) {
+        .big-heading {
+            font-size: 40px;
+        }
+    }
+    .sub-heading {
+        font:
+            500 var(--t-mono-xs) / 1 var(--font-mono);
+        color: var(--fg-dim);
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        margin-top: 10px;
+    }
+    .section-head :global(.rule) {
+        flex: 0 0 280px;
+    }
+    @media (max-width: 720px) {
+        .section-head :global(.rule) {
+            flex: 1 1 100%;
+        }
+    }
+</style>

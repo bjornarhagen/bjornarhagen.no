@@ -1,0 +1,85 @@
+---
+import Rule from "./Rule.astro";
+import SectionHead from "./SectionHead.astro";
+import NowCell from "./NowCell.astro";
+
+type Cell = { title: string; lines: string[] };
+
+interface Props {
+    cells?: Cell[];
+}
+
+const defaultCells: Cell[] = [
+    {
+        title: "↳ building",
+        lines: [
+            "Internal SaaS @ Gokstad Akademiet",
+            "saunabooking.no — Stripe Connect",
+            "this site — v7",
+        ],
+    },
+    {
+        title: "↳ reading",
+        lines: [
+            "Designing Data-Intensive Applications",
+            "Tidy First? · Kent Beck",
+            "A Philosophy of Software Design",
+        ],
+    },
+    {
+        title: "↳ orbit",
+        lines: [
+            "Sandefjord, NO",
+            "Heavy rotation: Sub Focus",
+            "Self-hosting more & more things",
+        ],
+    },
+];
+
+const { cells = defaultCells } = Astro.props;
+---
+
+<section class="section">
+    <div class="inner">
+        <SectionHead title="/now" sub="// what is on the bench this week">
+            <Rule slot="rule">
+                <span>updated</span>
+                <span data-clock>00:00:00 UTC</span>
+                <span>· live</span>
+            </Rule>
+        </SectionHead>
+
+        <div class="now-strip">
+            {cells.map((c) => <NowCell {...c} />)}
+        </div>
+    </div>
+</section>
+
+<style>
+    .section {
+        padding: var(--s-9) var(--gutter);
+        border-bottom: 1px solid var(--border-token);
+        position: relative;
+    }
+    @media (max-width: 720px) {
+        .section {
+            padding: var(--s-7) var(--gutter);
+        }
+    }
+    .inner {
+        max-width: var(--max-w);
+        margin: 0 auto;
+    }
+    .now-strip {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0;
+        border: 1px solid var(--border-token);
+        margin-top: var(--s-6);
+    }
+    @media (max-width: 720px) {
+        .now-strip {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

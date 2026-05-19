@@ -1,0 +1,47 @@
+---
+interface Props {
+    href?: string;
+    type?: "button" | "submit";
+    variant?: "default" | "primary";
+    arrow?: "right" | "up-right" | "down" | "up-left" | "none";
+    target?: string;
+    rel?: string;
+    class?: string;
+}
+
+const {
+    href,
+    type = "button",
+    variant = "default",
+    arrow = "right",
+    target,
+    rel,
+    class: className = "",
+} = Astro.props;
+
+const El = href ? "a" : "button";
+
+const classes = [
+    "btn",
+    variant === "primary" ? "primary" : null,
+    className,
+];
+
+const arrowClasses = [
+    "arrow",
+    arrow === "up-right" ? "tr" : null,
+    arrow === "down" ? "dn" : null,
+    arrow === "up-left" ? "tl" : null,
+];
+---
+
+<El
+    class:list={classes}
+    href={href}
+    type={El === "button" ? type : undefined}
+    target={target}
+    rel={rel}
+>
+    <span><slot /></span>
+    {arrow !== "none" && <span class:list={arrowClasses} />}
+</El>

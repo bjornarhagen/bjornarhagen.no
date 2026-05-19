@@ -1,0 +1,29 @@
+---
+interface Props {
+    label: string;
+}
+
+const { label } = Astro.props;
+---
+
+<div class="row">
+    <span class="l">{label}</span>
+    <slot />
+</div>
+
+<style>
+    .row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        flex-wrap: wrap;
+    }
+    .l {
+        font:
+            500 var(--t-mono-xs) / 1 var(--font-mono);
+        color: var(--fg-dim);
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+        min-width: 64px;
+    }
+</style>

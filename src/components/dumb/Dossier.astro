@@ -1,0 +1,194 @@
+---
+import BearPortrait from "./BearPortrait.astro";
+
+type Row = { k: string; v: string; amber?: boolean };
+
+interface Props {
+    fileNo?: string;
+    rows?: Row[];
+}
+
+const defaultRows: Row[] = [
+    { k: "codename", v: "ursa_major" },
+    { k: "class", v: "full-stack engineer" },
+    { k: "based", v: "Sandefjord, NO" },
+    { k: "origin", v: "Larvik, NO" },
+    { k: "posted", v: "Gokstad Akademiet" },
+    { k: "stack", v: "TS · PHP · Astro · Laravel" },
+    { k: "channels", v: "GH · LinkedIn · @" },
+    { k: "clearance", v: "★★★★☆", amber: true },
+];
+
+const { fileNo = "FILE No. 009X·B", rows = defaultRows } = Astro.props;
+---
+
+<aside class="dossier" aria-label="Operator dossier">
+    <div class="head">
+        <span><span class="head-dot"></span> DOSSIER / 0xHB</span>
+        <span>{fileNo}</span>
+    </div>
+    <div class="body">
+        <div class="portrait">
+            <BearPortrait />
+        </div>
+        <div class="data">
+            {
+                rows.map((row) => (
+                    <div class="row">
+                        <span class="k">{row.k}</span>
+                        <span class:list={["v", row.amber && "amber"]}>
+                            {/* Render the codename's underscore in amber */}
+                            {row.k === "codename" && row.v.includes("_") ? (
+                                <>
+                                    {row.v.split("_")[0]}
+                                    <span class="under">_</span>
+                                    {row.v.split("_")[1]}
+                                </>
+                            ) : (
+                                row.v
+                            )}
+                        </span>
+                    </div>
+                ))
+            }
+        </div>
+    </div>
+    <div class="foot">
+        <span>ENCRYPTED · TLS 1.3</span>
+        <span class="signal-bars" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span>
+        </span>
+        <span>UPLINK ▲ 1.2GB/s</span>
+    </div>
+</aside>
+
+<style>
+    .dossier {
+        border: 1px solid var(--border-strong);
+        background: var(--bg-1);
+        position: relative;
+        display: grid;
+        grid-template-rows: auto 1fr auto;
+    }
+    .head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 14px;
+        border-bottom: 1px solid var(--border-token);
+        font:
+            500 var(--t-mono-xs) / 1 var(--font-mono);
+        color: var(--fg-dim);
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+    }
+    .head-dot {
+        background: var(--amber);
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        margin-right: 6px;
+    }
+    .body {
+        display: grid;
+        grid-template-columns: 220px 1fr;
+        gap: 0;
+    }
+    @media (max-width: 540px) {
+        .body {
+            grid-template-columns: 1fr;
+        }
+    }
+    .portrait {
+        border-right: 1px solid var(--border-token);
+        position: relative;
+        overflow: hidden;
+    }
+    .portrait :global(.portrait-svg) {
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
+    .portrait::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: repeating-linear-gradient(
+            0deg,
+            transparent 0 2px,
+            rgba(0, 0, 0, 0.18) 2px 3px
+        );
+        pointer-events: none;
+    }
+    .data {
+        padding: 14px 16px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .data .row {
+        display: grid;
+        grid-template-columns: 90px 1fr;
+        font:
+            400 var(--t-mono-sm) / 1.5 var(--font-mono);
+        gap: 8px;
+        border-bottom: 1px dashed var(--hairline);
+        padding-bottom: 8px;
+    }
+    .data .row:last-child {
+        border-bottom: none;
+    }
+    .data .row .k {
+        color: var(--fg-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+        font-size: 11px;
+    }
+    .data .row .v {
+        color: var(--fg);
+    }
+    .data .row .v.amber {
+        color: var(--amber);
+    }
+    .data .row .v .under {
+        color: var(--amber);
+    }
+    .foot {
+        padding: 8px 14px;
+        border-top: 1px solid var(--border-token);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        font:
+            500 var(--t-mono-xs) / 1 var(--font-mono);
+        color: var(--fg-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+    }
+    .signal-bars {
+        display: flex;
+        gap: 2px;
+        align-items: flex-end;
+    }
+    .signal-bars span {
+        width: 3px;
+        background: var(--amber);
+    }
+    .signal-bars span:nth-child(1) {
+        height: 4px;
+    }
+    .signal-bars span:nth-child(2) {
+        height: 7px;
+    }
+    .signal-bars span:nth-child(3) {
+        height: 10px;
+    }
+    .signal-bars span:nth-child(4) {
+        height: 13px;
+        background: var(--fg-muted);
+    }
+    .signal-bars span:nth-child(5) {
+        height: 16px;
+        background: var(--fg-faint);
+    }
+</style>

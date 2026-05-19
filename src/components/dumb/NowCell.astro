@@ -1,0 +1,54 @@
+---
+interface Props {
+    title: string;
+    lines: string[];
+}
+
+const { title, lines } = Astro.props;
+---
+
+<div class="now-cell">
+    <div class="ttl">{title}</div>
+    {lines.map((l) => <div class="ln">{l}</div>)}
+</div>
+
+<style>
+    .now-cell {
+        padding: 18px 20px;
+        border-right: 1px solid var(--border-token);
+        background: var(--bg-1);
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+    .now-cell:last-child {
+        border-right: none;
+    }
+    @media (max-width: 720px) {
+        .now-cell {
+            border-right: none;
+            border-bottom: 1px solid var(--border-token);
+        }
+        .now-cell:last-child {
+            border-bottom: none;
+        }
+    }
+    .ttl {
+        font:
+            500 var(--t-mono-xs) / 1 var(--font-mono);
+        color: var(--amber);
+        text-transform: uppercase;
+        letter-spacing: 0.16em;
+    }
+    .ln {
+        display: flex;
+        gap: 8px;
+        font:
+            400 var(--t-mono-sm) / 1.4 var(--font-mono);
+        color: var(--fg-1);
+    }
+    .ln::before {
+        content: "›";
+        color: var(--fg-muted);
+    }
+</style>

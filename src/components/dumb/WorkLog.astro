@@ -1,0 +1,109 @@
+---
+import Rule from "./Rule.astro";
+import SectionHead from "./SectionHead.astro";
+import WorkCard from "./WorkCard.astro";
+
+type WorkEntry = {
+    company: string;
+    role: string;
+    when: string;
+    desc: string;
+    active?: boolean;
+};
+
+interface Props {
+    entries?: WorkEntry[];
+}
+
+const defaultEntries: WorkEntry[] = [
+    {
+        company: "Gokstad Akademiet AS",
+        role: "IT manager",
+        when: "2025 — now",
+        active: true,
+        desc: "Currently working full-time. Architecture, mentorship, infrastructure, the occasional 03:00 incident.",
+    },
+    {
+        company: "River Security AS",
+        role: "Senior full-stack developer",
+        when: "2024 — 2025",
+        desc: "Continuous offensive security tooling. Spent a lot of time in the parts of the web nobody wants to look at.",
+    },
+    {
+        company: "NUVA AS",
+        role: "Developer & COB",
+        when: "2023 — sidegig",
+        active: true,
+        desc: "A still-young SaaS built with two close friends. Lives at nuva.no & saunabooking.no.",
+    },
+    {
+        company: "Rapid Data AS",
+        role: "Full-stack developer (formerly Adstate)",
+        when: "2020 — 2024",
+        desc: "Ad-tech and analytics platform work during the pandemic years. Quiet, stable, productive — exactly what that period needed.",
+    },
+    {
+        company: "Datahjelpen AS",
+        role: "Developer & CEO (part-time)",
+        when: "2016 — now",
+        active: true,
+        desc: "My own one-person shop. WordPress, Laravel, custom CRMs for local SMBs. The school of “how does a real customer think”.",
+    },
+    {
+        company: "Optimale Systemer AS",
+        role: "Junior developer",
+        when: "2014 — 2016",
+        desc: "Where it started. Tickets, deployments, learning to read other people's code without flinching. Foundational.",
+    },
+];
+
+const { entries = defaultEntries } = Astro.props;
+const activeCount = entries.filter((e) => e.active).length;
+---
+
+<section class="section">
+    <div class="inner">
+        <SectionHead
+            title="Work log"
+            sub={`// ${entries.length} stations · ${activeCount} active · current=Gokstad`}
+        >
+            <Rule slot="rule">
+                <span>14y</span>
+                <span>· timeline ·</span>
+                <span>active</span>
+            </Rule>
+        </SectionHead>
+
+        <div class="work-grid">
+            {entries.map((e) => <WorkCard {...e} />)}
+        </div>
+    </div>
+</section>
+
+<style>
+    .section {
+        padding: var(--s-9) var(--gutter);
+        border-bottom: 1px solid var(--border-token);
+        position: relative;
+    }
+    @media (max-width: 720px) {
+        .section {
+            padding: var(--s-7) var(--gutter);
+        }
+    }
+    .inner {
+        max-width: var(--max-w);
+        margin: 0 auto;
+    }
+    .work-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0;
+        border: 1px solid var(--border-token);
+    }
+    @media (max-width: 720px) {
+        .work-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
