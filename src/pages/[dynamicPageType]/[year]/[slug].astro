@@ -9,7 +9,6 @@ import Rule from "@/components/dumb/Rule.astro";
 import Stat from "@/components/dumb/Stat.astro";
 import RelatedRow from "@/components/dumb/RelatedRow.astro";
 import RelCell from "@/components/dumb/RelCell.astro";
-import Signoff from "@/components/dumb/Signoff.astro";
 
 export function getStaticPaths() {
     const types = Object.keys(dynamicPages) as (keyof typeof dynamicPages)[];
@@ -112,14 +111,7 @@ const wordsFmt = wordCount.toLocaleString("en-US");
 
     <section class="post-layout">
         <aside class="side side-left">
-            <div class="lbl">// meta</div>
-            <div class="stack">
-                <Stat label="date" value={date} />
-                <Stat label="read time" value={`${readMin} min`} />
-                <Stat label="words" value={wordsFmt} />
-            </div>
-
-            <div class="lbl spaced">// navigate</div>
+            <div class="lbl">// navigate</div>
             <div class="share-links">
                 <a href={`/${dynamicPageType}`}>→ back to {pageLabel}</a>
                 <a href={`/${dynamicPageType}/${year}`}>→ year {year}</a>
@@ -150,11 +142,11 @@ const wordsFmt = wordCount.toLocaleString("en-US");
         </article>
 
         <aside class="side side-right">
-            <Rule class="side-rule"><span>meta</span></Rule>
+            <div class="lbl">// meta</div>
             <div class="stack">
-                <div class="lbl">// stats</div>
-                <Stat label="words" value={wordsFmt} />
+                <Stat label="date" value={date} />
                 <Stat label="read time" value={`${readMin} min`} />
+                <Stat label="words" value={wordsFmt} />
                 <Stat label="year" value={year} />
             </div>
         </aside>
@@ -207,7 +199,6 @@ const wordsFmt = wordCount.toLocaleString("en-US");
                     </RelatedRow>
                 )
             }
-            <Signoff date={date} />
         </div>
     </section>
 </Layout>
@@ -301,5 +292,13 @@ const wordsFmt = wordCount.toLocaleString("en-US");
     }
     :global(.foot-rule) {
         margin-bottom: 18px;
+    }
+
+    /* On desktop the meta lives in the sticky right rail, so the header meta
+       (which is the mobile fallback) is hidden to avoid showing it twice. */
+    @media (min-width: 1100px) {
+        :global(.post-head .meta-row) {
+            display: none;
+        }
     }
 </style>
