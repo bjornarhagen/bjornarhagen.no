@@ -1,12 +1,178 @@
 ---
-import ContentSection from "../../components/dumb/ContentSection.astro";
-import Layout from "../../layouts/Layout.astro";
+import Layout from "@/layouts/Layout.astro";
+import PageHeader from "@/components/dumb/PageHeader.astro";
+import Rule from "@/components/dumb/Rule.astro";
+import Stat from "@/components/dumb/Stat.astro";
+import { yearsActive } from "@/utils/career";
+
+const years = yearsActive();
+
+const channels = [
+    { label: "GitHub", href: "https://github.com/bjornarhagen" },
+    { label: "LinkedIn", href: "https://linkedin.com/in/bjornarhagen" },
+    { label: "X", href: "https://twitter.com/bjornarhagen" },
+];
+
+const colophon = [
+    { label: "framework", value: "Astro 5" },
+    { label: "runtime", value: "Bun" },
+    { label: "styling", value: "Tailwind v4" },
+    { label: "hosting", value: "Vercel" },
+    { label: "display", value: "Pirata One" },
+    { label: "body", value: "IBM Plex Sans" },
+    { label: "mono", value: "JetBrains Mono" },
+    { label: "version", value: "v7" },
+];
 ---
 
-<Layout title="Portfolio">
-    <main class="pt-4">
-        <ContentSection>
-            <h1 class="font-heading text-6xl">Portfolio</h1>
-        </ContentSection>
-    </main>
+<Layout
+    title="About"
+    description="About Bjørnar Hagen, and how this site is built."
+    cwd="~/about"
+>
+    <PageHeader
+        title="About."
+        bread={[
+            { label: "~", href: "/" },
+            { label: "about", cwd: true },
+        ]}
+    >
+        Full-stack engineer in Sandefjord, Norway. {years} years building,
+        breaking and occasionally fixing things on the open web.
+    </PageHeader>
+
+    <section class="about">
+        <div class="container-x cols">
+            <div class="col">
+                <Rule class="mb"><span>profile</span></Rule>
+                <p>
+                    I&rsquo;m Bjørnar &mdash; a full-stack engineer from Larvik,
+                    now based in Sandefjord, Norway. I&rsquo;ve been building for
+                    the web since I taught myself HTML, CSS, JS and PHP as a
+                    teenager, and I hold a BSc in Computer Engineering from
+                    Østfold University College.
+                </p>
+                <p>
+                    These days I&rsquo;m IT manager and senior full-stack
+                    developer at Gokstad Akademiet, and I run a small studio,
+                    Datahjelpen, on the side. I&rsquo;m happiest around
+                    infrastructure, the back-end, and the slightly haunted parts
+                    of the web in between. The full timeline lives on the <a
+                        href="/">home page</a
+                    >.
+                </p>
+            </div>
+            <div class="col side">
+                <Rule class="mb"><span>channels</span></Rule>
+                <ul class="links">
+                    {
+                        channels.map((c) => (
+                            <li>
+                                <a
+                                    href={c.href}
+                                    target="_blank"
+                                    rel="noopener"
+                                >
+                                    {c.label}
+                                </a>
+                            </li>
+                        ))
+                    }
+                </ul>
+            </div>
+        </div>
+
+        <div class="container-x colophon-wrap" id="colophon">
+            <Rule class="mb">
+                <span>colophon</span>
+                <span>· how this site is built ·</span>
+                <span>0xHB</span>
+            </Rule>
+            <div class="grid">
+                {colophon.map((c) => <Stat label={c.label} value={c.value} />)}
+            </div>
+            <p class="src">
+                Source on <a
+                    href="https://github.com/bjornarhagen/bjornarhagen.no"
+                    target="_blank"
+                    rel="noopener">GitHub</a
+                >.
+            </p>
+        </div>
+    </section>
 </Layout>
+
+<style>
+    .about {
+        padding: var(--s-7) 0 var(--s-9);
+    }
+    .cols {
+        display: grid;
+        grid-template-columns: 1fr 240px;
+        gap: var(--s-7);
+        align-items: start;
+    }
+    @media (max-width: 860px) {
+        .cols {
+            grid-template-columns: 1fr;
+            gap: var(--s-6);
+        }
+    }
+    .col p {
+        font:
+            400 17px / 1.7 var(--font-body);
+        color: var(--fg-1);
+        max-width: 60ch;
+        margin: 0 0 1.2em;
+    }
+    .col a {
+        color: var(--amber);
+        border-bottom: 1px solid
+            color-mix(in srgb, var(--amber) 40%, transparent);
+    }
+    .col a:hover {
+        color: var(--fg);
+        border-bottom-color: var(--fg);
+        text-decoration: none;
+    }
+    :global(.mb) {
+        margin-bottom: var(--s-5);
+    }
+    .links {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        font:
+            500 var(--t-mono-sm) / 1.6 var(--font-mono);
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+    }
+    .colophon-wrap {
+        margin-top: var(--s-9);
+    }
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 0;
+        border: 1px solid var(--border-token);
+    }
+    .grid :global(.stat) {
+        border: none;
+        border-right: 1px solid var(--border-token);
+        border-bottom: 1px solid var(--border-token);
+    }
+    @media (max-width: 860px) {
+        .grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    .src {
+        margin-top: var(--s-5);
+        font:
+            400 var(--t-mono-sm) / 1.6 var(--font-mono);
+        color: var(--fg-dim);
+    }
+</style>
