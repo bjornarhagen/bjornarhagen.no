@@ -2,6 +2,7 @@
 import Rule from "./Rule.astro";
 import Btn from "./Btn.astro";
 import Dossier from "./Dossier.astro";
+import AsciiBackdrop from "./AsciiBackdrop.astro";
 import { yearsActive } from "@/utils/career";
 
 type Meta = { k: string; v: string; tone?: "default" | "ok" };
@@ -29,6 +30,7 @@ const {
 ---
 
 <section class="hero">
+    <AsciiBackdrop />
     <div class="hero-left">
         <Rule class="mb-rule">
             <span>identity</span>
@@ -78,6 +80,7 @@ const {
 
 <style>
     .hero {
+        position: relative;
         display: grid;
         grid-template-columns: 1.05fr 0.95fr;
         gap: var(--s-7);
@@ -87,6 +90,10 @@ const {
         max-width: var(--max-w);
         margin: 0 auto;
         width: 100%;
+    }
+    .hero-left {
+        position: relative;
+        z-index: 1;
     }
     @media (max-width: 960px) {
         .hero {
