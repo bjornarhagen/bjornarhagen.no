@@ -9,6 +9,7 @@ import Rule from "@/components/dumb/Rule.astro";
 import Stat from "@/components/dumb/Stat.astro";
 import RelatedRow from "@/components/dumb/RelatedRow.astro";
 import RelCell from "@/components/dumb/RelCell.astro";
+import { entryCatalog, entryKey, fmtNo } from "@/utils/entries";
 
 export function getStaticPaths() {
     const types = Object.keys(dynamicPages) as (keyof typeof dynamicPages)[];
@@ -67,6 +68,10 @@ const readMin = Math.max(1, Math.round(wordCount / 200));
 
 const date = fmtDate(page.date);
 const wordsFmt = wordCount.toLocaleString("en-US");
+
+const cat = entryCatalog(dynamicPageType);
+const isLatest = entryKey(year, slug) === cat.latestKey;
+const entryNo = fmtNo(cat.numberByKey.get(entryKey(year, slug)));
 ---
 
 <Layout
@@ -84,7 +89,7 @@ const wordsFmt = wordCount.toLocaleString("en-US");
         ]}
         title={page.title}
         ruleParts={[
-            `entry ${currentIndex === 0 ? "· latest" : ""}`,
+            `${entryNo}${isLatest ? " · latest" : ""}`,
             `· ${date}`,
             year,
         ]}

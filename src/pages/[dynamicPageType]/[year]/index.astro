@@ -3,6 +3,7 @@ import Layout from "@/layouts/Layout.astro";
 import { dynamicPages, dynamicPagesConfig } from "@/data/dynamic-pages";
 import PageHeader from "@/components/dumb/PageHeader.astro";
 import PostFilters from "@/components/dumb/PostFilters.astro";
+import { entryCatalog, entryKey, fmtNo } from "@/utils/entries";
 import Rule from "@/components/dumb/Rule.astro";
 import PostsGrid from "@/components/dumb/PostsGrid.astro";
 import PostCard from "@/components/dumb/PostCard.astro";
@@ -21,6 +22,7 @@ const pages = dynamicPages[dynamicPageType];
 const yearPages = pages[year];
 const pageTitle = dynamicPagesConfig[dynamicPageType].title;
 const pageLabel = dynamicPageType === "portfolio" ? "portfolio" : "posts";
+const cat = entryCatalog(dynamicPageType);
 
 const sort =
     Astro.url.searchParams.get("sort") === "oldest" ? "oldest" : "newest";
@@ -84,14 +86,16 @@ function fmtDate(iso: string): string {
         </div>
         <PostsGrid>
             {
-                entries.map((entry, i) => (
+                entries.map((entry) => (
                     <PostCard
                         href={`/${dynamicPageType}/${year}/${entry.slug}`}
                         title={entry.page.title}
                         excerpt={entry.page.summary}
                         date={fmtDate(entry.page.date)}
                         poster={entry.page.poster}
-                        idBadge={`No. ${String(i + 1).padStart(4, "0")}`}
+                        idBadge={fmtNo(
+                            cat.numberByKey.get(entryKey(year, entry.slug)),
+                        )}
                         secondary={year}
                     />
                 ))

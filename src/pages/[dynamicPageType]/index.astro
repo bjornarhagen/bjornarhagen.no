@@ -1,6 +1,7 @@
 ---
 import Layout from "@/layouts/Layout.astro";
 import { dynamicPages, dynamicPagesConfig } from "@/data/dynamic-pages";
+import { entryCatalog, entryKey, fmtNo } from "@/utils/entries";
 import PageHeader from "@/components/dumb/PageHeader.astro";
 import PostFilters from "@/components/dumb/PostFilters.astro";
 import StatsStrip from "@/components/dumb/StatsStrip.astro";
@@ -14,10 +15,7 @@ const pages = dynamicPages[dynamicPageType];
 
 export function getStaticPaths() {
     const types = Object.keys(dynamicPages) as (keyof typeof dynamicPages)[];
-    const paths = types.map((type) => ({
-        params: { dynamicPageType: type },
-    }));
-    return paths;
+    return types.map((type) => ({ params: { dynamicPageType: type } }));
 }
 
 type EntryRow = {
@@ -28,6 +26,8 @@ type EntryRow = {
 
 const sort =
     Astro.url.searchParams.get("sort") === "oldest" ? "oldest" : "newest";
+
+const cat = entryCatalog(dynamicPageType);
 
 const allEntries: EntryRow[] = Object.keys(pages).flatMap((year) =>
     Object.keys(pages[year]).map((slug) => ({
@@ -40,12 +40,13 @@ const allEntries: EntryRow[] = Object.keys(pages).flatMap((year) =>
 const byDateDesc = [...allEntries].sort(
     (a, b) => new Date(b.page.date).getTime() - new Date(a.page.date).getTime(),
 );
-const ordered = sort === "oldest" ? [...byDateDesc].reverse() : byDateDesc;
 
-const [feature, ...rest] = ordered;
-const total = allEntries.length;
-const newestDate = byDateDesc[0]?.page.date;
+// The featured card is always the genuine latest post, regardless of sort.
+const feature = byDateDesc[0];
+const restDesc = byDateDesc.slice(1);
+const rest = sort === "oldest" ? [...restDesc].reverse() : restDesc;
 
+const total = cat.total;
 const yearCounts = Object.keys(pages)
     .sort()
     .reverse()
@@ -62,15 +63,9 @@ function fmtDate(iso: string): string {
     return `${y}·${m}·${day}`;
 }
 
-function entryNo(i: number): string {
-    return "No. " + String(i + 1).padStart(4, "0");
+function numFor(e: EntryRow): number | undefined {
+    return cat.numberByKey.get(entryKey(e.year, e.slug));
 }
-
-const featureBadge = `${entryNo(0)} · ${sort === "newest" ? "LATEST" : "FIRST"}`;
-const featureRuleMid =
-    sort === "newest"
-        ? "· featured · most recent ·"
-        : "· featured · first post ·";
 ---
 
 <Layout title={pageTitle} cwd={`~/${pageLabel}`}>
@@ -102,9 +97,9 @@ const featureRuleMid =
         <span><strong>{yearCounts.length}</strong> years</span>
         <span class="sep">·</span>
         {
-            newestDate && (
+            feature && (
                 <span>
-                    last update <strong>{fmtDate(newestDate)}</strong>
+                    last update <strong>{fmtDate(feature.page.date)}</strong>
                 </span>
             )
         }
@@ -116,8 +111,8 @@ const featureRuleMid =
             <section class="feature-wrap">
                 <div class="container-x">
                     <Rule class="mb-rule">
-                        <span>{entryNo(0)}</span>
-                        <span>{featureRuleMid}</span>
+                        <span>{fmtNo(numFor(feature))}</span>
+                        <span>· featured · most recent ·</span>
                         <span>{fmtDate(feature.page.date)}</span>
                     </Rule>
                 </div>
@@ -127,7 +122,7 @@ const featureRuleMid =
                     summary={feature.page.summary}
                     date={fmtDate(feature.page.date)}
                     poster={feature.page.poster}
-                    idBadge={featureBadge}
+                    idBadge={`${fmtNo(numFor(feature))} · LATEST`}
                     secondary={feature.year}
                 />
             </section>
@@ -139,22 +134,20 @@ const featureRuleMid =
             <section class="grid-wrap">
                 <div class="container-x">
                     <Rule class="mb-rule">
-                        <span>
-                            {entryNo(1)} — {entryNo(rest.length)}
-                        </span>
-                        <span>· archive · {rest.length} entries ·</span>
-                        <span>{sort === "newest" ? "desc" : "asc"}</span>
+                        <span>archive</span>
+                        <span>· {rest.length} entries ·</span>
+                        <span>{sort === "newest" ? "newest first" : "oldest first"}</span>
                     </Rule>
                 </div>
                 <PostsGrid>
-                    {rest.map((entry, i) => (
+                    {rest.map((entry) => (
                         <PostCard
                             href={`/${dynamicPageType}/${entry.year}/${entry.slug}`}
                             title={entry.page.title}
                             excerpt={entry.page.summary}
                             date={fmtDate(entry.page.date)}
                             poster={entry.page.poster}
-                            idBadge={entryNo(i + 1)}
+                            idBadge={fmtNo(numFor(entry))}
                             secondary={entry.year}
                         />
                     ))}

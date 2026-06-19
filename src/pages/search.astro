@@ -10,12 +10,15 @@ import PostCard from "@/components/dumb/PostCard.astro";
 import Icon from "@/components/dumb/Icon.astro";
 import { Search as SearchIcon } from "lucide";
 import { dynamicPages, type PageContent } from "@/data/dynamic-pages";
+import { entryCatalog, entryKey, fmtNo } from "@/utils/entries";
 
 export const prerender = false;
 
 const url = new URL(Astro.request.url);
 const search = (url.searchParams.get("q") ?? "").trim();
 const q = search.toLowerCase();
+
+const cat = entryCatalog("entries");
 
 type Hit = { year: string; slug: string; page: PageContent };
 
@@ -160,14 +163,18 @@ const totalHits = entryHits.length + pageHits.length;
                         </Rule>
                     </div>
                     <PostsGrid>
-                        {entryHits.map((hit, i) => (
+                        {entryHits.map((hit) => (
                             <PostCard
                                 href={`/entries/${hit.year}/${hit.slug}`}
                                 title={hit.page.title}
                                 excerpt={hit.page.summary}
                                 date={fmtDate(hit.page.date)}
                                 poster={hit.page.poster}
-                                idBadge={`No. ${String(i + 1).padStart(4, "0")}`}
+                                idBadge={fmtNo(
+                                    cat.numberByKey.get(
+                                        entryKey(hit.year, hit.slug),
+                                    ),
+                                )}
                                 secondary={hit.year}
                             />
                         ))}
