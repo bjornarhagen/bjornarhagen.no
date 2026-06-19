@@ -2,6 +2,7 @@
 import Rule from "./Rule.astro";
 import Btn from "./Btn.astro";
 import Dossier from "./Dossier.astro";
+import { yearsActive } from "@/utils/career";
 
 type Meta = { k: string; v: string; tone?: "default" | "ok" };
 
@@ -12,12 +13,14 @@ interface Props {
     metas?: Meta[];
 }
 
+const years = yearsActive();
+
 const {
     firstName = "Bjørnar",
     lastName = "Hagen",
-    role = "// Software Engineer  ·  Builder  ·  Bear-adjacent",
+    role = "// Software Engineer  ·  Full-stack  ·  Builder",
     metas = [
-        { k: "Active", v: "14y · 02mo", tone: "ok" },
+        { k: "Active", v: `${years}y`, tone: "ok" },
         { k: "Posted", v: "@ Gokstad" },
         { k: "Stack", v: "TS · PHP · Astro" },
         { k: "Based", v: "Sandefjord, NO" },
@@ -30,11 +33,11 @@ const {
         <Rule class="mb-rule">
             <span>identity</span>
             <span>· 01 ·</span>
-            <span>operator profile</span>
+            <span>profile</span>
         </Rule>
 
         <h1 class="hero-title">
-            <span>{firstName}</span><br />
+            <span>{firstName}</span>
             <span>{lastName}</span><span class="dot">.</span>
         </h1>
         <div class="role" set:html={role} />
@@ -51,10 +54,6 @@ const {
             <slot name="cta">
                 <Btn href="/entries" variant="primary">Read posts</Btn>
                 <Btn href="/portfolio-tmp">Portfolio</Btn>
-                <Btn
-                    href="mailto:post@bjornarhagen.no"
-                    arrow="up-right">Contact</Btn
-                >
             </slot>
         </div>
 
@@ -100,7 +99,7 @@ const {
         margin-bottom: 28px;
     }
     .hero-title {
-        font-size: clamp(72px, 12vw, 132px);
+        font-size: clamp(64px, 10vw, 96px);
         line-height: 0.92;
         letter-spacing: 0.005em;
     }
@@ -109,8 +108,7 @@ const {
     }
     .role {
         margin-top: var(--s-3);
-        font:
-            500 var(--t-mono-md) / 1.4 var(--font-mono);
+        font: 500 var(--t-mono-md) / 1.4 var(--font-mono);
         color: var(--amber);
         text-transform: uppercase;
         letter-spacing: 0.2em;
@@ -164,8 +162,7 @@ const {
         }
     }
     .meta-v {
-        font:
-            500 18px / 1 var(--font-mono);
+        font: 500 18px / 1 var(--font-mono);
         margin-top: 8px;
         color: var(--fg);
     }

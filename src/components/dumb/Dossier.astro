@@ -1,5 +1,5 @@
 ---
-import BearPortrait from "./BearPortrait.astro";
+import AsciiLogo from "./AsciiLogo.astro";
 
 type Row = { k: string; v: string; amber?: boolean };
 
@@ -9,14 +9,12 @@ interface Props {
 }
 
 const defaultRows: Row[] = [
-    { k: "codename", v: "ursa_major" },
-    { k: "class", v: "full-stack engineer" },
+    { k: "role", v: "full-stack engineer" },
     { k: "based", v: "Sandefjord, NO" },
     { k: "origin", v: "Larvik, NO" },
     { k: "posted", v: "Gokstad Akademiet" },
     { k: "stack", v: "TS · PHP · Astro · Laravel" },
-    { k: "channels", v: "GH · LinkedIn · @" },
-    { k: "clearance", v: "★★★★☆", amber: true },
+    { k: "channels", v: "GH · LinkedIn" },
 ];
 
 const { fileNo = "FILE No. 009X·B", rows = defaultRows } = Astro.props;
@@ -29,7 +27,7 @@ const { fileNo = "FILE No. 009X·B", rows = defaultRows } = Astro.props;
     </div>
     <div class="body">
         <div class="portrait">
-            <BearPortrait />
+            <AsciiLogo />
         </div>
         <div class="data">
             {
