@@ -2,6 +2,7 @@
 import Rule from "./Rule.astro";
 import SectionHead from "./SectionHead.astro";
 import WorkCard from "./WorkCard.astro";
+import { yearsActive } from "@/utils/career";
 
 type WorkEntry = {
     company: string;
@@ -15,45 +16,53 @@ interface Props {
     entries?: WorkEntry[];
 }
 
+const years = yearsActive();
+
 const defaultEntries: WorkEntry[] = [
     {
         company: "Gokstad Akademiet AS",
-        role: "IT manager",
+        role: "Senior full-stack developer & System owner",
         when: "2025 — now",
         active: true,
-        desc: "Currently working full-time. Architecture, mentorship, infrastructure, the occasional 03:00 incident.",
+        desc: "Building a (for now) internal SaaS; Started with just me as the solve devloper on the team, now we're three. Mentoring two junior devs.",
     },
     {
         company: "River Security AS",
         role: "Senior full-stack developer",
         when: "2024 — 2025",
-        desc: "Continuous offensive security tooling. Spent a lot of time in the parts of the web nobody wants to look at.",
+        desc: "Full-stack on a continuous-offensive-security platform — attack-surface management and always-on penetration testing.",
     },
     {
         company: "NUVA AS",
-        role: "Developer & COB",
-        when: "2023 — sidegig",
+        role: "Senior Full-stack developer & COB (sidegig)",
+        when: "2023 — now",
         active: true,
-        desc: "A still-young SaaS built with two close friends. Lives at nuva.no & saunabooking.no.",
+        desc: "A young SaaS built with two close friends. Lives at nuva.no & saunabooking.no.",
     },
     {
         company: "Rapid Data AS",
         role: "Full-stack developer (formerly Adstate)",
         when: "2020 — 2024",
-        desc: "Ad-tech and analytics platform work during the pandemic years. Quiet, stable, productive — exactly what that period needed.",
+        desc: "Full-stack work on funeral- and memorial-services software — digital obituaries and memorial pages for the Nordic market.",
     },
     {
         company: "Datahjelpen AS",
-        role: "Developer & CEO (part-time)",
+        role: "Full-stack Developer & CEO (sidegig)",
         when: "2016 — now",
         active: true,
-        desc: "My own one-person shop. WordPress, Laravel, custom CRMs for local SMBs. The school of “how does a real customer think”.",
+        desc: "My own one-person shop — websites and custom apps for local businesses. WordPress, Laravel, Vue, Next.js & more. Learned a lot about how customers actually think. Company still exists, but I'm not taking on new clients.",
     },
     {
         company: "Optimale Systemer AS",
-        role: "Junior developer",
+        role: "Junior Full-stack developer",
         when: "2014 — 2016",
-        desc: "Where it started. Tickets, deployments, learning to read other people's code without flinching. Foundational.",
+        desc: "Where it started — an apprenticeship in Larvik. First professional full-stack work, and setting up a LEMP stack on a VPS from scratch.",
+    },
+    {
+        company: "Bear Hagen ENK",
+        role: "Junior developer",
+        when: "2012 — 2016",
+        desc: "The humble beginnings - bulding websites for close friends with my limited HTML/CSS/JS & PHP skills.",
     },
 ];
 
@@ -68,7 +77,7 @@ const activeCount = entries.filter((e) => e.active).length;
             sub={`// ${entries.length} stations · ${activeCount} active · current=Gokstad`}
         >
             <Rule slot="rule">
-                <span>14y</span>
+                <span>{years}y</span>
                 <span>· timeline ·</span>
                 <span>active</span>
             </Rule>

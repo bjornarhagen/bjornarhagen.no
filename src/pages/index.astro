@@ -3,7 +3,9 @@ import Layout from "@/layouts/Layout.astro";
 import Hero from "@/components/dumb/Hero.astro";
 import NumberedSection from "@/components/dumb/NumberedSection.astro";
 import WorkLog from "@/components/dumb/WorkLog.astro";
-import NowSection from "@/components/dumb/NowSection.astro";
+import { yearsActive } from "@/utils/career";
+
+const years = yearsActive();
 ---
 
 <Layout>
@@ -23,48 +25,57 @@ import NowSection from "@/components/dumb/NowSection.astro";
         </Fragment>
     </Hero>
 
-    <NumberedSection num="01" title="Personal" sub="// who is HB">
+    <NumberedSection num="01" title="Personal" sub={`// echo "$(whoami)"`}>
         <p>
             Born and raised in Larvik, Norway. Currently living in Sandefjord.
         </p>
         <p>
-            I&rsquo;ve always loved building and taking things apart, so when
-            I at a young age was introduced to computers, it didn&rsquo;t take
-            very long before I was taking them apart and learning about how
-            they worked. When I was 14 I saved up scholarship money originally
-            meant for school equipment to instead buy computer parts so I
-            could build my first desktop computer. Once I had that built, I
-            started learning about code and software. I was instantly
-            fascinated with the web technologies and building websites. Since
-            then I&rsquo;ve learnt more and more about programming and
-            different software technologies.
+            I&rsquo;ve always loved building and taking things apart, so when I
+            at a young age was introduced to computers, it didn&rsquo;t take
+            very long before I was taking them apart and learning about how they
+            worked. When I was 14 I saved up scholarship money originally meant
+            for school equipment to instead buy computer parts so I could build
+            my first desktop computer. Once I had that built, I started learning
+            about code and software. I was instantly fascinated with the web
+            technologies and building websites. Since then I&rsquo;ve learnt
+            more and more about programming and different software technologies.
         </p>
     </NumberedSection>
 
-    <NumberedSection num="02" title="Career" sub="// 14 years &amp; counting">
+    <NumberedSection
+        num="02"
+        title="Career"
+        sub={`// ${years} years & counting`}
+    >
         <p>
-            I learnt HTML, CSS, JS and PHP through self study and got a few
-            gigs through some close friends. Later on I got my first
-            &ldquo;real job&rdquo; as an apprentice at Optimale Systemer in
-            Larvik. Around the same time I started the company Datahjelpen so
-            to take on extra jobs outside of work and school.
+            I learnt HTML, CSS, JS and PHP through self study and got a few gigs
+            through some close friends. Later on I got my first &ldquo;real
+            job&rdquo; as an apprentice at Optimale Systemer in Larvik. Around
+            the same time I started the company Datahjelpen so to take on extra
+            jobs outside of work and school.
         </p>
         <p>
             After 2 years at Optimale Systemer I had learned a lot and
-            considered myself a full-stack web developer, though still very
-            much a junior. I now knew how to setup the LEMP stack from scratch
-            on a VPS, and I could make both the front-end and back-end of a
-            webapp. After this I moved to Halden to start on my Bachelor of
-            Science in Computer Engineering at &Oslash;stfold College
-            University.
+            considered myself a full-stack web developer, though still very much
+            a junior. I now knew how to setup the LEMP stack from scratch on a
+            VPS, and I could make both the front-end and back-end of a webapp.
+            After this I moved to Halden to start on my Bachelor of Science in
+            Computer Engineering at &Oslash;stfold College University.
         </p>
         <p>
-            3 years later I got my degree and moved to Sandefjord, where I
-            still live. I started working full-time in Datahjelpen. After a
-            good year, Covid unfortunately became a thing. I had to find a
-            more stable job as no one was willing to start new projects at the
-            time. That is how I ended up at Adstate, where I stayed for 4
-            years.
+            3 years later I got my degree and moved to Sandefjord, where I still
+            live. I started working full-time in Datahjelpen. After a good year,
+            Covid unfortunately became a thing. I had to find a more stable job
+            as no one was willing to start new projects at the time. That is how
+            I ended up at Adstate, where I stayed for 4 years.
+        </p>
+        <p>
+            After Adstate I spent a year at <a
+                href="https://riversecurity.eu/?ref=bjornar.dev"
+                target="_blank"
+                rel="noopener">River Security</a
+            > as a senior full-stack developer, building tooling for continuous offensive
+            security &mdash; attack-surface management and always-on penetration testing.
         </p>
         <p>
             In 2023 I started <a
@@ -83,6 +94,4 @@ import NowSection from "@/components/dumb/NowSection.astro";
     </NumberedSection>
 
     <WorkLog />
-
-    <NowSection />
 </Layout>
