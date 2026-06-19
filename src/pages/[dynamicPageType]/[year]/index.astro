@@ -2,6 +2,7 @@
 import Layout from "@/layouts/Layout.astro";
 import { dynamicPages, dynamicPagesConfig } from "@/data/dynamic-pages";
 import PageHeader from "@/components/dumb/PageHeader.astro";
+import PostFilters from "@/components/dumb/PostFilters.astro";
 import Rule from "@/components/dumb/Rule.astro";
 import PostsGrid from "@/components/dumb/PostsGrid.astro";
 import PostCard from "@/components/dumb/PostCard.astro";
@@ -16,16 +17,27 @@ export function getStaticPaths() {
 }
 
 const { dynamicPageType, year } = Astro.params;
-const yearPages = dynamicPages[dynamicPageType][year];
+const pages = dynamicPages[dynamicPageType];
+const yearPages = pages[year];
 const pageTitle = dynamicPagesConfig[dynamicPageType].title;
 const pageLabel = dynamicPageType === "portfolio" ? "portfolio" : "posts";
 
-const entries = Object.keys(yearPages)
+const sort =
+    Astro.url.searchParams.get("sort") === "oldest" ? "oldest" : "newest";
+
+const byDateDesc = Object.keys(yearPages)
     .map((slug) => ({ slug, page: yearPages[slug] }))
     .sort(
         (a, b) =>
             new Date(b.page.date).getTime() - new Date(a.page.date).getTime(),
     );
+const entries = sort === "oldest" ? [...byDateDesc].reverse() : byDateDesc;
+
+const total = Object.keys(pages).flatMap((y) => Object.keys(pages[y])).length;
+const yearCounts = Object.keys(pages)
+    .sort()
+    .reverse()
+    .map((y) => ({ year: y, count: Object.keys(pages[y]).length }));
 
 function fmtDate(iso: string): string {
     const d = new Date(iso);
@@ -44,9 +56,22 @@ function fmtDate(iso: string): string {
             { label: pageLabel, href: `/${dynamicPageType}` },
             { label: year, cwd: true },
         ]}
+        filters
     >
-        {entries.length} entries from {year}. Filter by clicking a different
-        year, or go back to <a href={`/${dynamicPageType}`}>all {pageLabel}</a>.
+        {entries.length} entries from {year}. Pick another year, or go back to <a
+            href={`/${dynamicPageType}`}>all {pageLabel}</a
+        >.
+
+        <Fragment slot="filters">
+            <PostFilters
+                type={dynamicPageType}
+                years={yearCounts}
+                total={total}
+                activeYear={year}
+                sort={sort}
+                basePath={`/${dynamicPageType}/${year}`}
+            />
+        </Fragment>
     </PageHeader>
 
     <section class="grid-wrap">
@@ -54,7 +79,7 @@ function fmtDate(iso: string): string {
             <Rule class="mb-rule">
                 <span>archive · {year}</span>
                 <span>· {entries.length} entries ·</span>
-                <span>desc</span>
+                <span>{sort === "newest" ? "desc" : "asc"}</span>
             </Rule>
         </div>
         <PostsGrid>

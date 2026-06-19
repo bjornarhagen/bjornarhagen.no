@@ -2,8 +2,7 @@
 import Layout from "@/layouts/Layout.astro";
 import { dynamicPages, dynamicPagesConfig } from "@/data/dynamic-pages";
 import PageHeader from "@/components/dumb/PageHeader.astro";
-import FilterRow from "@/components/dumb/FilterRow.astro";
-import Tag from "@/components/dumb/Tag.astro";
+import PostFilters from "@/components/dumb/PostFilters.astro";
 import StatsStrip from "@/components/dumb/StatsStrip.astro";
 import Rule from "@/components/dumb/Rule.astro";
 import FeatureCard from "@/components/dumb/FeatureCard.astro";
@@ -27,22 +26,31 @@ type EntryRow = {
     page: (typeof pages)[string][string];
 };
 
-const allEntries: EntryRow[] = Object.keys(pages)
-    .flatMap((year) =>
-        Object.keys(pages[year]).map((slug) => ({
-            year,
-            slug,
-            page: pages[year][slug],
-        })),
-    )
-    .sort(
-        (a, b) =>
-            new Date(b.page.date).getTime() - new Date(a.page.date).getTime(),
-    );
+const sort =
+    Astro.url.searchParams.get("sort") === "oldest" ? "oldest" : "newest";
 
-const [feature, ...rest] = allEntries;
-const years = Object.keys(pages).sort().reverse();
+const allEntries: EntryRow[] = Object.keys(pages).flatMap((year) =>
+    Object.keys(pages[year]).map((slug) => ({
+        year,
+        slug,
+        page: pages[year][slug],
+    })),
+);
+
+const byDateDesc = [...allEntries].sort(
+    (a, b) => new Date(b.page.date).getTime() - new Date(a.page.date).getTime(),
+);
+const ordered = sort === "oldest" ? [...byDateDesc].reverse() : byDateDesc;
+
+const [feature, ...rest] = ordered;
 const total = allEntries.length;
+const newestDate = byDateDesc[0]?.page.date;
+
+const yearCounts = Object.keys(pages)
+    .sort()
+    .reverse()
+    .map((y) => ({ year: y, count: Object.keys(pages[y]).length }));
+
 const pageTitle = dynamicPagesConfig[dynamicPageType].title;
 const pageLabel = dynamicPageType === "portfolio" ? "portfolio" : "posts";
 
@@ -57,6 +65,12 @@ function fmtDate(iso: string): string {
 function entryNo(i: number): string {
     return "No. " + String(i + 1).padStart(4, "0");
 }
+
+const featureBadge = `${entryNo(0)} · ${sort === "newest" ? "LATEST" : "FIRST"}`;
+const featureRuleMid =
+    sort === "newest"
+        ? "· featured · most recent ·"
+        : "· featured · first post ·";
 ---
 
 <Layout title={pageTitle} cwd={`~/${pageLabel}`}>
@@ -72,33 +86,29 @@ function entryNo(i: number): string {
         are useful. Most of them are at least specific.
 
         <Fragment slot="filters">
-            <FilterRow label="// year">
-                <Tag href={`/${dynamicPageType}`} variant="amber">
-                    all · {total}
-                </Tag>
-                {
-                    years.map((y) => (
-                        <Tag href={`/${dynamicPageType}/${y}`}>
-                            {y} · {Object.keys(pages[y]).length}
-                        </Tag>
-                    ))
-                }
-            </FilterRow>
-            <FilterRow label="// sort">
-                <Tag variant="amber">newest</Tag>
-            </FilterRow>
+            <PostFilters
+                type={dynamicPageType}
+                years={yearCounts}
+                total={total}
+                sort={sort}
+                basePath={`/${dynamicPageType}`}
+            />
         </Fragment>
     </PageHeader>
 
     <StatsStrip>
         <span><strong>{total}</strong> entries</span>
         <span class="sep">·</span>
-        <span><strong>{years.length}</strong> years</span>
+        <span><strong>{yearCounts.length}</strong> years</span>
         <span class="sep">·</span>
-        <span>
-            last update <strong>{fmtDate(feature.page.date)}</strong>
-        </span>
-        <span slot="right">{"// scroll · or pick an entry"}</span>
+        {
+            newestDate && (
+                <span>
+                    last update <strong>{fmtDate(newestDate)}</strong>
+                </span>
+            )
+        }
+        <span slot="right">{`// sorted ${sort}`}</span>
     </StatsStrip>
 
     {
@@ -107,7 +117,7 @@ function entryNo(i: number): string {
                 <div class="container-x">
                     <Rule class="mb-rule">
                         <span>{entryNo(0)}</span>
-                        <span>· featured · most recent ·</span>
+                        <span>{featureRuleMid}</span>
                         <span>{fmtDate(feature.page.date)}</span>
                     </Rule>
                 </div>
@@ -117,7 +127,7 @@ function entryNo(i: number): string {
                     summary={feature.page.summary}
                     date={fmtDate(feature.page.date)}
                     poster={feature.page.poster}
-                    idBadge={`${entryNo(0)} · LATEST`}
+                    idBadge={featureBadge}
                     secondary={feature.year}
                 />
             </section>
@@ -132,10 +142,8 @@ function entryNo(i: number): string {
                         <span>
                             {entryNo(1)} — {entryNo(rest.length)}
                         </span>
-                        <span>
-                            · archive · {rest.length} entries ·
-                        </span>
-                        <span>desc</span>
+                        <span>· archive · {rest.length} entries ·</span>
+                        <span>{sort === "newest" ? "desc" : "asc"}</span>
                     </Rule>
                 </div>
                 <PostsGrid>
