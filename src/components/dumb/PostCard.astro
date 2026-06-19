@@ -57,6 +57,9 @@ const { href, title, excerpt, date, poster, idBadge, secondary } = Astro.props;
     .post-card:hover .post-title {
         color: var(--amber);
     }
+    .post-card:hover :global(.post-thumb img) {
+        filter: grayscale(0);
+    }
     .post-meta {
         display: flex;
         gap: 12px;

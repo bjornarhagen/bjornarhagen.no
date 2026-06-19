@@ -51,6 +51,7 @@ const hasImage = !!src && checkIfImageUrl(src);
         object-fit: cover;
         display: block;
         filter: grayscale(1) contrast(1.05);
+        transition: filter 0.35s ease;
     }
     .img-fallback {
         width: 100%;
