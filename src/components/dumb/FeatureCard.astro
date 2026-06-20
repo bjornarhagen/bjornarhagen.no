@@ -11,6 +11,7 @@ interface Props {
     idBadge?: string;
     secondary?: string; // small text after date
     cta?: string;
+    tag?: string;
 }
 
 const {
@@ -22,6 +23,7 @@ const {
     idBadge,
     secondary,
     cta = "Read entry",
+    tag = "// featured · latest entry",
 } = Astro.props;
 ---
 
@@ -37,7 +39,7 @@ const {
         />
     </div>
     <div class="body">
-        <span class="feature-tag">// featured · latest entry</span>
+        <span class="feature-tag">{tag}</span>
         <div class="ttl">{title}</div>
         <div class="meta">
             <span>{date}</span>

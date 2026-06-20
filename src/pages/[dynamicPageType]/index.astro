@@ -41,10 +41,15 @@ const byDateDesc = [...allEntries].sort(
     (a, b) => new Date(b.page.date).getTime() - new Date(a.page.date).getTime(),
 );
 
-// The featured card is always the genuine latest post, regardless of sort.
-const feature = byDateDesc[0];
-const restDesc = byDateDesc.slice(1);
-const rest = sort === "oldest" ? [...restDesc].reverse() : restDesc;
+// The featured card follows the current sort (it's the first in order); the
+// LATEST marker only appears when that featured post is genuinely the latest.
+const ordered = sort === "oldest" ? [...byDateDesc].reverse() : byDateDesc;
+const feature = ordered[0];
+const rest = ordered.slice(1);
+const newestDate = byDateDesc[0]?.page.date;
+const featureIsLatest = feature
+    ? entryKey(feature.year, feature.slug) === cat.latestKey
+    : false;
 
 const total = cat.total;
 const yearCounts = Object.keys(pages)
@@ -97,9 +102,9 @@ function numFor(e: EntryRow): number | undefined {
         <span><strong>{yearCounts.length}</strong> years</span>
         <span class="sep">·</span>
         {
-            feature && (
+            newestDate && (
                 <span>
-                    last update <strong>{fmtDate(feature.page.date)}</strong>
+                    last update <strong>{fmtDate(newestDate)}</strong>
                 </span>
             )
         }
@@ -112,7 +117,11 @@ function numFor(e: EntryRow): number | undefined {
                 <div class="container-x">
                     <Rule class="mb-rule">
                         <span>{fmtNo(numFor(feature))}</span>
-                        <span>· featured · most recent ·</span>
+                        <span>
+                            {featureIsLatest
+                                ? "· featured · most recent ·"
+                                : "· featured · earliest ·"}
+                        </span>
                         <span>{fmtDate(feature.page.date)}</span>
                     </Rule>
                 </div>
@@ -122,8 +131,13 @@ function numFor(e: EntryRow): number | undefined {
                     summary={feature.page.summary}
                     date={fmtDate(feature.page.date)}
                     poster={feature.page.poster}
-                    idBadge={`${fmtNo(numFor(feature))} · LATEST`}
+                    idBadge={`${fmtNo(numFor(feature))}${featureIsLatest ? " · LATEST" : ""}`}
                     secondary={feature.year}
+                    tag={
+                        featureIsLatest
+                            ? "// featured · latest entry"
+                            : "// featured · earliest entry"
+                    }
                 />
             </section>
         )
