@@ -37,10 +37,6 @@ function subUrlIsActive(path: string) {
             >Portfolio</a
         >
         <a
-            href="/now"
-            class:list={["link", { active: urlIsActive("/now") }]}>/now</a
-        >
-        <a
             href="/about"
             class:list={["link", { active: urlIsActive("/about") }]}>About</a
         >
@@ -50,7 +46,8 @@ function subUrlIsActive(path: string) {
         <span class="kv search-hint">
             <span class="k">SEARCH</span>
             <span class="v">
-                <span class="kbd">⌘</span> <span class="kbd">K</span>
+                <span class="kbd">⌘</span>
+                <span class="kbd">K</span>
             </span>
         </span>
         <button
@@ -194,13 +191,11 @@ function subUrlIsActive(path: string) {
         color: currentColor;
     }
     .brand-wordmark {
-        font:
-            400 32px / 1 var(--font-display);
+        font: 400 32px / 1 var(--font-display);
         letter-spacing: 0.01em;
     }
     .link {
-        font:
-            500 var(--t-mono-sm) / 1 var(--font-mono);
+        font: 500 var(--t-mono-sm) / 1 var(--font-mono);
         text-transform: uppercase;
         letter-spacing: 0.14em;
         color: var(--fg-1);
@@ -269,8 +264,7 @@ function subUrlIsActive(path: string) {
         display: inline-flex;
         align-items: center;
         gap: 10px;
-        font:
-            400 56px / 1 var(--font-display);
+        font: 400 56px / 1 var(--font-display);
         color: var(--fg);
         text-decoration: none;
     }
@@ -290,8 +284,7 @@ function subUrlIsActive(path: string) {
         text-align: center;
     }
     .dialog-links a {
-        font:
-            500 var(--t-mono-base) / 1 var(--font-mono);
+        font: 500 var(--t-mono-base) / 1 var(--font-mono);
         text-transform: uppercase;
         letter-spacing: 0.16em;
         color: var(--fg);
@@ -317,8 +310,7 @@ function subUrlIsActive(path: string) {
     }
     .dialog-search .prompt {
         color: var(--amber);
-        font:
-            500 var(--t-mono-md) / 1 var(--font-mono);
+        font: 500 var(--t-mono-md) / 1 var(--font-mono);
     }
     .dialog-search input {
         flex: 1;
@@ -326,8 +318,7 @@ function subUrlIsActive(path: string) {
         border: 0;
         outline: 0;
         color: var(--fg);
-        font:
-            400 var(--t-mono-md) / 1 var(--font-mono);
+        font: 400 var(--t-mono-md) / 1 var(--font-mono);
     }
 </style>
 
