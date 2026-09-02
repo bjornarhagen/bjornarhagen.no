@@ -29,53 +29,57 @@ const {
 } = Astro.props;
 ---
 
-<section class="hero">
+<section class="relative border-b border-border">
     <AsciiBackdrop />
-    <div class="hero-left">
-        <Rule class="mb-rule">
-            <span>identity</span>
-            <span>· 01 ·</span>
-            <span>profile</span>
-        </Rule>
+    <div class="hero">
+        <div class="hero-left">
+            <Rule class="mb-rule">
+                <span>identity</span>
+                <span>· 01 ·</span>
+                <span>profile</span>
+            </Rule>
 
-        <h1 class="hero-title">
-            <span>{firstName}</span>
-            <span>{lastName}</span><span class="dot">.</span>
-        </h1>
-        <div class="role" set:html={role} />
+            <h1 class="hero-title">
+                <span>{firstName}</span>
+                <span>{lastName}</span><span class="dot">.</span>
+            </h1>
+            <div class="role" set:html={role} />
 
-        <p class="lede">
-            <slot name="lede">
-                I build, break and occasionally fix systems on the open web —
-                full-stack, infrastructure, the slightly haunted parts in
-                between.
-            </slot>
-        </p>
+            <p class="lede">
+                <slot name="lede">
+                    I build, break and occasionally fix systems on the open web
+                    — full-stack, infrastructure, the slightly haunted parts in
+                    between.
+                </slot>
+            </p>
 
-        <div class="cta-row">
-            <slot name="cta">
-                <Btn href="/entries" variant="primary">Read posts</Btn>
-                <Btn href="/portfolio-tmp">Portfolio</Btn>
-            </slot>
+            <div class="cta-row">
+                <slot name="cta">
+                    <Btn href="/entries" variant="primary">Read posts</Btn>
+                    <Btn href="/portfolio-tmp">Portfolio</Btn>
+                </slot>
+            </div>
+
+            <div class="meta-grid">
+                {
+                    metas.map((m) => (
+                        <div>
+                            <div class="kv">
+                                <span class="k">{m.k}</span>
+                            </div>
+                            <div
+                                class:list={["meta-v", m.tone === "ok" && "ok"]}
+                            >
+                                {m.v}
+                            </div>
+                        </div>
+                    ))
+                }
+            </div>
         </div>
 
-        <div class="meta-grid">
-            {
-                metas.map((m) => (
-                    <div>
-                        <div class="kv">
-                            <span class="k">{m.k}</span>
-                        </div>
-                        <div class:list={["meta-v", m.tone === "ok" && "ok"]}>
-                            {m.v}
-                        </div>
-                    </div>
-                ))
-            }
-        </div>
+        <!-- <Dossier /> -->
     </div>
-
-    <Dossier />
 </section>
 
 <style>
@@ -86,7 +90,7 @@ const {
         gap: var(--s-7);
         padding: var(--s-8) var(--gutter) var(--s-9);
         align-items: stretch;
-        border-bottom: 1px solid var(--border-token);
+        /* border-bottom: 1px solid var(--border-token); */
         max-width: var(--max-w);
         margin: 0 auto;
         width: 100%;
