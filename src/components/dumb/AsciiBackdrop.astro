@@ -1,7 +1,7 @@
 ---
 /**
- * Faint ASCII rendering of a header image, painted on a canvas that sits
- * exactly on top of the image it was sampled from.
+ * Faint ASCII rendering of an image, painted on a canvas that sits exactly on
+ * top of the image it was sampled from.
  *
  * The character grid is derived from the element's own box — `cellW = width /
  * cols`, `cellH = height / rows` — and each glyph is stamped at its cell
@@ -14,9 +14,33 @@
  * Glyphs are chosen by *contrast against the page background* so the subject
  * reads in both themes, with a few cells flickering at random. The unflickered
  * grid is kept on an offscreen canvas, so a tick is one blit plus a handful of
- * stamps. Swaps image on theme change; static under prefers-reduced-motion.
+ * stamps. Swaps image on theme change; static under prefers-reduced-motion,
+ * and the flicker pauses while off-screen or backgrounded.
  *
- * ── Adjustable knobs (props, all optional) ───────────────────────────────
+ * Drop it into any positioned box — it fills the nearest positioned ancestor.
+ * Legibility treatment for text laid over it belongs to the consumer (the
+ * homepage hero uses a gradient scrim), not here.
+ *
+ * ── Sources ──────────────────────────────────────────────────────────────
+ *   dark / light    per-theme image. Either one alone is enough — whichever
+ *                   is missing falls back to the other, and when both resolve
+ *                   to the same file only one <img> is emitted. Required:
+ *                   with neither, the component renders nothing. Deliberately
+ *                   has no default, so no page's artwork is baked in here.
+ *
+ * ── Layers ───────────────────────────────────────────────────────────────
+ *   showImage       false → glyphs alone, no photo underneath. The glyphs are
+ *                   still coloured from the image when color="image".
+ *   imageOpacity    photo opacity, 0–1
+ *   imageBlur       photo blur in px (0 = none)
+ *   imageGrayscale  photo desaturation, 0–1 (0 = full colour)
+ *
+ * ── Framing ──────────────────────────────────────────────────────────────
+ *   mask            CSS mask-image for the glyph layer, to fade it out rather
+ *                   than let it end on a hard edge. Aim it away from whatever
+ *                   text sits on top. "none" disables it.
+ *
+ * ── Glyphs ───────────────────────────────────────────────────────────────
  *   color           "" → theme ink (--fg) · any CSS colour · "image" → use the
  *                   source image's own pixel colours
  *   cellPx          target cell width in CSS px — lower = denser, smaller chars
@@ -27,11 +51,16 @@
  *   ramp            glyph ramp, sparse → dense
  *   flickerMs       flicker tick interval in ms (0 disables the flicker)
  *   flickerFraction share of cells that change each tick (0–1)
- *   opacity         overlay opacity
+ *   opacity         glyph layer opacity
  */
 interface Props {
     dark?: string;
     light?: string;
+    showImage?: boolean;
+    imageOpacity?: number;
+    imageBlur?: number;
+    imageGrayscale?: number;
+    mask?: string;
     class?: string;
     color?: string;
     cellPx?: number;
@@ -44,8 +73,13 @@ interface Props {
     opacity?: number;
 }
 const {
-    dark = "/images/graphics/black-3.webp",
-    light = "/images/graphics/white-3.webp",
+    dark,
+    light,
+    showImage = true,
+    imageOpacity = 0.15,
+    imageBlur = 8,
+    imageGrayscale = 0.25,
+    mask = "radial-gradient(120% 120% at 70% 35%, #000 30%, transparent 80%)",
     class: className = "",
     color = "image",
     cellPx = 6,
@@ -57,37 +91,73 @@ const {
     flickerFraction = 0.05,
     opacity = 0.75,
 } = Astro.props;
+
+// either source alone is enough; each stands in for the other
+const darkSrc = dark || light;
+const lightSrc = light || dark;
+// nothing to sample — render nothing rather than an <img src="">
+const hasSrc = Boolean(darkSrc);
+const oneSrc = darkSrc === lightSrc;
+
+// inline rather than utility classes: a pass-through class prop would depend
+// on Tailwind having already generated whatever the caller happens to pass
+const filter = [
+    imageBlur > 0 ? `blur(${imageBlur}px)` : "",
+    imageGrayscale > 0 ? `grayscale(${imageGrayscale})` : "",
+]
+    .filter(Boolean)
+    .join(" ");
+const imgStyle = `opacity:${imageOpacity}${filter ? `;filter:${filter}` : ""}`;
+const imgClass = "w-full h-full object-cover object-center";
 ---
 
-<div class="absolute inset-0 w-full h-full">
-    <img
-        src={light}
-        class="w-full h-full object-cover object-center block opacity-15 blur-sm grayscale-25 dark:hidden"
-        alt=""
-    />
-    <img
-        src={dark}
-        class="w-full h-full object-cover object-center opacity-15 blur-sm grayscale-25 hidden dark:block"
-        alt=""
-    />
-    <div
-        class:list={["ascii-backdrop", className]}
-        aria-hidden="true"
-        data-dark={dark}
-        data-light={light}
-        data-color={color}
-        data-cell-px={cellPx}
-        data-max-cols={maxCols}
-        data-char-aspect={charAspect}
-        data-font-scale={fontScale}
-        data-ramp={ramp}
-        data-flicker-ms={flickerMs}
-        data-flicker-fraction={flickerFraction}
-        style={`--ascii-opacity:${opacity}`}
-    >
-        <canvas></canvas>
-    </div>
-</div>
+{
+    hasSrc && (
+        <div class="absolute inset-0 w-full h-full">
+            {showImage &&
+                (oneSrc ? (
+                    <img
+                        src={darkSrc}
+                        class={`${imgClass} block`}
+                        style={imgStyle}
+                        alt=""
+                    />
+                ) : (
+                    <Fragment>
+                        <img
+                            src={lightSrc}
+                            class={`${imgClass} block dark:hidden`}
+                            style={imgStyle}
+                            alt=""
+                        />
+                        <img
+                            src={darkSrc}
+                            class={`${imgClass} hidden dark:block`}
+                            style={imgStyle}
+                            alt=""
+                        />
+                    </Fragment>
+                ))}
+            <div
+                class:list={["ascii-backdrop", className]}
+                aria-hidden="true"
+                data-dark={darkSrc}
+                data-light={lightSrc}
+                data-color={color}
+                data-cell-px={cellPx}
+                data-max-cols={maxCols}
+                data-char-aspect={charAspect}
+                data-font-scale={fontScale}
+                data-ramp={ramp}
+                data-flicker-ms={flickerMs}
+                data-flicker-fraction={flickerFraction}
+                style={`--ascii-opacity:${opacity};--ascii-mask:${mask || "none"}`}
+            >
+                <canvas />
+            </div>
+        </div>
+    )
+}
 
 <style>
     .ascii-backdrop {
@@ -98,16 +168,8 @@ const {
         pointer-events: none;
         user-select: none;
         opacity: var(--ascii-opacity, 0.15);
-        -webkit-mask-image: radial-gradient(
-            120% 120% at 70% 35%,
-            #000 30%,
-            transparent 80%
-        );
-        mask-image: radial-gradient(
-            120% 120% at 70% 35%,
-            #000 30%,
-            transparent 80%
-        );
+        -webkit-mask-image: var(--ascii-mask, none);
+        mask-image: var(--ascii-mask, none);
     }
     .ascii-backdrop canvas {
         display: block;
