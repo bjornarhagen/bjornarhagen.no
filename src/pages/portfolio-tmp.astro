@@ -1,6 +1,7 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import ContentSection from "../components/dumb/ContentSection.astro";
+import Layout from "@/layouts/Layout.astro";
+import PageHeader from "@/components/dumb/PageHeader.astro";
+import Rule from "@/components/dumb/Rule.astro";
 import Icon from "@/components/dumb/Icon.astro";
 import { Dribbble } from "lucide";
 
@@ -24,70 +25,103 @@ const portfolioItems = [
 ];
 ---
 
-<Layout marginForNav={false} marginForFooter={false}>
-    <main>
-        <ContentSection className="relative">
-            <section
-                class="grid grid-cols-12 gap-2 sm:gap-4 md:gap-8 font-paragraph min-h-screen"
-            >
-                <div
-                    class="col-span-5 md:col-span-4 lg:col-span-3 border-r border-r-border md:border-r-0 pr-4 sm:pr-8"
-                >
-                    <div class="sticky top-24 pb-8 sm:pb-0">
-                        <div class="relative inline-block">
-                            <span
-                                class="font-heading text-8xl absolute top-1/2 -translate-y-1/2 left-0 right-0 mx-auto opacity-25 text-center pointer-events-none"
-                            >
-                                <!-- <span class="whitespace-nowrap">/now</span> -->
-                            </span>
-                            <h2
-                                class="font-heading text-3xl break-all leading-none hyphens-auto"
-                            >
-                                Portfolio
-                            </h2>
-                            <p class="text-sm sm:text-base mt-1">
-                                I have yet to build a proper page for my
-                                portfolio, but you can find my work on these
-                                links.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div
-                    class="mt-8 col-span-7 md:col-span-8 lg:col-span-9 md:border-l md:border-l-border"
-                >
-                    <section class="pb-8 py-24 pl-4 sm:pl-8">
-                        <ul class="flex flex-col gap-2">
-                            {
-                                portfolioItems.map((item) => (
-                                    <li>
-                                        <a
-                                            href={item.url}
-                                            target="_blank"
-                                            rel="noopener"
-                                        >
-                                            <span class="inline-flex items-center gap-2 hover:text-primary-500 focus:text-primary-500 md:text-xl">
-                                                {item.iconHtml && (
-                                                    <Fragment
-                                                        set:html={item.iconHtml}
-                                                    />
-                                                )}
-                                                {item.lucideIcon && (
-                                                    <Icon
-                                                        icon={item.lucideIcon}
-                                                        class={item.iconClass}
-                                                    />
-                                                )}
-                                                <span>{item.name}</span>
-                                            </span>
-                                        </a>
-                                    </li>
-                                ))
-                            }
-                        </ul>
-                    </section>
-                </div>
-            </section>
-        </ContentSection>
-    </main>
+<Layout
+    title="Portfolio"
+    description="Where to find work by Bjørnar Hagen."
+    cwd="~/portfolio"
+>
+    <PageHeader
+        title="Portfolio"
+        bread={[
+            { label: "~", href: "/" },
+            { label: "portfolio", cwd: true },
+        ]}
+    >
+        I have yet to build a proper page for my portfolio, but you can find my
+        work on these links.
+    </PageHeader>
+
+    <section class="portfolio">
+        <div class="container-x">
+            <Rule class="mb-8"><span>links</span></Rule>
+            <ul class="links">
+                {
+                    portfolioItems.map((item) => (
+                        <li>
+                            <a href={item.url} target="_blank" rel="noopener">
+                                <span class="mark">
+                                    {item.iconHtml && (
+                                        <Fragment set:html={item.iconHtml} />
+                                    )}
+                                    {item.lucideIcon && (
+                                        <Icon
+                                            icon={item.lucideIcon}
+                                            class={item.iconClass}
+                                        />
+                                    )}
+                                </span>
+                                <span class="name">{item.name}</span>
+                                <span class="go" aria-hidden="true">
+                                    ↗
+                                </span>
+                            </a>
+                        </li>
+                    ))
+                }
+            </ul>
+        </div>
+    </section>
 </Layout>
+
+<style>
+    .portfolio {
+        padding: var(--s-7) 0 var(--s-9);
+    }
+    .links {
+        display: grid;
+        border: 1px solid var(--border-token);
+        max-width: 560px;
+    }
+    .links li + li {
+        border-top: 1px solid var(--border-token);
+    }
+    .links a {
+        display: flex;
+        align-items: center;
+        gap: var(--s-4);
+        padding: 14px 16px;
+        background: var(--bg-1);
+        font: 500 var(--t-mono-lg) / 1 var(--font-mono);
+        color: var(--fg);
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+    }
+    .links a:hover {
+        background: var(--bg-2);
+        color: var(--amber);
+        text-decoration: none;
+    }
+    /* the global a[target="_blank"] arrow is absolutely positioned for inline
+       text, which lands it outside the row border here — replace it with one
+       flushed to the row's trailing edge */
+    .links a::after {
+        content: none;
+    }
+    .go {
+        margin-left: auto;
+        color: var(--fg-muted);
+        font-size: 0.85em;
+    }
+    .links a:hover .go {
+        color: var(--amber);
+    }
+    /* fixed box so the differently-sized marks share one optical column */
+    .mark {
+        flex: none;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+</style>
