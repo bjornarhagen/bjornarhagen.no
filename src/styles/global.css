@@ -4,7 +4,8 @@
 /* ============================================================
    bjornar.dev — design system
    Tokens + terminal chrome primitives.
-   Dark = the design as drawn. Light = inverted surfaces, same accents.
+   Dark = the design as drawn. Light = inverted surfaces, and its own brand
+   accent: crimson rather than the logo's amber, which washes out on cream.
    ============================================================ */
 
 /* ---------- Tokens ---------- */
@@ -27,9 +28,9 @@
     --fg-muted: #8a8780;
     --fg-faint: #b0aea5;
 
-    /* accents — pulled straight from the logo */
-    --amber: #c97a1d;
-    --amber-dim: #a36014;
+    /* accents — amber is the logo's; light leans on crimson instead */
+    --amber: #cb1a32;
+    --amber-dim: #951325;
     --crimson: #b8281f;
     --crimson-dim: #841c15;
 
