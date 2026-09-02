@@ -37,8 +37,8 @@ const colophon = [
             { label: "about", cwd: true },
         ]}
     >
-        Full-stack engineer in Sandefjord, Norway. {years} years building,
-        breaking and occasionally fixing things on the open web.
+        Full-stack engineer in Sandefjord, Norway. {years} years building, breaking
+        and occasionally fixing things on the open web.
     </PageHeader>
 
     <section class="about">
@@ -47,19 +47,16 @@ const colophon = [
                 <Rule class="mb"><span>profile</span></Rule>
                 <p>
                     I&rsquo;m Bjørnar &mdash; a full-stack engineer from Larvik,
-                    now based in Sandefjord, Norway. I&rsquo;ve been building for
-                    the web since I taught myself HTML, CSS, JS and PHP as a
+                    now based in Sandefjord, Norway. I&rsquo;ve been building
+                    for the web since I taught myself HTML, CSS, JS and PHP as a
                     teenager, and I hold a BSc in Computer Engineering from
                     Østfold University College.
                 </p>
                 <p>
-                    These days I&rsquo;m IT manager and senior full-stack
+                    These days I&rsquo;m the system owner and senior full-stack
                     developer at Gokstad Akademiet, and I run a small studio,
-                    Datahjelpen, on the side. I&rsquo;m happiest around
-                    infrastructure, the back-end, and the slightly haunted parts
-                    of the web in between. The full timeline lives on the <a
-                        href="/">home page</a
-                    >.
+                    Datahjelpen, on the side, as well as NUVA with a couple of
+                    friends.
                 </p>
             </div>
             <div class="col side">
@@ -68,11 +65,7 @@ const colophon = [
                     {
                         channels.map((c) => (
                             <li>
-                                <a
-                                    href={c.href}
-                                    target="_blank"
-                                    rel="noopener"
-                                >
+                                <a href={c.href} target="_blank" rel="noopener">
                                     {c.label}
                                 </a>
                             </li>
@@ -119,8 +112,7 @@ const colophon = [
         }
     }
     .col p {
-        font:
-            400 17px / 1.7 var(--font-body);
+        font: 400 17px / 1.7 var(--font-body);
         color: var(--fg-1);
         max-width: 60ch;
         margin: 0 0 1.2em;
@@ -145,8 +137,7 @@ const colophon = [
         display: flex;
         flex-direction: column;
         gap: 8px;
-        font:
-            500 var(--t-mono-sm) / 1.6 var(--font-mono);
+        font: 500 var(--t-mono-sm) / 1.6 var(--font-mono);
         text-transform: uppercase;
         letter-spacing: 0.12em;
     }
@@ -171,8 +162,7 @@ const colophon = [
     }
     .src {
         margin-top: var(--s-5);
-        font:
-            400 var(--t-mono-sm) / 1.6 var(--font-mono);
+        font: 400 var(--t-mono-sm) / 1.6 var(--font-mono);
         color: var(--fg-dim);
     }
 </style>
