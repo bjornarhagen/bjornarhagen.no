@@ -3,33 +3,21 @@ import Rule from "./Rule.astro";
 import Btn from "./Btn.astro";
 import Dossier from "./Dossier.astro";
 import AsciiBackdrop from "./AsciiBackdrop.astro";
-import { yearsActive } from "@/utils/career";
-
-type Meta = { k: string; v: string; tone?: "default" | "ok" };
 
 interface Props {
     firstName?: string;
     lastName?: string;
     role?: string;
-    metas?: Meta[];
 }
-
-const years = yearsActive();
 
 const {
     firstName = "Bjørnar",
     lastName = "Hagen",
     role = "// Software Engineer  ·  Full-stack  ·  Builder",
-    metas = [
-        { k: "Active", v: `${years}y`, tone: "ok" },
-        { k: "Posted", v: "@ Gokstad" },
-        { k: "Stack", v: "TS · PHP · Astro" },
-        { k: "Based", v: "Sandefjord, NO" },
-    ],
 } = Astro.props;
 ---
 
-<section class="relative border-b border-border">
+<section class="hero-section relative border-b border-border">
     <AsciiBackdrop />
     <div class="hero">
         <div class="hero-left">
@@ -59,23 +47,6 @@ const {
                     <Btn href="/portfolio-tmp">Portfolio</Btn>
                 </slot>
             </div>
-
-            <div class="meta-grid">
-                {
-                    metas.map((m) => (
-                        <div>
-                            <div class="kv">
-                                <span class="k">{m.k}</span>
-                            </div>
-                            <div
-                                class:list={["meta-v", m.tone === "ok" && "ok"]}
-                            >
-                                {m.v}
-                            </div>
-                        </div>
-                    ))
-                }
-            </div>
         </div>
 
         <!-- <Dossier /> -->
@@ -99,11 +70,37 @@ const {
         position: relative;
         z-index: 1;
     }
+    /* Legibility scrim. Rather than covering the busy backdrop with a panel,
+       let the page background win on the left and dissolve into the ASCII on
+       the right — so the copy sits on flat colour with no edge anywhere.
+       Sits above the backdrop (z-index 0, later in tree order) and below
+       .hero-left (z-index 1). Tune the stops to trade legibility for ASCII. */
+    .hero-section::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        background: linear-gradient(
+            95deg,
+            var(--bg) 10%,
+            color-mix(in srgb, var(--bg) 72%, transparent) 44%,
+            transparent 74%
+        );
+    }
     @media (max-width: 960px) {
         .hero {
             grid-template-columns: 1fr;
             gap: var(--s-6);
             padding: var(--s-6) var(--gutter) var(--s-7);
+        }
+        .hero-section::after {
+            background: linear-gradient(
+                100deg,
+                var(--bg) 45%,
+                color-mix(in srgb, var(--bg) 70%, transparent) 85%,
+                transparent 100%
+            );
         }
     }
     .mb-rule {
@@ -146,38 +143,5 @@ const {
         gap: var(--s-3);
         margin-top: var(--s-6);
         flex-wrap: wrap;
-    }
-    .meta-grid {
-        margin-top: var(--s-7);
-        display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 0;
-        border: 1px solid var(--border-token);
-    }
-    @media (max-width: 720px) {
-        .meta-grid {
-            grid-template-columns: repeat(2, 1fr);
-        }
-    }
-    .meta-grid > div {
-        padding: 12px 14px;
-        border-right: 1px solid var(--border-token);
-        background: var(--bg-1);
-    }
-    .meta-grid > div:last-child {
-        border-right: none;
-    }
-    @media (max-width: 720px) {
-        .meta-grid > div:nth-child(2) {
-            border-right: none;
-        }
-    }
-    .meta-v {
-        font: 500 18px / 1 var(--font-mono);
-        margin-top: 8px;
-        color: var(--fg);
-    }
-    .meta-v.ok {
-        color: var(--ok);
     }
 </style>
