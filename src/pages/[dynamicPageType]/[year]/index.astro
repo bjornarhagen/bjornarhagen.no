@@ -18,6 +18,12 @@ export function getStaticPaths() {
 }
 
 const { dynamicPageType, year } = Astro.params;
+if (
+    !Object.hasOwn(dynamicPages, dynamicPageType) ||
+    !Object.hasOwn(dynamicPages[dynamicPageType], year)
+) {
+    return new Response("Not found", { status: 404 });
+}
 const pages = dynamicPages[dynamicPageType];
 const yearPages = pages[year];
 const pageTitle = dynamicPagesConfig[dynamicPageType].title;

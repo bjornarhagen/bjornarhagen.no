@@ -11,6 +11,10 @@ import PostsGrid from "@/components/dumb/PostsGrid.astro";
 import PostCard from "@/components/dumb/PostCard.astro";
 
 const { dynamicPageType } = Astro.params;
+// Server routes accept arbitrary parameters; getStaticPaths does not constrain them.
+if (!Object.hasOwn(dynamicPages, dynamicPageType)) {
+    return new Response("Not found", { status: 404 });
+}
 const pages = dynamicPages[dynamicPageType];
 
 export function getStaticPaths() {
@@ -150,7 +154,11 @@ function numFor(e: EntryRow): number | undefined {
                     <Rule class="mb-rule">
                         <span>archive</span>
                         <span>· {rest.length} entries ·</span>
-                        <span>{sort === "newest" ? "newest first" : "oldest first"}</span>
+                        <span>
+                            {sort === "newest"
+                                ? "newest first"
+                                : "oldest first"}
+                        </span>
                     </Rule>
                 </div>
                 <PostsGrid>
