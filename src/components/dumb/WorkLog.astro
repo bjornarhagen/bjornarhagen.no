@@ -1,0 +1,117 @@
+---
+import Rule from "./Rule.astro";
+import SectionHead from "./SectionHead.astro";
+import WorkCard from "./WorkCard.astro";
+import { yearsActive } from "@/utils/career";
+
+type WorkEntry = {
+    company: string;
+    role: string;
+    when: string;
+    desc: string;
+    active?: boolean;
+};
+
+interface Props {
+    entries?: WorkEntry[];
+}
+
+const years = yearsActive();
+
+const defaultEntries: WorkEntry[] = [
+    {
+        company: "Gokstad Akademiet AS",
+        role: "Senior full-stack developer & System owner",
+        when: "2025 — now",
+        active: true,
+        desc: "Building a (for now) internal SaaS; Started with just me as the solve devloper on the team, now we're three. Mentoring two junior devs.",
+    },
+    {
+        company: "River Security AS",
+        role: "Senior full-stack developer",
+        when: "2024 — 2025",
+        desc: "Full-stack on a continuous-offensive-security platform — attack-surface management and always-on penetration testing.",
+    },
+    {
+        company: "NUVA AS",
+        role: "Senior Full-stack developer & COB (sidegig)",
+        when: "2023 — now",
+        active: true,
+        desc: "A young SaaS built with two close friends. Lives at nuva.no & saunabooking.no.",
+    },
+    {
+        company: "Rapid Data AS",
+        role: "Full-stack developer (formerly Adstate)",
+        when: "2020 — 2024",
+        desc: "Full-stack work on funeral- and memorial-services software — digital obituaries and memorial pages for the Nordic market.",
+    },
+    {
+        company: "Datahjelpen AS",
+        role: "Full-stack Developer & CEO (sidegig)",
+        when: "2016 — now",
+        active: true,
+        desc: "My own one-person shop — websites and custom apps for local businesses. WordPress, Laravel, Vue, Next.js & more. Learned a lot about how customers actually think. Company still exists, but I'm not taking on new clients.",
+    },
+    {
+        company: "Optimale Systemer AS",
+        role: "Junior Full-stack developer",
+        when: "2014 — 2016",
+        desc: "Where it started — an apprenticeship in Larvik. First professional full-stack work, and setting up a LEMP stack on a VPS from scratch.",
+    },
+    {
+        company: "Bear Hagen ENK",
+        role: "Junior developer",
+        when: "2012 — 2016",
+        desc: "The humble beginnings - bulding websites for close friends with my limited HTML/CSS/JS & PHP skills.",
+    },
+];
+
+const { entries = defaultEntries } = Astro.props;
+const activeCount = entries.filter((e) => e.active).length;
+---
+
+<section class="section">
+    <div class="inner">
+        <SectionHead
+            title="Work log"
+            sub={`// ${entries.length} stations · ${activeCount} active · current=Gokstad`}
+        >
+            <Rule slot="rule">
+                <span>{years}y</span>
+                <span>· timeline ·</span>
+                <span>active</span>
+            </Rule>
+        </SectionHead>
+
+        <div class="work-grid">
+            {entries.map((e) => <WorkCard {...e} />)}
+        </div>
+    </div>
+</section>
+
+<style>
+    .section {
+        padding: var(--s-9) var(--gutter);
+        position: relative;
+    }
+    @media (max-width: 720px) {
+        .section {
+            padding: var(--s-7) var(--gutter);
+        }
+    }
+    .inner {
+        max-width: var(--max-w);
+        margin: 0 auto;
+    }
+    .work-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 0;
+        border: 1px solid var(--border-token);
+    }
+    @media (max-width: 720px) {
+        .work-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

@@ -1,0 +1,71 @@
+---
+interface Props {
+    num: string;
+    title: string;
+    sub: string;
+}
+
+const { num, title, sub } = Astro.props;
+---
+
+<section class="section">
+    <div class="inner">
+        <div class="numhead">
+            <div class="num">{num}</div>
+            <div class="lbl">{title}</div>
+            <div class="sub" set:html={sub} />
+        </div>
+        <div class="text">
+            <slot />
+        </div>
+    </div>
+</section>
+
+<style>
+    .section {
+        padding: var(--s-9) var(--gutter);
+        border-bottom: 1px solid var(--border-token);
+        position: relative;
+    }
+    @media (max-width: 720px) {
+        .section {
+            padding: var(--s-7) var(--gutter);
+        }
+    }
+    .inner {
+        display: grid;
+        grid-template-columns: 320px 1fr;
+        gap: var(--s-7);
+        max-width: var(--max-w);
+        margin: 0 auto;
+    }
+    @media (max-width: 800px) {
+        .inner {
+            grid-template-columns: 1fr;
+            gap: var(--s-5);
+        }
+    }
+    .text {
+        font-size: 17px;
+        line-height: 1.7;
+        color: var(--fg-1);
+        max-width: 64ch;
+    }
+    .text :global(p) {
+        margin: 0 0 1.1em;
+        max-width: none;
+    }
+    .text :global(p:last-child) {
+        margin-bottom: 0;
+    }
+    .text :global(a) {
+        color: var(--amber);
+        border-bottom: 1px solid
+            color-mix(in srgb, var(--amber) 40%, transparent);
+    }
+    .text :global(a:hover) {
+        color: var(--fg);
+        border-bottom-color: var(--fg);
+        text-decoration: none;
+    }
+</style>

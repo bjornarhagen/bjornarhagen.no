@@ -1,0 +1,25 @@
+---
+interface Props {
+    variant?: "default" | "amber" | "crimson";
+    href?: string;
+    class?: string;
+}
+
+const {
+    variant = "default",
+    href,
+    class: className = "",
+} = Astro.props;
+
+const El = href ? "a" : "span";
+const classes = [
+    "tag",
+    variant === "amber" ? "amber" : null,
+    variant === "crimson" ? "crimson" : null,
+    className,
+];
+---
+
+<El class:list={classes} href={href}>
+    <slot />
+</El>

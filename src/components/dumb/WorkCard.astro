@@ -1,0 +1,87 @@
+---
+interface Props {
+    company: string;
+    role: string;
+    when: string;
+    desc: string;
+    active?: boolean;
+}
+
+const { company, role, when, desc, active = false } = Astro.props;
+---
+
+<div class:list={["work-card", active && "active"]}>
+    <div class="co">
+        <span class="status-dot"></span>
+        {company}
+        <span class="when">{when}</span>
+    </div>
+    <div class="role-line">{role}</div>
+    <div class="desc">{desc}</div>
+</div>
+
+<style>
+    .work-card {
+        padding: 20px;
+        border-right: 1px solid var(--border-token);
+        border-bottom: 1px solid var(--border-token);
+        background: var(--bg-1);
+        display: flex;
+        flex-direction: column;
+        gap: 6px;
+        position: relative;
+    }
+    .work-card:nth-child(2n) {
+        border-right: none;
+    }
+    .work-card:nth-last-child(-n + 2) {
+        border-bottom: none;
+    }
+    @media (max-width: 720px) {
+        .work-card {
+            border-right: none;
+            border-bottom: 1px solid var(--border-token);
+        }
+        .work-card:last-child {
+            border-bottom: none;
+        }
+    }
+    .co {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font:
+            500 var(--t-mono-sm) / 1 var(--font-mono);
+        color: var(--fg);
+    }
+    .role-line {
+        font:
+            500 var(--t-mono-xs) / 1 var(--font-mono);
+        color: var(--fg-dim);
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+    }
+    .when {
+        margin-left: auto;
+        font:
+            400 var(--t-mono-xs) / 1 var(--font-mono);
+        color: var(--fg-muted);
+    }
+    .desc {
+        font-size: 14px;
+        color: var(--fg-1);
+        margin-top: 8px;
+        line-height: 1.55;
+    }
+    .status-dot {
+        width: 7px;
+        height: 7px;
+        background: var(--fg-muted);
+        display: inline-block;
+        flex-shrink: 0;
+    }
+    .work-card.active .status-dot {
+        background: var(--ok);
+        box-shadow: 0 0 8px var(--ok);
+    }
+</style>

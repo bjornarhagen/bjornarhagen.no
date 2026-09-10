@@ -1,0 +1,75 @@
+---
+interface Props {
+    href?: string;
+    label: string;
+    title: string;
+    meta?: string;
+    empty?: boolean;
+}
+
+const { href, label, title, meta, empty = false } = Astro.props;
+const El = href && !empty ? "a" : "div";
+---
+
+<El class:list={["rel-cell", empty && "empty"]} href={!empty ? href : undefined}>
+    <div class="l">{label}</div>
+    <div class="t">{title}</div>
+    {meta && <div class="m">{meta}</div>}
+</El>
+
+<style>
+    .rel-cell {
+        padding: 18px 20px;
+        border-right: 1px solid var(--border-token);
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        text-decoration: none;
+        color: inherit;
+        transition: background 0.15s;
+    }
+    .rel-cell:last-child {
+        border-right: none;
+    }
+    @media (max-width: 800px) {
+        .rel-cell {
+            border-right: none;
+            border-bottom: 1px solid var(--border-token);
+        }
+        .rel-cell:last-child {
+            border-bottom: none;
+        }
+    }
+    .rel-cell:not(.empty):hover {
+        background: var(--bg);
+        text-decoration: none;
+    }
+    .rel-cell:not(.empty):hover .t {
+        color: var(--amber);
+    }
+    .rel-cell.empty {
+        opacity: 0.5;
+    }
+    .l {
+        font:
+            500 var(--t-mono-xs) / 1 var(--font-mono);
+        color: var(--amber);
+        text-transform: uppercase;
+        letter-spacing: 0.18em;
+    }
+    .rel-cell.empty .l {
+        color: var(--fg-muted);
+    }
+    .t {
+        font:
+            400 26px / 1.1 var(--font-display);
+        color: var(--fg);
+        transition: color 0.15s;
+    }
+    .m {
+        font:
+            400 var(--t-mono-xs) / 1.4 var(--font-mono);
+        color: var(--fg-muted);
+        margin-top: auto;
+    }
+</style>

@@ -1,0 +1,54 @@
+---
+/**
+ * 3-column posts grid container. Children should be <PostCard>s.
+ * Handles the responsive border-right toggling at the grid level so cards
+ * don't need to know about their neighbors.
+ */
+interface Props {
+    class?: string;
+}
+
+const { class: className = "" } = Astro.props;
+---
+
+<div class:list={["posts-grid", className]}>
+    <slot />
+</div>
+
+<style>
+    .posts-grid {
+        max-width: var(--max-w);
+        margin: 0 auto;
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 0;
+        border: 1px solid var(--border-token);
+    }
+    @media (max-width: 960px) {
+        .posts-grid {
+            grid-template-columns: repeat(2, 1fr);
+        }
+    }
+    @media (max-width: 640px) {
+        .posts-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+    /* turn off trailing border-right where the grid edge already covers it */
+    .posts-grid :global(.post-card:nth-child(3n)) {
+        border-right: none;
+    }
+    @media (max-width: 960px) {
+        .posts-grid :global(.post-card:nth-child(3n)) {
+            border-right: 1px solid var(--border-token);
+        }
+        .posts-grid :global(.post-card:nth-child(2n)) {
+            border-right: none;
+        }
+    }
+    @media (max-width: 640px) {
+        .posts-grid :global(.post-card) {
+            border-right: none !important;
+        }
+    }
+</style>

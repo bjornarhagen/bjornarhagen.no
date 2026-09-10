@@ -1,0 +1,49 @@
+---
+/**
+ * Filesystem-style breadcrumb. Each item is either:
+ *  - { label: string, href?: string }  — clickable or static segment
+ *  - { label: string, cwd: true }      — final segment, highlighted as cwd
+ *  - { label: string, dim: true }      — dimmed link/text segment
+ *
+ * The trailing caret blink is opt-in via `caret` prop (default true on cwd).
+ */
+
+export type BreadItem = {
+    label: string;
+    href?: string;
+    cwd?: boolean;
+    dim?: boolean;
+};
+
+interface Props {
+    items: BreadItem[];
+    caret?: boolean;
+    class?: string;
+}
+
+const { items, caret = true, class: className = "" } = Astro.props;
+---
+
+<div class:list={["bread", className]}>
+    {
+        items.map((item, i) => {
+            const isLast = i === items.length - 1;
+            const node = item.href ? (
+                <a href={item.href} class:list={[item.dim && "text-dim"]}>
+                    {item.label}
+                </a>
+            ) : item.cwd ? (
+                <span class="cwd">{item.label}</span>
+            ) : (
+                <span class:list={[item.dim && "text-dim"]}>{item.label}</span>
+            );
+            return (
+                <>
+                    {node}
+                    {!isLast && <span class="sep">/</span>}
+                </>
+            );
+        })
+    }
+    {caret && items.some((i) => i.cwd) && <span class="caret" />}
+</div>

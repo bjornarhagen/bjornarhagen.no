@@ -1,0 +1,437 @@
+---
+/**
+ * Faint ASCII rendering of an image, painted on a canvas that sits exactly on
+ * top of the image it was sampled from.
+ *
+ * The character grid is derived from the element's own box — `cellW = width /
+ * cols`, `cellH = height / rows` — and each glyph is stamped at its cell
+ * centre. Nothing depends on how the browser happens to lay out a line of
+ * text, which is what keeps the glyphs registered with the photo underneath at
+ * any size. The image is sampled through the same centred cover-crop that
+ * `object-fit: cover; object-position: center` applies to the <img>, so both
+ * layers show the same part of the picture.
+ *
+ * Glyphs are chosen by *contrast against the page background* so the subject
+ * reads in both themes, with a few cells flickering at random. The unflickered
+ * grid is kept on an offscreen canvas, so a tick is one blit plus a handful of
+ * stamps. Swaps image on theme change; static under prefers-reduced-motion,
+ * and the flicker pauses while off-screen or backgrounded.
+ *
+ * Drop it into any positioned box — it fills the nearest positioned ancestor.
+ * Legibility treatment for text laid over it belongs to the consumer (the
+ * homepage hero uses a gradient scrim), not here.
+ *
+ * ── Sources ──────────────────────────────────────────────────────────────
+ *   dark / light    per-theme image. Either one alone is enough — whichever
+ *                   is missing falls back to the other, and when both resolve
+ *                   to the same file only one <img> is emitted. Required:
+ *                   with neither, the component renders nothing. Deliberately
+ *                   has no default, so no page's artwork is baked in here.
+ *
+ * ── Layers ───────────────────────────────────────────────────────────────
+ *   showImage       false → glyphs alone, no photo underneath. The glyphs are
+ *                   still coloured from the image when color="image".
+ *   imageOpacity    photo opacity, 0–1
+ *   imageBlur       photo blur in px (0 = none)
+ *   imageGrayscale  photo desaturation, 0–1 (0 = full colour)
+ *
+ * ── Framing ──────────────────────────────────────────────────────────────
+ *   mask            CSS mask-image for the glyph layer, to fade it out rather
+ *                   than let it end on a hard edge. Aim it away from whatever
+ *                   text sits on top. "none" disables it.
+ *
+ * ── Glyphs ───────────────────────────────────────────────────────────────
+ *   color           "" → theme ink (--fg) · any CSS colour · "image" → use the
+ *                   source image's own pixel colours
+ *   cellPx          target cell width in CSS px — lower = denser, smaller chars
+ *   maxCols         hard cap on columns (bites on wide viewports)
+ *   charAspect      cell width ÷ cell height; 0 measures the mono font itself
+ *                   (0.6 for JetBrains Mono), which keeps glyphs cell-shaped
+ *   fontScale       glyph size as a share of cell height — >1 crowds, <1 airs out
+ *   ramp            glyph ramp, sparse → dense
+ *   flickerMs       flicker tick interval in ms (0 disables the flicker)
+ *   flickerFraction share of cells that change each tick (0–1)
+ *   opacity         glyph layer opacity
+ */
+interface Props {
+    dark?: string;
+    light?: string;
+    showImage?: boolean;
+    imageOpacity?: number;
+    imageBlur?: number;
+    imageGrayscale?: number;
+    mask?: string;
+    class?: string;
+    color?: string;
+    cellPx?: number;
+    maxCols?: number;
+    charAspect?: number;
+    fontScale?: number;
+    ramp?: string;
+    flickerMs?: number;
+    flickerFraction?: number;
+    opacity?: number;
+}
+const {
+    dark,
+    light,
+    showImage = true,
+    imageOpacity = 0.15,
+    imageBlur = 8,
+    imageGrayscale = 0.25,
+    mask = "radial-gradient(120% 120% at 70% 35%, #000 30%, transparent 80%)",
+    class: className = "",
+    color = "image",
+    cellPx = 6,
+    maxCols = 200,
+    charAspect = 0,
+    fontScale = 0.8,
+    ramp = " .:-=+*#%@",
+    flickerMs = 250,
+    flickerFraction = 0.05,
+    opacity = 0.75,
+} = Astro.props;
+
+// either source alone is enough; each stands in for the other
+const darkSrc = dark || light;
+const lightSrc = light || dark;
+// nothing to sample — render nothing rather than an <img src="">
+const hasSrc = Boolean(darkSrc);
+const oneSrc = darkSrc === lightSrc;
+
+// inline rather than utility classes: a pass-through class prop would depend
+// on Tailwind having already generated whatever the caller happens to pass
+const filter = [
+    imageBlur > 0 ? `blur(${imageBlur}px)` : "",
+    imageGrayscale > 0 ? `grayscale(${imageGrayscale})` : "",
+]
+    .filter(Boolean)
+    .join(" ");
+const imgStyle = `opacity:${imageOpacity}${filter ? `;filter:${filter}` : ""}`;
+const imgClass = "w-full h-full object-cover object-center";
+---
+
+{
+    hasSrc && (
+        <div class="absolute inset-0 w-full h-full">
+            {showImage &&
+                (oneSrc ? (
+                    <img
+                        src={darkSrc}
+                        class={`${imgClass} block`}
+                        style={imgStyle}
+                        alt=""
+                    />
+                ) : (
+                    <Fragment>
+                        <img
+                            src={lightSrc}
+                            class={`${imgClass} block dark:hidden`}
+                            style={imgStyle}
+                            alt=""
+                        />
+                        <img
+                            src={darkSrc}
+                            class={`${imgClass} hidden dark:block`}
+                            style={imgStyle}
+                            alt=""
+                        />
+                    </Fragment>
+                ))}
+            <div
+                class:list={["ascii-backdrop", className]}
+                aria-hidden="true"
+                data-dark={darkSrc}
+                data-light={lightSrc}
+                data-color={color}
+                data-cell-px={cellPx}
+                data-max-cols={maxCols}
+                data-char-aspect={charAspect}
+                data-font-scale={fontScale}
+                data-ramp={ramp}
+                data-flicker-ms={flickerMs}
+                data-flicker-fraction={flickerFraction}
+                style={`--ascii-opacity:${opacity};--ascii-mask:${mask || "none"}`}
+            >
+                <canvas />
+            </div>
+        </div>
+    )
+}
+
+<style>
+    .ascii-backdrop {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        overflow: hidden;
+        pointer-events: none;
+        user-select: none;
+        opacity: var(--ascii-opacity, 0.15);
+        -webkit-mask-image: var(--ascii-mask, none);
+        mask-image: var(--ascii-mask, none);
+    }
+    .ascii-backdrop canvas {
+        display: block;
+        width: 100%;
+        height: 100%;
+        /* read back via getComputedStyle — CSS stays the source of truth for
+           the glyph font and the theme ink colour */
+        font-family: var(--font-mono);
+        color: var(--fg);
+    }
+</style>
+
+<script>
+    const DPR_CAP = 2;
+    const FALLBACK_ASPECT = 0.6;
+
+    /** Advance width ÷ font-size for a font stack, once its faces are loaded. */
+    async function measureCharAspect(font: string, sample: string) {
+        try {
+            // the faces are `font-display: swap`, so make sure the real font is
+            // in before measuring — otherwise we'd size the grid to the fallback
+            await document.fonts.load(`16px ${font}`, sample);
+        } catch {
+            /* unparseable stack — fall through to whatever is available */
+        }
+        await document.fonts.ready;
+        const probe = document.createElement("canvas").getContext("2d");
+        if (!probe) return FALLBACK_ASPECT;
+        const px = 200;
+        probe.font = `${px}px ${font}`;
+        const w = probe.measureText("M").width;
+        return w > 0 ? w / px : FALLBACK_ASPECT;
+    }
+
+    function num(v: string | undefined, fallback: number) {
+        if (v === undefined || v === "") return fallback;
+        const n = Number(v);
+        return Number.isFinite(n) ? n : fallback;
+    }
+
+    function initAsciiBackdrop(wrap: HTMLElement) {
+        const canvas = wrap.querySelector("canvas");
+        if (!canvas) return;
+        const ctx = canvas.getContext("2d");
+        // the unflickered grid, so a flicker tick can restore it in one blit
+        const base = document.createElement("canvas");
+        const baseCtx = base.getContext("2d");
+        // one pixel per character cell
+        const sampler = document.createElement("canvas");
+        const samplerCtx = sampler.getContext("2d", {
+            willReadFrequently: true,
+        });
+        if (!ctx || !baseCtx || !samplerCtx) return;
+
+        const cfg = {
+            color: wrap.dataset.color ?? "",
+            cellPx: num(wrap.dataset.cellPx, 6),
+            maxCols: num(wrap.dataset.maxCols, 300),
+            charAspect: num(wrap.dataset.charAspect, 0),
+            fontScale: num(wrap.dataset.fontScale, 1),
+            ramp: wrap.dataset.ramp || " .:-=+*#%@",
+            flickerMs: num(wrap.dataset.flickerMs, 500),
+            flickerFraction: num(wrap.dataset.flickerFraction, 0.05),
+        };
+        const RAMP = cfg.ramp;
+        const last = RAMP.length - 1;
+        const perPixelColor = cfg.color === "image";
+
+        const img = new Image();
+        let loadedSrc = "";
+
+        let charAspect = FALLBACK_ASPECT;
+        let cols = 0;
+        let rows = 0;
+        let cellW = 0;
+        let cellH = 0;
+        let glyphIdx = new Uint8Array(0);
+        let colors: string[] = [];
+
+        const isDark = () =>
+            document.documentElement.classList.contains("dark");
+        const currentSrc = () =>
+            (isDark() ? wrap.dataset.dark : wrap.dataset.light) ?? "";
+
+        function stamp(c: CanvasRenderingContext2D, i: number, idx: number) {
+            const ch = RAMP[idx];
+            if (ch === " ") return;
+            const x = i % cols;
+            const y = (i - x) / cols;
+            if (perPixelColor) c.fillStyle = colors[i];
+            c.fillText(ch, (x + 0.5) * cellW, (y + 0.5) * cellH);
+        }
+
+        function render() {
+            const rect = wrap.getBoundingClientRect();
+            const cssW = rect.width;
+            const cssH = rect.height;
+            if (!cssW || !cssH || !img.naturalWidth) return;
+
+            const dpr = Math.min(window.devicePixelRatio || 1, DPR_CAP);
+            const pxW = Math.max(1, Math.round(cssW * dpr));
+            const pxH = Math.max(1, Math.round(cssH * dpr));
+            canvas.width = base.width = pxW;
+            canvas.height = base.height = pxH;
+
+            // the grid tiles the box exactly — no rounding slack to drift
+            // against the photo, in either axis
+            cols = Math.max(
+                20,
+                Math.min(cfg.maxCols, Math.round(cssW / cfg.cellPx)),
+            );
+            cellW = cssW / cols;
+            rows = Math.max(2, Math.round(cssH / (cellW / charAspect)));
+            cellH = cssH / rows;
+
+            // sample through the <img>'s own `object-fit: cover` +
+            // `object-position: center` crop, so both layers frame the same
+            // part of the picture
+            const iw = img.naturalWidth;
+            const ih = img.naturalHeight;
+            const scale = Math.max(cssW / iw, cssH / ih);
+            const sw = Math.min(iw, cssW / scale);
+            const sh = Math.min(ih, cssH / scale);
+            sampler.width = cols;
+            sampler.height = rows;
+            samplerCtx.imageSmoothingEnabled = true;
+            samplerCtx.imageSmoothingQuality = "high";
+            samplerCtx.clearRect(0, 0, cols, rows);
+            samplerCtx.drawImage(
+                img,
+                (iw - sw) / 2,
+                (ih - sh) / 2,
+                sw,
+                sh,
+                0,
+                0,
+                cols,
+                rows,
+            );
+            const data = samplerCtx.getImageData(0, 0, cols, rows).data;
+
+            const dark = isDark();
+            const n = cols * rows;
+            glyphIdx = new Uint8Array(n);
+            colors = perPixelColor ? new Array(n) : [];
+            for (let i = 0; i < n; i++) {
+                const r = data[i * 4];
+                const g = data[i * 4 + 1];
+                const b = data[i * 4 + 2];
+                const lum = (0.299 * r + 0.587 * g + 0.114 * b) / 255;
+                // density = contrast against the page background
+                const density = dark ? lum : 1 - lum;
+                glyphIdx[i] = Math.max(
+                    0,
+                    Math.min(last, Math.round(density * last)),
+                );
+                if (perPixelColor) colors[i] = `rgb(${r},${g},${b})`;
+            }
+
+            const cs = getComputedStyle(canvas);
+            const ink = cfg.color && !perPixelColor ? cfg.color : cs.color;
+            for (const c of [baseCtx, ctx]) {
+                c.setTransform(dpr, 0, 0, dpr, 0, 0);
+                c.font = `${cellH * cfg.fontScale}px ${cs.fontFamily}`;
+                c.textAlign = "center";
+                c.textBaseline = "middle";
+                c.fillStyle = ink;
+            }
+            baseCtx.clearRect(0, 0, cssW, cssH);
+            for (let i = 0; i < n; i++) stamp(baseCtx, i, glyphIdx[i]);
+            paint();
+        }
+
+        /** Restore the unflickered grid, 1:1 in device pixels. */
+        function paint() {
+            ctx.save();
+            ctx.setTransform(1, 0, 0, 1, 0, 0);
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(base, 0, 0);
+            ctx.restore();
+        }
+
+        function mutate() {
+            const n = cols * rows;
+            if (!n) return;
+            paint();
+            const k = Math.max(6, Math.floor(n * cfg.flickerFraction));
+            for (let j = 0; j < k; j++) {
+                const i = (Math.random() * n) | 0;
+                let idx = glyphIdx[i] + ((Math.random() * 4) | 0) - 1;
+                if (idx < 0) idx = 0;
+                else if (idx > last) idx = last;
+                const x = i % cols;
+                const y = (i - x) / cols;
+                ctx.clearRect(x * cellW, y * cellH, cellW, cellH);
+                stamp(ctx, i, idx);
+            }
+        }
+
+        function load() {
+            const src = currentSrc();
+            if (!src) return;
+            if (src === loadedSrc) {
+                render(); // same image, theme flipped → just re-map densities
+                return;
+            }
+            loadedSrc = src;
+            img.src = src;
+            if (img.complete && img.naturalWidth) render();
+        }
+
+        // ── flicker, only while it can actually be seen ──
+        let timer = 0;
+        let onScreen = true;
+        const motion = window.matchMedia("(prefers-reduced-motion: reduce)");
+
+        function syncFlicker() {
+            const want =
+                cfg.flickerMs > 0 &&
+                onScreen &&
+                !motion.matches &&
+                document.visibilityState === "visible";
+            if (want && !timer) {
+                timer = window.setInterval(mutate, cfg.flickerMs);
+            } else if (!want && timer) {
+                window.clearInterval(timer);
+                timer = 0;
+                paint();
+            }
+        }
+
+        img.addEventListener("load", render);
+
+        let rt = 0;
+        new ResizeObserver(() => {
+            window.clearTimeout(rt);
+            rt = window.setTimeout(render, 120);
+        }).observe(wrap);
+
+        new MutationObserver(load).observe(document.documentElement, {
+            attributes: true,
+            attributeFilter: ["class"],
+        });
+
+        new IntersectionObserver((entries) => {
+            onScreen = entries.some((e) => e.isIntersecting);
+            syncFlicker();
+        }).observe(wrap);
+
+        document.addEventListener("visibilitychange", syncFlicker);
+        motion.addEventListener("change", syncFlicker);
+
+        measureCharAspect(getComputedStyle(canvas).fontFamily, RAMP).then(
+            (measured) => {
+                charAspect = cfg.charAspect || measured;
+                load();
+                syncFlicker();
+            },
+        );
+    }
+
+    document
+        .querySelectorAll<HTMLElement>(".ascii-backdrop")
+        .forEach(initAsciiBackdrop);
+</script>

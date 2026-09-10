@@ -1,0 +1,24 @@
+---
+/**
+ * A hairline rule with bracket markers around the children.
+ * Pass any inline children — typically 2-3 <span>s for the label triplet:
+ *   <Rule>
+ *     <span>identity</span>
+ *     <span>· 01 ·</span>
+ *     <span>operator profile</span>
+ *   </Rule>
+ *
+ * The `.rule` styles live in global.css so the class can be used anywhere.
+ * This component exists for ergonomics + a single import surface.
+ */
+
+interface Props {
+    class?: string;
+}
+
+const { class: className = "" } = Astro.props;
+---
+
+<div class:list={["rule", className]}>
+    <slot />
+</div>

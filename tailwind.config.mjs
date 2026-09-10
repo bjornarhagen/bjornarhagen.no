@@ -7,9 +7,12 @@ export default {
             // fonts
             fontFamily: {
                 heading: ["Pirata One", "serif"],
-                content: ["Hack", "monospace"],
-                code: ["Hack", "monospace"],
-                paragraph: ["EB Garamond", "serif"],
+                display: ["Pirata One", "serif"],
+                content: ["JetBrains Mono", "ui-monospace", "monospace"],
+                code: ["JetBrains Mono", "ui-monospace", "monospace"],
+                mono: ["JetBrains Mono", "ui-monospace", "monospace"],
+                paragraph: ["IBM Plex Sans", "system-ui", "sans-serif"],
+                body: ["IBM Plex Sans", "system-ui", "sans-serif"],
             },
             // colors
             colors: {

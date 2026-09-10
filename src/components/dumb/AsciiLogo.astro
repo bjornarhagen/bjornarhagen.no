@@ -1,0 +1,86 @@
+---
+/**
+ * Animated ASCII rendering of the HB monogram (the brand mark used in the nav).
+ * A slow amber gradient sweeps across the glyphs for a subtle motion / colour
+ * shift. Honours prefers-reduced-motion (falls back to a static dim render).
+ */
+const art = `· · · · · · ·
+█   █   ████
+█   █   █   █
+█   █   █   █
+█████   ████
+█   █   █   █
+█   █   █   █
+█   █   ████
+· · · · · · ·`;
+---
+
+<div class="ascii-logo" role="img" aria-label="Bjørnar Hagen — HB monogram">
+    <pre class="art" aria-hidden="true">{art}</pre>
+    <div class="cap">bjornar<span class="dot">.</span>dev</div>
+</div>
+
+<style>
+    .ascii-logo {
+        position: absolute;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        padding: 16px;
+    }
+    .art {
+        margin: 0;
+        font-family: var(--font-mono);
+        font-size: clamp(12px, 1.5vw, 15px);
+        line-height: 1.18;
+        letter-spacing: 1px;
+        white-space: pre;
+        /* mostly dim, with a thin amber band that the sweep animation drags across */
+        background: linear-gradient(
+            120deg,
+            var(--fg-dim) 0%,
+            var(--fg-dim) 42%,
+            var(--amber) 50%,
+            var(--fg-1) 58%,
+            var(--fg-dim) 100%
+        );
+        background-size: 300% 100%;
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        animation: ascii-sweep 9s ease-in-out infinite;
+    }
+    .cap {
+        font:
+            500 var(--t-mono-xs) / 1 var(--font-mono);
+        text-transform: uppercase;
+        letter-spacing: 0.22em;
+        color: var(--fg-muted);
+    }
+    .cap .dot {
+        color: var(--amber);
+    }
+    @keyframes ascii-sweep {
+        0% {
+            background-position: 0% 50%;
+        }
+        50% {
+            background-position: 100% 50%;
+        }
+        100% {
+            background-position: 0% 50%;
+        }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .art {
+            animation: none;
+            background: none;
+            -webkit-background-clip: border-box;
+            background-clip: border-box;
+            color: var(--fg-dim);
+        }
+    }
+</style>
