@@ -1,0 +1,82 @@
+---
+import Bread, { type BreadItem } from "./Bread.astro";
+
+interface Props {
+    title: string;
+    bread?: BreadItem[];
+    /** When true, allocates the right-hand grid column for the `filters` slot. */
+    filters?: boolean;
+}
+
+const { title, bread, filters = false } = Astro.props;
+---
+
+<section class:list={["header-block", filters && "with-filters"]}>
+    <div>
+        {bread && <Bread items={bread} class="bread-spacing" />}
+        <h1 class="page-title">{title}</h1>
+        <p class="lede">
+            <slot />
+        </p>
+    </div>
+    {
+        filters && (
+            <div class="filters">
+                <slot name="filters" />
+            </div>
+        )
+    }
+</section>
+
+<style>
+    .header-block {
+        padding: var(--s-8) var(--gutter) var(--s-7);
+        border-bottom: 1px solid var(--border-token);
+        max-width: var(--max-w);
+        margin: 0 auto;
+    }
+    .header-block.with-filters {
+        display: grid;
+        grid-template-columns: 1fr auto;
+        gap: var(--s-6);
+        align-items: end;
+    }
+    @media (max-width: 960px) {
+        .header-block {
+            padding: var(--s-7) var(--gutter) var(--s-6);
+        }
+        .header-block.with-filters {
+            grid-template-columns: 1fr;
+        }
+    }
+    .page-title {
+        font-size: clamp(64px, 12vw, 144px);
+        line-height: 0.9;
+    }
+    .lede {
+        margin-top: var(--s-4);
+        font:
+            400 var(--t-body-lg) / 1.5 var(--font-body);
+        color: var(--fg-1);
+        max-width: 56ch;
+    }
+    .lede :global(a) {
+        color: var(--amber);
+        border-bottom: 1px solid
+            color-mix(in srgb, var(--amber) 40%, transparent);
+    }
+    .lede :global(a:hover) {
+        color: var(--fg);
+        border-bottom-color: var(--fg);
+        text-decoration: none;
+    }
+    :global(.bread-spacing) {
+        margin-bottom: 20px;
+    }
+    .filters {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        min-width: 320px;
+    }
+</style>

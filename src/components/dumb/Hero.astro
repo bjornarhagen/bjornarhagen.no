@@ -1,0 +1,150 @@
+---
+import Rule from "./Rule.astro";
+import Btn from "./Btn.astro";
+import Dossier from "./Dossier.astro";
+import AsciiBackdrop from "./AsciiBackdrop.astro";
+
+interface Props {
+    firstName?: string;
+    lastName?: string;
+    role?: string;
+}
+
+const {
+    firstName = "Bjørnar",
+    lastName = "Hagen",
+    role = "// Software Engineer  ·  Full-stack  ·  Builder",
+} = Astro.props;
+---
+
+<section class="hero-section relative border-b border-border">
+    <AsciiBackdrop
+        dark="/images/graphics/black-3.webp"
+        light="/images/graphics/white-3.webp"
+    />
+    <div class="hero">
+        <div class="hero-left">
+            <Rule class="mb-rule">
+                <span>identity</span>
+                <span>· 01 ·</span>
+                <span>profile</span>
+            </Rule>
+
+            <h1 class="hero-title">
+                <span>{firstName}</span>
+                <span>{lastName}</span><span class="dot">.</span>
+            </h1>
+            <div class="role" set:html={role} />
+
+            <p class="lede">
+                <slot name="lede">
+                    I build, break and occasionally fix systems on the open web
+                    — full-stack, infrastructure, the slightly haunted parts in
+                    between.
+                </slot>
+            </p>
+
+            <div class="cta-row">
+                <slot name="cta">
+                    <Btn href="/entries" variant="primary">Read posts</Btn>
+                    <Btn href="/portfolio-tmp">Portfolio</Btn>
+                </slot>
+            </div>
+        </div>
+
+        <!-- <Dossier /> -->
+    </div>
+</section>
+
+<style>
+    .hero {
+        position: relative;
+        display: grid;
+        grid-template-columns: 1.05fr 0.95fr;
+        gap: var(--s-7);
+        padding: var(--s-8) var(--gutter) var(--s-9);
+        align-items: stretch;
+        /* border-bottom: 1px solid var(--border-token); */
+        max-width: var(--max-w);
+        margin: 0 auto;
+        width: 100%;
+    }
+    .hero-left {
+        position: relative;
+        z-index: 1;
+    }
+    /* Legibility scrim. Rather than covering the busy backdrop with a panel,
+       let the page background win on the left and dissolve into the ASCII on
+       the right — so the copy sits on flat colour with no edge anywhere.
+       Sits above the backdrop (z-index 0, later in tree order) and below
+       .hero-left (z-index 1). Tune the stops to trade legibility for ASCII. */
+    .hero-section::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        background: linear-gradient(
+            95deg,
+            var(--bg) 10%,
+            color-mix(in srgb, var(--bg) 72%, transparent) 44%,
+            transparent 74%
+        );
+    }
+    @media (max-width: 960px) {
+        .hero {
+            grid-template-columns: 1fr;
+            gap: var(--s-6);
+            padding: var(--s-6) var(--gutter) var(--s-7);
+        }
+        .hero-section::after {
+            background: linear-gradient(
+                100deg,
+                var(--bg) 45%,
+                color-mix(in srgb, var(--bg) 70%, transparent) 85%,
+                transparent 100%
+            );
+        }
+    }
+    .mb-rule {
+        margin-bottom: 28px;
+    }
+    .hero-title {
+        font-size: clamp(64px, 10vw, 96px);
+        line-height: 0.92;
+        letter-spacing: 0.005em;
+    }
+    .hero-title .dot {
+        color: var(--amber);
+    }
+    .role {
+        margin-top: var(--s-3);
+        font: 500 var(--t-mono-md) / 1.4 var(--font-mono);
+        color: var(--amber);
+        text-transform: uppercase;
+        letter-spacing: 0.2em;
+    }
+    .lede {
+        margin-top: var(--s-5);
+        font-size: 19px;
+        line-height: 1.55;
+        color: var(--fg-1);
+        max-width: 38ch;
+    }
+    .lede :global(a) {
+        color: var(--amber);
+        border-bottom: 1px solid
+            color-mix(in srgb, var(--amber) 40%, transparent);
+    }
+    .lede :global(a:hover) {
+        color: var(--fg);
+        border-bottom-color: var(--fg);
+        text-decoration: none;
+    }
+    .cta-row {
+        display: flex;
+        gap: var(--s-3);
+        margin-top: var(--s-6);
+        flex-wrap: wrap;
+    }
+</style>

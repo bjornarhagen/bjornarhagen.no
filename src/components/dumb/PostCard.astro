@@ -1,0 +1,94 @@
+---
+import PostThumb from "./PostThumb.astro";
+
+interface Props {
+    href: string;
+    title: string;
+    excerpt: string;
+    date: string;
+    poster?: string;
+    idBadge?: string;
+    secondary?: string; // small text after date (e.g. year)
+}
+
+const { href, title, excerpt, date, poster, idBadge, secondary } = Astro.props;
+---
+
+<a href={href} class="post-card">
+    <PostThumb
+        src={poster}
+        alt={title}
+        idBadge={idBadge}
+        dateBadge={date}
+    />
+    <div class="post-meta">
+        <span>{date}</span>
+        {
+            secondary && (
+                <>
+                    <span class="sep">·</span>
+                    <span class="reading">{secondary}</span>
+                </>
+            )
+        }
+    </div>
+    <h3 class="post-title">{title}</h3>
+    <p class="post-excerpt">{excerpt}</p>
+</a>
+
+<style>
+    .post-card {
+        padding: 20px;
+        border-right: 1px solid var(--border-token);
+        border-bottom: 1px solid var(--border-token);
+        background: var(--bg);
+        display: grid;
+        grid-template-rows: auto auto 1fr auto;
+        gap: 14px;
+        position: relative;
+        transition: background 0.2s;
+        text-decoration: none;
+        color: inherit;
+    }
+    .post-card:hover {
+        background: var(--bg-1);
+        text-decoration: none;
+    }
+    .post-card:hover .post-title {
+        color: var(--amber);
+    }
+    .post-card:hover :global(.post-thumb img) {
+        filter: grayscale(0);
+    }
+    .post-meta {
+        display: flex;
+        gap: 12px;
+        align-items: center;
+        font:
+            400 var(--t-mono-xs) / 1 var(--font-mono);
+        color: var(--fg-muted);
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+    }
+    .post-meta .sep {
+        color: var(--fg-faint);
+    }
+    .post-meta .reading {
+        color: var(--fg-dim);
+    }
+    .post-title {
+        font:
+            400 32px / 1 var(--font-display);
+        color: var(--fg);
+        transition: color 0.15s;
+        letter-spacing: 0.01em;
+    }
+    .post-excerpt {
+        font:
+            400 14px / 1.55 var(--font-body);
+        color: var(--fg-1);
+        max-height: 4.2em;
+        overflow: hidden;
+        margin: 0;
+    }
+</style>

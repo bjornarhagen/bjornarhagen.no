@@ -1,88 +1,198 @@
 ---
-import ContentSection from "../../components/dumb/ContentSection.astro";
-import { dynamicPages, dynamicPagesConfig } from "../../data/dynamic-pages";
-import Layout from "../../layouts/Layout.astro";
-import { checkIfImageUrl } from "../../utils/image";
+import Layout from "@/layouts/Layout.astro";
+import { dynamicPages, dynamicPagesConfig } from "@/data/dynamic-pages";
+import { entryCatalog, entryKey, fmtNo } from "@/utils/entries";
+import PageHeader from "@/components/dumb/PageHeader.astro";
+import PostFilters from "@/components/dumb/PostFilters.astro";
+import StatsStrip from "@/components/dumb/StatsStrip.astro";
+import Rule from "@/components/dumb/Rule.astro";
+import FeatureCard from "@/components/dumb/FeatureCard.astro";
+import PostsGrid from "@/components/dumb/PostsGrid.astro";
+import PostCard from "@/components/dumb/PostCard.astro";
 
 const { dynamicPageType } = Astro.params;
+// Server routes accept arbitrary parameters; getStaticPaths does not constrain them.
+if (!Object.hasOwn(dynamicPages, dynamicPageType)) {
+    return new Response("Not found", { status: 404 });
+}
 const pages = dynamicPages[dynamicPageType];
 
 export function getStaticPaths() {
     const types = Object.keys(dynamicPages) as (keyof typeof dynamicPages)[];
-    const paths = types.flatMap((type) =>
-        Object.keys(dynamicPages[type]).map((slug) => ({
-            params: {
-                dynamicPageType: type,
-            },
-        })),
-    );
+    return types.map((type) => ({ params: { dynamicPageType: type } }));
+}
 
-    console.log(`Generating pages for "[dynamicPageType]"`, { paths });
-    return paths;
+type EntryRow = {
+    year: string;
+    slug: string;
+    page: (typeof pages)[string][string];
+};
+
+const sort =
+    Astro.url.searchParams.get("sort") === "oldest" ? "oldest" : "newest";
+
+const cat = entryCatalog(dynamicPageType);
+
+const allEntries: EntryRow[] = Object.keys(pages).flatMap((year) =>
+    Object.keys(pages[year]).map((slug) => ({
+        year,
+        slug,
+        page: pages[year][slug],
+    })),
+);
+
+const byDateDesc = [...allEntries].sort(
+    (a, b) => new Date(b.page.date).getTime() - new Date(a.page.date).getTime(),
+);
+
+// The featured card follows the current sort (it's the first in order); the
+// LATEST marker only appears when that featured post is genuinely the latest.
+const ordered = sort === "oldest" ? [...byDateDesc].reverse() : byDateDesc;
+const feature = ordered[0];
+const rest = ordered.slice(1);
+const newestDate = byDateDesc[0]?.page.date;
+const featureIsLatest = feature
+    ? entryKey(feature.year, feature.slug) === cat.latestKey
+    : false;
+
+const total = cat.total;
+const yearCounts = Object.keys(pages)
+    .sort()
+    .reverse()
+    .map((y) => ({ year: y, count: Object.keys(pages[y]).length }));
+
+const pageTitle = dynamicPagesConfig[dynamicPageType].title;
+const pageLabel = dynamicPageType === "portfolio" ? "portfolio" : "posts";
+
+function fmtDate(iso: string): string {
+    const d = new Date(iso);
+    const y = d.getUTCFullYear();
+    const m = String(d.getUTCMonth() + 1).padStart(2, "0");
+    const day = String(d.getUTCDate()).padStart(2, "0");
+    return `${y}·${m}·${day}`;
+}
+
+function numFor(e: EntryRow): number | undefined {
+    return cat.numberByKey.get(entryKey(e.year, e.slug));
 }
 ---
 
-<Layout title={dynamicPagesConfig[dynamicPageType].title}>
-    <main class="pt-4 min-h-screen">
-        <ContentSection>
-            <h1 class="font-heading text-6xl">
-                {dynamicPagesConfig[dynamicPageType].title}
-            </h1>
+<Layout title={pageTitle} cwd={`~/${pageLabel}`}>
+    <PageHeader
+        title={`${pageTitle}.`}
+        bread={[
+            { label: "~", href: "/" },
+            { label: pageLabel, cwd: true },
+        ]}
+        filters
+    >
+        Notes, experiments and mistakes documented in real-time. Some of these
+        are useful. Most of them are at least specific.
 
-            <ul class="grid grid-cols-12 gap-4 lg:gap-8 mt-4 lg:mt-8">
-                {
-                    Object.keys(pages)
-                        .toSorted((a, b) => Number(b) - Number(a))
-                        .map((year) =>
-                            Object.keys(pages[year])
-                                .toSorted((a, b) => {
-                                    const dateA = new Date(pages[year][a].date);
-                                    const dateB = new Date(pages[year][b].date);
-                                    // @ts-ignore
-                                    return dateB - dateA;
-                                })
-                                .map((slug) => {
-                                    const article = pages[year][slug];
-                                    return (
-                                        <li class="height-full col-span-12 md:col-span-6 first-of-type:md:col-span-12 lg:col-span-4 first-of-type:lg:col-span-8 nth-of-type-[6n]:lg:col-span-8 xl:col-span-3 first-of-type:xl:col-span-6 nth-of-type-[6n]:xl:col-span-6">
-                                            <article class="h-full">
-                                                <a
-                                                    href={`/${dynamicPageType}/${year}/${article.slug}`}
-                                                    class="relative flex flex-col group border border-border justify-center items-start h-full hover:border-primary-500 focus:border-primary-500 focus:outline-none"
-                                                >
-                                                    <div class="relative w-full">
-                                                        <img
-                                                            src={
-                                                                checkIfImageUrl(
-                                                                    article.poster,
-                                                                )
-                                                                    ? article.poster
-                                                                    : "/images/loading-gray.svg"
-                                                            }
-                                                            alt={article.title}
-                                                            class="w-full h-48 object-cover object-center group-hover:opacity-75 group-focus:opacity-75 border-b border-b-border group-hover:border-b-primary-500 group-focus:border-b-primary-500"
-                                                        />
-                                                        <p class="z-10 absolute bottom-px right-0 p-2 text-right font-light text-xs text-white bg-black/10 backdrop-blur-md">
-                                                            {article.date}
-                                                        </p>
-                                                    </div>
-                                                    <div class="flex flex-col w-full grow">
-                                                        {/* <h2 class="px-4 py-2 font-heading text-2xl leading-none m-0 group-hover:bg-foreground group-hover:text-background group-focus:bg-foreground group-focus:text-background"> */}
-                                                        <h2 class="px-4 py-2 font-heading text-2xl leading-none group-hover:text-primary-500 group-focus:text-primary-500">
-                                                            {article.title}
-                                                        </h2>
-                                                        <p class="pb-2 px-4 pt-2 font-paragraph font-light opacity-90 border-t border-t-border group-hover:border-t-primary-500 group-focus:border-t-primary-500">
-                                                            {article.summary}
-                                                        </p>
-                                                    </div>
-                                                </a>
-                                            </article>
-                                        </li>
-                                    );
-                                }),
-                        )
-                }
-            </ul>
-        </ContentSection>
-    </main>
+        <Fragment slot="filters">
+            <PostFilters
+                type={dynamicPageType}
+                years={yearCounts}
+                total={total}
+                sort={sort}
+                basePath={`/${dynamicPageType}`}
+            />
+        </Fragment>
+    </PageHeader>
+
+    <StatsStrip>
+        <span><strong>{total}</strong> entries</span>
+        <span class="sep">·</span>
+        <span><strong>{yearCounts.length}</strong> years</span>
+        <span class="sep">·</span>
+        {
+            newestDate && (
+                <span>
+                    last update <strong>{fmtDate(newestDate)}</strong>
+                </span>
+            )
+        }
+        <span slot="right">{`// sorted ${sort}`}</span>
+    </StatsStrip>
+
+    {
+        feature && (
+            <section class="feature-wrap">
+                <div class="container-x">
+                    <Rule class="mb-rule">
+                        <span>{fmtNo(numFor(feature))}</span>
+                        <span>
+                            {featureIsLatest
+                                ? "· featured · most recent ·"
+                                : "· featured · earliest ·"}
+                        </span>
+                        <span>{fmtDate(feature.page.date)}</span>
+                    </Rule>
+                </div>
+                <FeatureCard
+                    href={`/${dynamicPageType}/${feature.year}/${feature.slug}`}
+                    title={feature.page.title}
+                    summary={feature.page.summary}
+                    date={fmtDate(feature.page.date)}
+                    poster={feature.page.poster}
+                    idBadge={`${fmtNo(numFor(feature))}${featureIsLatest ? " · LATEST" : ""}`}
+                    secondary={feature.year}
+                    tag={
+                        featureIsLatest
+                            ? "// featured · latest entry"
+                            : "// featured · earliest entry"
+                    }
+                />
+            </section>
+        )
+    }
+
+    {
+        rest.length > 0 && (
+            <section class="grid-wrap">
+                <div class="container-x">
+                    <Rule class="mb-rule">
+                        <span>archive</span>
+                        <span>· {rest.length} entries ·</span>
+                        <span>
+                            {sort === "newest"
+                                ? "newest first"
+                                : "oldest first"}
+                        </span>
+                    </Rule>
+                </div>
+                <PostsGrid>
+                    {rest.map((entry) => (
+                        <PostCard
+                            href={`/${dynamicPageType}/${entry.year}/${entry.slug}`}
+                            title={entry.page.title}
+                            excerpt={entry.page.summary}
+                            date={fmtDate(entry.page.date)}
+                            poster={entry.page.poster}
+                            idBadge={fmtNo(numFor(entry))}
+                            secondary={entry.year}
+                        />
+                    ))}
+                </PostsGrid>
+            </section>
+        )
+    }
 </Layout>
+
+<style>
+    .feature-wrap {
+        margin-top: var(--s-6);
+        padding: 0 var(--gutter);
+    }
+    .grid-wrap {
+        margin-top: var(--s-6);
+        padding: 0 var(--gutter) var(--s-8);
+    }
+    .feature-wrap .container-x,
+    .grid-wrap .container-x {
+        padding: 0;
+    }
+    :global(.mb-rule) {
+        margin-bottom: 18px;
+    }
+</style>

@@ -1,0 +1,93 @@
+---
+import { checkIfImageUrl } from "@/utils/image";
+
+interface Props {
+    src?: string;
+    alt: string;
+    idBadge?: string;
+    dateBadge?: string;
+    aspect?: "16/9" | "16/10";
+    eager?: boolean;
+}
+
+const {
+    src,
+    alt,
+    idBadge,
+    dateBadge,
+    aspect = "16/9",
+    eager = false,
+} = Astro.props;
+
+const hasImage = !!src && checkIfImageUrl(src);
+---
+
+<div class:list={["post-thumb", aspect === "16/10" && "wide"]}>
+    {
+        hasImage ? (
+            <img src={src} alt={alt} loading={eager ? "eager" : "lazy"} />
+        ) : (
+            <div class="img-fallback halftone" />
+        )
+    }
+    {idBadge && <div class="id-badge">{idBadge}</div>}
+    {dateBadge && <div class="date-badge">{dateBadge}</div>}
+</div>
+
+<style>
+    .post-thumb {
+        aspect-ratio: 16 / 9;
+        background: var(--bg-1);
+        border: 1px solid var(--border-token);
+        position: relative;
+        overflow: hidden;
+    }
+    .post-thumb.wide {
+        aspect-ratio: 16 / 10;
+    }
+    .post-thumb img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        filter: grayscale(1) contrast(1.05);
+        transition: filter 0.35s ease;
+    }
+    .img-fallback {
+        width: 100%;
+        height: 100%;
+    }
+    .post-thumb::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: repeating-linear-gradient(
+            0deg,
+            transparent 0 2px,
+            rgba(0, 0, 0, 0.16) 2px 3px
+        );
+    }
+    .id-badge,
+    .date-badge {
+        position: absolute;
+        font:
+            500 var(--t-mono-xs) / 1 var(--font-mono);
+        background: color-mix(in srgb, var(--bg) 85%, transparent);
+        padding: 4px 8px;
+        border: 1px solid var(--border-token);
+        z-index: 2;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+    }
+    .id-badge {
+        top: 8px;
+        left: 8px;
+        color: var(--fg-dim);
+    }
+    .date-badge {
+        bottom: 8px;
+        right: 8px;
+        color: var(--fg);
+    }
+</style>

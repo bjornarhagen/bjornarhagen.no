@@ -9,10 +9,11 @@ an image or merging this documentation does not update the cluster. The intended
 release branch is `master`. The deployment registry in the private
 infrastructure repository is authoritative for whether automation is enabled.
 
-The current cluster image was built from `dev`. Reconcile that production
-source into `master` before enabling default-branch releases. The legacy Vercel
-workflow is separate from cluster delivery and must be reviewed before changing
-release-branch behavior.
+The source of the current cluster image (`5b296e4`) is included on `master`,
+including its production Dockerfile and runtime tests. The obsolete Vercel
+production workflow has been removed; the operator reports deleting the Vercel
+projects on 2026-09-10. Existing manual/dev image publication is separate from
+cluster delivery and does not change its pinned image.
 
 ## How releases will work once enabled
 
@@ -34,9 +35,15 @@ application PRs never select the persistent infrastructure runner.
 
 ## Build and verify
 
-Use the existing local development instructions. Default-branch production
-container checks will be added when the production packaging is reconciled;
-local development builds alone do not establish release readiness.
+```sh
+docker build --platform linux/amd64 -t website:check .
+python3 scripts/check-container.py website:check
+```
+
+The build runs Astro type checks. Runtime tests exercise production routes,
+redirects and 404s in the packaged image with a non-root user and read-only
+filesystem. `container-checks.yml` runs these checks on PRs and `master` pushes
+on GitHub-hosted runners with read-only repository access.
 
 ## Ownership, status and rollback
 
@@ -47,8 +54,7 @@ not determine container-package visibility.
 
 Authorized operators can inspect the [deployment registry](https://github.com/bjornarhagen/ai-devops/blob/main/delivery/applications.json)
 and [delivery runbook](https://github.com/bjornarhagen/ai-devops/blob/main/docs/runbooks/application-delivery.md).
-These private links require access and become available when the infrastructure
-preparation is merged. Public contributors can inspect this repository's Actions
+These private links require access. Public contributors can inspect this repository's Actions
 checks; deployment logs and private image artifacts remain private.
 
 To pause releases, disable this application in the central registry; operators

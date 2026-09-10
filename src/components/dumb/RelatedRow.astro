@@ -1,0 +1,23 @@
+---
+/**
+ * 3-column row of <RelCell>s — used at the end of a post for prev/index/next.
+ */
+---
+
+<div class="related-row">
+    <slot />
+</div>
+
+<style>
+    .related-row {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        border: 1px solid var(--border-token);
+        background: var(--bg-1);
+    }
+    @media (max-width: 800px) {
+        .related-row {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

@@ -1,0 +1,57 @@
+---
+import Tag from "./Tag.astro";
+
+type MetaItem = { k: string; v: string };
+
+interface Props {
+    items: MetaItem[];
+    type?: string; // optional trailing tag
+}
+
+const { items, type } = Astro.props;
+---
+
+<div class="meta-row">
+    {
+        items.map((item, i) => (
+            <>
+                <span>
+                    <span class="k">{item.k} /</span>{" "}
+                    <span class="v">{item.v}</span>
+                </span>
+                {(i < items.length - 1 || type) && (
+                    <span class="sep">::</span>
+                )}
+            </>
+        ))
+    }
+    {
+        type && (
+            <span>
+                <span class="k">type /</span> <Tag>{type}</Tag>
+            </span>
+        )
+    }
+</div>
+
+<style>
+    .meta-row {
+        margin-top: 24px;
+        display: flex;
+        gap: 18px;
+        align-items: center;
+        flex-wrap: wrap;
+        font:
+            400 var(--t-mono-sm) / 1.4 var(--font-mono);
+        color: var(--fg-dim);
+    }
+    .sep {
+        color: var(--fg-faint);
+    }
+    .k {
+        color: var(--fg-muted);
+    }
+    .v {
+        color: var(--fg);
+    }
+</style>

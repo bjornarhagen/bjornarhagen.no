@@ -1,0 +1,42 @@
+---
+/**
+ * Blackletter brand wordmark: bjornar.dev with an amber dot.
+ * Size variants: sm (56px), md (88px – default), lg (custom from caller).
+ * The wordmark color follows --fg; the dot is always --amber.
+ */
+interface Props {
+    size?: "sm" | "md";
+    class?: string;
+}
+
+const { size = "md", class: className = "" } = Astro.props;
+---
+
+<span class:list={["wordmark", `size-${size}`, className]}>
+    bjornar<span class="dot">.</span>dev
+</span>
+
+<style>
+    .wordmark {
+        font-family: var(--font-display);
+        font-weight: 400;
+        line-height: 0.9;
+        color: var(--fg);
+        letter-spacing: 0.005em;
+        display: inline-block;
+    }
+    .wordmark.size-sm {
+        font-size: 56px;
+    }
+    .wordmark.size-md {
+        font-size: 88px;
+    }
+    @media (max-width: 600px) {
+        .wordmark.size-md {
+            font-size: 56px;
+        }
+    }
+    .dot {
+        color: var(--amber);
+    }
+</style>

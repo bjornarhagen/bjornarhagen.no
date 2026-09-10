@@ -1,0 +1,34 @@
+---
+interface Props {
+    label: string;
+    value: string;
+}
+
+const { label, value } = Astro.props;
+---
+
+<div class="stat">
+    <div class="l">{label}</div>
+    <div class="v">{value}</div>
+</div>
+
+<style>
+    .stat {
+        border: 1px solid var(--border-token);
+        padding: 12px 14px;
+        background: var(--bg-1);
+    }
+    .l {
+        font:
+            500 var(--t-mono-xs) / 1 var(--font-mono);
+        color: var(--fg-dim);
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+    }
+    .v {
+        margin-top: 8px;
+        font:
+            500 var(--t-mono-lg) / 1 var(--font-mono);
+        color: var(--fg);
+    }
+</style>

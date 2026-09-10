@@ -1,85 +1,85 @@
 ---
 import Layout from "@/layouts/Layout.astro";
-import ContentSection from "@/components/dumb/ContentSection.astro";
-import { getAscii } from "@/utils/ascii";
+import PageHeader from "@/components/dumb/PageHeader.astro";
+import Rule from "@/components/dumb/Rule.astro";
 import "@/components/dumb/ContentRenderer.css";
-
-const pulsarMapAscii = getAscii("pulsar-map");
 ---
 
-<Layout marginForNav={false} marginForFooter={false}>
-    <main>
-        <ContentSection className="relative">
-            <section
-                class="grid grid-cols-12 gap-2 sm:gap-4 md:gap-8 font-paragraph min-h-screen"
-            >
-                <div
-                    class="col-span-5 md:col-span-4 lg:col-span-3 border-r border-r-border md:border-r-0 pr-4 sm:pr-8"
-                >
-                    <div class="sticky top-24 pb-8 sm:pb-0">
-                        <div class="relative inline-block">
-                            <span
-                                class="font-heading text-8xl absolute top-1/2 -translate-y-1/2 left-0 right-0 mx-auto opacity-25 text-center pointer-events-none"
-                            >
-                                <!-- <span class="whitespace-nowrap">/now</span> -->
-                            </span>
-                            <h2 class="font-heading text-3xl">/now</h2>
-                            <p class="text-sm sm:text-base mt-1">
-                                This page tells you what I'm up to these days.
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div
-                    class="col-span-7 md:col-span-8 lg:col-span-9 md:border-l md:border-l-border"
-                >
-                    <section
-                        class="content-renderer-section pb-8 py-24 pl-4 sm:pl-8"
+<Layout
+    title="/now"
+    description="What Bjørnar Hagen is up to these days."
+    cwd="~/now"
+>
+    <PageHeader
+        title="/now"
+        bread={[
+            { label: "~", href: "/" },
+            { label: "now", cwd: true },
+        ]}
+    >
+        This page tells you what I'm up to these days.
+    </PageHeader>
+
+    <section class="now">
+        <div class="container-x">
+            <Rule class="mb"><span>currently</span></Rule>
+            <div class="content-renderer-section body">
+                <h2>🏫 Gokstad Akademiet</h2>
+                <p>
+                    Working on a SaaS for <a
+                        href="https://gokstadakademiet.no/?ref=bjornar.dev"
+                        target="_blank"
+                        rel="noopener">Gokstad Akademiet</a
+                    > as their IT manager and senior full-stack developer.
+                </p>
+                <p>
+                    We've grown from a single developer to a team of 3,
+                    and I have the pleasure of mentoring 2 junior devs.
+                </p>
+
+                <h2>✨ NUVA &amp; Sauna Booking</h2>
+                <p>Working on side projects with friends:</p>
+                <p>
+                    <a
+                        href="https://nuva.no/?ref=bjornar.dev"
+                        target="_blank"
+                        rel="noopener">nuva.no</a
                     >
-                        <h2>🏫 Gokstad Akademiet</h2>
-                        <p>
-                            Working on a SaaS for <a
-                                href="https://gokstadakademiet.no/?ref=bjornar.dev"
-                                target="_blank"
-                                rel="noopener">Gokstad Akademiet</a
-                            > as their IT manager and senior full-stack developer.
-                        </p>
-                        <p>
-                            We've grown from a single developer to a team of 3,
-                            and I have the pleasure of mentoring 2 junior devs.
-                        </p>
+                    <span>|</span>
+                    <a
+                        href="https://saunabooking.no/?ref=bjornar.dev"
+                        target="_blank"
+                        rel="noopener">saunabooking.no</a
+                    >
+                </p>
 
-                        <h2>✨ NUVA &amp; Sauna Booking</h2>
-                        <p>Working on side projects with friends:</p>
-                        <p>
-                            <a
-                                href="https://nuva.no/?ref=bjornar.dev"
-                                target="_blank"
-                                rel="noopener">nuva.no</a
-                            >
-                            <span>|</span>
-                            <a
-                                href="https://saunabooking.no/?ref=bjornar.dev"
-                                target="_blank"
-                                rel="noopener">saunabooking.no</a
-                            >
-                        </p>
+                <h3>🚀 Astro</h3>
+                <p>
+                    Been using Astro more and more as of late, really
+                    enjoying it. As a matter of fact, I just updated
+                    this website to use Astro (used Hugo before).
+                </p>
 
-                        <h3>🚀 Astro</h3>
-                        <p>
-                            Been using Astro more and more as of late, really
-                            enjoying it. As a matter of fact, I just updated
-                            this website to use Astro (used Hugo before).
-                        </p>
+                <h3>👾 Monarch: Legacy of Monsters</h3>
+                <p>Currently watching this show on my Plex</p>
 
-                        <h3>👾 Monarch: Legacy of Monsters</h3>
-                        <p>Currently watching this show on my Plex</p>
-
-                        <h3>🥁🔊 Sub Focus</h3>
-                        <p>Been listening to a lot of Sub Focus lately</p>
-                    </section>
-                </div>
-            </section>
-        </ContentSection>
-    </main>
+                <h3>🥁🔊 Sub Focus</h3>
+                <p>Been listening to a lot of Sub Focus lately</p>
+            </div>
+        </div>
+    </section>
 </Layout>
+
+<style>
+    .now {
+        padding: var(--s-7) 0 var(--s-9);
+    }
+    .mb {
+        margin-bottom: var(--s-5);
+    }
+    /* measure for reading — the old layout let these lines run the full
+       width of the viewport and spill past the right edge */
+    .body {
+        max-width: 68ch;
+    }
+</style>

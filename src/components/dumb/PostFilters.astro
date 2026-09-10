@@ -1,0 +1,74 @@
+---
+import FilterRow from "./FilterRow.astro";
+import Tag from "./Tag.astro";
+
+type YearCount = { year: string; count: number };
+
+interface Props {
+    /** dynamic page type, e.g. "entries" or "portfolio" */
+    type: string;
+    years: YearCount[];
+    total: number;
+    /** undefined => the "all" view is active */
+    activeYear?: string;
+    sort?: "newest" | "oldest";
+    /** current page path (used by the sort toggle), e.g. "/entries/2024" */
+    basePath: string;
+}
+
+const {
+    type,
+    years,
+    total,
+    activeYear,
+    sort = "newest",
+    basePath,
+} = Astro.props;
+
+function withSort(path: string, s: "newest" | "oldest") {
+    return s === "oldest" ? `${path}?sort=oldest` : path;
+}
+---
+
+<div class="post-filters">
+    <FilterRow label="// year">
+        <Tag
+            href={withSort(`/${type}`, sort)}
+            variant={!activeYear ? "amber" : "default"}
+        >
+            all · {total}
+        </Tag>
+        {
+            years.map((y) => (
+                <Tag
+                    href={withSort(`/${type}/${y.year}`, sort)}
+                    variant={activeYear === y.year ? "amber" : "default"}
+                >
+                    {y.year} · {y.count}
+                </Tag>
+            ))
+        }
+    </FilterRow>
+    <FilterRow label="// sort">
+        <Tag
+            href={withSort(basePath, "newest")}
+            variant={sort === "newest" ? "amber" : "default"}
+        >
+            newest
+        </Tag>
+        <Tag
+            href={withSort(basePath, "oldest")}
+            variant={sort === "oldest" ? "amber" : "default"}
+        >
+            oldest
+        </Tag>
+    </FilterRow>
+</div>
+
+<style>
+    .post-filters {
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+    }
+</style>
