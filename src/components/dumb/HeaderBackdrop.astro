@@ -40,55 +40,56 @@ import AsciiBackdrop from "@/components/dumb/AsciiBackdrop.astro";
     .blobs {
         position: absolute;
         inset: 0;
-        opacity: 0.23;
+        opacity: 0.32;
     }
     .blob {
         position: absolute;
-        width: 65%;
-        height: 150%;
+        width: 42%;
+        height: 110%;
         background: radial-gradient(
             ellipse at center,
             var(--header-accent),
-            color-mix(in srgb, var(--header-accent) 65%, transparent) 28%,
-            transparent 70%
+            color-mix(in srgb, var(--header-accent) 80%, transparent) 32%,
+            transparent 72%
         );
-        filter: blur(24px);
-        animation: drift 28s ease-in-out infinite alternate;
+        filter: blur(18px);
+        animation: drift 18s ease-in-out infinite alternate;
         animation-play-state: paused;
     }
     .blob-one {
-        top: -65%;
-        left: 10%;
+        top: -18%;
+        left: 24%;
         border-radius: 42% 58% 63% 37%;
         transform: rotate(-18deg);
-        --drift-x: 18%;
-        --drift-y: 22%;
-        --drift-rotate: 14deg;
+        --drift-x: 62%;
+        --drift-y: 16%;
+        --drift-rotate: 25deg;
+        animation-delay: -5s;
     }
     .blob-two {
-        top: -20%;
-        right: -12%;
-        width: 75%;
+        top: 4%;
+        right: -6%;
+        width: 46%;
         border-radius: 60% 40% 38% 62%;
         transform: rotate(22deg) scale(0.85);
-        --drift-x: -18%;
-        --drift-y: -16%;
-        --drift-rotate: -16deg;
-        animation-duration: 34s;
-        animation-delay: -15s;
+        --drift-x: -55%;
+        --drift-y: -24%;
+        --drift-rotate: -28deg;
+        animation-duration: 23s;
+        animation-delay: -12s;
     }
     .blob-three {
-        top: -90%;
-        left: -25%;
-        width: 90%;
+        top: -35%;
+        left: 2%;
+        width: 38%;
         border-radius: 35% 65% 57% 43%;
         transform: rotate(-8deg) scale(0.9);
-        --drift-x: 12%;
-        --drift-y: 28%;
+        --drift-x: 65%;
+        --drift-y: 38%;
         --drift-rotate: 20deg;
-        animation-duration: 40s;
-        animation-delay: -24s;
-        opacity: 0.65;
+        animation-duration: 29s;
+        animation-delay: -18s;
+        opacity: 0.75;
     }
     .header-backdrop[data-active] .blob {
         animation-play-state: running;
@@ -113,12 +114,15 @@ import AsciiBackdrop from "@/components/dumb/AsciiBackdrop.astro";
     @keyframes drift {
         to {
             transform: translate3d(var(--drift-x), var(--drift-y), 0)
-                rotate(var(--drift-rotate)) scale(1.12, 0.9);
+                rotate(var(--drift-rotate)) scale(1.18, 0.82);
         }
     }
     @media (max-width: 760px) {
         .header-backdrop {
             height: 340px;
+        }
+        .blob {
+            width: 80%;
         }
         .artwork {
             left: 10%;
