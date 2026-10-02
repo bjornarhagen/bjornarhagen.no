@@ -29,17 +29,28 @@ function subUrlIsActive(path: string) {
         <a
             href="/entries"
             class:list={["link", { active: subUrlIsActive("/entries") }]}
-            >Posts</a
         >
+            Posts
+        </a>
         <a
             href="/portfolio-tmp"
             class:list={["link", { active: subUrlIsActive("/portfolio") }]}
-            >Portfolio</a
         >
+            Portfolio
+        </a>
+        <a
+            href="/saga"
+            class:list={["link", { active: subUrlIsActive("/saga") }]}
+            aria-current={urlIsActive("/saga") ? "page" : undefined}
+        >
+            Saga
+        </a>
         <a
             href="/about"
-            class:list={["link", { active: urlIsActive("/about") }]}>About</a
+            class:list={["link", { active: urlIsActive("/about") }]}
         >
+            About
+        </a>
     </nav>
 
     <div class="right">
@@ -88,16 +99,15 @@ function subUrlIsActive(path: string) {
         <div class="dialog-links">
             <a href="/entries">Posts</a>
             <a href="/portfolio-tmp">Portfolio</a>
+            <a href="/saga">Saga</a>
             <a href="/now">/now</a>
             <a href="/about">About</a>
-            {
-                isDevEnv && (
-                    <>
-                        <a href="/kitchen-sink">Kitchen Sink</a>
-                        <a href="/editor-load-entry">Editor</a>
-                    </>
-                )
-            }
+            {isDevEnv && (
+                <>
+                    <a href="/kitchen-sink">Kitchen Sink</a>
+                    <a href="/editor-load-entry">Editor</a>
+                </>
+            )}
         </div>
         <div class="dialog-foot">
             <DialogTrigger dialogId="nav-menu" action="close">

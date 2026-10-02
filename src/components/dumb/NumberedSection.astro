@@ -24,8 +24,12 @@ const { num, title, sub } = Astro.props;
 <style>
     .section {
         padding: var(--s-9) var(--gutter);
-        border-bottom: 1px solid var(--border-token);
         position: relative;
+    }
+    /* Only separate consecutive numbered sections. The work log that follows
+       provides its own labeled rule. */
+    .section + .section {
+        border-top: 1px solid var(--border-token);
     }
     @media (max-width: 720px) {
         .section {

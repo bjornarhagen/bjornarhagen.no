@@ -7,12 +7,12 @@ const year = new Date().getFullYear();
 ---
 
 <footer id="footer" class="bjfooter">
+    <Rule class="signoff-rule">
+        <span>signoff</span>
+        <span>· EOF ·</span>
+        <span>0xHB</span>
+    </Rule>
     <div class="container-x">
-        <Rule class="signoff-rule">
-            <span>signoff</span>
-            <span>· EOF ·</span>
-            <span>0xHB</span>
-        </Rule>
         <div class="signoff-grid">
             <div class="brand-block">
                 <Wordmark size="md" />
@@ -23,10 +23,21 @@ const year = new Date().getFullYear();
             <div class="link-cols">
                 <div>
                     <div class="col-head">// nav</div>
-                    <div><a href="/entries">Posts</a></div>
-                    <div><a href="/portfolio-tmp">Portfolio</a></div>
-                    <div><a href="/now">/now</a></div>
-                    <div><a href="/about">About</a></div>
+                    <div>
+                        <a href="/entries">Posts</a>
+                    </div>
+                    <div>
+                        <a href="/portfolio-tmp">Portfolio</a>
+                    </div>
+                    <div>
+                        <a href="/saga">Saga</a>
+                    </div>
+                    <div>
+                        <a href="/now">/now</a>
+                    </div>
+                    <div>
+                        <a href="/about">About</a>
+                    </div>
                 </div>
                 <div>
                     <div class="col-head">// channels</div>
@@ -34,41 +45,55 @@ const year = new Date().getFullYear();
                         <a
                             href="https://github.com/bjornarhagen"
                             target="_blank"
-                            rel="noopener">GitHub</a
+                            rel="noopener"
                         >
+                            GitHub
+                        </a>
                     </div>
                     <div>
                         <a
                             href="https://linkedin.com/in/bjornarhagen"
                             target="_blank"
-                            rel="noopener">LinkedIn</a
+                            rel="noopener"
                         >
+                            LinkedIn
+                        </a>
                     </div>
                     <div>
                         <a
                             href="https://twitter.com/bjornarhagen"
                             target="_blank"
-                            rel="noopener">X</a
+                            rel="noopener"
                         >
+                            X
+                        </a>
                     </div>
                 </div>
                 <div>
                     <div class="col-head">// system</div>
-                    <div><a href="/rss.xml">RSS feed</a></div>
-                    <div><a href="/about#colophon">Colophon</a></div>
+                    <div>
+                        <a href="/rss.xml">RSS feed</a>
+                    </div>
+                    <div>
+                        <a href="/about#colophon">Colophon</a>
+                    </div>
                     <div>
                         <a
                             href="https://github.com/bjornarhagen/bjornarhagen.no"
                             target="_blank"
-                            rel="noopener">Source</a
+                            rel="noopener"
                         >
+                            Source
+                        </a>
                     </div>
                     <div>
                         <a
                             href="https://webring.xxiivv.com/"
                             target="_blank"
-                            rel="noopener">xxiivv ring</a
+                            rel="noopener"
                         >
+                            xxiivv ring
+                        </a>
                     </div>
                 </div>
             </div>
@@ -79,15 +104,13 @@ const year = new Date().getFullYear();
 
 <style>
     .bjfooter {
-        border-top: 1px solid var(--border-token);
         margin-top: var(--s-9);
     }
     .container-x {
-        padding-top: var(--s-7);
         padding-bottom: var(--s-7);
     }
-    .signoff-rule {
-        margin-bottom: var(--s-5);
+    .bjfooter > :global(.signoff-rule) {
+        margin: var(--s-7) 0 var(--s-5);
     }
     .signoff-grid {
         display: grid;

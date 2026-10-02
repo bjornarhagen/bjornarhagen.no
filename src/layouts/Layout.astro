@@ -2,6 +2,7 @@
 import Footer from "../components/smart/Footer.astro";
 import Nav from "../components/smart/Nav.astro";
 import StatusBar from "../components/smart/StatusBar.astro";
+import HeaderBackdrop from "@/components/dumb/HeaderBackdrop.astro";
 import "@/styles/global.css";
 
 interface Props {
@@ -101,8 +102,16 @@ const {
         <StatusBar position="top" cwd={cwd} />
         <Nav />
         <main class="page-main">
+            {Astro.url.pathname !== "/" && <HeaderBackdrop />}
             <slot />
         </main>
         <Footer />
     </body>
 </html>
+
+<style>
+    .page-main {
+        position: relative;
+        isolation: isolate;
+    }
+</style>

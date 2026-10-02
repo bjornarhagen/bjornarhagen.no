@@ -11,7 +11,7 @@ interface Props {
 const { title, bread, filters = false } = Astro.props;
 ---
 
-<section class:list={["header-block", filters && "with-filters"]}>
+<section class:list={["header-block", filters && "with-filters"]} data-page-header>
     <div>
         {bread && <Bread items={bread} class="bread-spacing" />}
         <h1 class="page-title">{title}</h1>
@@ -31,7 +31,6 @@ const { title, bread, filters = false } = Astro.props;
 <style>
     .header-block {
         padding: var(--s-8) var(--gutter) var(--s-7);
-        border-bottom: 1px solid var(--border-token);
         max-width: var(--max-w);
         margin: 0 auto;
     }

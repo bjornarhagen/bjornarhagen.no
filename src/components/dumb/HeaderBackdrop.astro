@@ -1,0 +1,177 @@
+---
+import AsciiBackdrop from "@/components/dumb/AsciiBackdrop.astro";
+---
+
+<div class="header-backdrop" aria-hidden="true" data-header-backdrop>
+    <div class="blobs">
+        <span class="blob blob-one"></span>
+        <span class="blob blob-two"></span>
+        <span class="blob blob-three"></span>
+    </div>
+    <div class="artwork">
+        <AsciiBackdrop
+            dark="/images/graphics/black-3.webp"
+            light="/images/graphics/white-3.webp"
+            showImage={false}
+            color=""
+            opacity={0.32}
+            cellPx={7}
+            maxCols={180}
+            flickerMs={0}
+            mask="linear-gradient(90deg, transparent, #000 35%, #000 80%, transparent)"
+        />
+    </div>
+    <div class="scrim"></div>
+</div>
+
+<style>
+    .header-backdrop {
+        --header-accent: hsl(var(--primary-500));
+        position: absolute;
+        inset: 0 0 auto;
+        height: 380px;
+        overflow: hidden;
+        pointer-events: none;
+        user-select: none;
+        z-index: -1;
+        /* Fade the whole composition out at the header's lower edge. */
+        mask-image: linear-gradient(#000 0%, #000 35%, transparent 100%);
+    }
+    .blobs {
+        position: absolute;
+        inset: 0;
+        opacity: 0.23;
+    }
+    .blob {
+        position: absolute;
+        width: 65%;
+        height: 150%;
+        background: radial-gradient(
+            ellipse at center,
+            var(--header-accent),
+            color-mix(in srgb, var(--header-accent) 65%, transparent) 28%,
+            transparent 70%
+        );
+        filter: blur(24px);
+        animation: drift 28s ease-in-out infinite alternate;
+        animation-play-state: paused;
+    }
+    .blob-one {
+        top: -65%;
+        left: 10%;
+        border-radius: 42% 58% 63% 37%;
+        transform: rotate(-18deg);
+        --drift-x: 18%;
+        --drift-y: 22%;
+        --drift-rotate: 14deg;
+    }
+    .blob-two {
+        top: -20%;
+        right: -12%;
+        width: 75%;
+        border-radius: 60% 40% 38% 62%;
+        transform: rotate(22deg) scale(0.85);
+        --drift-x: -18%;
+        --drift-y: -16%;
+        --drift-rotate: -16deg;
+        animation-duration: 34s;
+        animation-delay: -15s;
+    }
+    .blob-three {
+        top: -90%;
+        left: -25%;
+        width: 90%;
+        border-radius: 35% 65% 57% 43%;
+        transform: rotate(-8deg) scale(0.9);
+        --drift-x: 12%;
+        --drift-y: 28%;
+        --drift-rotate: 20deg;
+        animation-duration: 40s;
+        animation-delay: -24s;
+        opacity: 0.65;
+    }
+    .header-backdrop[data-active] .blob {
+        animation-play-state: running;
+    }
+    .artwork {
+        position: absolute;
+        top: -12%;
+        bottom: -15%;
+        left: 30%;
+        right: -8%;
+    }
+    .scrim {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            100deg,
+            color-mix(in srgb, var(--bg) 90%, transparent),
+            color-mix(in srgb, var(--bg) 70%, transparent) 38%,
+            transparent 75%
+        );
+    }
+    @keyframes drift {
+        to {
+            transform: translate3d(var(--drift-x), var(--drift-y), 0)
+                rotate(var(--drift-rotate)) scale(1.12, 0.9);
+        }
+    }
+    @media (max-width: 760px) {
+        .header-backdrop {
+            height: 340px;
+        }
+        .artwork {
+            left: 10%;
+            right: -50%;
+            opacity: 0.65;
+        }
+        .scrim {
+            background: linear-gradient(
+                100deg,
+                color-mix(in srgb, var(--bg) 92%, transparent),
+                color-mix(in srgb, var(--bg) 45%, transparent)
+            );
+        }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .blob {
+            animation: none;
+        }
+    }
+</style>
+
+<script>
+    document
+        .querySelectorAll<HTMLElement>("[data-header-backdrop]")
+        .forEach((backdrop) => {
+            const main = backdrop.parentElement;
+            const header =
+                main?.querySelector<HTMLElement>("[data-page-header]");
+
+            // Follow wrapped titles and mobile headers rather than using a fixed
+            // height. Older pages without a shared header keep the CSS fallback.
+            if (main && header) {
+                const sizeToHeader = () => {
+                    const height =
+                        header.getBoundingClientRect().bottom -
+                        main.getBoundingClientRect().top;
+                    backdrop.style.height = `${Math.ceil(height)}px`;
+                };
+                sizeToHeader();
+                new ResizeObserver(sizeToHeader).observe(header);
+            }
+
+            let onScreen = false;
+            const syncMotion = () => {
+                backdrop.toggleAttribute(
+                    "data-active",
+                    onScreen && !document.hidden,
+                );
+            };
+            new IntersectionObserver(([entry]) => {
+                onScreen = entry.isIntersecting;
+                syncMotion();
+            }).observe(backdrop);
+            document.addEventListener("visibilitychange", syncMotion);
+        });
+</script>

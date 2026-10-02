@@ -16,7 +16,7 @@ interface Props {
 const { bread, title, ruleParts, metas, type } = Astro.props;
 ---
 
-<section class="post-head">
+<section class="post-head" data-page-header>
     <Bread items={bread} caret={false} />
     <Rule class="head-rule">
         {ruleParts.map((p) => <span>{p}</span>)}
