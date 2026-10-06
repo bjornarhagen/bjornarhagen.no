@@ -37,11 +37,12 @@ for (const path of ["/notes", "/notes?sort=oldest"]) {
     const html = await page(path);
     assert.ok(html.includes("UX tip for external links"));
     assert.ok(html.includes('href="/entries/2021/links"'));
-    assert.ok(
-        html.includes(
-            path.includes("oldest") ? "sorted oldest" : "sorted newest",
-        ),
+    const olderPost = html.indexOf('href="/entries/2021/links"');
+    const newerPost = html.indexOf(
+        'href="/entries/2025/drizzle-migrations-with-a-safety-net"',
     );
+    assert.ok(olderPost >= 0 && newerPost >= 0);
+    assert.equal(olderPost < newerPost, path.includes("oldest"));
 }
 
 assert.ok((await page("/")).includes("Bjørnar"));
