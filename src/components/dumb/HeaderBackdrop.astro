@@ -1,0 +1,225 @@
+---
+import AsciiBackdrop from "@/components/dumb/AsciiBackdrop.astro";
+
+interface Props {
+    image?: string;
+}
+
+const { image } = Astro.props;
+---
+
+<div
+    class="header-backdrop"
+    aria-hidden="true"
+    data-header-backdrop
+    data-image-backdrop={image ? "" : undefined}
+>
+    {image ? (
+        <AsciiBackdrop
+            dark={image}
+            mask="none"
+            imageOpacity={0.15}
+            opacity={0.55}
+        />
+    ) : (
+        <Fragment>
+            <div class="blobs">
+                <span class="blob blob-one" />
+                <span class="blob blob-two" />
+                <span class="blob blob-three" />
+            </div>
+            <div class="artwork">
+                <canvas class="ascii-field" />
+            </div>
+        </Fragment>
+    )}
+    <div class="scrim"></div>
+</div>
+
+<style>
+    .header-backdrop {
+        --header-accent: var(--amber);
+        position: absolute;
+        inset: 0 0 auto;
+        /* Extend the decoration behind the next section without adding space. */
+        height: calc(var(--header-height, 380px) + clamp(120px, 14vw, 200px));
+        max-height: 100%;
+        overflow: hidden;
+        pointer-events: none;
+        user-select: none;
+        z-index: -1;
+        /* Fade the whole composition out below the header. */
+        mask-image: linear-gradient(#000 0%, #000 35%, transparent 100%);
+    }
+    .header-backdrop[data-cover-height] {
+        height: var(--header-height);
+    }
+    .blobs {
+        position: absolute;
+        inset: 0;
+        opacity: 0.32;
+    }
+    .blob {
+        position: absolute;
+        width: 42%;
+        height: 110%;
+        color: var(--blob-color);
+        background: radial-gradient(
+            ellipse at center,
+            currentColor,
+            color-mix(in srgb, currentColor 80%, transparent) 32%,
+            transparent 72%
+        );
+        filter: blur(18px);
+        animation: drift 18s ease-in-out infinite alternate;
+        animation-play-state: paused;
+    }
+    .blob-one {
+        --blob-color: var(--header-color-1, var(--header-accent));
+        top: -18%;
+        left: 24%;
+        border-radius: 42% 58% 63% 37%;
+        transform: rotate(-18deg);
+        --drift-x: 62%;
+        --drift-y: 16%;
+        --drift-rotate: 25deg;
+        /* Start partway through the return journey, with separated centers. */
+        animation-delay: -31s;
+    }
+    .blob-two {
+        --blob-color: var(--header-color-2, var(--header-accent));
+        top: 4%;
+        right: -6%;
+        width: 46%;
+        border-radius: 60% 40% 38% 62%;
+        transform: rotate(22deg) scale(0.85);
+        --drift-x: -55%;
+        --drift-y: -24%;
+        --drift-rotate: -28deg;
+        animation-duration: 23s;
+        animation-delay: -38s;
+    }
+    .blob-three {
+        --blob-color: var(--header-color-3, var(--header-accent));
+        top: -35%;
+        left: 2%;
+        width: 38%;
+        border-radius: 35% 65% 57% 43%;
+        transform: rotate(-8deg) scale(0.9);
+        --drift-x: 65%;
+        --drift-y: 38%;
+        --drift-rotate: 20deg;
+        animation-duration: 29s;
+        animation-delay: -44s;
+        opacity: 0.75;
+    }
+    .header-backdrop[data-active] .blob {
+        animation-play-state: running;
+    }
+    .header-backdrop[data-palette-ready] .blob {
+        transition: color 1.2s ease;
+    }
+    .artwork {
+        position: absolute;
+        inset: 0;
+        opacity: 0.42;
+    }
+    .ascii-field {
+        display: block;
+        width: 100%;
+        height: 100%;
+        font-family: var(--font-mono);
+        color: var(--fg);
+    }
+    .scrim {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(
+            100deg,
+            color-mix(in srgb, var(--bg) 90%, transparent),
+            color-mix(in srgb, var(--bg) 70%, transparent) 38%,
+            transparent 75%
+        );
+    }
+    @keyframes drift {
+        to {
+            transform: translate3d(var(--drift-x), var(--drift-y), 0)
+                rotate(var(--drift-rotate)) scale(1.18, 0.82);
+        }
+    }
+    @media (max-width: 760px) {
+        .header-backdrop {
+            --header-height: 340px;
+        }
+        .blob {
+            width: 80%;
+        }
+        .artwork {
+            opacity: 0.3;
+        }
+        .scrim {
+            background: linear-gradient(
+                100deg,
+                color-mix(in srgb, var(--bg) 92%, transparent),
+                color-mix(in srgb, var(--bg) 45%, transparent)
+            );
+        }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .blob {
+            animation: none;
+        }
+        .header-backdrop[data-palette-ready] .blob {
+            transition: none;
+        }
+    }
+</style>
+
+<script>
+    import { initGradientAscii } from "@/utils/gradient-ascii";
+    import { watchHeaderPalette } from "@/utils/header-palette";
+
+    document
+        .querySelectorAll<HTMLElement>("[data-header-backdrop]")
+        .forEach((backdrop) => {
+            const main = backdrop.parentElement;
+            const header =
+                main?.querySelector<HTMLElement>("[data-page-header]");
+
+            // Post image backdrops end at the cover's bottom. Other headers
+            // keep their existing fade extension. Neither affects layout.
+            if (main && header) {
+                const cover = backdrop.hasAttribute("data-image-backdrop")
+                    ? main.querySelector<HTMLElement>(".post-hero")
+                    : null;
+                backdrop.toggleAttribute("data-cover-height", Boolean(cover));
+                const sizeToHeader = () => {
+                    const height =
+                        (cover || header).getBoundingClientRect().bottom -
+                        main.getBoundingClientRect().top;
+                    backdrop.style.setProperty(
+                        "--header-height",
+                        `${Math.ceil(height)}px`,
+                    );
+                };
+                sizeToHeader();
+                const observer = new ResizeObserver(sizeToHeader);
+                observer.observe(header);
+                if (cover) observer.observe(cover);
+            }
+
+            const canvas =
+                backdrop.querySelector<HTMLCanvasElement>(".ascii-field");
+            // Image headers use AsciiBackdrop's renderer and motion handling.
+            if (!canvas) return;
+            const refreshPalette = main
+                ? watchHeaderPalette(main, backdrop)
+                : () => {};
+            initGradientAscii(
+                backdrop,
+                canvas,
+                [...backdrop.querySelectorAll<HTMLElement>(".blob")],
+                { onThemeChange: refreshPalette },
+            );
+        });
+</script>

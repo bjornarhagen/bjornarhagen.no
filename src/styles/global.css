@@ -84,6 +84,13 @@
     --frame-pad: 16px;
     --max-w: 1440px;
     --gutter: 32px;
+    --chrome-gutter: var(--gutter);
+    /* Structural grid; small UI details keep the 4px spacing scale above. */
+    --grid-step: 32px;
+    --grid-width-step: 128px;
+    --content-max: 1408px;
+    --content-narrow: 1152px;
+    --grid-origin-y: 97px;
 
     /* legacy tailwind vars (kept so unrelated components still resolve) */
     --background: 40 16% 94%;
@@ -165,7 +172,7 @@
 
 :root.dark {
     /* surfaces — exact design palette */
-    --bg: #0a0a0a;
+    --bg: #000000;
     --bg-1: #111111;
     --bg-2: #161616;
     --panel: #1a1a1a;
@@ -214,7 +221,10 @@ body {
     padding: 0;
 }
 html {
+    --nav-height: 65px;
     font-size: 16px;
+    scroll-padding-top: calc(var(--nav-height) + var(--s-5));
+    scroll-padding-bottom: calc(32px + env(safe-area-inset-bottom, 0px) + var(--s-4));
 }
 body {
     background: var(--bg);
@@ -232,13 +242,14 @@ body {
     background-image:
         linear-gradient(rgba(0, 0, 0, 0.025) 1px, transparent 1px),
         linear-gradient(90deg, rgba(0, 0, 0, 0.025) 1px, transparent 1px);
-    background-size: 32px 32px;
-    background-position: -1px -1px;
+    background-size: var(--grid-step) var(--grid-step);
+    /* Follow the shared content edge, including on narrow/odd-width screens. */
+    background-position: var(--grid-origin-x, calc(50% + 16px)) var(--grid-origin-y);
 }
 :root.dark body {
     background-image:
-        linear-gradient(rgba(255, 255, 255, 0.012) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.012) 1px, transparent 1px);
+        linear-gradient(rgba(255, 255, 255, 0.065) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.065) 1px, transparent 1px);
 }
 
 a {
@@ -286,6 +297,10 @@ h5 {
     font-weight: 400;
     line-height: 1;
     letter-spacing: 0.005em;
+}
+
+h1 {
+    text-wrap: balance;
 }
 
 p {
@@ -368,6 +383,9 @@ samp {
         400 var(--t-mono-xs) / 1 var(--font-mono);
     text-transform: uppercase;
     letter-spacing: 0.14em;
+    min-height: var(--grid-step);
+    position: relative;
+    top: -16px;
 }
 .rule::before,
 .rule::after {
@@ -410,7 +428,7 @@ samp {
     align-items: center;
     gap: var(--s-5);
     height: 32px;
-    padding: 0 var(--s-4);
+    padding: 0 var(--chrome-gutter);
     background: var(--bg);
     border-bottom: 1px solid var(--border-token);
     font:
@@ -424,6 +442,15 @@ samp {
 .status-bar.bottom {
     border-top: 1px solid var(--border-token);
     border-bottom: none;
+    position: sticky;
+    bottom: 0;
+    align-self: end;
+    z-index: 10;
+    height: calc(32px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    background: color-mix(in srgb, var(--bg) 72%, transparent);
+    -webkit-backdrop-filter: blur(16px) saturate(120%);
+    backdrop-filter: blur(16px) saturate(120%);
 }
 .status-bar .sep {
     color: var(--fg-faint);
@@ -821,13 +848,45 @@ samp {
 .page-shell {
     display: grid;
     grid-template-rows: auto auto 1fr auto auto;
-    min-height: 100vh;
+    min-height: var(--grid-page-min-height, 100vh);
 }
 .container-x {
-    max-width: var(--max-w);
+    max-width: var(--content-max);
     margin: 0 auto;
-    padding: 0 var(--gutter);
-    width: 100%;
+    padding-inline: 0;
+    width: calc(100% - 2 * var(--gutter));
+}
+.grid-width {
+    width: calc(100% - 2 * var(--gutter));
+    max-width: var(--content-max);
+    margin-inline: auto;
+}
+.grid-width-narrow {
+    --content-max: var(--content-narrow);
+}
+@supports (width: round(down, 100%, 32px)) {
+    :root {
+        /* Use the first grid line beyond the minimum outer gutter. */
+        --chrome-gutter: calc(var(--grid-origin-x, var(--gutter)) - round(down, var(--grid-origin-x, var(--gutter)) - var(--gutter), var(--grid-step)));
+    }
+    .container-x,
+    .grid-width {
+        width: round(down, min(100% - 2 * var(--gutter), var(--content-max)), var(--grid-width-step));
+    }
+}
+@media (max-width: 720px) {
+    :root {
+        --gutter: 16px;
+        --grid-width-step: 32px;
+    }
+}
+/* Progressive enhancement: only the spare space is rounded, never text. */
+[data-grid-block] {
+    --grid-block-height: 0px;
+    min-height: var(--grid-block-height, 0px);
+}
+[data-grid-measure] {
+    display: flow-root;
 }
 
 /* external link arrow (legacy, kept) */

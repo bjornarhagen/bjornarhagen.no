@@ -11,8 +11,8 @@ interface Props {
 const { src, alt, tl, tr, bl, br } = Astro.props;
 ---
 
-<section class="post-hero">
-    <div class="post-hero-inner">
+<section class="post-hero grid-width grid-width-narrow">
+    <div class="post-hero-inner" data-grid-block>
         <img src={src} alt={alt} />
         {tl && <span class="corner c-tl">{tl}</span>}
         {tr && <span class="corner c-tr">{tr}</span>}
@@ -23,12 +23,11 @@ const { src, alt, tl, tr, bl, br } = Astro.props;
 
 <style>
     .post-hero {
-        max-width: 1240px;
-        margin: 24px auto 0;
-        padding: 0 var(--gutter);
+        margin: var(--s-6) auto 0;
+        padding: 0;
     }
     .post-hero-inner {
-        border: 1px solid var(--border-strong);
+        width: 100%;
         position: relative;
         aspect-ratio: 21 / 9;
         overflow: hidden;
@@ -66,18 +65,22 @@ const { src, alt, tl, tr, bl, br } = Astro.props;
     .c-tl {
         top: 12px;
         left: 12px;
+        color: var(--amber);
     }
     .c-tr {
         top: 12px;
         right: 12px;
     }
-    .c-bl {
-        bottom: 12px;
-        left: 12px;
-        color: var(--amber);
-    }
     .c-br {
         bottom: 12px;
         right: 12px;
+    }
+    .c-bl {
+        bottom: 12px;
+        left: 12px;
+        max-width: calc(100% - 180px);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 </style>

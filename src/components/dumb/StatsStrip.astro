@@ -6,7 +6,7 @@
  */
 ---
 
-<div class="stats-strip">
+<div class="stats-strip grid-width" data-grid-block>
     <slot />
     <span class="spacer"></span>
     <span class="hint text-amber"><slot name="right" /></span>
@@ -14,10 +14,8 @@
 
 <style>
     .stats-strip {
-        max-width: var(--max-w);
         margin: 0 auto;
-        padding: var(--s-5) var(--gutter);
-        border-bottom: 1px solid var(--border-token);
+        padding: var(--s-5) 0;
         display: flex;
         gap: var(--s-6);
         align-items: center;

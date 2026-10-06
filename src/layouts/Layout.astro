@@ -2,12 +2,14 @@
 import Footer from "../components/smart/Footer.astro";
 import Nav from "../components/smart/Nav.astro";
 import StatusBar from "../components/smart/StatusBar.astro";
+import HeaderBackdrop from "@/components/dumb/HeaderBackdrop.astro";
 import "@/styles/global.css";
 
 interface Props {
     title?: string;
     description?: string;
     image?: string;
+    headerImage?: string;
     cwd?: string;
     marginForNav?: boolean;
     marginForFooter?: boolean;
@@ -19,6 +21,7 @@ const {
     title = defaultTitle,
     description = "Software engineer",
     image = "/image.jpg",
+    headerImage,
     cwd,
 } = Astro.props;
 ---
@@ -55,10 +58,7 @@ const {
             href="/fonts/jetbrains-mono/jetbrains-mono.css"
             rel="stylesheet"
         />
-        <link
-            href="/fonts/ibm-plex-sans/ibm-plex-sans.css"
-            rel="stylesheet"
-        />
+        <link href="/fonts/ibm-plex-sans/ibm-plex-sans.css" rel="stylesheet" />
         <link href="/fonts/pirata-one/pirata-one.css" rel="stylesheet" />
 
         <meta property="og:site_name" content="Bjørnar Hagen" />
@@ -100,9 +100,27 @@ const {
     <body class="min-h-screen page-shell" id="top">
         <StatusBar position="top" cwd={cwd} />
         <Nav />
-        <main class="page-main">
-            <slot />
+        <main class="page-main" data-grid-block>
+            {Astro.url.pathname !== "/" && (
+                <HeaderBackdrop image={headerImage} />
+            )}
+            <div class="page-content" data-grid-measure>
+                <slot />
+            </div>
         </main>
         <Footer />
+        <StatusBar position="bottom" />
     </body>
 </html>
+
+<script>
+    import { initLayoutGrid } from "@/utils/layout-grid";
+    initLayoutGrid();
+</script>
+
+<style>
+    .page-main {
+        position: relative;
+        isolation: isolate;
+    }
+</style>

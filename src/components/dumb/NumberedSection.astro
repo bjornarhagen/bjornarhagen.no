@@ -2,18 +2,16 @@
 interface Props {
     num: string;
     title: string;
-    sub: string;
 }
 
-const { num, title, sub } = Astro.props;
+const { num, title } = Astro.props;
 ---
 
-<section class="section">
-    <div class="inner">
+<section class="section" data-grid-block>
+    <div class="inner grid-width" data-grid-measure>
         <div class="numhead">
             <div class="num">{num}</div>
             <div class="lbl">{title}</div>
-            <div class="sub" set:html={sub} />
         </div>
         <div class="text">
             <slot />
@@ -23,21 +21,32 @@ const { num, title, sub } = Astro.props;
 
 <style>
     .section {
-        padding: var(--s-9) var(--gutter);
-        border-bottom: 1px solid var(--border-token);
+        padding: var(--s-9) 0;
         position: relative;
+    }
+    /* Separate consecutive numbered sections. WorkLog owns its top border. */
+    .section + .section {
+        box-shadow: 0 -1px var(--border-token);
     }
     @media (max-width: 720px) {
         .section {
-            padding: var(--s-7) var(--gutter);
+            padding: var(--s-8) 0;
         }
     }
     .inner {
         display: grid;
         grid-template-columns: 320px 1fr;
-        gap: var(--s-7);
-        max-width: var(--max-w);
+        gap: var(--s-8);
         margin: 0 auto;
+    }
+    @media (min-width: 801px) {
+        .numhead {
+            position: sticky;
+            top: calc(var(--nav-height) + var(--s-7));
+            align-self: start;
+            /* Include the oversized number in the sticky element's bounds. */
+            min-height: calc(var(--t-display-2xl) * 0.85);
+        }
     }
     @media (max-width: 800px) {
         .inner {

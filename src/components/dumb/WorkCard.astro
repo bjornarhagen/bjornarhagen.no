@@ -5,73 +5,202 @@ interface Props {
     when: string;
     desc: string;
     active?: boolean;
+    accent?: "red" | "green" | "blue";
 }
 
-const { company, role, when, desc, active = false } = Astro.props;
+const {
+    company,
+    role,
+    when,
+    desc,
+    active = false,
+    accent = "green",
+} = Astro.props;
 ---
 
-<div class:list={["work-card", active && "active"]}>
-    <div class="co">
-        <span class="status-dot"></span>
-        {company}
-        <span class="when">{when}</span>
+<div
+    class:list={["work-card", active && "active"]}
+    data-accent={accent}
+    data-grid-block
+>
+    {active && (
+        <div class="work-effect" aria-hidden="true">
+            <div class="work-gradient">
+                <span class="work-blob" />
+                <span class="work-blob secondary" />
+            </div>
+            <canvas class="work-ascii" />
+        </div>
+    )}
+    <div class="work-content" data-grid-measure>
+        <div class="co">
+            <span class="status-dot"></span>
+            {company}
+            <span class="when">{when}</span>
+        </div>
+        <div class="role-line">{role}</div>
+        <div class="desc">{desc}</div>
     </div>
-    <div class="role-line">{role}</div>
-    <div class="desc">{desc}</div>
 </div>
 
 <style>
     .work-card {
-        padding: 20px;
-        border-right: 1px solid var(--border-token);
-        border-bottom: 1px solid var(--border-token);
-        background: var(--bg-1);
+        --work-accent: var(--ok);
+        padding: var(--s-5);
+        position: relative;
+        isolation: isolate;
+        min-width: 0;
+    }
+    .work-content {
         display: flex;
         flex-direction: column;
-        gap: 6px;
-        position: relative;
+        gap: var(--s-2);
     }
-    .work-card:nth-child(2n) {
-        border-right: none;
+    .work-card::after {
+        content: "";
+        position: absolute;
+        inset: 0 -1px -1px 0;
+        border-right: 1px solid var(--border-token);
+        border-bottom: 1px solid var(--border-token);
+        pointer-events: none;
+        z-index: 1;
     }
-    .work-card:nth-last-child(-n + 2) {
+    .work-card[data-accent="red"] {
+        --work-accent: var(--err);
+    }
+    .work-card[data-accent="blue"] {
+        --work-accent: hsl(var(--info-600));
+    }
+    .work-effect {
+        position: absolute;
+        inset: 0;
+        z-index: -1;
+        pointer-events: none;
+        overflow: hidden;
+        /* Fade the gradient and its characters together from bottom right. */
+        mask-image:
+            linear-gradient(to top, #000, transparent),
+            linear-gradient(to right, transparent, #000 75%);
+        mask-composite: intersect;
+    }
+    .work-gradient {
+        position: absolute;
+        inset: 0;
+        opacity: 0.13;
+    }
+    .work-ascii {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        color: var(--work-accent);
+        font-family: var(--font-mono);
+        opacity: 0.3;
+    }
+    .work-blob {
+        position: absolute;
+        width: 65%;
+        height: 220%;
+        top: var(--glow-top, -60%);
+        left: var(--glow-left, -12%);
+        background: radial-gradient(
+            ellipse at center,
+            var(--work-accent),
+            color-mix(in srgb, var(--work-accent) 60%, transparent) 30%,
+            transparent 70%
+        );
+        animation: active-drift 18s ease-in-out infinite alternate;
+        animation-delay: var(--glow-delay, -7s);
+        animation-play-state: paused;
+    }
+    .work-blob.secondary {
+        top: var(--glow-secondary-top, -90%);
+        left: auto;
+        right: var(--glow-right, -20%);
+        width: 75%;
+        opacity: 0.73;
+        animation-name: active-drift-reverse;
+        animation-duration: 25s;
+        animation-delay: var(--glow-secondary-delay, -17s);
+    }
+    .work-card:nth-child(3n of .work-card) {
+        --glow-delay: -13s;
+        --glow-secondary-delay: -5s;
+        --glow-left: -2%;
+        --glow-top: -95%;
+        --glow-right: -8%;
+        --glow-secondary-top: -50%;
+    }
+    .work-card:nth-child(3n + 2 of .work-card) {
+        --glow-delay: -23s;
+        --glow-secondary-delay: -31s;
+        --glow-left: -22%;
+        --glow-top: -30%;
+        --glow-right: 4%;
+        --glow-secondary-top: -70%;
+    }
+    .work-effect[data-active] .work-blob {
+        animation-play-state: running;
+    }
+    @keyframes active-drift {
+        to {
+            transform: translate3d(65%, 12%, 0) rotate(14deg) scale(0.9, 0.85);
+        }
+    }
+    @keyframes active-drift-reverse {
+        to {
+            transform: translate3d(-55%, 18%, 0) rotate(-12deg) scale(1.1, 0.9);
+        }
+    }
+    @media (prefers-reduced-motion: reduce) {
+        .work-blob {
+            animation: none;
+        }
+    }
+    /* Astro can emit script siblings: count cards, not every DOM element. */
+    .work-card:nth-last-child(1 of .work-card)::after {
         border-bottom: none;
     }
-    @media (max-width: 720px) {
-        .work-card {
+    @media (min-width: 721px) {
+        .work-card:nth-child(2n of .work-card)::after {
             border-right: none;
-            border-bottom: 1px solid var(--border-token);
         }
-        .work-card:last-child {
+        /* With an even card count, both cards in the last row touch the frame. */
+        .work-card:nth-last-child(2 of .work-card):nth-child(
+                odd of .work-card
+            )::after {
             border-bottom: none;
+        }
+    }
+    @media (max-width: 720px) {
+        .work-card::after {
+            border-right: none;
         }
     }
     .co {
         display: flex;
         align-items: center;
         gap: 8px;
-        font:
-            500 var(--t-mono-sm) / 1 var(--font-mono);
+        font: 500 var(--t-mono-sm) / 16px var(--font-mono);
+        flex-wrap: wrap;
         color: var(--fg);
     }
     .role-line {
-        font:
-            500 var(--t-mono-xs) / 1 var(--font-mono);
+        font: 500 var(--t-mono-xs) / 16px var(--font-mono);
         color: var(--fg-dim);
         text-transform: uppercase;
         letter-spacing: 0.14em;
     }
     .when {
         margin-left: auto;
-        font:
-            400 var(--t-mono-xs) / 1 var(--font-mono);
+        font: 400 var(--t-mono-xs) / 1 var(--font-mono);
         color: var(--fg-muted);
     }
     .desc {
         font-size: 14px;
         color: var(--fg-1);
         margin-top: 8px;
-        line-height: 1.55;
+        line-height: 24px;
     }
     .status-dot {
         width: 7px;
@@ -81,7 +210,30 @@ const { company, role, when, desc, active = false } = Astro.props;
         flex-shrink: 0;
     }
     .work-card.active .status-dot {
-        background: var(--ok);
-        box-shadow: 0 0 8px var(--ok);
+        background: var(--work-accent);
+        box-shadow: 0 0 8px var(--work-accent);
     }
 </style>
+
+<script>
+    import { initGradientAscii } from "@/utils/gradient-ascii";
+
+    document.querySelectorAll<HTMLElement>(".work-effect").forEach((effect) => {
+        const canvas = effect.querySelector<HTMLCanvasElement>(".work-ascii");
+        if (canvas) {
+            initGradientAscii(
+                effect,
+                canvas,
+                [...effect.querySelectorAll<HTMLElement>(".work-blob")],
+                {
+                    middleStop: 0.3,
+                    middleOpacity: 0.6,
+                    endStop: 0.7,
+                    cellPx: 9,
+                    maxCols: 140,
+                    fps: 10,
+                },
+            );
+        }
+    });
+</script>

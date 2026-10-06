@@ -1,0 +1,594 @@
+---
+import Layout from "@/layouts/Layout.astro";
+import PageHeader from "@/components/dumb/PageHeader.astro";
+import Rule from "@/components/dumb/Rule.astro";
+
+const products = [
+    {
+        id: "merk",
+        name: "Merk",
+        category: "Browser bookmarklet",
+        tagline: "Make your point. On the page.",
+        description:
+            "Draw arrows, add notes, and line things up with guides and grids. Turn a web page into clear visual feedback, ready for a screenshot.",
+        href: "https://saga-merk.bjornar.dev",
+        link: "Get Merk",
+        status: "Available",
+    },
+    {
+        id: "rydd",
+        name: "Rydd",
+        category: "macOS + Linux · CLI",
+        tagline: "Gentle on your Mac. And your Linux box.",
+        description:
+            "A quiet storage companion, designed to work little by little in the background and stay light on your system. Find large files and developer clutter at an unhurried pace. Currently experimental, with read-only scans you start yourself.",
+        href: "https://github.com/bjornarhagen/saga-rydd",
+        link: "Explore Rydd",
+        status: "Experimental",
+    },
+    {
+        id: "plass",
+        name: "Plass",
+        category: "macOS · Native app + CLI",
+        tagline: "Everything back in its place.",
+        description:
+            "Save your window arrangement and restore it when you need it. Named layouts for home, work, or wherever you plug in your monitors.",
+        href: "https://github.com/bjornarhagen/saga-plass",
+        link: "Explore Plass",
+        status: "Experimental",
+    },
+];
+---
+
+<Layout
+    title="Saga"
+    description="Meet Saga: tools by Bjørnar Hagen for clearer feedback, less disk clutter, and windows in their place."
+    cwd="~/saga"
+>
+    <PageHeader
+        title="Saga."
+    >
+        A growing family of tools I’m building to make everyday work a little
+        easier. Small things, made with care.
+    </PageHeader>
+
+    <section class="collection container-x" aria-labelledby="tools-heading">
+        <Rule class="collection-rule">
+            <span id="tools-heading">The tools</span>
+            <span>01 — 03</span>
+        </Rule>
+
+        <div class="products">
+            {products.map((product, index) => (
+                <article
+                    class="product"
+                    data-grid-block
+                    aria-labelledby={`${product.id}-heading`}
+                >
+                    <div class="product-meta">
+                        <span>0{index + 1} / Saga</span>
+                        <span
+                            class:list={[
+                                "status",
+                                product.status === "Experimental" &&
+                                    "experimental",
+                            ]}
+                        >
+                            {product.status}
+                        </span>
+                    </div>
+
+                    <div
+                        class={`illustration ${product.id}`}
+                        aria-hidden="true"
+                    >
+                        {product.id === "merk" && (
+                            <div class="page-sketch">
+                                <div class="sketch-chrome">
+                                    <i />
+                                    <i />
+                                    <i />
+                                </div>
+                                <div class="sketch-heading" />
+                                <div class="sketch-line" />
+                                <div class="sketch-line short" />
+                                <svg
+                                    class="annotation-marks"
+                                    viewBox="0 0 225 138"
+                                    fill="none"
+                                    stroke="currentColor"
+                                    stroke-width="1.5"
+                                    preserveAspectRatio="none"
+                                >
+                                    <rect
+                                        x="13"
+                                        y="37"
+                                        width="111"
+                                        height="24"
+                                    />
+                                    <rect
+                                        x="143"
+                                        y="4"
+                                        width="74"
+                                        height="13"
+                                    />
+                                    <path
+                                        d="M118 33 L139 22 M131 23 L139 22 L135 30"
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                    />
+                                </svg>
+                                <span class="annotation">move over here</span>
+                                <div class="guide" />
+                            </div>
+                        )}
+                        {product.id === "rydd" && (
+                            <div class="disk-sketch">
+                                <div class="sketch-command">› rydd report</div>
+                                <div class="disk-row">
+                                    <span>files</span>
+                                    <i />
+                                    <b>01</b>
+                                </div>
+                                <div class="disk-row">
+                                    <span>folders</span>
+                                    <i />
+                                    <b>02</b>
+                                </div>
+                                <div class="disk-row">
+                                    <span>dev clutter</span>
+                                    <i />
+                                    <b>03</b>
+                                </div>
+                                <div class="sketch-foot">
+                                    scan → understand → review
+                                </div>
+                            </div>
+                        )}
+                        {product.id === "plass" && (
+                            <div class="display-sketch">
+                                <div class="window window-main">
+                                    <span />
+                                    <i />
+                                    <i />
+                                    <i />
+                                </div>
+                                <div class="window window-top">
+                                    <span />
+                                    <i />
+                                    <i />
+                                </div>
+                                <div class="window window-bottom">
+                                    <span />
+                                    <i />
+                                </div>
+                                <div class="layout-label">layout: home</div>
+                            </div>
+                        )}
+                    </div>
+
+                    <div class="product-body">
+                        <p class="category">{product.category}</p>
+                        <h2 id={`${product.id}-heading`}>{product.name}</h2>
+                        <p class="tagline">{product.tagline}</p>
+                        <p class="description">{product.description}</p>
+                        <a
+                            class="product-link"
+                            href={product.href}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                        >
+                            <span>{product.link}</span>
+                            <span aria-hidden="true">↗</span>
+                        </a>
+                    </div>
+                </article>
+            ))}
+        </div>
+    </section>
+
+    <section class="teaser container-x" aria-labelledby="saga-heading">
+        <Rule class="collection-rule">
+            <span>A little further ahead</span>
+            <span>04</span>
+        </Rule>
+        <article class="product teaser-card" data-grid-block>
+            <div class="product-meta">
+                <span>04 / Saga</span>
+                <span class="status experimental">In the making</span>
+            </div>
+            <div class="teaser-content">
+                <div class="illustration saga-illustration" aria-hidden="true">
+                    <svg
+                        viewBox="0 0 280 160"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="1"
+                    >
+                        <rect
+                            class="workspace-frame"
+                            x="20"
+                            y="14"
+                            width="240"
+                            height="132"
+                        />
+                        <path
+                            class="workspace-frame"
+                            d="M20 32 H260 M31 23 H34 M40 23 H43 M49 23 H52"
+                        />
+                        <path
+                            class="workspace-connections"
+                            d="M79 61 L120 74 M160 74 L201 61 M79 111 L120 91 M160 91 L201 111"
+                        />
+                        <g class="workspace-notes">
+                            <rect x="42" y="46" width="37" height="30" />
+                            <rect x="201" y="46" width="37" height="30" />
+                            <rect x="49" y="96" width="30" height="30" />
+                            <rect x="201" y="96" width="30" height="30" />
+                            <path d="M50 55 H70 M50 62 H63 M209 55 H229 M209 62 H222 M57 105 H71 M57 112 H66 M209 105 H223 M209 112 H218" />
+                        </g>
+                        <path
+                            class="workspace-spark"
+                            d="M140 53 Q140 83 110 83 Q140 83 140 113 Q140 83 170 83 Q140 83 140 53 Z"
+                        />
+                        <circle
+                            cx="140"
+                            cy="83"
+                            r="3"
+                            fill="currentColor"
+                            stroke="none"
+                        />
+                    </svg>
+                </div>
+                <div class="product-body teaser-body">
+                    <h2 id="saga-heading">Saga</h2>
+                    <p class="tagline">A personal AI workspace.</p>
+                    <p class="description">More when it’s ready.</p>
+                </div>
+            </div>
+        </article>
+    </section>
+</Layout>
+
+<style>
+    .collection {
+        padding-top: var(--s-8);
+    }
+    :global(.collection-rule) {
+        margin-bottom: 0;
+        color: var(--fg-dim);
+    }
+    .products {
+        display: grid;
+        --side-col: round(down, (100% - 2 * var(--grid-step)) / 3, var(--grid-step));
+        grid-template-columns: var(--side-col) minmax(0, 1fr) var(--side-col);
+        gap: var(--grid-step);
+    }
+    .product {
+        border: 1px solid var(--border-token);
+        background: var(--bg-1);
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+    }
+    .product-meta {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: var(--s-2);
+        padding: 14px var(--s-5);
+        border-bottom: 1px solid var(--border-token);
+        color: var(--fg-dim);
+        font: 400 var(--t-mono-2xs) / 1.4 var(--font-mono);
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+    }
+    .status {
+        --status-color: var(--ok);
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+    }
+    .status::before {
+        content: "";
+        width: 5px;
+        height: 5px;
+        flex-shrink: 0;
+        background: var(--status-color);
+        box-shadow: 0 0 8px var(--status-color);
+    }
+    .status.experimental {
+        --status-color: var(--warn);
+    }
+    .product-body {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        padding: var(--s-5);
+    }
+    .category {
+        color: var(--fg-dim);
+        font: 400 var(--t-mono-2xs) / 1.6 var(--font-mono);
+        text-transform: uppercase;
+        letter-spacing: 0.09em;
+    }
+    h2 {
+        font: 400 64px / 1.1 var(--font-display);
+        margin: 10px 0 var(--s-4);
+    }
+    .tagline {
+        color: var(--fg);
+        font-weight: 500;
+        font-size: var(--t-body-lg);
+        line-height: 1.4;
+        margin-bottom: var(--s-3);
+    }
+    .description {
+        color: var(--fg-1);
+        line-height: 1.7;
+        margin-bottom: var(--s-6);
+    }
+    .product-link {
+        margin-top: auto;
+        padding-top: var(--s-4);
+        border-top: 1px solid var(--border-token);
+        display: flex;
+        justify-content: space-between;
+        gap: var(--s-3);
+        font: 500 var(--t-mono-sm) / 1.5 var(--font-mono);
+        text-transform: uppercase;
+        letter-spacing: 0.09em;
+    }
+    .product-link::after {
+        content: none;
+    }
+    .product-link:focus-visible {
+        outline: 2px solid var(--amber);
+        outline-offset: 6px;
+    }
+    .illustration {
+        height: 224px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        padding: var(--s-6);
+        border-bottom: 1px solid var(--border-token);
+        background-color: var(--bg);
+        background-image: radial-gradient(
+            var(--border-token) 1px,
+            transparent 1px
+        );
+        background-size: 12px 12px;
+        color: var(--amber);
+    }
+    .page-sketch {
+        position: relative;
+        width: 225px;
+        height: 138px;
+        border: 1px solid var(--border-strong);
+        background: var(--bg-1);
+    }
+    .sketch-chrome {
+        height: 20px;
+        border-bottom: 1px solid var(--border-token);
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        padding-left: 8px;
+    }
+    .sketch-chrome i {
+        width: 3px;
+        height: 3px;
+        background: var(--fg-dim);
+    }
+    .sketch-heading,
+    .sketch-line {
+        height: 5px;
+        width: 95px;
+        background: var(--border-strong);
+        margin: 25px 0 12px 20px;
+    }
+    .sketch-line {
+        height: 3px;
+        width: 140px;
+        margin: 8px 0 0 20px;
+        background: var(--border-token);
+    }
+    .sketch-line.short {
+        width: 110px;
+    }
+    .annotation-marks {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+    }
+    .annotation {
+        position: absolute;
+        right: 0;
+        top: 46px;
+        padding: 2px 5px;
+        background: var(--bg);
+        font: 10px / 1.5 var(--font-mono);
+    }
+    .guide {
+        position: absolute;
+        left: 13px;
+        top: -10px;
+        bottom: -10px;
+        border-left: 1px dashed var(--amber);
+        opacity: 0.55;
+    }
+    .disk-sketch {
+        width: 255px;
+        font: 10px / 1.5 var(--font-mono);
+    }
+    .sketch-command {
+        margin-bottom: 18px;
+    }
+    .disk-row {
+        display: grid;
+        grid-template-columns: 78px 1fr 18px;
+        align-items: center;
+        gap: 8px;
+        color: var(--fg-dim);
+        margin: 10px 0;
+    }
+    .disk-row i {
+        height: 7px;
+        background: var(--amber);
+        opacity: 0.75;
+    }
+    .disk-row:nth-child(3) i {
+        width: 72%;
+        opacity: 0.5;
+    }
+    .disk-row:nth-child(4) i {
+        width: 43%;
+        opacity: 0.3;
+    }
+    .disk-row b {
+        font-weight: 400;
+    }
+    .sketch-foot {
+        padding-top: 13px;
+        margin-top: 17px;
+        border-top: 1px solid var(--border-token);
+        color: var(--fg-dim);
+    }
+    .display-sketch {
+        position: relative;
+        width: 240px;
+        height: 132px;
+        border: 1px solid var(--border-strong);
+        background: var(--bg-1);
+    }
+    .window {
+        position: absolute;
+        border: 1px solid var(--amber);
+        background: var(--bg);
+        padding: 15px 9px 0;
+    }
+    .window span {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 9px;
+        border-bottom: 1px solid var(--border-strong);
+        background: var(--bg-2);
+    }
+    .window i {
+        display: block;
+        height: 2px;
+        width: 65%;
+        background: var(--border-strong);
+        margin: 5px 0;
+    }
+    .window i:nth-child(3) {
+        width: 85%;
+    }
+    .window-main {
+        inset: 9px 46% 9px 9px;
+    }
+    .window-top {
+        inset: 9px 9px 49% 57%;
+    }
+    .window-bottom {
+        inset: 56% 9px 9px 57%;
+    }
+    .layout-label {
+        position: absolute;
+        bottom: -25px;
+        left: 0;
+        right: 0;
+        text-align: center;
+        font: 10px / 1 var(--font-mono);
+        color: var(--fg-dim);
+    }
+    .teaser {
+        padding-top: var(--s-8);
+    }
+    .teaser-content {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    .teaser-body {
+        justify-content: center;
+        padding: var(--s-7);
+    }
+    .teaser-body h2 {
+        margin-top: 0;
+    }
+    .teaser-body .description {
+        color: var(--fg-dim);
+        margin-bottom: 0;
+    }
+    .saga-illustration {
+        min-width: 0;
+        height: auto;
+        min-height: 280px;
+        padding: var(--s-6);
+        border-bottom: 0;
+        border-right: 1px solid var(--border-token);
+    }
+    .saga-illustration svg {
+        width: 100%;
+        max-width: 360px;
+        height: auto;
+        display: block;
+    }
+    .workspace-frame {
+        stroke: var(--border-strong);
+        fill: var(--bg-1);
+    }
+    .workspace-connections {
+        stroke-dasharray: 3 4;
+        opacity: 0.5;
+    }
+    .workspace-notes {
+        fill: var(--bg);
+        stroke: var(--fg-dim);
+    }
+    .workspace-spark {
+        fill: var(--bg);
+    }
+    @media (max-width: 1000px) {
+        .products {
+            gap: var(--grid-step);
+        }
+        .product-body,
+        .product-meta {
+            padding: var(--s-4);
+        }
+        .illustration {
+            padding: var(--s-5);
+        }
+    }
+    @media (max-width: 760px) {
+        .products {
+            grid-template-columns: 1fr;
+            gap: var(--grid-step);
+        }
+        .product-body,
+        .product-meta {
+            padding: var(--s-5);
+        }
+        .illustration {
+            height: 200px;
+        }
+        .teaser-content {
+            grid-template-columns: minmax(0, 1fr);
+        }
+        .teaser-body {
+            padding: var(--s-6) var(--s-5);
+        }
+        .saga-illustration {
+            height: 220px;
+            min-height: 0;
+            border-right: 0;
+            border-bottom: 1px solid var(--border-token);
+        }
+    }
+</style>

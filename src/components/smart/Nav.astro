@@ -29,17 +29,21 @@ function subUrlIsActive(path: string) {
         <a
             href="/entries"
             class:list={["link", { active: subUrlIsActive("/entries") }]}
-            >Posts</a
         >
+            Posts
+        </a>
         <a
             href="/portfolio-tmp"
             class:list={["link", { active: subUrlIsActive("/portfolio") }]}
-            >Portfolio</a
         >
+            Portfolio
+        </a>
         <a
             href="/about"
-            class:list={["link", { active: urlIsActive("/about") }]}>About</a
+            class:list={["link", { active: urlIsActive("/about") }]}
         >
+            About
+        </a>
     </nav>
 
     <div class="right">
@@ -88,16 +92,15 @@ function subUrlIsActive(path: string) {
         <div class="dialog-links">
             <a href="/entries">Posts</a>
             <a href="/portfolio-tmp">Portfolio</a>
+            <a href="/saga">Saga</a>
             <a href="/now">/now</a>
             <a href="/about">About</a>
-            {
-                isDevEnv && (
-                    <>
-                        <a href="/kitchen-sink">Kitchen Sink</a>
-                        <a href="/editor-load-entry">Editor</a>
-                    </>
-                )
-            }
+            {isDevEnv && (
+                <>
+                    <a href="/kitchen-sink">Kitchen Sink</a>
+                    <a href="/editor-load-entry">Editor</a>
+                </>
+            )}
         </div>
         <div class="dialog-foot">
             <DialogTrigger dialogId="nav-menu" action="close">
@@ -148,10 +151,14 @@ function subUrlIsActive(path: string) {
         grid-template-columns: 1fr auto 1fr;
         align-items: center;
         gap: var(--s-5);
-        padding: 14px var(--gutter);
+        padding: 14px var(--chrome-gutter);
         border-bottom: 1px solid var(--border-token);
-        background: var(--bg);
-        position: relative;
+        background: color-mix(in srgb, var(--bg) 72%, transparent);
+        -webkit-backdrop-filter: blur(16px) saturate(120%);
+        backdrop-filter: blur(16px) saturate(120%);
+        position: sticky;
+        top: 0;
+        align-self: start;
         z-index: 10;
     }
     .left {
@@ -210,6 +217,22 @@ function subUrlIsActive(path: string) {
     }
     .search-hint {
         display: none;
+    }
+    @media (width > 720px) {
+        .bjnav {
+            grid-template-areas: "links brand controls";
+        }
+        .left {
+            grid-area: brand;
+            justify-self: center;
+        }
+        .links {
+            grid-area: links;
+            justify-self: start;
+        }
+        .right {
+            grid-area: controls;
+        }
     }
     @media (min-width: 960px) {
         .search-hint {
@@ -323,6 +346,18 @@ function subUrlIsActive(path: string) {
 </style>
 
 <script>
+    const navbar = document.getElementById("nav");
+    if (navbar) {
+        const updateNavHeight = () => {
+            document.documentElement.style.setProperty(
+                "--nav-height",
+                `${Math.ceil(navbar.getBoundingClientRect().height)}px`,
+            );
+        };
+        updateNavHeight();
+        new ResizeObserver(updateNavHeight).observe(navbar);
+    }
+
     (function () {
         setupTheme();
     })();

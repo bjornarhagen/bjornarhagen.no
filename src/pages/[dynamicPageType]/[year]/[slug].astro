@@ -9,7 +9,6 @@ import Rule from "@/components/dumb/Rule.astro";
 import Stat from "@/components/dumb/Stat.astro";
 import RelatedRow from "@/components/dumb/RelatedRow.astro";
 import RelCell from "@/components/dumb/RelCell.astro";
-import { entryCatalog, entryKey, fmtNo } from "@/utils/entries";
 
 export function getStaticPaths() {
     const types = Object.keys(dynamicPages) as (keyof typeof dynamicPages)[];
@@ -69,30 +68,21 @@ const readMin = Math.max(1, Math.round(wordCount / 200));
 const date = fmtDate(page.date);
 const wordsFmt = wordCount.toLocaleString("en-US");
 
-const cat = entryCatalog(dynamicPageType);
-const isLatest = entryKey(year, slug) === cat.latestKey;
-const entryNo = fmtNo(cat.numberByKey.get(entryKey(year, slug)));
 ---
 
 <Layout
     title={`${page.title} | ${pageTitle}`}
     description={page.summary}
     image={page.poster}
+    headerImage={
+        dynamicPageType === "entries" && checkIfImageUrl(page.imageHeader || "")
+            ? page.imageHeader
+            : undefined
+    }
     cwd={`~/${pageLabel}/${year}/${slug}`}
 >
     <PostHead
-        bread={[
-            { label: "~", href: "/" },
-            { label: pageLabel, href: `/${dynamicPageType}` },
-            { label: year, href: `/${dynamicPageType}/${year}`, dim: true },
-            { label: slug, cwd: true },
-        ]}
         title={page.title}
-        ruleParts={[
-            `${entryNo}${isLatest ? " · latest" : ""}`,
-            `· ${date}`,
-            year,
-        ]}
         metas={[
             { k: "date", v: date },
             { k: "read", v: `${readMin} min` },
@@ -106,15 +96,13 @@ const entryNo = fmtNo(cat.numberByKey.get(entryKey(year, slug)));
             <PostHero
                 src={page.imageHeader}
                 alt={page.title}
-                tl={slug}
-                tr="FIG. 01"
-                bl="// COVER"
+                bl={slug}
                 br={date}
             />
         )
     }
 
-    <section class="post-layout">
+    <section class="post-layout grid-width grid-width-narrow" data-grid-block>
         <aside class="side side-left">
             <div class="lbl">// navigate</div>
             <div class="share-links">
@@ -157,7 +145,7 @@ const entryNo = fmtNo(cat.numberByKey.get(entryKey(year, slug)));
         </aside>
     </section>
 
-    <section class="post-foot">
+    <section class="post-foot grid-width grid-width-narrow">
         <div class="container-x">
             <Rule class="foot-rule">
                 <span>EOF</span>
@@ -210,12 +198,11 @@ const entryNo = fmtNo(cat.numberByKey.get(entryKey(year, slug)));
 
 <style>
     .post-layout {
-        max-width: 1240px;
         margin: 0 auto;
-        padding: var(--s-7) var(--gutter) var(--s-9);
+        padding: var(--s-8) 0 var(--s-9);
         display: grid;
-        grid-template-columns: 220px 1fr 240px;
-        gap: var(--s-7);
+        grid-template-columns: 192px minmax(0, 1fr) 224px;
+        gap: var(--s-6);
         align-items: start;
     }
     @media (max-width: 1100px) {
@@ -230,7 +217,7 @@ const entryNo = fmtNo(cat.numberByKey.get(entryKey(year, slug)));
 
     .side {
         position: sticky;
-        top: 56px;
+        top: calc(var(--nav-height) + var(--s-5));
         padding-top: 2px;
     }
     .lbl {
@@ -288,15 +275,15 @@ const entryNo = fmtNo(cat.numberByKey.get(entryKey(year, slug)));
     }
 
     .post-foot {
-        max-width: 1240px;
         margin: 0 auto;
-        padding: 0 var(--gutter) var(--s-8);
+        padding: 0 0 var(--s-8);
     }
     .post-foot .container-x {
         padding: 0;
+        width: 100%;
     }
     :global(.foot-rule) {
-        margin-bottom: 18px;
+        margin-bottom: var(--s-6);
     }
 
     /* On desktop the meta lives in the sticky right rail, so the header meta

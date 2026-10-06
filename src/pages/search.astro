@@ -89,10 +89,6 @@ const totalHits = entryHits.length + pageHits.length;
 <Layout title={search ? `${search} — Search` : "Search"} cwd="~/search">
     <PageHeader
         title="Search."
-        bread={[
-            { label: "~", href: "/" },
-            { label: "search", cwd: true },
-        ]}
         filters
     >
         Grep the site — posts matched by title and summary.
@@ -175,7 +171,6 @@ const totalHits = entryHits.length + pageHits.length;
                                         entryKey(hit.year, hit.slug),
                                     ),
                                 )}
-                                secondary={hit.year}
                             />
                         ))}
                     </PostsGrid>
@@ -239,8 +234,7 @@ const totalHits = entryHits.length + pageHits.length;
         margin-bottom: var(--s-7);
     }
     .block .container-x {
-        padding-left: var(--gutter);
-        padding-right: var(--gutter);
+        padding-inline: 0;
     }
     .empty {
         font:

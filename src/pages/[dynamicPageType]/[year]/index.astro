@@ -59,11 +59,6 @@ function fmtDate(iso: string): string {
 <Layout title={`${pageTitle} / ${year}`} cwd={`~/${pageLabel}/${year}`}>
     <PageHeader
         title={`${year}.`}
-        bread={[
-            { label: "~", href: "/" },
-            { label: pageLabel, href: `/${dynamicPageType}` },
-            { label: year, cwd: true },
-        ]}
         filters
     >
         {entries.length} entries from {year}. Pick another year, or go back to <a
@@ -102,7 +97,6 @@ function fmtDate(iso: string): string {
                         idBadge={fmtNo(
                             cat.numberByKey.get(entryKey(year, entry.slug)),
                         )}
-                        secondary={year}
                     />
                 ))
             }
@@ -113,12 +107,12 @@ function fmtDate(iso: string): string {
 <style>
     .grid-wrap {
         margin-top: var(--s-6);
-        padding: 0 var(--gutter) var(--s-8);
+        padding: 0 0 var(--s-8);
     }
     .grid-wrap .container-x {
         padding: 0;
     }
     :global(.mb-rule) {
-        margin-bottom: 18px;
+        margin-bottom: var(--s-6);
     }
 </style>

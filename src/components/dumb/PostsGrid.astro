@@ -11,22 +11,29 @@ interface Props {
 const { class: className = "" } = Astro.props;
 ---
 
-<div class:list={["posts-grid", className]}>
+<div class:list={["posts-grid", "grid-width", className]}>
     <slot />
 </div>
 
 <style>
     .posts-grid {
-        max-width: var(--max-w);
         margin: 0 auto;
         display: grid;
-        grid-template-columns: repeat(3, 1fr);
+        grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 0;
+        position: relative;
+    }
+    .posts-grid::after {
+        content: "";
+        position: absolute;
+        inset: 0 -1px -1px 0;
         border: 1px solid var(--border-token);
+        pointer-events: none;
+        z-index: 1;
     }
     @media (max-width: 960px) {
         .posts-grid {
-            grid-template-columns: repeat(2, 1fr);
+            grid-template-columns: repeat(2, minmax(0, 1fr));
         }
     }
     @media (max-width: 640px) {
@@ -35,19 +42,19 @@ const { class: className = "" } = Astro.props;
         }
     }
     /* turn off trailing border-right where the grid edge already covers it */
-    .posts-grid :global(.post-card:nth-child(3n)) {
+    .posts-grid :global(.post-card:nth-child(3n)::after) {
         border-right: none;
     }
     @media (max-width: 960px) {
-        .posts-grid :global(.post-card:nth-child(3n)) {
+        .posts-grid :global(.post-card:nth-child(3n)::after) {
             border-right: 1px solid var(--border-token);
         }
-        .posts-grid :global(.post-card:nth-child(2n)) {
+        .posts-grid :global(.post-card:nth-child(2n)::after) {
             border-right: none;
         }
     }
     @media (max-width: 640px) {
-        .posts-grid :global(.post-card) {
+        .posts-grid :global(.post-card::after) {
             border-right: none !important;
         }
     }

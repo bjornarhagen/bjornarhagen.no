@@ -1,8 +1,6 @@
 ---
-import Rule from "./Rule.astro";
 import SectionHead from "./SectionHead.astro";
 import WorkCard from "./WorkCard.astro";
-import { yearsActive } from "@/utils/career";
 
 type WorkEntry = {
     company: string;
@@ -10,17 +8,17 @@ type WorkEntry = {
     when: string;
     desc: string;
     active?: boolean;
+    accent?: "red" | "green" | "blue";
 };
 
 interface Props {
     entries?: WorkEntry[];
 }
 
-const years = yearsActive();
-
 const defaultEntries: WorkEntry[] = [
     {
         company: "Gokstad Akademiet AS",
+        accent: "blue",
         role: "Senior full-stack developer & System owner",
         when: "2025 — now",
         active: true,
@@ -34,6 +32,7 @@ const defaultEntries: WorkEntry[] = [
     },
     {
         company: "NUVA AS",
+        accent: "green",
         role: "Senior Full-stack developer & COB (sidegig)",
         when: "2023 — now",
         active: true,
@@ -47,6 +46,7 @@ const defaultEntries: WorkEntry[] = [
     },
     {
         company: "Datahjelpen AS",
+        accent: "red",
         role: "Full-stack Developer & CEO (sidegig)",
         when: "2016 — now",
         active: true,
@@ -67,21 +67,11 @@ const defaultEntries: WorkEntry[] = [
 ];
 
 const { entries = defaultEntries } = Astro.props;
-const activeCount = entries.filter((e) => e.active).length;
 ---
 
-<section class="section">
-    <div class="inner">
-        <SectionHead
-            title="Work log"
-            sub={`// ${entries.length} stations · ${activeCount} active · current=Gokstad`}
-        >
-            <Rule slot="rule">
-                <span>{years}y</span>
-                <span>· timeline ·</span>
-                <span>active</span>
-            </Rule>
-        </SectionHead>
+<section class="section" data-grid-block>
+    <div class="inner grid-width" data-grid-measure>
+        <SectionHead title="Work log" />
 
         <div class="work-grid">
             {entries.map((e) => <WorkCard {...e} />)}
@@ -91,23 +81,31 @@ const activeCount = entries.filter((e) => e.active).length;
 
 <style>
     .section {
-        padding: var(--s-9) var(--gutter);
+        padding: var(--s-9) 0;
         position: relative;
+        box-shadow: 0 -1px var(--border-token);
     }
     @media (max-width: 720px) {
         .section {
-            padding: var(--s-7) var(--gutter);
+            padding: var(--s-8) 0;
         }
     }
     .inner {
-        max-width: var(--max-w);
         margin: 0 auto;
     }
     .work-grid {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 0;
+        position: relative;
+    }
+    .work-grid::after {
+        content: "";
+        position: absolute;
+        inset: 0 -1px -1px 0;
         border: 1px solid var(--border-token);
+        pointer-events: none;
+        z-index: 2;
     }
     @media (max-width: 720px) {
         .work-grid {
