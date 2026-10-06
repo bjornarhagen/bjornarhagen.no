@@ -11,30 +11,32 @@ interface Props {
 const { title, bread, filters = false } = Astro.props;
 ---
 
-<section class:list={["header-block", filters && "with-filters"]} data-page-header>
-    <div>
-        {bread && <Bread items={bread} class="bread-spacing" />}
-        <h1 class="page-title">{title}</h1>
-        <p class="lede">
-            <slot />
-        </p>
-    </div>
-    {
-        filters && (
+<section class="header-block grid-width" data-page-header data-grid-block>
+    <div
+        class:list={["header-content", filters && "with-filters"]}
+        data-grid-measure
+    >
+        <div>
+            {bread && <Bread items={bread} class="bread-spacing" />}
+            <h1 class="page-title">{title}</h1>
+            <p class="lede">
+                <slot />
+            </p>
+        </div>
+        {filters && (
             <div class="filters">
                 <slot name="filters" />
             </div>
-        )
-    }
+        )}
+    </div>
 </section>
 
 <style>
     .header-block {
-        padding: var(--s-8) var(--gutter) var(--s-7);
-        max-width: var(--max-w);
+        padding: var(--s-8) 0 var(--s-8);
         margin: 0 auto;
     }
-    .header-block.with-filters {
+    .header-content.with-filters {
         display: grid;
         grid-template-columns: 1fr auto;
         gap: var(--s-6);
@@ -42,10 +44,13 @@ const { title, bread, filters = false } = Astro.props;
     }
     @media (max-width: 960px) {
         .header-block {
-            padding: var(--s-7) var(--gutter) var(--s-6);
+            padding: var(--s-6) 0;
         }
-        .header-block.with-filters {
-            grid-template-columns: 1fr;
+        .header-content.with-filters {
+            grid-template-columns: minmax(0, 1fr);
+        }
+        .header-content .filters {
+            min-width: 0;
         }
     }
     .page-title {
@@ -54,8 +59,7 @@ const { title, bread, filters = false } = Astro.props;
     }
     .lede {
         margin-top: var(--s-4);
-        font:
-            400 var(--t-body-lg) / 1.5 var(--font-body);
+        font: 400 var(--t-body-lg) / 1.5 var(--font-body);
         color: var(--fg-1);
         max-width: 56ch;
     }
@@ -70,7 +74,7 @@ const { title, bread, filters = false } = Astro.props;
         text-decoration: none;
     }
     :global(.bread-spacing) {
-        margin-bottom: 20px;
+        margin-bottom: var(--s-5);
     }
     .filters {
         display: flex;

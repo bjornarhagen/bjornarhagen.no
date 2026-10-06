@@ -66,6 +66,7 @@ const products = [
             {products.map((product, index) => (
                 <article
                     class="product"
+                    data-grid-block
                     aria-labelledby={`${product.id}-heading`}
                 >
                     <div class="product-meta">
@@ -195,7 +196,7 @@ const products = [
             <span>A little further ahead</span>
             <span>04</span>
         </Rule>
-        <article class="product teaser-card">
+        <article class="product teaser-card" data-grid-block>
             <div class="product-meta">
                 <span>04 / Saga</span>
                 <span class="status experimental">In the making</span>
@@ -255,16 +256,17 @@ const products = [
 
 <style>
     .collection {
-        padding-top: var(--s-7);
+        padding-top: var(--s-8);
     }
     :global(.collection-rule) {
-        margin-bottom: var(--s-5);
+        margin-bottom: 0;
         color: var(--fg-dim);
     }
     .products {
         display: grid;
-        grid-template-columns: repeat(3, minmax(0, 1fr));
-        gap: var(--s-5);
+        --side-col: round(down, (100% - 2 * var(--grid-step)) / 3, var(--grid-step));
+        grid-template-columns: var(--side-col) minmax(0, 1fr) var(--side-col);
+        gap: var(--grid-step);
     }
     .product {
         border: 1px solid var(--border-token);
@@ -349,7 +351,7 @@ const products = [
         outline-offset: 6px;
     }
     .illustration {
-        height: 208px;
+        height: 224px;
         display: flex;
         align-items: center;
         justify-content: center;
@@ -558,7 +560,7 @@ const products = [
     }
     @media (max-width: 1000px) {
         .products {
-            gap: var(--s-4);
+            gap: var(--grid-step);
         }
         .product-body,
         .product-meta {
@@ -571,7 +573,7 @@ const products = [
     @media (max-width: 760px) {
         .products {
             grid-template-columns: 1fr;
-            gap: var(--s-5);
+            gap: var(--grid-step);
         }
         .product-body,
         .product-meta {

@@ -16,12 +16,12 @@ const {
 } = Astro.props;
 ---
 
-<section class="hero-section relative border-b border-border">
+<section class="hero-section relative" data-grid-block>
     <AsciiBackdrop
         dark="/images/graphics/black-3.webp"
         light="/images/graphics/white-3.webp"
     />
-    <div class="hero">
+    <div class="hero grid-width" data-grid-measure>
         <div class="hero-left">
             <div class="role" set:html={role} />
             <h1 class="hero-title">
@@ -52,14 +52,14 @@ const {
     .hero {
         position: relative;
         display: grid;
-        grid-template-columns: 1.05fr 0.95fr;
-        gap: var(--s-7);
-        padding: var(--s-8) var(--gutter) var(--s-9);
+        grid-template-columns: 1fr 1fr;
+        gap: 0;
+        padding: var(--s-8) 0 var(--s-9);
         align-items: stretch;
-        /* border-bottom: 1px solid var(--border-token); */
-        max-width: var(--max-w);
         margin: 0 auto;
-        width: 100%;
+    }
+    .hero-section {
+        box-shadow: 0 1px var(--border-token);
     }
     .hero-left {
         position: relative;
@@ -87,7 +87,7 @@ const {
         .hero {
             grid-template-columns: 1fr;
             gap: var(--s-6);
-            padding: var(--s-6) var(--gutter) var(--s-7);
+            padding: var(--s-6) 0 var(--s-8);
         }
         .hero-section::after {
             background: linear-gradient(

@@ -27,7 +27,7 @@ const {
 } = Astro.props;
 ---
 
-<a href={href} class="feature">
+<a href={href} class="feature grid-width" data-grid-block>
     <div class="feature-thumb">
         <PostThumb
             src={poster}
@@ -61,7 +61,6 @@ const {
 
 <style>
     .feature {
-        max-width: var(--max-w);
         margin: 0 auto;
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -100,7 +99,7 @@ const {
         }
     }
     .body {
-        padding: 36px 40px;
+        padding: var(--s-6);
         display: flex;
         flex-direction: column;
         gap: 16px;

@@ -73,8 +73,8 @@ const defaultEntries: WorkEntry[] = [
 const { entries = defaultEntries } = Astro.props;
 ---
 
-<section class="section">
-    <div class="inner">
+<section class="section" data-grid-block>
+    <div class="inner grid-width" data-grid-measure>
         <SectionHead title="Work log">
             <Rule slot="rule">
                 <span>{years}y</span>
@@ -91,24 +91,31 @@ const { entries = defaultEntries } = Astro.props;
 
 <style>
     .section {
-        padding: var(--s-9) var(--gutter);
+        padding: var(--s-9) 0;
         position: relative;
-        border-top: 1px solid var(--border-token);
+        box-shadow: 0 -1px var(--border-token);
     }
     @media (max-width: 720px) {
         .section {
-            padding: var(--s-7) var(--gutter);
+            padding: var(--s-8) 0;
         }
     }
     .inner {
-        max-width: var(--max-w);
         margin: 0 auto;
     }
     .work-grid {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
         gap: 0;
+        position: relative;
+    }
+    .work-grid::after {
+        content: "";
+        position: absolute;
+        inset: 0 -1px -1px 0;
         border: 1px solid var(--border-token);
+        pointer-events: none;
+        z-index: 2;
     }
     @media (max-width: 720px) {
         .work-grid {

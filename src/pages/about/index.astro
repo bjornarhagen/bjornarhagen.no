@@ -42,7 +42,7 @@ const colophon = [
     </PageHeader>
 
     <section class="about">
-        <div class="container-x cols">
+        <div class="container-x cols" data-grid-block>
             <div class="col">
                 <Rule class="mb"><span>profile</span></Rule>
                 <p>
@@ -97,12 +97,12 @@ const colophon = [
 
 <style>
     .about {
-        padding: var(--s-7) 0 var(--s-9);
+        padding: var(--s-8) 0 var(--s-9);
     }
     .cols {
         display: grid;
-        grid-template-columns: 1fr 240px;
-        gap: var(--s-7);
+        grid-template-columns: minmax(0, 1fr) 256px;
+        gap: var(--s-8);
         align-items: start;
     }
     @media (max-width: 860px) {
@@ -128,7 +128,7 @@ const colophon = [
         text-decoration: none;
     }
     :global(.mb) {
-        margin-bottom: var(--s-5);
+        margin-bottom: var(--s-6);
     }
     .links {
         list-style: none;

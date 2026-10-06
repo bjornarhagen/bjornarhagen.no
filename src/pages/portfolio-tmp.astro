@@ -75,21 +75,22 @@ const portfolioItems = [
 
 <style>
     .portfolio {
-        padding: var(--s-7) 0 var(--s-9);
+        padding: var(--s-8) 0 var(--s-9);
     }
     .links {
         display: grid;
-        border: 1px solid var(--border-token);
-        max-width: 560px;
+        outline: 1px solid var(--border-token);
+        max-width: 576px;
     }
     .links li + li {
-        border-top: 1px solid var(--border-token);
+        box-shadow: 0 -1px var(--border-token);
     }
     .links a {
         display: flex;
         align-items: center;
         gap: var(--s-4);
-        padding: 14px 16px;
+        padding: var(--s-4);
+        min-height: var(--s-8);
         background: var(--bg-1);
         font: 500 var(--t-mono-lg) / 1 var(--font-mono);
         color: var(--fg);

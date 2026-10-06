@@ -18,7 +18,11 @@ const {
 } = Astro.props;
 ---
 
-<div class:list={["work-card", active && "active"]} data-accent={accent}>
+<div
+    class:list={["work-card", active && "active"]}
+    data-accent={accent}
+    data-grid-block
+>
     {active && (
         <div class="work-effect" aria-hidden="true">
             <div class="work-gradient">
@@ -28,27 +32,38 @@ const {
             <canvas class="work-ascii" />
         </div>
     )}
-    <div class="co">
-        <span class="status-dot"></span>
-        {company}
-        <span class="when">{when}</span>
+    <div class="work-content" data-grid-measure>
+        <div class="co">
+            <span class="status-dot"></span>
+            {company}
+            <span class="when">{when}</span>
+        </div>
+        <div class="role-line">{role}</div>
+        <div class="desc">{desc}</div>
     </div>
-    <div class="role-line">{role}</div>
-    <div class="desc">{desc}</div>
 </div>
 
 <style>
     .work-card {
         --work-accent: var(--ok);
-        padding: 20px;
-        border-right: 1px solid var(--border-token);
-        border-bottom: 1px solid var(--border-token);
-        display: flex;
-        flex-direction: column;
-        gap: 6px;
+        padding: var(--s-5);
         position: relative;
         isolation: isolate;
-        overflow: hidden;
+        min-width: 0;
+    }
+    .work-content {
+        display: flex;
+        flex-direction: column;
+        gap: var(--s-2);
+    }
+    .work-card::after {
+        content: "";
+        position: absolute;
+        inset: 0 -1px -1px 0;
+        border-right: 1px solid var(--border-token);
+        border-bottom: 1px solid var(--border-token);
+        pointer-events: none;
+        z-index: 1;
     }
     .work-card[data-accent="red"] {
         --work-accent: var(--err);
@@ -143,22 +158,22 @@ const {
         }
     }
     /* Astro can emit script siblings: count cards, not every DOM element. */
-    .work-card:nth-last-child(1 of .work-card) {
+    .work-card:nth-last-child(1 of .work-card)::after {
         border-bottom: none;
     }
     @media (min-width: 721px) {
-        .work-card:nth-child(2n of .work-card) {
+        .work-card:nth-child(2n of .work-card)::after {
             border-right: none;
         }
         /* With an even card count, both cards in the last row touch the frame. */
         .work-card:nth-last-child(2 of .work-card):nth-child(
                 odd of .work-card
-            ) {
+            )::after {
             border-bottom: none;
         }
     }
     @media (max-width: 720px) {
-        .work-card {
+        .work-card::after {
             border-right: none;
         }
     }
@@ -166,11 +181,12 @@ const {
         display: flex;
         align-items: center;
         gap: 8px;
-        font: 500 var(--t-mono-sm) / 1 var(--font-mono);
+        font: 500 var(--t-mono-sm) / 16px var(--font-mono);
+        flex-wrap: wrap;
         color: var(--fg);
     }
     .role-line {
-        font: 500 var(--t-mono-xs) / 1 var(--font-mono);
+        font: 500 var(--t-mono-xs) / 16px var(--font-mono);
         color: var(--fg-dim);
         text-transform: uppercase;
         letter-spacing: 0.14em;
@@ -184,7 +200,7 @@ const {
         font-size: 14px;
         color: var(--fg-1);
         margin-top: 8px;
-        line-height: 1.55;
+        line-height: 24px;
     }
     .status-dot {
         width: 7px;
