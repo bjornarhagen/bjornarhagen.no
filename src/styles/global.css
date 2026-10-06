@@ -84,6 +84,7 @@
     --frame-pad: 16px;
     --max-w: 1440px;
     --gutter: 32px;
+    --chrome-gutter: var(--gutter);
     /* Structural grid; small UI details keep the 4px spacing scale above. */
     --grid-step: 32px;
     --grid-width-step: 128px;
@@ -298,6 +299,10 @@ h5 {
     letter-spacing: 0.005em;
 }
 
+h1 {
+    text-wrap: balance;
+}
+
 p {
     margin: 0 0 1em;
 }
@@ -423,7 +428,7 @@ samp {
     align-items: center;
     gap: var(--s-5);
     height: 32px;
-    padding: 0 var(--s-4);
+    padding: 0 var(--chrome-gutter);
     background: var(--bg);
     border-bottom: 1px solid var(--border-token);
     font:
@@ -860,6 +865,10 @@ samp {
     --content-max: var(--content-narrow);
 }
 @supports (width: round(down, 100%, 32px)) {
+    :root {
+        /* Use the first grid line beyond the minimum outer gutter. */
+        --chrome-gutter: calc(var(--grid-origin-x, var(--gutter)) - round(down, var(--grid-origin-x, var(--gutter)) - var(--gutter), var(--grid-step)));
+    }
     .container-x,
     .grid-width {
         width: round(down, min(100% - 2 * var(--gutter), var(--content-max)), var(--grid-width-step));

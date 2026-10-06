@@ -36,6 +36,8 @@ const hasImage = !!src && checkIfImageUrl(src);
 
 <style>
     .post-thumb {
+        width: 100%;
+        align-self: start;
         aspect-ratio: 16 / 9;
         background: var(--bg-1);
         border: 1px solid var(--border-token);
@@ -46,6 +48,8 @@ const hasImage = !!src && checkIfImageUrl(src);
         aspect-ratio: 16 / 10;
     }
     .post-thumb img {
+        position: absolute;
+        inset: 0;
         width: 100%;
         height: 100%;
         object-fit: cover;
@@ -81,7 +85,7 @@ const hasImage = !!src && checkIfImageUrl(src);
         letter-spacing: 0.14em;
     }
     .id-badge {
-        top: 8px;
+        bottom: 8px;
         left: 8px;
         color: var(--fg-dim);
     }

@@ -1,14 +1,11 @@
 ---
-import Bread, { type BreadItem } from "./Bread.astro";
-
 interface Props {
     title: string;
-    bread?: BreadItem[];
     /** When true, allocates the right-hand grid column for the `filters` slot. */
     filters?: boolean;
 }
 
-const { title, bread, filters = false } = Astro.props;
+const { title, filters = false } = Astro.props;
 ---
 
 <section class="header-block grid-width" data-page-header data-grid-block>
@@ -17,7 +14,6 @@ const { title, bread, filters = false } = Astro.props;
         data-grid-measure
     >
         <div>
-            {bread && <Bread items={bread} class="bread-spacing" />}
             <h1 class="page-title">{title}</h1>
             <p class="lede">
                 <slot />
@@ -72,9 +68,6 @@ const { title, bread, filters = false } = Astro.props;
         color: var(--fg);
         border-bottom-color: var(--fg);
         text-decoration: none;
-    }
-    :global(.bread-spacing) {
-        margin-bottom: var(--s-5);
     }
     .filters {
         display: flex;

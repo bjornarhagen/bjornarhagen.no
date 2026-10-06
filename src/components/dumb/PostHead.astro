@@ -1,19 +1,15 @@
 ---
-import Bread, { type BreadItem } from "./Bread.astro";
-import Rule from "./Rule.astro";
 import MetaRow from "./MetaRow.astro";
 
 type MetaItem = { k: string; v: string };
 
 interface Props {
-    bread: BreadItem[];
     title: string;
-    ruleParts: string[];
     metas: MetaItem[];
     type?: string;
 }
 
-const { bread, title, ruleParts, metas, type } = Astro.props;
+const { title, metas, type } = Astro.props;
 ---
 
 <section
@@ -22,12 +18,6 @@ const { bread, title, ruleParts, metas, type } = Astro.props;
     data-grid-block
 >
     <div data-grid-measure>
-        <Bread items={bread} caret={false} />
-        <Rule class="head-rule">
-            {ruleParts.map((p) => (
-                <span>{p}</span>
-            ))}
-        </Rule>
         <h1 class="post-title">{title}</h1>
         <MetaRow items={metas} type={type} />
     </div>
@@ -41,10 +31,6 @@ const { bread, title, ruleParts, metas, type } = Astro.props;
     .post-title {
         font-size: clamp(48px, 8vw, 96px);
         line-height: 0.94;
-        margin-top: 18px;
         letter-spacing: 0.005em;
-    }
-    :global(.head-rule) {
-        margin-top: 22px;
     }
 </style>

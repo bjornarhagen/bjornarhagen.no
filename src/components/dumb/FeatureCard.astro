@@ -9,7 +9,6 @@ interface Props {
     date: string;
     poster?: string;
     idBadge?: string;
-    secondary?: string; // small text after date
     cta?: string;
     tag?: string;
 }
@@ -21,7 +20,6 @@ const {
     date,
     poster,
     idBadge,
-    secondary,
     cta = "Read entry",
     tag = "// featured · latest entry",
 } = Astro.props;
@@ -41,17 +39,6 @@ const {
     <div class="body">
         <span class="feature-tag">{tag}</span>
         <div class="ttl">{title}</div>
-        <div class="meta">
-            <span>{date}</span>
-            {
-                secondary && (
-                    <>
-                        <span class="sep">·</span>
-                        <span class="reading">{secondary}</span>
-                    </>
-                )
-            }
-        </div>
         <p class="ex">{summary}</p>
         <div class="cta-row">
             <Btn variant="primary">{cta}</Btn>
@@ -87,10 +74,19 @@ const {
         }
     }
     .feature-thumb {
+        position: relative;
         border-right: 1px solid var(--border-token);
     }
     .feature-thumb :global(.post-thumb) {
         border: none;
+    }
+    @media (min-width: 801px) {
+        .feature-thumb :global(.post-thumb) {
+            position: absolute;
+            inset: 0;
+            height: 100%;
+            aspect-ratio: auto;
+        }
     }
     @media (max-width: 800px) {
         .feature-thumb {
@@ -133,22 +129,6 @@ const {
     }
     .feature-tag::before {
         content: "■ ";
-    }
-    .meta {
-        display: flex;
-        gap: 12px;
-        align-items: center;
-        font:
-            400 var(--t-mono-xs) / 1 var(--font-mono);
-        color: var(--fg-muted);
-        text-transform: uppercase;
-        letter-spacing: 0.14em;
-    }
-    .meta .sep {
-        color: var(--fg-faint);
-    }
-    .meta .reading {
-        color: var(--fg-dim);
     }
     .cta-row {
         display: flex;

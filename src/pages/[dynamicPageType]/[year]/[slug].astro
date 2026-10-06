@@ -9,7 +9,6 @@ import Rule from "@/components/dumb/Rule.astro";
 import Stat from "@/components/dumb/Stat.astro";
 import RelatedRow from "@/components/dumb/RelatedRow.astro";
 import RelCell from "@/components/dumb/RelCell.astro";
-import { entryCatalog, entryKey, fmtNo } from "@/utils/entries";
 
 export function getStaticPaths() {
     const types = Object.keys(dynamicPages) as (keyof typeof dynamicPages)[];
@@ -69,9 +68,6 @@ const readMin = Math.max(1, Math.round(wordCount / 200));
 const date = fmtDate(page.date);
 const wordsFmt = wordCount.toLocaleString("en-US");
 
-const cat = entryCatalog(dynamicPageType);
-const isLatest = entryKey(year, slug) === cat.latestKey;
-const entryNo = fmtNo(cat.numberByKey.get(entryKey(year, slug)));
 ---
 
 <Layout
@@ -86,18 +82,7 @@ const entryNo = fmtNo(cat.numberByKey.get(entryKey(year, slug)));
     cwd={`~/${pageLabel}/${year}/${slug}`}
 >
     <PostHead
-        bread={[
-            { label: "~", href: "/" },
-            { label: pageLabel, href: `/${dynamicPageType}` },
-            { label: year, href: `/${dynamicPageType}/${year}`, dim: true },
-            { label: slug, cwd: true },
-        ]}
         title={page.title}
-        ruleParts={[
-            `${entryNo}${isLatest ? " · latest" : ""}`,
-            `· ${date}`,
-            year,
-        ]}
         metas={[
             { k: "date", v: date },
             { k: "read", v: `${readMin} min` },
@@ -111,10 +96,8 @@ const entryNo = fmtNo(cat.numberByKey.get(entryKey(year, slug)));
             <PostHero
                 src={page.imageHeader}
                 alt={page.title}
-                tl="// COVER"
-                tr="FIG. 01"
-                bl={date}
-                br={slug}
+                bl={slug}
+                br={date}
             />
         )
     }

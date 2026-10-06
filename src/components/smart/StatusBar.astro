@@ -16,54 +16,193 @@ function pathToCwd(path: string): string {
 }
 
 const resolvedCwd = cwd ?? pathToCwd(pathname);
+const pathSegments = pathname.split("/").filter(Boolean);
+const labels = resolvedCwd.replace(/^~\/?/, "").split("/").filter(Boolean);
+const crumbs = labels.map((label, i) => ({
+    label,
+    href: "/" + pathSegments.slice(0, i + 1).join("/"),
+}));
 ---
 
-{
-    position === "top" ? (
-        <div class="status-bar">
-            <span>
-                <span class="dot" />{" "}
-                <span class="live">SIGNAL OK</span>
-            </span>
-            <span class="sep">::</span>
-            <span class="hidden-sm">bjornar.dev / v7.0.0</span>
-            <span class="sep hidden-sm">::</span>
-            <span>{resolvedCwd}</span>
-            <span class="spacer" />
-            <span class="hidden-md">SANDEFJORD, NO · 59.13°N</span>
-            <span class="sep hidden-md">::</span>
-            <span data-clock>00:00:00 UTC</span>
-            <span class="sep hidden-md">::</span>
-            <span class="hidden-md">NODE-04</span>
-        </div>
-    ) : (
-        <div class="status-bar bottom">
-            <span>
-                <span class="dot" />{" "}
-                <span class="live">UPLINK STABLE</span>
-            </span>
-            <span class="sep">::</span>
-            <span class="hidden-sm">
-                <slot name="bottom-info">deployed via Hetzner</slot>
-            </span>
-            <span class="spacer" />
-            <span class="hidden-sm">
-                <a href="#top">↑ to top</a>
-            </span>
-            <span class="sep hidden-sm">::</span>
-            <span>
-                press <span class="kbd">?</span> for help
-            </span>
-        </div>
-    )
-}
+{position === "top" ? (
+    <div class="status-bar">
+        <nav class="path" aria-label="Breadcrumb">
+            <ol>
+                <li data-path-root>
+                    <a href="/" aria-label="Home">
+                        ~
+                    </a>
+                    <span class="path-sep" aria-hidden="true">
+                        /
+                    </span>
+                </li>
+                {crumbs.length > 1 && (
+                    <li data-path-collapsed hidden>
+                        <a
+                            href={crumbs[crumbs.length - 2].href}
+                            aria-label="Parent pages"
+                        >
+                            …
+                        </a>
+                        <span class="path-sep" aria-hidden="true">
+                            /
+                        </span>
+                    </li>
+                )}
+                {crumbs.map((crumb, i) => (
+                    <li data-path-parent={i < crumbs.length - 1 || undefined}>
+                        <a
+                            href={crumb.href}
+                            aria-current={
+                                i === crumbs.length - 1 ? "page" : undefined
+                            }
+                            title={crumb.label}
+                        >
+                            <span class="path-label" dir="ltr">
+                                {crumb.label}
+                            </span>
+                        </a>
+                        {i < crumbs.length - 1 && (
+                            <span class="path-sep" aria-hidden="true">
+                                /
+                            </span>
+                        )}
+                    </li>
+                ))}
+            </ol>
+        </nav>
+        <span class="hidden-md">SANDEFJORD, NO · 59.13°N</span>
+        <span class="sep hidden-md">::</span>
+        <span data-clock>00:00:00 UTC</span>
+    </div>
+) : (
+    <div class="status-bar bottom">
+        <span class="signal">
+            <span class="dot" /> <span class="live">SIGNAL OK</span>
+        </span>
+        <span class="sep hidden-sm">::</span>
+        <span class="node hidden-sm">NODE-04</span>
+        <span class="sep hidden-wide">::</span>
+        <span class="deployment hidden-wide">
+            <slot name="bottom-info">deployed via Hetzner</slot>
+        </span>
+        <span class="sep hidden-wide">::</span>
+        <span class="version hidden-wide">bjornar.dev / v7.0.0</span>
+        <span class="spacer" />
+        <span class="to-top">
+            <a href="#top">↑ to top</a>
+        </span>
+        <span class="sep hidden-sm">::</span>
+        <span class="help hidden-sm">
+            press <span class="kbd">?</span> for help
+        </span>
+    </div>
+)}
 
 <style>
+    .path {
+        min-width: 0;
+        flex: 1;
+    }
+    .path ol {
+        display: flex;
+        align-items: center;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        min-width: 0;
+    }
+    .path li {
+        display: flex;
+        align-items: center;
+        flex-shrink: 0;
+    }
+    .path li:last-child {
+        flex-shrink: 1;
+        min-width: 0;
+    }
+    .path li[hidden] {
+        display: none;
+    }
+    .path a {
+        display: block;
+        padding-block: var(--s-2);
+        color: inherit;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+    .path a[aria-current="page"] {
+        /* Clip the beginning while preserving the label's normal text order. */
+        direction: rtl;
+        text-align: left;
+    }
+    .path-label {
+        display: inline-block;
+        unicode-bidi: isolate;
+    }
+    .path a:hover,
+    .path a:focus-visible {
+        color: var(--amber);
+    }
+    .path a:focus-visible {
+        outline: 1px solid var(--amber);
+        outline-offset: -1px;
+    }
+    .path-sep {
+        padding-inline: var(--s-1);
+        color: var(--fg-muted);
+    }
+    [data-clock] {
+        flex-shrink: 0;
+    }
+    .status-bar.bottom {
+        gap: 0;
+    }
+    .bottom > span {
+        flex-shrink: 0;
+    }
+    .bottom .signal {
+        width: calc(4 * var(--grid-step));
+    }
+    .bottom .node,
+    .bottom .to-top {
+        width: calc(3 * var(--grid-step));
+    }
+    .bottom .deployment,
+    .bottom .version {
+        width: calc(6 * var(--grid-step));
+    }
+    .bottom .help {
+        width: calc(5 * var(--grid-step));
+        text-align: right;
+    }
+    .bottom .sep {
+        width: var(--grid-step);
+        text-align: center;
+    }
+    .bottom .to-top a {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        height: calc(var(--grid-step) - 1px);
+    }
+    .bottom .to-top a:focus-visible {
+        outline: 1px solid var(--amber);
+        outline-offset: -2px;
+    }
     .hidden-sm {
         display: none;
     }
     .hidden-md {
         display: none;
+    }
+    .hidden-wide {
+        display: none;
+    }
+    @media (min-width: 1280px) {
+        .hidden-wide {
+            display: inline;
+        }
     }
     @media (min-width: 720px) {
         .hidden-sm {
@@ -78,17 +217,72 @@ const resolvedCwd = cwd ?? pathToCwd(pathname);
 </style>
 
 <script>
+    document.querySelectorAll<HTMLElement>(".path").forEach((path) => {
+        const root = path.querySelector<HTMLElement>("[data-path-root]");
+        const parents = [
+            ...path.querySelectorAll<HTMLElement>("[data-path-parent]"),
+        ];
+        const collapsed = path.querySelector<HTMLElement>(
+            "[data-path-collapsed]",
+        );
+        const current = path.querySelector<HTMLElement>(
+            '[aria-current="page"] .path-label',
+        );
+        if (!root || !current || !collapsed) return;
+        const link = collapsed.querySelector<HTMLAnchorElement>("a")!;
+
+        const fitPath = () => {
+            // Measure the full path so widening the window restores its links.
+            parents.forEach((parent) => {
+                parent.hidden = false;
+            });
+            collapsed.hidden = false;
+            const collapsedWidth = collapsed.getBoundingClientRect().width;
+            const widths = parents.map(
+                (parent) => parent.getBoundingClientRect().width,
+            );
+            let needed =
+                root.getBoundingClientRect().width +
+                current.getBoundingClientRect().width +
+                widths.reduce((sum, width) => sum + width, 0);
+            collapsed.hidden = needed <= path.clientWidth;
+            if (collapsed.hidden) return;
+
+            needed += collapsedWidth;
+            const hiddenLabels: string[] = [];
+            for (
+                let i = 0;
+                i < parents.length && needed > path.clientWidth;
+                i++
+            ) {
+                const parentLink =
+                    parents[i].querySelector<HTMLAnchorElement>("a")!;
+                hiddenLabels.push(parentLink.textContent?.trim() ?? "");
+                link.href = parentLink.href;
+                link.title = hiddenLabels.join(" / ");
+                link.setAttribute(
+                    "aria-label",
+                    `Go to ${hiddenLabels.join(" / ")}`,
+                );
+                parents[i].hidden = true;
+                needed -= widths[i];
+            }
+        };
+        const observer = new ResizeObserver(fitPath);
+        observer.observe(path);
+        document.fonts.ready.then(fitPath);
+        fitPath();
+    });
+
     function tickClocks() {
         const now = new Date();
         const hh = String(now.getUTCHours()).padStart(2, "0");
         const mm = String(now.getUTCMinutes()).padStart(2, "0");
         const ss = String(now.getUTCSeconds()).padStart(2, "0");
         const txt = `${hh}:${mm}:${ss} UTC`;
-        document
-            .querySelectorAll<HTMLElement>("[data-clock]")
-            .forEach((el) => {
-                el.textContent = txt;
-            });
+        document.querySelectorAll<HTMLElement>("[data-clock]").forEach((el) => {
+            el.textContent = txt;
+        });
     }
     tickClocks();
     setInterval(tickClocks, 1000);

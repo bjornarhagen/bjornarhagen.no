@@ -28,7 +28,6 @@ const { src, alt, tl, tr, bl, br } = Astro.props;
     }
     .post-hero-inner {
         width: 100%;
-        border: 1px solid var(--border-strong);
         position: relative;
         aspect-ratio: 21 / 9;
         overflow: hidden;
@@ -72,13 +71,13 @@ const { src, alt, tl, tr, bl, br } = Astro.props;
         top: 12px;
         right: 12px;
     }
-    .c-bl {
-        bottom: 12px;
-        left: 12px;
-    }
     .c-br {
         bottom: 12px;
         right: 12px;
+    }
+    .c-bl {
+        bottom: 12px;
+        left: 12px;
         max-width: calc(100% - 180px);
         overflow: hidden;
         text-overflow: ellipsis;

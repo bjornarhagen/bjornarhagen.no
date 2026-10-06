@@ -4,7 +4,6 @@ import { dynamicPages, dynamicPagesConfig } from "@/data/dynamic-pages";
 import { entryCatalog, entryKey, fmtNo } from "@/utils/entries";
 import PageHeader from "@/components/dumb/PageHeader.astro";
 import PostFilters from "@/components/dumb/PostFilters.astro";
-import StatsStrip from "@/components/dumb/StatsStrip.astro";
 import Rule from "@/components/dumb/Rule.astro";
 import FeatureCard from "@/components/dumb/FeatureCard.astro";
 import PostsGrid from "@/components/dumb/PostsGrid.astro";
@@ -50,7 +49,6 @@ const byDateDesc = [...allEntries].sort(
 const ordered = sort === "oldest" ? [...byDateDesc].reverse() : byDateDesc;
 const feature = ordered[0];
 const rest = ordered.slice(1);
-const newestDate = byDateDesc[0]?.page.date;
 const featureIsLatest = feature
     ? entryKey(feature.year, feature.slug) === cat.latestKey
     : false;
@@ -80,10 +78,6 @@ function numFor(e: EntryRow): number | undefined {
 <Layout title={pageTitle} cwd={`~/${pageLabel}`}>
     <PageHeader
         title={`${pageTitle}.`}
-        bread={[
-            { label: "~", href: "/" },
-            { label: pageLabel, cwd: true },
-        ]}
         filters
     >
         Notes, experiments and mistakes documented in real-time. Some of these
@@ -99,21 +93,6 @@ function numFor(e: EntryRow): number | undefined {
             />
         </Fragment>
     </PageHeader>
-
-    <StatsStrip>
-        <span><strong>{total}</strong> entries</span>
-        <span class="sep">·</span>
-        <span><strong>{yearCounts.length}</strong> years</span>
-        <span class="sep">·</span>
-        {
-            newestDate && (
-                <span>
-                    last update <strong>{fmtDate(newestDate)}</strong>
-                </span>
-            )
-        }
-        <span slot="right">{`// sorted ${sort}`}</span>
-    </StatsStrip>
 
     {
         feature && (
@@ -136,7 +115,6 @@ function numFor(e: EntryRow): number | undefined {
                     date={fmtDate(feature.page.date)}
                     poster={feature.page.poster}
                     idBadge={`${fmtNo(numFor(feature))}${featureIsLatest ? " · LATEST" : ""}`}
-                    secondary={feature.year}
                     tag={
                         featureIsLatest
                             ? "// featured · latest entry"
@@ -170,7 +148,6 @@ function numFor(e: EntryRow): number | undefined {
                             date={fmtDate(entry.page.date)}
                             poster={entry.page.poster}
                             idBadge={fmtNo(numFor(entry))}
-                            secondary={entry.year}
                         />
                     ))}
                 </PostsGrid>

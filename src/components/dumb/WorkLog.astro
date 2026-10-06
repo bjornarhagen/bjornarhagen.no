@@ -1,8 +1,6 @@
 ---
-import Rule from "./Rule.astro";
 import SectionHead from "./SectionHead.astro";
 import WorkCard from "./WorkCard.astro";
-import { yearsActive } from "@/utils/career";
 
 type WorkEntry = {
     company: string;
@@ -16,8 +14,6 @@ type WorkEntry = {
 interface Props {
     entries?: WorkEntry[];
 }
-
-const years = yearsActive();
 
 const defaultEntries: WorkEntry[] = [
     {
@@ -75,13 +71,7 @@ const { entries = defaultEntries } = Astro.props;
 
 <section class="section" data-grid-block>
     <div class="inner grid-width" data-grid-measure>
-        <SectionHead title="Work log">
-            <Rule slot="rule">
-                <span>{years}y</span>
-                <span>· timeline ·</span>
-                <span>active</span>
-            </Rule>
-        </SectionHead>
+        <SectionHead title="Work log" />
 
         <div class="work-grid">
             {entries.map((e) => <WorkCard {...e} />)}
