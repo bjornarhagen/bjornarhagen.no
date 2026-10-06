@@ -2,10 +2,9 @@
 interface Props {
     num: string;
     title: string;
-    sub: string;
 }
 
-const { num, title, sub } = Astro.props;
+const { num, title } = Astro.props;
 ---
 
 <section class="section">
@@ -13,7 +12,6 @@ const { num, title, sub } = Astro.props;
         <div class="numhead">
             <div class="num">{num}</div>
             <div class="lbl">{title}</div>
-            <div class="sub" set:html={sub} />
         </div>
         <div class="text">
             <slot />
@@ -26,8 +24,7 @@ const { num, title, sub } = Astro.props;
         padding: var(--s-9) var(--gutter);
         position: relative;
     }
-    /* Only separate consecutive numbered sections. The work log that follows
-       provides its own labeled rule. */
+    /* Separate consecutive numbered sections. WorkLog owns its top border. */
     .section + .section {
         border-top: 1px solid var(--border-token);
     }
@@ -42,6 +39,15 @@ const { num, title, sub } = Astro.props;
         gap: var(--s-7);
         max-width: var(--max-w);
         margin: 0 auto;
+    }
+    @media (min-width: 801px) {
+        .numhead {
+            position: sticky;
+            top: calc(var(--nav-height) + var(--s-7));
+            align-self: start;
+            /* Include the oversized number in the sticky element's bounds. */
+            min-height: calc(var(--t-display-2xl) * 0.85);
+        }
     }
     @media (max-width: 800px) {
         .inner {

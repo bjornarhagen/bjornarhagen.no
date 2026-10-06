@@ -160,8 +160,12 @@ function subUrlIsActive(path: string) {
         gap: var(--s-5);
         padding: 14px var(--gutter);
         border-bottom: 1px solid var(--border-token);
-        background: var(--bg);
-        position: relative;
+        background: color-mix(in srgb, var(--bg) 72%, transparent);
+        -webkit-backdrop-filter: blur(16px) saturate(120%);
+        backdrop-filter: blur(16px) saturate(120%);
+        position: sticky;
+        top: 0;
+        align-self: start;
         z-index: 10;
     }
     .left {
@@ -333,6 +337,18 @@ function subUrlIsActive(path: string) {
 </style>
 
 <script>
+    const navbar = document.getElementById("nav");
+    if (navbar) {
+        const updateNavHeight = () => {
+            document.documentElement.style.setProperty(
+                "--nav-height",
+                `${Math.ceil(navbar.getBoundingClientRect().height)}px`,
+            );
+        };
+        updateNavHeight();
+        new ResizeObserver(updateNavHeight).observe(navbar);
+    }
+
     (function () {
         setupTheme();
     })();

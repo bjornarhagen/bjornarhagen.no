@@ -165,7 +165,7 @@
 
 :root.dark {
     /* surfaces — exact design palette */
-    --bg: #0a0a0a;
+    --bg: #000000;
     --bg-1: #111111;
     --bg-2: #161616;
     --panel: #1a1a1a;
@@ -214,7 +214,10 @@ body {
     padding: 0;
 }
 html {
+    --nav-height: 65px;
     font-size: 16px;
+    scroll-padding-top: calc(var(--nav-height) + var(--s-5));
+    scroll-padding-bottom: calc(32px + env(safe-area-inset-bottom, 0px) + var(--s-4));
 }
 body {
     background: var(--bg);
@@ -237,8 +240,8 @@ body {
 }
 :root.dark body {
     background-image:
-        linear-gradient(rgba(255, 255, 255, 0.012) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.012) 1px, transparent 1px);
+        linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
 }
 
 a {
@@ -424,6 +427,15 @@ samp {
 .status-bar.bottom {
     border-top: 1px solid var(--border-token);
     border-bottom: none;
+    position: sticky;
+    bottom: 0;
+    align-self: end;
+    z-index: 10;
+    height: calc(32px + env(safe-area-inset-bottom, 0px));
+    padding-bottom: env(safe-area-inset-bottom, 0px);
+    background: color-mix(in srgb, var(--bg) 72%, transparent);
+    -webkit-backdrop-filter: blur(16px) saturate(120%);
+    backdrop-filter: blur(16px) saturate(120%);
 }
 .status-bar .sep {
     color: var(--fg-faint);

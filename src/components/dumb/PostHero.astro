@@ -66,6 +66,7 @@ const { src, alt, tl, tr, bl, br } = Astro.props;
     .c-tl {
         top: 12px;
         left: 12px;
+        color: var(--amber);
     }
     .c-tr {
         top: 12px;
@@ -74,10 +75,13 @@ const { src, alt, tl, tr, bl, br } = Astro.props;
     .c-bl {
         bottom: 12px;
         left: 12px;
-        color: var(--amber);
     }
     .c-br {
         bottom: 12px;
         right: 12px;
+        max-width: calc(100% - 180px);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
     }
 </style>

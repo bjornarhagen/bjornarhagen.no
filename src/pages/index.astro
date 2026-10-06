@@ -3,29 +3,21 @@ import Layout from "@/layouts/Layout.astro";
 import Hero from "@/components/dumb/Hero.astro";
 import NumberedSection from "@/components/dumb/NumberedSection.astro";
 import WorkLog from "@/components/dumb/WorkLog.astro";
-import { yearsActive } from "@/utils/career";
-
-const years = yearsActive();
 ---
 
 <Layout>
     <Hero>
         <Fragment slot="lede">
-            I build, break and occasionally fix systems on the open web —
-            full-stack, infrastructure, the slightly haunted parts in between.
-            Currently shipping software at <a
+            I build, break and occasionally fix software — full-stack,
+            infrastructure, and the chaos in between. Currently building software at <a
                 href="https://gokstadakademiet.no/?ref=bjornar.dev"
                 target="_blank"
                 rel="noopener">Gokstad Akademiet</a
-            >, and quietly maintaining <a
-                href="https://nuva.no/?ref=bjornar.dev"
-                target="_blank"
-                rel="noopener">NUVA</a
             >.
         </Fragment>
     </Hero>
 
-    <NumberedSection num="01" title="Personal" sub={`// echo "$(whoami)"`}>
+    <NumberedSection num="01" title="Personal">
         <p>
             Born and raised in Larvik, Norway. Currently living in Sandefjord.
         </p>
@@ -42,11 +34,7 @@ const years = yearsActive();
         </p>
     </NumberedSection>
 
-    <NumberedSection
-        num="02"
-        title="Career"
-        sub={`// ${years} years & counting`}
-    >
+    <NumberedSection num="02" title="Career">
         <p>
             I learnt HTML, CSS, JS and PHP through self study and got a few gigs
             through some close friends. Later on I got my first &ldquo;real

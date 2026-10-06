@@ -1,41 +1,58 @@
 ---
 import AsciiBackdrop from "@/components/dumb/AsciiBackdrop.astro";
+
+interface Props {
+    image?: string;
+}
+
+const { image } = Astro.props;
 ---
 
-<div class="header-backdrop" aria-hidden="true" data-header-backdrop>
-    <div class="blobs">
-        <span class="blob blob-one"></span>
-        <span class="blob blob-two"></span>
-        <span class="blob blob-three"></span>
-    </div>
-    <div class="artwork">
+<div
+    class="header-backdrop"
+    aria-hidden="true"
+    data-header-backdrop
+    data-image-backdrop={image ? "" : undefined}
+>
+    {image ? (
         <AsciiBackdrop
-            dark="/images/graphics/black-3.webp"
-            light="/images/graphics/white-3.webp"
-            showImage={false}
-            color=""
-            opacity={0.32}
-            cellPx={7}
-            maxCols={180}
-            flickerMs={0}
-            mask="linear-gradient(90deg, transparent, #000 35%, #000 80%, transparent)"
+            dark={image}
+            mask="none"
+            imageOpacity={0.15}
+            opacity={0.55}
         />
-    </div>
+    ) : (
+        <Fragment>
+            <div class="blobs">
+                <span class="blob blob-one" />
+                <span class="blob blob-two" />
+                <span class="blob blob-three" />
+            </div>
+            <div class="artwork">
+                <canvas class="ascii-field" />
+            </div>
+        </Fragment>
+    )}
     <div class="scrim"></div>
 </div>
 
 <style>
     .header-backdrop {
-        --header-accent: hsl(var(--primary-500));
+        --header-accent: var(--amber);
         position: absolute;
         inset: 0 0 auto;
-        height: 380px;
+        /* Extend the decoration behind the next section without adding space. */
+        height: calc(var(--header-height, 380px) + clamp(120px, 14vw, 200px));
+        max-height: 100%;
         overflow: hidden;
         pointer-events: none;
         user-select: none;
         z-index: -1;
-        /* Fade the whole composition out at the header's lower edge. */
+        /* Fade the whole composition out below the header. */
         mask-image: linear-gradient(#000 0%, #000 35%, transparent 100%);
+    }
+    .header-backdrop[data-cover-height] {
+        height: var(--header-height);
     }
     .blobs {
         position: absolute;
@@ -46,10 +63,11 @@ import AsciiBackdrop from "@/components/dumb/AsciiBackdrop.astro";
         position: absolute;
         width: 42%;
         height: 110%;
+        color: var(--blob-color);
         background: radial-gradient(
             ellipse at center,
-            var(--header-accent),
-            color-mix(in srgb, var(--header-accent) 80%, transparent) 32%,
+            currentColor,
+            color-mix(in srgb, currentColor 80%, transparent) 32%,
             transparent 72%
         );
         filter: blur(18px);
@@ -57,6 +75,7 @@ import AsciiBackdrop from "@/components/dumb/AsciiBackdrop.astro";
         animation-play-state: paused;
     }
     .blob-one {
+        --blob-color: var(--header-color-1, var(--header-accent));
         top: -18%;
         left: 24%;
         border-radius: 42% 58% 63% 37%;
@@ -64,9 +83,11 @@ import AsciiBackdrop from "@/components/dumb/AsciiBackdrop.astro";
         --drift-x: 62%;
         --drift-y: 16%;
         --drift-rotate: 25deg;
-        animation-delay: -5s;
+        /* Start partway through the return journey, with separated centers. */
+        animation-delay: -31s;
     }
     .blob-two {
+        --blob-color: var(--header-color-2, var(--header-accent));
         top: 4%;
         right: -6%;
         width: 46%;
@@ -76,9 +97,10 @@ import AsciiBackdrop from "@/components/dumb/AsciiBackdrop.astro";
         --drift-y: -24%;
         --drift-rotate: -28deg;
         animation-duration: 23s;
-        animation-delay: -12s;
+        animation-delay: -38s;
     }
     .blob-three {
+        --blob-color: var(--header-color-3, var(--header-accent));
         top: -35%;
         left: 2%;
         width: 38%;
@@ -88,18 +110,26 @@ import AsciiBackdrop from "@/components/dumb/AsciiBackdrop.astro";
         --drift-y: 38%;
         --drift-rotate: 20deg;
         animation-duration: 29s;
-        animation-delay: -18s;
+        animation-delay: -44s;
         opacity: 0.75;
     }
     .header-backdrop[data-active] .blob {
         animation-play-state: running;
     }
+    .header-backdrop[data-palette-ready] .blob {
+        transition: color 1.2s ease;
+    }
     .artwork {
         position: absolute;
-        top: -12%;
-        bottom: -15%;
-        left: 30%;
-        right: -8%;
+        inset: 0;
+        opacity: 0.42;
+    }
+    .ascii-field {
+        display: block;
+        width: 100%;
+        height: 100%;
+        font-family: var(--font-mono);
+        color: var(--fg);
     }
     .scrim {
         position: absolute;
@@ -119,15 +149,13 @@ import AsciiBackdrop from "@/components/dumb/AsciiBackdrop.astro";
     }
     @media (max-width: 760px) {
         .header-backdrop {
-            height: 340px;
+            --header-height: 340px;
         }
         .blob {
             width: 80%;
         }
         .artwork {
-            left: 10%;
-            right: -50%;
-            opacity: 0.65;
+            opacity: 0.3;
         }
         .scrim {
             background: linear-gradient(
@@ -141,10 +169,16 @@ import AsciiBackdrop from "@/components/dumb/AsciiBackdrop.astro";
         .blob {
             animation: none;
         }
+        .header-backdrop[data-palette-ready] .blob {
+            transition: none;
+        }
     }
 </style>
 
 <script>
+    import { initGradientAscii } from "@/utils/gradient-ascii";
+    import { watchHeaderPalette } from "@/utils/header-palette";
+
     document
         .querySelectorAll<HTMLElement>("[data-header-backdrop]")
         .forEach((backdrop) => {
@@ -152,30 +186,40 @@ import AsciiBackdrop from "@/components/dumb/AsciiBackdrop.astro";
             const header =
                 main?.querySelector<HTMLElement>("[data-page-header]");
 
-            // Follow wrapped titles and mobile headers rather than using a fixed
-            // height. Older pages without a shared header keep the CSS fallback.
+            // Post image backdrops end at the cover's bottom. Other headers
+            // keep their existing fade extension. Neither affects layout.
             if (main && header) {
+                const cover = backdrop.hasAttribute("data-image-backdrop")
+                    ? main.querySelector<HTMLElement>(".post-hero")
+                    : null;
+                backdrop.toggleAttribute("data-cover-height", Boolean(cover));
                 const sizeToHeader = () => {
                     const height =
-                        header.getBoundingClientRect().bottom -
+                        (cover || header).getBoundingClientRect().bottom -
                         main.getBoundingClientRect().top;
-                    backdrop.style.height = `${Math.ceil(height)}px`;
+                    backdrop.style.setProperty(
+                        "--header-height",
+                        `${Math.ceil(height)}px`,
+                    );
                 };
                 sizeToHeader();
-                new ResizeObserver(sizeToHeader).observe(header);
+                const observer = new ResizeObserver(sizeToHeader);
+                observer.observe(header);
+                if (cover) observer.observe(cover);
             }
 
-            let onScreen = false;
-            const syncMotion = () => {
-                backdrop.toggleAttribute(
-                    "data-active",
-                    onScreen && !document.hidden,
-                );
-            };
-            new IntersectionObserver(([entry]) => {
-                onScreen = entry.isIntersecting;
-                syncMotion();
-            }).observe(backdrop);
-            document.addEventListener("visibilitychange", syncMotion);
+            const canvas =
+                backdrop.querySelector<HTMLCanvasElement>(".ascii-field");
+            // Image headers use AsciiBackdrop's renderer and motion handling.
+            if (!canvas) return;
+            const refreshPalette = main
+                ? watchHeaderPalette(main, backdrop)
+                : () => {};
+            initGradientAscii(
+                backdrop,
+                canvas,
+                [...backdrop.querySelectorAll<HTMLElement>(".blob")],
+                { onThemeChange: refreshPalette },
+            );
         });
 </script>

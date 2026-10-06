@@ -10,6 +10,7 @@ type WorkEntry = {
     when: string;
     desc: string;
     active?: boolean;
+    accent?: "red" | "green" | "blue";
 };
 
 interface Props {
@@ -21,6 +22,7 @@ const years = yearsActive();
 const defaultEntries: WorkEntry[] = [
     {
         company: "Gokstad Akademiet AS",
+        accent: "blue",
         role: "Senior full-stack developer & System owner",
         when: "2025 — now",
         active: true,
@@ -34,6 +36,7 @@ const defaultEntries: WorkEntry[] = [
     },
     {
         company: "NUVA AS",
+        accent: "green",
         role: "Senior Full-stack developer & COB (sidegig)",
         when: "2023 — now",
         active: true,
@@ -47,6 +50,7 @@ const defaultEntries: WorkEntry[] = [
     },
     {
         company: "Datahjelpen AS",
+        accent: "red",
         role: "Full-stack Developer & CEO (sidegig)",
         when: "2016 — now",
         active: true,
@@ -67,15 +71,11 @@ const defaultEntries: WorkEntry[] = [
 ];
 
 const { entries = defaultEntries } = Astro.props;
-const activeCount = entries.filter((e) => e.active).length;
 ---
 
 <section class="section">
     <div class="inner">
-        <SectionHead
-            title="Work log"
-            sub={`// ${entries.length} stations · ${activeCount} active · current=Gokstad`}
-        >
+        <SectionHead title="Work log">
             <Rule slot="rule">
                 <span>{years}y</span>
                 <span>· timeline ·</span>
@@ -93,6 +93,7 @@ const activeCount = entries.filter((e) => e.active).length;
     .section {
         padding: var(--s-9) var(--gutter);
         position: relative;
+        border-top: 1px solid var(--border-token);
     }
     @media (max-width: 720px) {
         .section {

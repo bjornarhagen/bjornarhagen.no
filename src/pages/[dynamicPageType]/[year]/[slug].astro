@@ -78,6 +78,11 @@ const entryNo = fmtNo(cat.numberByKey.get(entryKey(year, slug)));
     title={`${page.title} | ${pageTitle}`}
     description={page.summary}
     image={page.poster}
+    headerImage={
+        dynamicPageType === "entries" && checkIfImageUrl(page.imageHeader || "")
+            ? page.imageHeader
+            : undefined
+    }
     cwd={`~/${pageLabel}/${year}/${slug}`}
 >
     <PostHead
@@ -106,10 +111,10 @@ const entryNo = fmtNo(cat.numberByKey.get(entryKey(year, slug)));
             <PostHero
                 src={page.imageHeader}
                 alt={page.title}
-                tl={slug}
+                tl="// COVER"
                 tr="FIG. 01"
-                bl="// COVER"
-                br={date}
+                bl={date}
+                br={slug}
             />
         )
     }
@@ -230,7 +235,7 @@ const entryNo = fmtNo(cat.numberByKey.get(entryKey(year, slug)));
 
     .side {
         position: sticky;
-        top: 56px;
+        top: calc(var(--nav-height) + var(--s-5));
         padding-top: 2px;
     }
     .lbl {

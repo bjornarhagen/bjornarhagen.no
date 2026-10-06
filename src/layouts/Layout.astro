@@ -9,6 +9,7 @@ interface Props {
     title?: string;
     description?: string;
     image?: string;
+    headerImage?: string;
     cwd?: string;
     marginForNav?: boolean;
     marginForFooter?: boolean;
@@ -20,6 +21,7 @@ const {
     title = defaultTitle,
     description = "Software engineer",
     image = "/image.jpg",
+    headerImage,
     cwd,
 } = Astro.props;
 ---
@@ -102,10 +104,13 @@ const {
         <StatusBar position="top" cwd={cwd} />
         <Nav />
         <main class="page-main">
-            {Astro.url.pathname !== "/" && <HeaderBackdrop />}
+            {Astro.url.pathname !== "/" && (
+                <HeaderBackdrop image={headerImage} />
+            )}
             <slot />
         </main>
         <Footer />
+        <StatusBar position="bottom" />
     </body>
 </html>
 
